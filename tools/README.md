@@ -50,6 +50,8 @@ Nếu một lượt tải bị chặn, setup dừng và in gợi ý. Trong conta
 | `npm test` | vitest: test trong `tools/tests/**/*.test.ts` |
 | `npm run harness -- <kịch-bản.mjs> [--out <thư-mục>] [--viewport 540x960] [--verbose]` | Chạy một kịch bản trên engine thật. Ảnh + `summary.json` vào `--out` (mặc định `tools/.out/<tên>/`) |
 | `npm run drawcalls` | Khởi động game, chụp 1 ảnh, in số draw call |
+| `npm run sim -- [--seeds 1,2,3] [--hours 6] [--out <thư-mục>]` | Chạy mô phỏng bot (headless) qua 5 seed × 6 giờ mô phỏng mặc định, in bảng ĐẠT/TRƯỢT cho từng seed. Thoát khác 0 nếu có mốc trượt |
+| `npm run sim:difficulty -- [--out <thư-mục>]` | Chẩn đoán: thử đội hình với từng chặng dungeon, in tỉ lệ thắng theo tỉ lệ CP đội / CP đề nghị |
 | `npm run atlas` | Đóng gói ảnh từ `art-source/` thành atlas trong `game/assets/resources/textures/` |
 | `npm run check` | typecheck + test + kịch bản mẫu |
 

@@ -16,5 +16,5 @@
     "typeRoots": ["./node_modules/@types"]
   },
   "files": ["../game/temp/declarations/cc.d.ts", "../game/temp/declarations/cc.env.d.ts"],
-  "include": ["harness/**/*.ts", "tests/**/*.ts"]
+  "include": ["harness/**/*.ts", "tests/**/*.ts", "sim/**/*.ts"]
 }
