@@ -9,6 +9,7 @@ import { worldToIso, isoToWorld, depthKey } from '../../../game/assets/scripts/c
 import type { Game } from '../../../game/assets/scripts/core/index';
 import { Bot } from '../../sim/bot';
 import { simulate } from '../../sim/simulate';
+import { CardPlayer } from '../../sim/cardplayer';
 
 const data = loadData();
 
@@ -106,7 +107,7 @@ describe('core has no hidden inputs', () => {
   });
 
   it('the bot only uses the public entry of the core and never casts its way into internals', () => {
-    for (const f of ['bot.ts', 'simulate.ts', 'main.ts', 'load.ts']) {
+    for (const f of ['bot.ts', 'simulate.ts', 'main.ts', 'load.ts', 'cardplayer.ts', 'newplayer.ts', 'difficulty.ts']) {
       const src = fs.readFileSync(path.join(REPO, 'tools/sim', f), 'utf8');
       const imports = src.match(/from\s+'[^']*scripts\/core\/[^']*'/g) || [];
       for (const i of imports) expect(i, f).toMatch(/core\/index'$/);
@@ -189,6 +190,30 @@ describe('bot', () => {
     expect(end.cp).toBeGreaterThan(3000);
     expect(rep.longestStallSec).toBeLessThan(300);
     expect(rep.income.gather.wood).toBeGreaterThan(100);
+  });
+
+  it('a new player who only follows the quest card is not stuck at q14 and beats the floor-5 boss (QA: quest chain)', () => {
+    for (const policy of ['focused', 'spread'] as const) {
+      const t = newGame({ seed: 21 });
+      const g = t.game;
+      const player = new CardPlayer(g, { levelPolicy: policy, stopAfterQuest: 'q21' });
+      for (let i = 0; i < 30 * 3600 && !player.done; i++) {
+        player.act();
+        t.step();
+        player.onEvents(g.events, g.eventCount);
+        g.clearEvents();
+      }
+      expect(player.done, policy).toBe(true);
+      expect(g.playSec).toBeLessThan(45 * 60); // hạn chót "vượt tầng 5" của thiết kế
+      expect(g.getDungeonInfo().bestFloorCleared).toBeGreaterThanOrEqual(5);
+      // q14 không cần mảnh; dồn thịt cho một hero thì đủ thịt ngay lúc thẻ hiện
+      expect(player.q14!.fragmentsMissing).toBe(0);
+      if (policy === 'focused') expect(player.q14!.meatMissing).toBe(0);
+      const q14 = player.timings.find((x) => x.id === 'q14')!;
+      expect(q14.endSec - q14.startSec).toBeLessThan(policy === 'focused' ? 5 : 240);
+      // khi bị khóa, game nói rõ thiếu gì
+      for (const text of Object.keys(player.blockedTexts.q14 || {})) expect(text).toMatch(/^Thiếu \d+ thịt$/);
+    }
   });
 
   it('events of one step can be read by the bot before they are cleared', () => {

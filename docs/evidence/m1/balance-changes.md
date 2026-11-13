@@ -28,3 +28,11 @@ Số đo lấy từ `docs/evidence/m1/sim/` (bot, 10 seed × 6 giờ; 3 seed × 
 5. **CP đề nghị của dungeon có ý nghĩa đúng như thiết kế muốn.** Đội có CP bằng CP đề nghị thắng 8/8 lượt ở mọi chặng, máu đội thấp nhất còn 57–75%. Ở 0.8 lần đề nghị: chặng 4 thắng 4/8, chặng 5 thắng 2/8. Ở 0.6–0.7 lần: chặng 4 và 5 thua hết. Không gặp triệu chứng "thua ở CP ≥ đề nghị" hay "thắng dễ ở 0.6 lần". Chặng 6 dễ hơn một chút so với các chặng trước (0.8 lần vẫn thắng 8/8, 0.7 lần thắng 6/8).
 
 Nếu thiết kế muốn nhịp độ khớp bảng "Tiến độ mong muốn" (mục 4 của `02-balance.md`), các nút hợp lý là: thời gian mọc lại của quái (`monsterRespawnSec`), lượng rơi `field_gold` / `field_meat`, và công thức thưởng chuỗi. Đó là quyết định của thiết kế; tôi không đổi vì bot không trượt mục tiêu.
+
+## Rà soát sau báo cáo QA (q14)
+
+Không đổi con số hay dữ liệu nhiệm vụ nào. Số đo ở `docs/evidence/m1/sim/newplayer.md` (300 seed) cho thấy người chơi
+mới chỉ làm theo thẻ nhiệm vụ không kẹt ở q14: lên cấp 5 chỉ tốn thịt (70 thịt từ cấp 1, không cần mảnh), và nếu dồn
+thịt cho một hero thì đã đủ thịt ngay lúc thẻ hiện ở cả 300 seed (có 61–96 thịt, cần 55). Người chia đều thịt cho cả
+đội phải đánh thêm Cua Cát 25–119 giây; game hiện "Thiếu N thịt" trên nút. Lần đầu cần mảnh là q27 (cấp 10); lúc đó
+người chơi đã có đủ Vé Quán để đổi 5 mảnh (`newplayer-q27/newplayer.md`, 100/100 seed qua).

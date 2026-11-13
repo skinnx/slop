@@ -107,6 +107,22 @@
  ✓ tests/core/quests.test.ts > main quest chain > after the last quest the card shows the chapter-complete text
  ✓ tests/core/quests.test.ts > main quest chain > the hint points at the nearest matching thing, a building, or a HUD button
  ✓ tests/core/quests.test.ts > main quest chain > every quest in the table has a resolvable hint and a reachable target
+ ✓ tests/core/recruit.test.ts > recruit > needs a finished tavern and 100 gold per draw
+ ✓ tests/core/recruit.test.ts > recruit > the first set is [Lan, Sẻ, Đăng] and the first draw of a save is always Sẻ, who joins the squad
+ ✓ tests/core/recruit.test.ts > recruit > a duplicate gives 5 fragments, every draw gives one ticket, and the result is reported per draw
+ ✓ tests/core/recruit.test.ts > recruit > each draw picks one of the three cards uniformly
+ ✓ tests/core/recruit.test.ts > recruit > the BONUS bar fills every 10 draws, then the set refreshes at once with no Common hero
+ ✓ tests/core/recruit.test.ts > recruit > a 3x pull that fills the bar mid-way still draws every pull from the set shown when the button was pressed
+ ✓ tests/core/recruit.test.ts > recruit > each 1x / 2x / 3x option carries its own cost, affordability and blocking reason
+ ✓ tests/core/recruit.test.ts > recruit > the set refreshes by itself every 30 minutes and for 50 gold on demand, but never before the first draw
+ ✓ tests/core/recruit.test.ts > recruit > refresh costs are checked
+ ✓ tests/core/recruit.test.ts > card generation > rarity of a card follows the odds table of the tavern level 1320ms
+ ✓ tests/core/recruit.test.ts > card generation > a hero the player does not own is twice as likely as an owned one of the same rarity 744ms
+ ✓ tests/core/recruit.test.ts > card generation > the bonus set never contains a Common hero
+ ✓ tests/core/recruit.test.ts > card generation > the tavern panel shows the odds of its level
+ ✓ tests/core/recruit.test.ts > every hero is obtainable > all 12 heroes appear in the card pool at every tavern level
+ ✓ tests/core/recruit.test.ts > every hero is obtainable > a level-1 tavern with normal play (draws, auto refresh, tickets) ends with all 12 heroes
+ ✓ tests/core/recruit.test.ts > every hero is obtainable > tickets unlock a chosen missing hero of each rarity, or 5 fragments of an owned one
  ✓ tests/core/skills.test.ts > skills > cooldowns start full when a fight begins, and a ready skill replaces the next basic attack
  ✓ tests/core/skills.test.ts > skills > strike hits the current target for ATK × mult; two stars at level 20
  ✓ tests/core/skills.test.ts > skills > cleave hits every monster within the radius around the target
@@ -129,22 +145,23 @@
  ✓ tests/core/squad.test.ts > training yard > nodes unlock in order for ore, three per player level, and add flat stats to every owned hero
  ✓ tests/core/squad.test.ts > training yard > the whole tree costs 37744 ore
  ✓ tests/core/squad.test.ts > squad changes during a fight > monsters chasing a hero who is swapped out pick a new target instead of a stale one
- ✓ tests/core/recruit.test.ts > recruit > needs a finished tavern and 100 gold per draw
- ✓ tests/core/recruit.test.ts > recruit > the first set is [Lan, Sẻ, Đăng] and the first draw of a save is always Sẻ, who joins the squad
- ✓ tests/core/recruit.test.ts > recruit > a duplicate gives 5 fragments, every draw gives one ticket, and the result is reported per draw
- ✓ tests/core/recruit.test.ts > recruit > each draw picks one of the three cards uniformly
- ✓ tests/core/recruit.test.ts > recruit > the BONUS bar fills every 10 draws, then the set refreshes at once with no Common hero
- ✓ tests/core/recruit.test.ts > recruit > a 3x pull that fills the bar mid-way still draws every pull from the set shown when the button was pressed
- ✓ tests/core/recruit.test.ts > recruit > each 1x / 2x / 3x option carries its own cost, affordability and blocking reason
- ✓ tests/core/recruit.test.ts > recruit > the set refreshes by itself every 30 minutes and for 50 gold on demand, but never before the first draw
- ✓ tests/core/recruit.test.ts > recruit > refresh costs are checked
- ✓ tests/core/recruit.test.ts > card generation > rarity of a card follows the odds table of the tavern level 1465ms
- ✓ tests/core/recruit.test.ts > card generation > a hero the player does not own is twice as likely as an owned one of the same rarity 1255ms
- ✓ tests/core/recruit.test.ts > card generation > the bonus set never contains a Common hero
- ✓ tests/core/recruit.test.ts > card generation > the tavern panel shows the odds of its level
- ✓ tests/core/recruit.test.ts > every hero is obtainable > all 12 heroes appear in the card pool at every tavern level
- ✓ tests/core/recruit.test.ts > every hero is obtainable > a level-1 tavern with normal play (draws, auto refresh, tickets) ends with all 12 heroes
- ✓ tests/core/recruit.test.ts > every hero is obtainable > tickets unlock a chosen missing hero of each rarity, or 5 fragments of an owned one
+ ✓ tests/core/formulas.test.ts > hero stats > stat = round(base × (1 + 0.03 × (L − 1)))
+ ✓ tests/core/formulas.test.ts > hero stats > level-1 CP of all 12 heroes matches the balance document
+ ✓ tests/core/formulas.test.ts > hero stats > CP = round(4 × ATK / interval × (1 + skill bonus) + HP)
+ ✓ tests/core/formulas.test.ts > hero stats > skills unlock at 1 and 10 and reach two stars at 20 and 30
+ ✓ tests/core/formulas.test.ts > hero stats > skill CP bonus grows with unlocked skills and stars
+ ✓ tests/core/formulas.test.ts > hero stats > owned effects: +5% HP at 5 and 25, +5% ATK at 15, for every hero of the same attribute, stacking
+ ✓ tests/core/formulas.test.ts > hero stats > training nodes add flat stats before the owned-effect percentage
+ ✓ tests/core/formulas.test.ts > hero stats > the strongest possible M1 squad has the CP the design computed (54568)
+ ✓ tests/core/formulas.test.ts > level-up costs > meat per level and fragments at the five breakthroughs
+ ✓ tests/core/formulas.test.ts > level-up costs > levelUpHero spends meat and fragments, and explains why it is blocked
+ ✓ tests/core/formulas.test.ts > level-up costs > reaching level 5 costs 70 meat and no fragments; fragments are first needed for 5 → 6 (quest q14 vs q27)
+ ✓ tests/core/formulas.test.ts > level-up costs > hero info shows the gain at the next level and the squad CP follows level-ups
+ ✓ tests/core/formulas.test.ts > difficulty label > ≥ 1.2 easy, ≥ 0.9 medium, below hard
+ ✓ tests/scene-wiring.test.ts > scene wiring > compressUuid matches a value taken from an official 3.8 sample scene
+ ✓ tests/scene-wiring.test.ts > scene wiring > Main.scene references Bootstrap by uuid and keeps its own uuid
+ ✓ tests/scene-wiring.test.ts > scene wiring > fixed uuids did not change
+ ✓ tests/scene-wiring.test.ts > scene wiring > Bootstrap class name stays "Bootstrap"
  ✓ tests/core/data.test.ts > data tables > the tables the game uses pass validation
  ✓ tests/core/data.test.ts > data tables > has every design table, and each one equals the design original unless the change is recorded
  ✓ tests/core/data.test.ts > data tables > reads the scripted first recruit from recruit.json
@@ -158,33 +175,18 @@
  ✓ tests/core/data.test.ts > data tables > rejects levels out of order, a camp outside the map, and a bad tuning value
  ✓ tests/core/data.test.ts > data tables > display table: every quest type, skill type, skill parameter and panel row has its icon or name
  ✓ tests/core/data.test.ts > data tables > reports every problem at once, not only the first
- ✓ tests/core/formulas.test.ts > hero stats > stat = round(base × (1 + 0.03 × (L − 1)))
- ✓ tests/core/formulas.test.ts > hero stats > level-1 CP of all 12 heroes matches the balance document
- ✓ tests/core/formulas.test.ts > hero stats > CP = round(4 × ATK / interval × (1 + skill bonus) + HP)
- ✓ tests/core/formulas.test.ts > hero stats > skills unlock at 1 and 10 and reach two stars at 20 and 30
- ✓ tests/core/formulas.test.ts > hero stats > skill CP bonus grows with unlocked skills and stars
- ✓ tests/core/formulas.test.ts > hero stats > owned effects: +5% HP at 5 and 25, +5% ATK at 15, for every hero of the same attribute, stacking
- ✓ tests/core/formulas.test.ts > hero stats > training nodes add flat stats before the owned-effect percentage
- ✓ tests/core/formulas.test.ts > hero stats > the strongest possible M1 squad has the CP the design computed (54568)
- ✓ tests/core/formulas.test.ts > level-up costs > meat per level and fragments at the five breakthroughs
- ✓ tests/core/formulas.test.ts > level-up costs > levelUpHero spends meat and fragments, and explains why it is blocked
- ✓ tests/core/formulas.test.ts > level-up costs > hero info shows the gain at the next level and the squad CP follows level-ups
- ✓ tests/core/formulas.test.ts > difficulty label > ≥ 1.2 easy, ≥ 0.9 medium, below hard
- ✓ tests/scene-wiring.test.ts > scene wiring > compressUuid matches a value taken from an official 3.8 sample scene
- ✓ tests/scene-wiring.test.ts > scene wiring > Main.scene references Bootstrap by uuid and keeps its own uuid
- ✓ tests/scene-wiring.test.ts > scene wiring > fixed uuids did not change
- ✓ tests/scene-wiring.test.ts > scene wiring > Bootstrap class name stays "Bootstrap"
  ✓ tests/core/determinism.test.ts > determinism > mulberry32 gives a fixed sequence for a seed
- ✓ tests/core/determinism.test.ts > determinism > same seed and same inputs give exactly the same game, 10 simulated minutes of bot play 1362ms
+ ✓ tests/core/determinism.test.ts > determinism > same seed and same inputs give exactly the same game, 10 simulated minutes of bot play 1139ms
  ✓ tests/core/determinism.test.ts > determinism > a dungeon run depends only on the save seed and the run number
  ✓ tests/core/determinism.test.ts > determinism > ties are broken by the smaller entity id
  ✓ tests/core/determinism.test.ts > core has no hidden inputs > core files never read the wall clock or timers
  ✓ tests/core/determinism.test.ts > core has no hidden inputs > the bot only uses the public entry of the core and never casts its way into internals
  ✓ tests/core/determinism.test.ts > iso mapping > worldToIso and isoToWorld are inverse, with 120 × 60 cells
- ✓ tests/core/determinism.test.ts > performance > a dungeon step with 60 monsters and a full squad is cheap 482ms
+ ✓ tests/core/determinism.test.ts > performance > a dungeon step with 60 monsters and a full squad is cheap 409ms
  ✓ tests/core/determinism.test.ts > performance > reading state and stepping does not grow the event buffer when the view clears it
  ✓ tests/core/determinism.test.ts > performance > the event buffer stays bounded even if nobody clears it
- ✓ tests/core/determinism.test.ts > bot > a new player bot gets through the first part of the loop in 12 simulated minutes 486ms
+ ✓ tests/core/determinism.test.ts > bot > a new player bot gets through the first part of the loop in 12 simulated minutes 355ms
+ ✓ tests/core/determinism.test.ts > bot > a new player who only follows the quest card is not stuck at q14 and beats the floor-5 boss (QA: quest chain) 576ms
  ✓ tests/core/determinism.test.ts > bot > events of one step can be read by the bot before they are cleared
  ✓ tests/core/smoke.test.ts > smoke > a new game starts in the village with Bàng and a storage
  ✓ tests/core/smoke.test.ts > smoke > the squad gathers wood from a tree when standing still next to it
@@ -228,7 +230,7 @@
  ✓ tests/core-purity.test.ts > core purity > tavern.ts
  ✓ tests/core-purity.test.ts > core purity > village.ts
  Test Files  16 passed (16)
-      Tests  228 passed (228)
-   Start at  21:32:55
-   Duration  7.39s (transform 1.11s, setup 0ms, collect 3.41s, tests 10.94s, environment 7ms, prepare 2.11s)
+      Tests  230 passed (230)
+   Start at  21:33:57
+   Duration  5.74s (transform 885ms, setup 0ms, collect 2.57s, tests 9.65s, environment 3ms, prepare 1.34s)
 exit code: 0

@@ -112,6 +112,24 @@ describe('level-up costs', () => {
     expect(g.levelUpHero('bang').reason).toBe('max_level');
   });
 
+  it('reaching level 5 costs 70 meat and no fragments; fragments are first needed for 5 → 6 (quest q14 vs q27)', () => {
+    const t = newGame();
+    const g = t.game;
+    cheat(g).quest.index = 13; cheat(g).quest.id = ''; // q14: Nâng một hero lên cấp 5
+    give(g, { meat: 70 });
+    for (let i = 0; i < 4; i++) expect(g.levelUpHero('bang').ok).toBe(true);
+    expect(g.resources.meat).toBe(0);
+    const h = g.getHeroInfo('bang')!;
+    expect([h.level, h.fragments]).toEqual([5, 0]);
+    t.step();
+    expect([g.quest.id, g.quest.complete]).toEqual(['q14', true]);
+    // bước kế tiếp (5 -> 6) mới là đột phá: panel cho biết cần 22 thịt và 5 mảnh, và nói rõ đang thiếu gì
+    expect([h.levelUpMeat, h.levelUpFragments, h.fragmentsForNextBreakthrough]).toEqual([22, 5, 5]);
+    expect(h.canLevelUp.text).toBe('Thiếu 22 thịt');
+    give(g, { meat: 22 });
+    expect(g.getHeroInfo('bang')!.canLevelUp.text).toBe('Thiếu 5 mảnh');
+  });
+
   it('hero info shows the gain at the next level and the squad CP follows level-ups', () => {
     const t = newGame();
     const g = t.game;

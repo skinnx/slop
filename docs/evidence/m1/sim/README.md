@@ -8,6 +8,8 @@ Chạy từ `tools/` sau `npm run setup`.
 | `bot-report.md`, `seed-N.csv` | `npm run sim -- --seeds 1,2,3,4,5,6,7,8,9,10 --hours 6 --out ../docs/evidence/m1/sim` | Bot chơi từ save mới, 10 seed × 6 giờ mô phỏng. Bảng tóm tắt theo hạn chót, rồi với mỗi seed: bảng ĐẠT/TRƯỢT, bảng tiến độ mỗi 15 phút, số lượt dungeon, thu nhập theo nguồn. CSV là cùng bảng tiến độ |
 | `bot-run.log` | như trên | Nguyên văn những gì lệnh in ra, kèm mã thoát |
 | `reference-10h/` | `npm run sim -- --seeds 1,2,3 --hours 10 --out ../docs/evidence/m1/sim/reference-10h` | Tham khảo: chạy 10 giờ để xem tầng 25 và 30 (không thuộc tiêu chí) |
+| `newplayer.md` | `npm run sim:newplayer -- --seeds 300 --until q21 --out ../docs/evidence/m1/sim` | 300 seed × 2 cách tiêu thịt: người chơi mới chỉ làm theo thẻ nhiệm vụ đi tới boss tầng 5. Thời gian từng nhiệm vụ, tình trạng lúc q14 hiện ra, các câu "bị khóa" game đã hiện |
+| `newplayer-q27/newplayer.md` | `npm run sim:newplayer -- --seeds 100 --until q27 --hours 6 --out ../docs/evidence/m1/sim/newplayer-q27` | Như trên, đi tiếp tới q27 (nâng hero lên cấp 10: lần đầu cần mảnh) |
 | `difficulty.md` | `npm run sim:difficulty -- --out ../docs/evidence/m1/sim` | Tỉ lệ thắng từng chặng theo tỉ lệ CP đội / CP đề nghị |
 | `typecheck.log` | `npm run typecheck` | Kết quả `tsc` cho `game/` và `tools/` |
 | `tests.log` | `npx vitest run --reporter=verbose` | Kết quả từng test |
