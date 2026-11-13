@@ -509,7 +509,8 @@ Màn xếp đội hiện "CP cũ ▶ CP mới" (đỏ nếu giảm, xanh nếu t
 
 ### 13.2 Phòng và sinh quái
 
-- Mỗi tầng là một phòng chữ nhật 16 × 24 ô có tường bao, nền đá [TC: hành lang tối]. Đội xuất hiện ở (8, 2), theo đội hình.
+- Mỗi tầng là một phòng chữ nhật 16 × 24 ô có tường bao, nền đá [TC: hành lang tối]. Đội xuất hiện ở (8, 2), theo đội hình. Vào tầng đầu của lượt: mọi hero đủ máu, mọi hồi chiêu đầy.
+- Quái dungeon có id riêng (`d_...`), không tính cho nhiệm vụ "hạ N quái" ngoài đồng.
 - Quái của tầng theo `groups`: mỗi nhóm có `monster`, `count`, `pattern`, `delaySec` (tính từ lúc vào tầng).
   - `ring`: rải đều trên vòng tròn quanh thủ lĩnh, bán kính ngẫu nhiên 6–8 ô, kẹp trong phòng, cách mọi hero ≥ 4 ô.
   - `front`: cụm ở nửa trên phòng: `x` ngẫu nhiên [2, 14], `y` ngẫu nhiên [14, 22].

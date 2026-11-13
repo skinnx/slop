@@ -355,7 +355,7 @@ for b in BOSSES:
 FIELD_ZONE_MULT = {"z1": 0.6, "z2": 2.0, "z3": 5.0}
 dump("monsters.json", {"version": 1, "monsters": mon_json, "abilities": ABILITIES,
      "fieldZoneMult": FIELD_ZONE_MULT,
-     "statRule": "Ngoài đồng: HP = baseHp * fieldZoneMult[zone], ATK = baseAtk * fieldZoneMult[zone]. Trong dungeon: HP = baseHp * floor.hpMult, ATK = baseAtk * floor.atkMult. EXP nhân cùng hệ số rồi làm tròn."})
+     "statRule": "Ngoài đồng: HP = round(baseHp * fieldZoneMult[zone]), ATK = round(baseAtk * fieldZoneMult[zone]), EXP = round(exp * drop-tables.zoneAmountMult[zone]). Trong dungeon: HP = round(baseHp * floor.hpMult), ATK = round(baseAtk * floor.atkMult), EXP = round(exp * floor.expMult)."})
 
 # ---------------------------------------------------------------- drop tables
 DROPS = {
