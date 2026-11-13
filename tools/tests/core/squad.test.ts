@@ -163,3 +163,25 @@ describe('training yard', () => {
     expect(data.training.nodes.reduce((s, n) => s + n.ore, 0)).toBe(37744);
   });
 });
+
+describe('squad changes during a fight', () => {
+  it('monsters chasing a hero who is swapped out pick a new target instead of a stale one', () => {
+    const t = newGame();
+    const g = t.game;
+    grantHero(g, 'se'); grantHero(g, 'lan');
+    g.setSquad(['bang', 'se']);
+    const camp = g.field.camps.find((c) => c.id === 'c_z1_00')!;
+    const f = cheat(g).field;
+    f.placeSquad(camp.x + 2, camp.y);
+    for (const m of f.monsters) if (m.campIndex === camp.index) { m.maxHp = 1e6; m.hp = 1e6; m.atk = 1; }
+    t.stepSec(3);
+    const chasers = f.monsters.filter((m: any) => m.campIndex === camp.index && m.state === 'chase');
+    expect(chasers.length).toBe(4);
+    expect(g.setSquad(['lan']).ok).toBe(true); // đổi cả đội giữa trận
+    for (const m of chasers) expect(m.target).toBeNull();
+    t.stepSec(2);
+    const lan = f.heroes[0];
+    for (const m of chasers) if (m.state === 'chase') { expect(m.target).toBe(lan); expect(m.target.isHero).toBe(true); }
+    expect(f.monsters.every((m: any) => !m.target || m.target.isHero)).toBe(true);
+  });
+});

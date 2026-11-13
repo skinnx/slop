@@ -142,7 +142,24 @@ hình dạng `{ type, x, y, n, id, id2, key, text, data }`; bảng ý nghĩa t�
 | `checks.ts` | `Check` và câu chữ tiếng Việt cho từng lý do |
 | `rng.ts`, `iso.ts`, `constants.ts` | RNG có seed, đổi tọa độ iso, hằng số luật không có trong JSON |
 
-Test: `tools/tests/core/`. Bot: `tools/sim/` (`cd tools && npm run sim`).
+## 2.1 Kiểm chứng
+
+| Lệnh (trong `tools/`) | Việc |
+|---|---|
+| `npm run typecheck` | `tsc` cho `game/` (cùng `cc.d.ts` 3.8.8) và `tools/` |
+| `npm test` | vitest; test của lõi nằm trong `tools/tests/core/` |
+| `npm run sim` | Bot chơi 5 seed × 6 giờ mô phỏng, in bảng tiến độ mỗi 15 phút và kết luận ĐẠT/TRƯỢT |
+| `npm run sim -- --seeds 1,2,3 --hours 10 --out ../docs/evidence/m1/sim --verbose` | Chọn seed, số giờ, thư mục ghi `bot-report.md` + `seed-N.csv`, in nhật ký quyết định của bot |
+
+Test theo chủ đề: `data` (bảng hợp lệ, khớp bản gốc thiết kế, bảng sai báo lỗi rõ), `formulas` (chỉ số, CP, giá),
+`village` (đặt, thợ, nâng, hủy, trần kho, sản xuất), `recruit` (lượt đầu, BONUS, tỉ lệ, mọi hero lấy được), `squad`
+(TỰ XẾP, ô đội, Sân Tập), `combat` (đánh khi đứng yên, thu thập, ổ quái, vật rơi, chết), `skills`, `dungeon` (sinh
+quái, chuỗi, boss và báo đòn, thắng/thua), `quests`, `save` (lưu/tải, phiên bản, ngoại tuyến), `determinism`
+(cùng seed cùng kết quả, hiệu năng, bot chạy ngắn).
+
+Bot (`tools/sim/bot.ts`) chỉ import `core/index` và chỉ gọi các lệnh của người chơi; một test chặn việc bot ép kiểu
+để với vào bên trong. `tools/sim/run-ts.mjs` dùng esbuild để chạy TypeScript của bot dưới Node (lõi import không ghi
+đuôi `.ts` nên Node thuần không chạy được).
 
 ## 3. Quyết định khi cài đặt
 
@@ -168,6 +185,16 @@ Những chỗ tài liệu thiết kế im lặng hoặc tự mâu thuẫn. Mỗi
 18. **Đặt và dời công trình chỉ trong chế độ xây**; nâng cấp, hủy, thu dùng được ở cả `world` và `build`.
 19. **Thứ tự ô khi TỰ XẾP:** thủ lĩnh là tank CP cao nhất trong đội được chọn; không có tank thì hero cận chiến CP cao nhất.
 20. **`recruit.json` mô tả lượt tuyển đầu bằng câu chữ** (`firstRecruitScript`). `buildGameData` đọc id từ câu đó nếu bảng chưa có `firstHero` / `firstCards`. Đề nghị thiết kế thêm hai trường này vào JSON.
+
+21. **Bước mô phỏng là đúng 1/30 s** (`1 / tuning.sim.stepsPerSec`). `fixedStepSec` trong JSON là số đã làm tròn (0.0333333); dùng nó thì đòn đánh 1.1 s sẽ thành 34 bước thay vì 33. Mọi đồng hồ đếm lùi coi như hết khi còn dưới 1e-6 s.
+22. **Vào trận ngoài đồng:** hồi chiêu đặt lại đầy ngay khi hero đầu tiên có mục tiêu quái (sau ít nhất 5 s không chiến đấu), trước khi đòn đầu tiên được chọn. Nhờ vậy đòn mở đầu không bao giờ là kỹ năng.
+23. **Hệ số lượng theo vùng áp cho mọi dòng rơi**, kể cả San Hô Đỏ của Cua Càng Thép (ở Gò Đá Lam: 2 San Hô mỗi lần rơi). Đây là luật ở mục 6.3 đọc theo nghĩa đen.
+24. **Vật mang về từ dungeon** được cộng vào kho lúc lượt kết thúc (thắng, thua hoặc rời hang). Thịt vẫn theo trần kho.
+25. **Thoát app giữa lượt dungeon:** bản lưu trước khi vào hang ghi vị trí đội là cạnh Cổng Xoáy, đúng như mục 13.5.
+26. **Thẻ nhiệm vụ cập nhật ở bước mô phỏng kế tiếp** sau một lệnh (ví dụ sau khi tuyển). `claimQuest()` tự tính lại trước khi kiểm tra.
+27. **Hủy xây mới** gỡ luôn giàn giáo (công trình biến mất) và hoàn 100%.
+28. **Tầng boss:** boss chết là thắng ngay, kể cả khi nhóm quái đến trễ (sau 10 s) chưa kịp xuất hiện.
+29. **Đồng hồ đổi thẻ của Quán** bắt đầu chạy ở bước đầu tiên sau khi Quán xây xong.
 
 ### Hằng số không có trong JSON
 

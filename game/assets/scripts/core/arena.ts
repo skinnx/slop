@@ -252,7 +252,15 @@ export abstract class Arena implements SceneView {
       else if (u.alive) u.hp = Math.max(1, Math.min(u.maxHp, Math.round(u.maxHp * ratio)));
       this.heroes.push(u);
     }
-    for (const o of old) if (o) this.freeUnit(o);
+    for (const o of old) {
+      if (!o) continue;
+      // hero bị bỏ khỏi đội: không quái nào được giữ tham chiếu tới đơn vị sắp được tái sử dụng
+      for (const m of this.monsters) {
+        if (m.target === o) { m.target = null; m.targetId = 0; m.retargetT = 0; }
+        if (m.tauntBy === o) { m.tauntBy = null; m.tauntT = 0; }
+      }
+      this.freeUnit(o);
+    }
     this.updateLeader();
   }
 
@@ -291,7 +299,7 @@ export abstract class Arena implements SceneView {
     let jy = joystickEnabled ? this.joyY : 0;
     let mag = Math.sqrt(jx * jx + jy * jy);
     const dead = t.combat.joystickDeadZonePct;
-    let playerMoving = mag >= dead;
+    let playerMoving = mag >= dead && mag > 0;
     if (!playerMoving && (autoX !== 0 || autoY !== 0)) {
       // tự đi (AUTO trong dungeon): coi như joystick đẩy hết cỡ
       jx = autoX; jy = autoY; mag = 1; playerMoving = true;
