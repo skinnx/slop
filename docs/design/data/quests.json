@@ -1,0 +1,513 @@
+{
+ "version": 1,
+ "quests": [
+  {
+   "id": "q01",
+   "type": "gather",
+   "params": {
+    "resource": "wood",
+    "count": 10
+   },
+   "text": "Chặt cây lấy 10 gỗ",
+   "reward": {
+    "gold": 50
+   },
+   "hint": "node:tree"
+  },
+  {
+   "id": "q02",
+   "type": "kill",
+   "params": {
+    "monster": "cua_cat",
+    "count": 3
+   },
+   "text": "Hạ 3 Cua Cát",
+   "reward": {
+    "meat": 15
+   },
+   "hint": "camp:cua_cat"
+  },
+  {
+   "id": "q03",
+   "type": "hero_level",
+   "params": {
+    "level": 2
+   },
+   "text": "Nâng một hero lên cấp 2",
+   "reward": {
+    "meat": 20
+   },
+   "hint": "ui:hero_list"
+  },
+  {
+   "id": "q04",
+   "type": "build",
+   "params": {
+    "building": "lumber_camp"
+   },
+   "text": "Xây: Trại Gỗ",
+   "reward": {
+    "wood": 40
+   },
+   "hint": "ui:build_button"
+  },
+  {
+   "id": "q05",
+   "type": "gather",
+   "params": {
+    "resource": "ore",
+    "count": 10
+   },
+   "text": "Đập đá lấy 10 quặng",
+   "reward": {
+    "gold": 50
+   },
+   "hint": "node:rock"
+  },
+  {
+   "id": "q06",
+   "type": "build",
+   "params": {
+    "building": "tavern"
+   },
+   "text": "Xây: Quán Mỏ Neo",
+   "reward": {
+    "gold": 100
+   },
+   "hint": "ui:build_button"
+  },
+  {
+   "id": "q07",
+   "type": "recruit",
+   "params": {
+    "count": 1
+   },
+   "text": "Tuyển 1 hero ở Quán Mỏ Neo",
+   "reward": {
+    "wood": 50
+   },
+   "hint": "building:tavern"
+  },
+  {
+   "id": "q08",
+   "type": "auto_assign",
+   "params": {},
+   "text": "Mở Xếp đội và bấm TỰ XẾP",
+   "reward": {
+    "meat": 30
+   },
+   "hint": "ui:squad_button"
+  },
+  {
+   "id": "q09",
+   "type": "kill",
+   "params": {
+    "monster": "chuot_ben",
+    "count": 5
+   },
+   "text": "Hạ 5 Chuột Bến",
+   "reward": {
+    "gold": 60
+   },
+   "hint": "camp:chuot_ben"
+  },
+  {
+   "id": "q10",
+   "type": "build",
+   "params": {
+    "building": "ore_mine"
+   },
+   "text": "Xây: Mỏ Quặng",
+   "reward": {
+    "ore": 30
+   },
+   "hint": "ui:build_button"
+  },
+  {
+   "id": "q11",
+   "type": "collect",
+   "params": {
+    "building": "lumber_camp",
+    "count": 1
+   },
+   "text": "Thu gỗ ở Trại Gỗ",
+   "reward": {
+    "wood": 30
+   },
+   "hint": "building:lumber_camp"
+  },
+  {
+   "id": "q12",
+   "type": "upgrade",
+   "params": {
+    "building": "storage",
+    "level": 2
+   },
+   "text": "Nâng Nhà Kho lên cấp 2",
+   "reward": {
+    "ore": 30
+   },
+   "hint": "building:storage"
+  },
+  {
+   "id": "q13",
+   "type": "recruit",
+   "params": {
+    "count": 2
+   },
+   "text": "Tuyển thêm 2 lượt",
+   "reward": {
+    "gold": 100
+   },
+   "hint": "building:tavern"
+  },
+  {
+   "id": "q14",
+   "type": "hero_level",
+   "params": {
+    "level": 5
+   },
+   "text": "Nâng một hero lên cấp 5",
+   "reward": {
+    "meat": 40
+   },
+   "hint": "ui:hero_list"
+  },
+  {
+   "id": "q15",
+   "type": "build",
+   "params": {
+    "building": "training_yard"
+   },
+   "text": "Xây: Sân Tập",
+   "reward": {
+    "ore": 40
+   },
+   "hint": "ui:build_button"
+  },
+  {
+   "id": "q16",
+   "type": "training",
+   "params": {
+    "count": 2
+   },
+   "text": "Mở 2 nấc ở Sân Tập",
+   "reward": {
+    "ore": 40
+   },
+   "hint": "building:training_yard"
+  },
+  {
+   "id": "q17",
+   "type": "build",
+   "params": {
+    "building": "market"
+   },
+   "text": "Xây: Chợ Bến",
+   "reward": {
+    "gold": 100
+   },
+   "hint": "ui:build_button"
+  },
+  {
+   "id": "q18",
+   "type": "kill",
+   "params": {
+    "zone": "z1",
+    "count": 20
+   },
+   "text": "Hạ 20 quái ở Bãi Vỏ Sò",
+   "reward": {
+    "meat": 50
+   },
+   "hint": "zone:z1"
+  },
+  {
+   "id": "q19",
+   "type": "build",
+   "params": {
+    "building": "dungeon_gate"
+   },
+   "text": "Xây: Cổng Xoáy",
+   "reward": {
+    "gold": 100
+   },
+   "hint": "ui:build_button"
+  },
+  {
+   "id": "q20",
+   "type": "clear_floor",
+   "params": {
+    "floor": 1
+   },
+   "text": "Vượt tầng 1 Hang Xoáy",
+   "reward": {
+    "gold": 100
+   },
+   "hint": "building:dungeon_gate"
+  },
+  {
+   "id": "q21",
+   "type": "clear_floor",
+   "params": {
+    "floor": 5
+   },
+   "text": "Hạ boss tầng 5: Rương Nhai",
+   "reward": {
+    "tickets": 3
+   },
+   "hint": "building:dungeon_gate"
+  },
+  {
+   "id": "q22",
+   "type": "slots",
+   "params": {
+    "count": 4
+   },
+   "text": "Mở ô đội thứ 4 ở Sân Tập",
+   "reward": {
+    "wood": 200
+   },
+   "hint": "building:training_yard"
+  },
+  {
+   "id": "q23",
+   "type": "upgrade",
+   "params": {
+    "building": "lumber_camp",
+    "level": 3
+   },
+   "text": "Nâng Trại Gỗ lên cấp 3",
+   "reward": {
+    "ore": 100
+   },
+   "hint": "building:lumber_camp"
+  },
+  {
+   "id": "q24",
+   "type": "kill",
+   "params": {
+    "monster": "sua_nhay",
+    "count": 10
+   },
+   "text": "Hạ 10 Sứa Nhầy ở Rừng Dừa Rậm",
+   "reward": {
+    "meat": 80
+   },
+   "hint": "camp:sua_nhay"
+  },
+  {
+   "id": "q25",
+   "type": "upgrade",
+   "params": {
+    "building": "dungeon_gate",
+    "level": 2
+   },
+   "text": "Nâng Cổng Xoáy lên cấp 2",
+   "reward": {
+    "gold": 150
+   },
+   "hint": "building:dungeon_gate"
+  },
+  {
+   "id": "q26",
+   "type": "clear_floor",
+   "params": {
+    "floor": 10
+   },
+   "text": "Hạ boss tầng 10: Cua Càng Thép Chúa",
+   "reward": {
+    "coral": 1
+   },
+   "hint": "building:dungeon_gate"
+  },
+  {
+   "id": "q27",
+   "type": "hero_level",
+   "params": {
+    "level": 10
+   },
+   "text": "Nâng một hero lên cấp 10",
+   "reward": {
+    "meat": 150
+   },
+   "hint": "ui:hero_list"
+  },
+  {
+   "id": "q28",
+   "type": "upgrade",
+   "params": {
+    "building": "tavern",
+    "level": 2
+   },
+   "text": "Nâng Quán Mỏ Neo lên cấp 2",
+   "reward": {
+    "tickets": 5
+   },
+   "hint": "building:tavern"
+  },
+  {
+   "id": "q29",
+   "type": "kill",
+   "params": {
+    "monster": "doi_hang",
+    "count": 20
+   },
+   "text": "Hạ 20 Dơi Hang",
+   "reward": {
+    "gold": 200
+   },
+   "hint": "camp:doi_hang"
+  },
+  {
+   "id": "q30",
+   "type": "training",
+   "params": {
+    "count": 30
+   },
+   "text": "Mở tổng cộng 30 nấc ở Sân Tập",
+   "reward": {
+    "ore": 300
+   },
+   "hint": "building:training_yard"
+  },
+  {
+   "id": "q31",
+   "type": "upgrade",
+   "params": {
+    "building": "storage",
+    "level": 5
+   },
+   "text": "Nâng Nhà Kho lên cấp 5",
+   "reward": {
+    "wood": 400
+   },
+   "hint": "building:storage"
+  },
+  {
+   "id": "q32",
+   "type": "clear_floor",
+   "params": {
+    "floor": 15
+   },
+   "text": "Hạ boss tầng 15: Mắt Đá",
+   "reward": {
+    "coral": 2
+   },
+   "hint": "building:dungeon_gate"
+  },
+  {
+   "id": "q33",
+   "type": "slots",
+   "params": {
+    "count": 5
+   },
+   "text": "Mở ô đội thứ 5",
+   "reward": {
+    "tickets": 5
+   },
+   "hint": "building:training_yard"
+  },
+  {
+   "id": "q34",
+   "type": "kill",
+   "params": {
+    "monster": "nhen_ran",
+    "count": 20
+   },
+   "text": "Hạ 20 Nhện Rạn ở Gò Đá Lam",
+   "reward": {
+    "meat": 200
+   },
+   "hint": "camp:nhen_ran"
+  },
+  {
+   "id": "q35",
+   "type": "kill",
+   "params": {
+    "monster": "cua_thep",
+    "count": 1
+   },
+   "text": "Hạ Cua Càng Thép (quái tinh anh)",
+   "reward": {
+    "coral": 1
+   },
+   "hint": "camp:cua_thep"
+  },
+  {
+   "id": "q36",
+   "type": "upgrade",
+   "params": {
+    "building": "dungeon_gate",
+    "level": 4
+   },
+   "text": "Nâng Cổng Xoáy lên cấp 4",
+   "reward": {
+    "gold": 300
+   },
+   "hint": "building:dungeon_gate"
+  },
+  {
+   "id": "q37",
+   "type": "clear_floor",
+   "params": {
+    "floor": 20
+   },
+   "text": "Hạ boss tầng 20: Phù Thủy Rạn",
+   "reward": {
+    "coral": 2
+   },
+   "hint": "building:dungeon_gate"
+  },
+  {
+   "id": "q38",
+   "type": "hero_level",
+   "params": {
+    "level": 20
+   },
+   "text": "Nâng một hero lên cấp 20",
+   "reward": {
+    "meat": 300
+   },
+   "hint": "ui:hero_list"
+  },
+  {
+   "id": "q39",
+   "type": "slots",
+   "params": {
+    "count": 6
+   },
+   "text": "Mở ô đội thứ 6",
+   "reward": {
+    "tickets": 10
+   },
+   "hint": "building:training_yard"
+  },
+  {
+   "id": "q40",
+   "type": "clear_floor",
+   "params": {
+    "floor": 25
+   },
+   "text": "Hạ boss tầng 25: Thuyền Trưởng Ma",
+   "reward": {
+    "coral": 3
+   },
+   "hint": "building:dungeon_gate"
+  },
+  {
+   "id": "q41",
+   "type": "clear_floor",
+   "params": {
+    "floor": 30
+   },
+   "text": "Hạ boss tầng 30: Vua Nhện Rạn",
+   "reward": {
+    "gold": 1000
+   },
+   "hint": "building:dungeon_gate"
+  }
+ ],
+ "endText": "Hoàn thành Chương 1! Cứ tiếp tục luyện đội.",
+ "progressRule": "gather, kill, recruit, collect, auto_assign: đếm sự kiện xảy ra SAU khi nhiệm vụ được kích hoạt. build, upgrade, hero_level, clear_floor (tầng cao nhất đã vượt), slots (số ô đội hiện có), training (tổng số nấc đã mở): so trạng thái hiện tại, nên có thể xong ngay khi kích hoạt."
+}

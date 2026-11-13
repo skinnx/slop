@@ -1,0 +1,1678 @@
+{
+ "version": 1,
+ "nodeTypes": {
+  "tree_z1": {
+   "resource": "wood",
+   "durability": 6,
+   "yieldPerHit": 2,
+   "respawnSec": 30,
+   "sprite": "urban:0286",
+   "zone": "z1"
+  },
+  "tree_z2": {
+   "resource": "wood",
+   "durability": 6,
+   "yieldPerHit": 2,
+   "respawnSec": 30,
+   "sprite": "urban:0287",
+   "zone": "z2"
+  },
+  "tree_z3": {
+   "resource": "wood",
+   "durability": 8,
+   "yieldPerHit": 2,
+   "respawnSec": 30,
+   "sprite": "urban:0291",
+   "zone": "z3"
+  },
+  "rock_z1": {
+   "resource": "ore",
+   "durability": 6,
+   "yieldPerHit": 1,
+   "respawnSec": 45,
+   "sprite": "composite:rock",
+   "zone": "z1"
+  },
+  "rock_z2": {
+   "resource": "ore",
+   "durability": 5,
+   "yieldPerHit": 2,
+   "respawnSec": 45,
+   "sprite": "composite:rock",
+   "zone": "z2"
+  },
+  "rock_z3": {
+   "resource": "ore",
+   "durability": 7,
+   "yieldPerHit": 2,
+   "respawnSec": 45,
+   "sprite": "composite:rock",
+   "zone": "z3"
+  }
+ },
+ "nodes": [
+  {
+   "id": "n000",
+   "type": "tree_z1",
+   "pos": [
+    18.9,
+    18.6
+   ]
+  },
+  {
+   "id": "n001",
+   "type": "tree_z1",
+   "pos": [
+    18.9,
+    20.5
+   ]
+  },
+  {
+   "id": "n002",
+   "type": "tree_z1",
+   "pos": [
+    17.3,
+    17.1
+   ]
+  },
+  {
+   "id": "n003",
+   "type": "tree_z1",
+   "pos": [
+    20.5,
+    16.7
+   ]
+  },
+  {
+   "id": "n004",
+   "type": "tree_z1",
+   "pos": [
+    17.4,
+    19.4
+   ]
+  },
+  {
+   "id": "n005",
+   "type": "tree_z1",
+   "pos": [
+    36.1,
+    42.1
+   ]
+  },
+  {
+   "id": "n006",
+   "type": "tree_z1",
+   "pos": [
+    38.0,
+    43.3
+   ]
+  },
+  {
+   "id": "n007",
+   "type": "tree_z1",
+   "pos": [
+    36.2,
+    44.2
+   ]
+  },
+  {
+   "id": "n008",
+   "type": "tree_z1",
+   "pos": [
+    33.9,
+    42.5
+   ]
+  },
+  {
+   "id": "n009",
+   "type": "tree_z1",
+   "pos": [
+    37.4,
+    41.5
+   ]
+  },
+  {
+   "id": "n010",
+   "type": "tree_z1",
+   "pos": [
+    18.7,
+    32.1
+   ]
+  },
+  {
+   "id": "n011",
+   "type": "tree_z1",
+   "pos": [
+    18.8,
+    30.7
+   ]
+  },
+  {
+   "id": "n012",
+   "type": "tree_z1",
+   "pos": [
+    16.9,
+    30.2
+   ]
+  },
+  {
+   "id": "n013",
+   "type": "tree_z1",
+   "pos": [
+    17.0,
+    32.6
+   ]
+  },
+  {
+   "id": "n014",
+   "type": "tree_z1",
+   "pos": [
+    18.9,
+    34.0
+   ]
+  },
+  {
+   "id": "n015",
+   "type": "tree_z1",
+   "pos": [
+    43.6,
+    39.3
+   ]
+  },
+  {
+   "id": "n016",
+   "type": "tree_z1",
+   "pos": [
+    44.1,
+    37.7
+   ]
+  },
+  {
+   "id": "n017",
+   "type": "tree_z1",
+   "pos": [
+    44.3,
+    41.3
+   ]
+  },
+  {
+   "id": "n018",
+   "type": "tree_z1",
+   "pos": [
+    42.2,
+    38.6
+   ]
+  },
+  {
+   "id": "n019",
+   "type": "tree_z1",
+   "pos": [
+    41.5,
+    40.6
+   ]
+  },
+  {
+   "id": "n020",
+   "type": "tree_z1",
+   "pos": [
+    32.4,
+    18.5
+   ]
+  },
+  {
+   "id": "n021",
+   "type": "tree_z1",
+   "pos": [
+    33.9,
+    17.0
+   ]
+  },
+  {
+   "id": "n022",
+   "type": "tree_z1",
+   "pos": [
+    30.8,
+    19.0
+   ]
+  },
+  {
+   "id": "n023",
+   "type": "tree_z1",
+   "pos": [
+    30.6,
+    17.3
+   ]
+  },
+  {
+   "id": "n024",
+   "type": "tree_z1",
+   "pos": [
+    31.8,
+    16.5
+   ]
+  },
+  {
+   "id": "n025",
+   "type": "rock_z1",
+   "pos": [
+    43.1,
+    24.4
+   ]
+  },
+  {
+   "id": "n026",
+   "type": "rock_z1",
+   "pos": [
+    43.1,
+    26.1
+   ]
+  },
+  {
+   "id": "n027",
+   "type": "rock_z1",
+   "pos": [
+    43.1,
+    22.4
+   ]
+  },
+  {
+   "id": "n028",
+   "type": "rock_z1",
+   "pos": [
+    44.6,
+    26.3
+   ]
+  },
+  {
+   "id": "n029",
+   "type": "rock_z1",
+   "pos": [
+    41.5,
+    14.8
+   ]
+  },
+  {
+   "id": "n030",
+   "type": "rock_z1",
+   "pos": [
+    42.6,
+    16.3
+   ]
+  },
+  {
+   "id": "n031",
+   "type": "rock_z1",
+   "pos": [
+    43.3,
+    14.0
+   ]
+  },
+  {
+   "id": "n032",
+   "type": "rock_z1",
+   "pos": [
+    39.9,
+    14.2
+   ]
+  },
+  {
+   "id": "n033",
+   "type": "rock_z1",
+   "pos": [
+    45.3,
+    34.7
+   ]
+  },
+  {
+   "id": "n034",
+   "type": "rock_z1",
+   "pos": [
+    46.3,
+    33.6
+   ]
+  },
+  {
+   "id": "n035",
+   "type": "rock_z1",
+   "pos": [
+    44.6,
+    33.0
+   ]
+  },
+  {
+   "id": "n036",
+   "type": "rock_z1",
+   "pos": [
+    43.8,
+    35.8
+   ]
+  },
+  {
+   "id": "n037",
+   "type": "rock_z1",
+   "pos": [
+    32.7,
+    45.8
+   ]
+  },
+  {
+   "id": "n038",
+   "type": "rock_z1",
+   "pos": [
+    32.6,
+    44.1
+   ]
+  },
+  {
+   "id": "n039",
+   "type": "rock_z1",
+   "pos": [
+    31.0,
+    44.8
+   ]
+  },
+  {
+   "id": "n040",
+   "type": "rock_z1",
+   "pos": [
+    34.5,
+    46.5
+   ]
+  },
+  {
+   "id": "n041",
+   "type": "tree_z2",
+   "pos": [
+    52.3,
+    9.4
+   ]
+  },
+  {
+   "id": "n042",
+   "type": "tree_z2",
+   "pos": [
+    50.7,
+    9.9
+   ]
+  },
+  {
+   "id": "n043",
+   "type": "tree_z2",
+   "pos": [
+    52.5,
+    7.3
+   ]
+  },
+  {
+   "id": "n044",
+   "type": "tree_z2",
+   "pos": [
+    52.0,
+    11.0
+   ]
+  },
+  {
+   "id": "n045",
+   "type": "tree_z2",
+   "pos": [
+    50.3,
+    8.1
+   ]
+  },
+  {
+   "id": "n046",
+   "type": "tree_z2",
+   "pos": [
+    49.1,
+    21.3
+   ]
+  },
+  {
+   "id": "n047",
+   "type": "tree_z2",
+   "pos": [
+    48.5,
+    23.4
+   ]
+  },
+  {
+   "id": "n048",
+   "type": "tree_z2",
+   "pos": [
+    48.5,
+    19.5
+   ]
+  },
+  {
+   "id": "n049",
+   "type": "tree_z2",
+   "pos": [
+    50.8,
+    21.4
+   ]
+  },
+  {
+   "id": "n050",
+   "type": "tree_z2",
+   "pos": [
+    50.1,
+    19.1
+   ]
+  },
+  {
+   "id": "n051",
+   "type": "tree_z2",
+   "pos": [
+    14.8,
+    48.8
+   ]
+  },
+  {
+   "id": "n052",
+   "type": "tree_z2",
+   "pos": [
+    12.8,
+    50.0
+   ]
+  },
+  {
+   "id": "n053",
+   "type": "tree_z2",
+   "pos": [
+    14.7,
+    50.4
+   ]
+  },
+  {
+   "id": "n054",
+   "type": "tree_z2",
+   "pos": [
+    16.2,
+    50.8
+   ]
+  },
+  {
+   "id": "n055",
+   "type": "tree_z2",
+   "pos": [
+    12.8,
+    48.4
+   ]
+  },
+  {
+   "id": "n056",
+   "type": "tree_z2",
+   "pos": [
+    8.5,
+    10.5
+   ]
+  },
+  {
+   "id": "n057",
+   "type": "tree_z2",
+   "pos": [
+    10.0,
+    8.9
+   ]
+  },
+  {
+   "id": "n058",
+   "type": "tree_z2",
+   "pos": [
+    10.6,
+    11.7
+   ]
+  },
+  {
+   "id": "n059",
+   "type": "tree_z2",
+   "pos": [
+    8.8,
+    12.6
+   ]
+  },
+  {
+   "id": "n060",
+   "type": "tree_z2",
+   "pos": [
+    7.9,
+    9.2
+   ]
+  },
+  {
+   "id": "n061",
+   "type": "tree_z2",
+   "pos": [
+    43.5,
+    6.6
+   ]
+  },
+  {
+   "id": "n062",
+   "type": "tree_z2",
+   "pos": [
+    43.5,
+    8.3
+   ]
+  },
+  {
+   "id": "n063",
+   "type": "tree_z2",
+   "pos": [
+    45.2,
+    7.5
+   ]
+  },
+  {
+   "id": "n064",
+   "type": "tree_z2",
+   "pos": [
+    41.9,
+    8.7
+   ]
+  },
+  {
+   "id": "n065",
+   "type": "tree_z2",
+   "pos": [
+    41.9,
+    7.1
+   ]
+  },
+  {
+   "id": "n066",
+   "type": "tree_z2",
+   "pos": [
+    48.5,
+    43.1
+   ]
+  },
+  {
+   "id": "n067",
+   "type": "tree_z2",
+   "pos": [
+    48.0,
+    44.9
+   ]
+  },
+  {
+   "id": "n068",
+   "type": "tree_z2",
+   "pos": [
+    48.6,
+    41.6
+   ]
+  },
+  {
+   "id": "n069",
+   "type": "tree_z2",
+   "pos": [
+    50.3,
+    43.4
+   ]
+  },
+  {
+   "id": "n070",
+   "type": "tree_z2",
+   "pos": [
+    49.8,
+    45.2
+   ]
+  },
+  {
+   "id": "n071",
+   "type": "rock_z2",
+   "pos": [
+    28.4,
+    49.3
+   ]
+  },
+  {
+   "id": "n072",
+   "type": "rock_z2",
+   "pos": [
+    30.0,
+    50.7
+   ]
+  },
+  {
+   "id": "n073",
+   "type": "rock_z2",
+   "pos": [
+    26.4,
+    49.3
+   ]
+  },
+  {
+   "id": "n074",
+   "type": "rock_z2",
+   "pos": [
+    27.6,
+    48.1
+   ]
+  },
+  {
+   "id": "n075",
+   "type": "rock_z2",
+   "pos": [
+    30.9,
+    9.1
+   ]
+  },
+  {
+   "id": "n076",
+   "type": "rock_z2",
+   "pos": [
+    31.7,
+    11.0
+   ]
+  },
+  {
+   "id": "n077",
+   "type": "rock_z2",
+   "pos": [
+    29.1,
+    10.4
+   ]
+  },
+  {
+   "id": "n078",
+   "type": "rock_z2",
+   "pos": [
+    29.5,
+    7.4
+   ]
+  },
+  {
+   "id": "n079",
+   "type": "rock_z2",
+   "pos": [
+    51.8,
+    37.8
+   ]
+  },
+  {
+   "id": "n080",
+   "type": "rock_z2",
+   "pos": [
+    51.1,
+    36.2
+   ]
+  },
+  {
+   "id": "n081",
+   "type": "rock_z2",
+   "pos": [
+    50.5,
+    39.1
+   ]
+  },
+  {
+   "id": "n082",
+   "type": "rock_z2",
+   "pos": [
+    52.8,
+    39.0
+   ]
+  },
+  {
+   "id": "n083",
+   "type": "rock_z2",
+   "pos": [
+    7.7,
+    20.7
+   ]
+  },
+  {
+   "id": "n084",
+   "type": "rock_z2",
+   "pos": [
+    7.4,
+    22.4
+   ]
+  },
+  {
+   "id": "n085",
+   "type": "rock_z2",
+   "pos": [
+    9.4,
+    22.2
+   ]
+  },
+  {
+   "id": "n086",
+   "type": "rock_z2",
+   "pos": [
+    6.5,
+    19.3
+   ]
+  },
+  {
+   "id": "n087",
+   "type": "rock_z2",
+   "pos": [
+    52.7,
+    16.7
+   ]
+  },
+  {
+   "id": "n088",
+   "type": "rock_z2",
+   "pos": [
+    50.8,
+    15.1
+   ]
+  },
+  {
+   "id": "n089",
+   "type": "rock_z2",
+   "pos": [
+    52.9,
+    15.1
+   ]
+  },
+  {
+   "id": "n090",
+   "type": "rock_z2",
+   "pos": [
+    51.3,
+    17.5
+   ]
+  },
+  {
+   "id": "n091",
+   "type": "tree_z3",
+   "pos": [
+    55.5,
+    7.3
+   ]
+  },
+  {
+   "id": "n092",
+   "type": "tree_z3",
+   "pos": [
+    57.2,
+    8.1
+   ]
+  },
+  {
+   "id": "n093",
+   "type": "tree_z3",
+   "pos": [
+    56.9,
+    5.2
+   ]
+  },
+  {
+   "id": "n094",
+   "type": "tree_z3",
+   "pos": [
+    55.0,
+    9.1
+   ]
+  },
+  {
+   "id": "n095",
+   "type": "tree_z3",
+   "pos": [
+    56.9,
+    6.7
+   ]
+  },
+  {
+   "id": "n096",
+   "type": "tree_z3",
+   "pos": [
+    5.9,
+    57.1
+   ]
+  },
+  {
+   "id": "n097",
+   "type": "tree_z3",
+   "pos": [
+    6.5,
+    55.3
+   ]
+  },
+  {
+   "id": "n098",
+   "type": "tree_z3",
+   "pos": [
+    7.6,
+    58.0
+   ]
+  },
+  {
+   "id": "n099",
+   "type": "tree_z3",
+   "pos": [
+    7.8,
+    56.0
+   ]
+  },
+  {
+   "id": "n100",
+   "type": "tree_z3",
+   "pos": [
+    5.4,
+    58.5
+   ]
+  },
+  {
+   "id": "n101",
+   "type": "tree_z3",
+   "pos": [
+    55.8,
+    21.7
+   ]
+  },
+  {
+   "id": "n102",
+   "type": "tree_z3",
+   "pos": [
+    57.5,
+    22.3
+   ]
+  },
+  {
+   "id": "n103",
+   "type": "tree_z3",
+   "pos": [
+    55.4,
+    20.2
+   ]
+  },
+  {
+   "id": "n104",
+   "type": "tree_z3",
+   "pos": [
+    55.3,
+    23.3
+   ]
+  },
+  {
+   "id": "n105",
+   "type": "tree_z3",
+   "pos": [
+    57.6,
+    20.8
+   ]
+  },
+  {
+   "id": "n106",
+   "type": "tree_z3",
+   "pos": [
+    32.2,
+    55.0
+   ]
+  },
+  {
+   "id": "n107",
+   "type": "tree_z3",
+   "pos": [
+    30.6,
+    56.4
+   ]
+  },
+  {
+   "id": "n108",
+   "type": "tree_z3",
+   "pos": [
+    33.7,
+    56.5
+   ]
+  },
+  {
+   "id": "n109",
+   "type": "tree_z3",
+   "pos": [
+    31.9,
+    57.2
+   ]
+  },
+  {
+   "id": "n110",
+   "type": "tree_z3",
+   "pos": [
+    34.4,
+    55.2
+   ]
+  },
+  {
+   "id": "n111",
+   "type": "tree_z3",
+   "pos": [
+    5.5,
+    4.9
+   ]
+  },
+  {
+   "id": "n112",
+   "type": "tree_z3",
+   "pos": [
+    4.8,
+    6.4
+   ]
+  },
+  {
+   "id": "n113",
+   "type": "tree_z3",
+   "pos": [
+    4.1,
+    3.0
+   ]
+  },
+  {
+   "id": "n114",
+   "type": "tree_z3",
+   "pos": [
+    7.4,
+    4.0
+   ]
+  },
+  {
+   "id": "n115",
+   "type": "tree_z3",
+   "pos": [
+    4.1,
+    4.4
+   ]
+  },
+  {
+   "id": "n116",
+   "type": "tree_z3",
+   "pos": [
+    1.7,
+    11.5
+   ]
+  },
+  {
+   "id": "n117",
+   "type": "tree_z3",
+   "pos": [
+    3.5,
+    13.6
+   ]
+  },
+  {
+   "id": "n118",
+   "type": "tree_z3",
+   "pos": [
+    3.0,
+    12.1
+   ]
+  },
+  {
+   "id": "n119",
+   "type": "tree_z3",
+   "pos": [
+    2.2,
+    9.7
+   ]
+  },
+  {
+   "id": "n120",
+   "type": "tree_z3",
+   "pos": [
+    1.8,
+    13.0
+   ]
+  },
+  {
+   "id": "n121",
+   "type": "rock_z3",
+   "pos": [
+    2.3,
+    53.4
+   ]
+  },
+  {
+   "id": "n122",
+   "type": "rock_z3",
+   "pos": [
+    4.1,
+    52.6
+   ]
+  },
+  {
+   "id": "n123",
+   "type": "rock_z3",
+   "pos": [
+    1.5,
+    51.9
+   ]
+  },
+  {
+   "id": "n124",
+   "type": "rock_z3",
+   "pos": [
+    1.5,
+    55.4
+   ]
+  },
+  {
+   "id": "n125",
+   "type": "rock_z3",
+   "pos": [
+    55.7,
+    57.7
+   ]
+  },
+  {
+   "id": "n126",
+   "type": "rock_z3",
+   "pos": [
+    56.8,
+    56.7
+   ]
+  },
+  {
+   "id": "n127",
+   "type": "rock_z3",
+   "pos": [
+    54.9,
+    55.7
+   ]
+  },
+  {
+   "id": "n128",
+   "type": "rock_z3",
+   "pos": [
+    54.2,
+    58.4
+   ]
+  },
+  {
+   "id": "n129",
+   "type": "rock_z3",
+   "pos": [
+    31.3,
+    3.9
+   ]
+  },
+  {
+   "id": "n130",
+   "type": "rock_z3",
+   "pos": [
+    30.0,
+    4.5
+   ]
+  },
+  {
+   "id": "n131",
+   "type": "rock_z3",
+   "pos": [
+    33.3,
+    2.7
+   ]
+  },
+  {
+   "id": "n132",
+   "type": "rock_z3",
+   "pos": [
+    30.9,
+    2.0
+   ]
+  },
+  {
+   "id": "n133",
+   "type": "rock_z3",
+   "pos": [
+    23.9,
+    55.7
+   ]
+  },
+  {
+   "id": "n134",
+   "type": "rock_z3",
+   "pos": [
+    22.3,
+    56.8
+   ]
+  },
+  {
+   "id": "n135",
+   "type": "rock_z3",
+   "pos": [
+    24.6,
+    57.2
+   ]
+  },
+  {
+   "id": "n136",
+   "type": "rock_z3",
+   "pos": [
+    25.7,
+    55.8
+   ]
+  },
+  {
+   "id": "n137",
+   "type": "rock_z3",
+   "pos": [
+    55.5,
+    48.4
+   ]
+  },
+  {
+   "id": "n138",
+   "type": "rock_z3",
+   "pos": [
+    57.2,
+    46.5
+   ]
+  },
+  {
+   "id": "n139",
+   "type": "rock_z3",
+   "pos": [
+    56.9,
+    48.7
+   ]
+  },
+  {
+   "id": "n140",
+   "type": "rock_z3",
+   "pos": [
+    57.0,
+    50.1
+   ]
+  },
+  {
+   "id": "n141",
+   "type": "rock_z3",
+   "pos": [
+    46.0,
+    1.7
+   ]
+  },
+  {
+   "id": "n142",
+   "type": "rock_z3",
+   "pos": [
+    48.0,
+    2.8
+   ]
+  },
+  {
+   "id": "n143",
+   "type": "rock_z3",
+   "pos": [
+    44.4,
+    2.7
+   ]
+  },
+  {
+   "id": "n144",
+   "type": "rock_z3",
+   "pos": [
+    46.5,
+    3.4
+   ]
+  }
+ ],
+ "camps": [
+  {
+   "id": "c_z1_00",
+   "zone": "z1",
+   "monster": "cua_cat",
+   "count": 4,
+   "pos": [
+    42.5,
+    30.0
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z1_01",
+   "zone": "z1",
+   "monster": "cua_cat",
+   "count": 4,
+   "pos": [
+    26.3,
+    45.7
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z1_02",
+   "zone": "z1",
+   "monster": "cua_cat",
+   "count": 4,
+   "pos": [
+    41.1,
+    34.1
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z1_03",
+   "zone": "z1",
+   "monster": "cua_cat",
+   "count": 4,
+   "pos": [
+    15.9,
+    25.8
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z1_04",
+   "zone": "z1",
+   "monster": "chuot_ben",
+   "count": 4,
+   "pos": [
+    18.6,
+    23.6
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z1_05",
+   "zone": "z1",
+   "monster": "chuot_ben",
+   "count": 4,
+   "pos": [
+    19.3,
+    42.5
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z1_06",
+   "zone": "z1",
+   "monster": "chuot_ben",
+   "count": 4,
+   "pos": [
+    17.4,
+    46.5
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z1_07",
+   "zone": "z1",
+   "monster": "chuot_ben",
+   "count": 4,
+   "pos": [
+    25.0,
+    41.0
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z2_00",
+   "zone": "z2",
+   "monster": "sua_nhay",
+   "count": 4,
+   "pos": [
+    19.0,
+    8.3
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z2_01",
+   "zone": "z2",
+   "monster": "sua_nhay",
+   "count": 4,
+   "pos": [
+    19.6,
+    51.0
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z2_02",
+   "zone": "z2",
+   "monster": "sua_nhay",
+   "count": 4,
+   "pos": [
+    19.7,
+    11.7
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z2_03",
+   "zone": "z2",
+   "monster": "sua_nhay",
+   "count": 4,
+   "pos": [
+    10.2,
+    44.7
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z2_04",
+   "zone": "z2",
+   "monster": "sua_nhay",
+   "count": 4,
+   "pos": [
+    10.5,
+    32.3
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z2_05",
+   "zone": "z2",
+   "monster": "doi_hang",
+   "count": 4,
+   "pos": [
+    7.5,
+    40.3
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z2_06",
+   "zone": "z2",
+   "monster": "doi_hang",
+   "count": 4,
+   "pos": [
+    47.1,
+    11.0
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z2_07",
+   "zone": "z2",
+   "monster": "doi_hang",
+   "count": 4,
+   "pos": [
+    10.7,
+    36.1
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z2_08",
+   "zone": "z2",
+   "monster": "doi_hang",
+   "count": 4,
+   "pos": [
+    53.4,
+    46.2
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z2_09",
+   "zone": "z2",
+   "monster": "doi_hang",
+   "count": 4,
+   "pos": [
+    52.7,
+    25.0
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z3_00",
+   "zone": "z3",
+   "monster": "nhen_ran",
+   "count": 5,
+   "pos": [
+    3.7,
+    16.8
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z3_01",
+   "zone": "z3",
+   "monster": "nhen_ran",
+   "count": 5,
+   "pos": [
+    1.9,
+    25.0
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z3_02",
+   "zone": "z3",
+   "monster": "nhen_ran",
+   "count": 5,
+   "pos": [
+    48.8,
+    56.6
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z3_03",
+   "zone": "z3",
+   "monster": "nhen_ran",
+   "count": 5,
+   "pos": [
+    2.4,
+    47.7
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z3_04",
+   "zone": "z3",
+   "monster": "nhen_ran",
+   "count": 5,
+   "pos": [
+    55.0,
+    36.1
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z3_05",
+   "zone": "z3",
+   "monster": "nhen_ran",
+   "count": 5,
+   "pos": [
+    55.1,
+    2.4
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z3_06",
+   "zone": "z3",
+   "monster": "ma_bien",
+   "count": 4,
+   "pos": [
+    57.6,
+    28.9
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z3_07",
+   "zone": "z3",
+   "monster": "ma_bien",
+   "count": 4,
+   "pos": [
+    35.7,
+    4.8
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z3_08",
+   "zone": "z3",
+   "monster": "ma_bien",
+   "count": 4,
+   "pos": [
+    40.1,
+    2.1
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z3_09",
+   "zone": "z3",
+   "monster": "ma_bien",
+   "count": 4,
+   "pos": [
+    4.3,
+    28.9
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z3_10",
+   "zone": "z3",
+   "monster": "ma_bien",
+   "count": 4,
+   "pos": [
+    19.4,
+    55.6
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z3_11",
+   "zone": "z3",
+   "monster": "ma_bien",
+   "count": 4,
+   "pos": [
+    13.6,
+    2.9
+   ],
+   "radius": 1.5,
+   "respawnSec": 20
+  },
+  {
+   "id": "c_z3_12",
+   "zone": "z3",
+   "monster": "cua_thep",
+   "count": 1,
+   "pos": [
+    51.6,
+    3.1
+   ],
+   "radius": 1.5,
+   "respawnSec": 120
+  },
+  {
+   "id": "c_z3_13",
+   "zone": "z3",
+   "monster": "cua_thep",
+   "count": 1,
+   "pos": [
+    10.1,
+    2.4
+   ],
+   "radius": 1.5,
+   "respawnSec": 120
+  }
+ ],
+ "signposts": [
+  {
+   "zone": "z1",
+   "pos": [
+    30,
+    40.5
+   ],
+   "recommendedCp": 1050
+  },
+  {
+   "zone": "z2",
+   "pos": [
+    30,
+    47.5
+   ],
+   "recommendedCp": 4350
+  },
+  {
+   "zone": "z3",
+   "pos": [
+    30,
+    54.5
+   ],
+   "recommendedCp": 10950
+  }
+ ],
+ "startPos": [
+  30,
+  30
+ ],
+ "wipeRespawnPos": [
+  30,
+  30
+ ],
+ "paths": [
+  [
+   [
+    30,
+    20
+   ],
+   [
+    30,
+    2
+   ]
+  ],
+  [
+   [
+    20,
+    30
+   ],
+   [
+    2,
+    30
+   ]
+  ],
+  [
+   [
+    40,
+    30
+   ],
+   [
+    58,
+    30
+   ]
+  ],
+  [
+   [
+    30,
+    40
+   ],
+   [
+    30,
+    58
+   ]
+  ]
+ ],
+ "pathNote": "Đường đất trang trí, rộng 1 ô, không ảnh hưởng luật."
+}

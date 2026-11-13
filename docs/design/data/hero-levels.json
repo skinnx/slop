@@ -1,0 +1,226 @@
+{
+ "version": 1,
+ "maxLevel": 30,
+ "costs": [
+  {
+   "from": 1,
+   "to": 2,
+   "meat": 15
+  },
+  {
+   "from": 2,
+   "to": 3,
+   "meat": 17
+  },
+  {
+   "from": 3,
+   "to": 4,
+   "meat": 18
+  },
+  {
+   "from": 4,
+   "to": 5,
+   "meat": 20
+  },
+  {
+   "from": 5,
+   "to": 6,
+   "meat": 22,
+   "fragments": {
+    "N": 5,
+    "R": 4,
+    "E": 3,
+    "L": 2
+   }
+  },
+  {
+   "from": 6,
+   "to": 7,
+   "meat": 25
+  },
+  {
+   "from": 7,
+   "to": 8,
+   "meat": 27
+  },
+  {
+   "from": 8,
+   "to": 9,
+   "meat": 30
+  },
+  {
+   "from": 9,
+   "to": 10,
+   "meat": 34
+  },
+  {
+   "from": 10,
+   "to": 11,
+   "meat": 37,
+   "fragments": {
+    "N": 10,
+    "R": 8,
+    "E": 6,
+    "L": 4
+   }
+  },
+  {
+   "from": 11,
+   "to": 12,
+   "meat": 41
+  },
+  {
+   "from": 12,
+   "to": 13,
+   "meat": 45
+  },
+  {
+   "from": 13,
+   "to": 14,
+   "meat": 50
+  },
+  {
+   "from": 14,
+   "to": 15,
+   "meat": 56
+  },
+  {
+   "from": 15,
+   "to": 16,
+   "meat": 61,
+   "fragments": {
+    "N": 15,
+    "R": 12,
+    "E": 9,
+    "L": 6
+   }
+  },
+  {
+   "from": 16,
+   "to": 17,
+   "meat": 68
+  },
+  {
+   "from": 17,
+   "to": 18,
+   "meat": 75
+  },
+  {
+   "from": 18,
+   "to": 19,
+   "meat": 83
+  },
+  {
+   "from": 19,
+   "to": 20,
+   "meat": 92
+  },
+  {
+   "from": 20,
+   "to": 21,
+   "meat": 100,
+   "fragments": {
+    "N": 20,
+    "R": 16,
+    "E": 12,
+    "L": 8
+   }
+  },
+  {
+   "from": 21,
+   "to": 22,
+   "meat": 115
+  },
+  {
+   "from": 22,
+   "to": 23,
+   "meat": 125
+  },
+  {
+   "from": 23,
+   "to": 24,
+   "meat": 140
+  },
+  {
+   "from": 24,
+   "to": 25,
+   "meat": 150
+  },
+  {
+   "from": 25,
+   "to": 26,
+   "meat": 170,
+   "fragments": {
+    "N": 25,
+    "R": 20,
+    "E": 15,
+    "L": 10
+   }
+  },
+  {
+   "from": 26,
+   "to": 27,
+   "meat": 185
+  },
+  {
+   "from": 27,
+   "to": 28,
+   "meat": 205
+  },
+  {
+   "from": 28,
+   "to": 29,
+   "meat": 230
+  },
+  {
+   "from": 29,
+   "to": 30,
+   "meat": 250
+  }
+ ],
+ "milestones": [
+  {
+   "level": 1,
+   "type": "skill_unlock",
+   "skillSlot": 0,
+   "desc": "Mở kỹ năng 1 (1 sao)"
+  },
+  {
+   "level": 5,
+   "type": "owned_hp",
+   "pct": 0.05,
+   "desc": "Hero cùng hệ +5% HP (hiệu ứng sở hữu)"
+  },
+  {
+   "level": 10,
+   "type": "skill_unlock",
+   "skillSlot": 1,
+   "desc": "Mở kỹ năng 2 (1 sao)"
+  },
+  {
+   "level": 15,
+   "type": "owned_atk",
+   "pct": 0.05,
+   "desc": "Hero cùng hệ +5% ATK (hiệu ứng sở hữu)"
+  },
+  {
+   "level": 20,
+   "type": "skill_star",
+   "skillSlot": 0,
+   "desc": "Kỹ năng 1 lên 2 sao"
+  },
+  {
+   "level": 25,
+   "type": "owned_hp",
+   "pct": 0.05,
+   "desc": "Hero cùng hệ +5% HP (hiệu ứng sở hữu)"
+  },
+  {
+   "level": 30,
+   "type": "skill_star",
+   "skillSlot": 1,
+   "desc": "Kỹ năng 2 lên 2 sao"
+  }
+ ],
+ "note": "Lên từ cấp L tốn meat; ở L = 5,10,15,20,25 cần thêm fragments theo độ hiếm. Sao 3 của kỹ năng: để sau M1."
+}

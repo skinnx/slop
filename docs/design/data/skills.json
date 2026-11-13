@@ -1,0 +1,446 @@
+{
+ "version": 1,
+ "skills": [
+  {
+   "id": "khien_dap",
+   "name": "Khiên Đập",
+   "type": "strike",
+   "cooldownSec": 6,
+   "params": {
+    "mult": [
+     1.8,
+     2.2,
+     2.6
+    ]
+   },
+   "desc": "Đập khiên vào mục tiêu, gây sát thương."
+  },
+  {
+   "id": "ho_vang",
+   "name": "Hô Vang",
+   "type": "taunt",
+   "cooldownSec": 10,
+   "params": {
+    "radius": [
+     3.0,
+     3.5,
+     4.0
+    ],
+    "durationSec": [
+     3,
+     4,
+     5
+    ]
+   },
+   "desc": "Quái trong bán kính đổi mục tiêu sang hero này."
+  },
+  {
+   "id": "vung_neo",
+   "name": "Vung Neo",
+   "type": "cleave",
+   "cooldownSec": 7,
+   "params": {
+    "mult": [
+     1.6,
+     1.9,
+     2.2
+    ],
+    "radius": [
+     1.5,
+     1.7,
+     1.9
+    ]
+   },
+   "desc": "Quét neo, sát thương vùng quanh mục tiêu."
+  },
+  {
+   "id": "dap_dat",
+   "name": "Đạp Đất",
+   "type": "nova",
+   "cooldownSec": 9,
+   "params": {
+    "mult": [
+     1.4,
+     1.7,
+     2.0
+    ],
+    "radius": [
+     2.0,
+     2.3,
+     2.6
+    ]
+   },
+   "desc": "Sát thương vùng quanh bản thân."
+  },
+  {
+   "id": "mai_sat",
+   "name": "Mai Sắt",
+   "type": "taunt",
+   "cooldownSec": 9,
+   "params": {
+    "radius": [
+     3.5,
+     4.0,
+     4.5
+    ],
+    "durationSec": [
+     4,
+     5,
+     6
+    ]
+   },
+   "desc": "Kéo quái quanh mình."
+  },
+  {
+   "id": "song_dong",
+   "name": "Sóng Đồng",
+   "type": "nova",
+   "cooldownSec": 8,
+   "params": {
+    "mult": [
+     1.6,
+     1.9,
+     2.2
+    ],
+    "radius": [
+     2.2,
+     2.5,
+     2.8
+    ]
+   },
+   "desc": "Dậm đất tạo sóng."
+  },
+  {
+   "id": "kinh_ngu",
+   "name": "Kình Ngư Nộ",
+   "type": "buff_atk",
+   "cooldownSec": 14,
+   "params": {
+    "pct": [
+     0.2,
+     0.25,
+     0.3
+    ],
+    "durationSec": [
+     5,
+     6,
+     7
+    ]
+   },
+   "desc": "Cả đội +ATK trong thời gian ngắn."
+  },
+  {
+   "id": "ha_kinh",
+   "name": "Hải Kình Giáng",
+   "type": "cleave",
+   "cooldownSec": 8,
+   "params": {
+    "mult": [
+     2.4,
+     2.8,
+     3.2
+    ],
+    "radius": [
+     2.0,
+     2.2,
+     2.4
+    ]
+   },
+   "desc": "Đòn nặng vùng quanh mục tiêu."
+  },
+  {
+   "id": "ban_doi",
+   "name": "Bắn Đôi",
+   "type": "volley",
+   "cooldownSec": 6,
+   "params": {
+    "mult": [
+     1.2,
+     1.4,
+     1.6
+    ],
+    "count": [
+     2,
+     2,
+     3
+    ]
+   },
+   "desc": "Bắn tên vào các quái gần nhất."
+  },
+  {
+   "id": "mua_ten",
+   "name": "Mưa Tên",
+   "type": "volley",
+   "cooldownSec": 11,
+   "params": {
+    "mult": [
+     1.0,
+     1.2,
+     1.4
+    ],
+    "count": [
+     4,
+     5,
+     6
+    ]
+   },
+   "desc": "Mưa tên vào nhiều quái."
+  },
+  {
+   "id": "dao_xoay",
+   "name": "Dao Xoáy",
+   "type": "nova",
+   "cooldownSec": 6,
+   "params": {
+    "mult": [
+     1.3,
+     1.5,
+     1.7
+    ],
+    "radius": [
+     1.6,
+     1.8,
+     2.0
+    ]
+   },
+   "desc": "Xoay dao quanh mình."
+  },
+  {
+   "id": "muc_den",
+   "name": "Mực Đen",
+   "type": "strike",
+   "cooldownSec": 8,
+   "params": {
+    "mult": [
+     2.5,
+     3.0,
+     3.5
+    ]
+   },
+   "desc": "Đòn chí mạng vào một mục tiêu."
+  },
+  {
+   "id": "lao_xuyen",
+   "name": "Lao Xuyên",
+   "type": "volley",
+   "cooldownSec": 7,
+   "params": {
+    "mult": [
+     1.5,
+     1.8,
+     2.1
+    ],
+    "count": [
+     3,
+     3,
+     4
+    ]
+   },
+   "desc": "Phóng lao trúng nhiều quái."
+  },
+  {
+   "id": "gio_bien",
+   "name": "Gió Biển",
+   "type": "buff_atk",
+   "cooldownSec": 15,
+   "params": {
+    "pct": [
+     0.15,
+     0.2,
+     0.25
+    ],
+    "durationSec": [
+     6,
+     7,
+     8
+    ]
+   },
+   "desc": "Cả đội +ATK."
+  },
+  {
+   "id": "dieu_hau",
+   "name": "Diều Hâu Lao",
+   "type": "strike",
+   "cooldownSec": 7,
+   "params": {
+    "mult": [
+     3.0,
+     3.5,
+     4.0
+    ]
+   },
+   "desc": "Một mũi tên rất mạnh."
+  },
+  {
+   "id": "bao_long",
+   "name": "Bão Lông Vũ",
+   "type": "volley",
+   "cooldownSec": 10,
+   "params": {
+    "mult": [
+     1.3,
+     1.5,
+     1.7
+    ],
+    "count": [
+     6,
+     7,
+     8
+    ]
+   },
+   "desc": "Bắn tỏa vào nhiều quái."
+  },
+  {
+   "id": "tay_lanh",
+   "name": "Tay Lành",
+   "type": "heal",
+   "cooldownSec": 5,
+   "params": {
+    "mult": [
+     1.8,
+     2.2,
+     2.6
+    ],
+    "count": [
+     1,
+     1,
+     2
+    ]
+   },
+   "desc": "Hồi máu đồng đội máu thấp nhất."
+  },
+  {
+   "id": "suong_mat",
+   "name": "Sương Mát",
+   "type": "heal",
+   "cooldownSec": 12,
+   "params": {
+    "mult": [
+     0.8,
+     1.0,
+     1.2
+    ],
+    "count": [
+     8,
+     8,
+     8
+    ]
+   },
+   "desc": "Hồi máu cả đội."
+  },
+  {
+   "id": "lua_den",
+   "name": "Lửa Hải Đăng",
+   "type": "cleave",
+   "cooldownSec": 7,
+   "params": {
+    "mult": [
+     1.8,
+     2.1,
+     2.4
+    ],
+    "radius": [
+     1.6,
+     1.8,
+     2.0
+    ]
+   },
+   "desc": "Cầu lửa nổ vùng."
+  },
+  {
+   "id": "chop_sang",
+   "name": "Chớp Sáng",
+   "type": "volley",
+   "cooldownSec": 9,
+   "params": {
+    "mult": [
+     1.4,
+     1.6,
+     1.8
+    ],
+    "count": [
+     3,
+     4,
+     5
+    ]
+   },
+   "desc": "Tia sáng nhảy nhiều quái."
+  },
+  {
+   "id": "san_ho_hoi",
+   "name": "San Hô Hồi",
+   "type": "heal",
+   "cooldownSec": 4,
+   "params": {
+    "mult": [
+     2.0,
+     2.4,
+     2.8
+    ],
+    "count": [
+     2,
+     2,
+     3
+    ]
+   },
+   "desc": "Hồi máu 2 đồng đội máu thấp nhất."
+  },
+  {
+   "id": "ken_bao_ve",
+   "name": "Kén Bảo Vệ",
+   "type": "heal",
+   "cooldownSec": 14,
+   "params": {
+    "mult": [
+     1.2,
+     1.4,
+     1.6
+    ],
+    "count": [
+     8,
+     8,
+     8
+    ]
+   },
+   "desc": "Hồi máu cả đội."
+  },
+  {
+   "id": "song_than",
+   "name": "Sóng Thần",
+   "type": "nova",
+   "cooldownSec": 9,
+   "params": {
+    "mult": [
+     2.2,
+     2.6,
+     3.0
+    ],
+    "radius": [
+     3.0,
+     3.3,
+     3.6
+    ]
+   },
+   "desc": "Sóng lớn quanh bản thân."
+  },
+  {
+   "id": "trieu_cuong",
+   "name": "Triều Cường",
+   "type": "cleave",
+   "cooldownSec": 6,
+   "params": {
+    "mult": [
+     2.0,
+     2.4,
+     2.8
+    ],
+    "radius": [
+     2.0,
+     2.2,
+     2.4
+    ]
+   },
+   "desc": "Cột nước nổ quanh mục tiêu."
+  }
+ ]
+}

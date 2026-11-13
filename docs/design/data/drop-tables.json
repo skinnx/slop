@@ -1,0 +1,92 @@
+{
+ "version": 1,
+ "tables": {
+  "field_meat": {
+   "rolls": [
+    {
+     "item": "meat",
+     "min": 1,
+     "max": 2,
+     "chance": 1.0
+    },
+    {
+     "item": "gold",
+     "min": 1,
+     "max": 1,
+     "chance": 0.3
+    }
+   ]
+  },
+  "field_gold": {
+   "rolls": [
+    {
+     "item": "gold",
+     "min": 1,
+     "max": 2,
+     "chance": 1.0
+    },
+    {
+     "item": "meat",
+     "min": 1,
+     "max": 1,
+     "chance": 0.3
+    }
+   ]
+  },
+  "field_elite": {
+   "rolls": [
+    {
+     "item": "meat",
+     "min": 15,
+     "max": 20,
+     "chance": 1.0
+    },
+    {
+     "item": "gold",
+     "min": 30,
+     "max": 40,
+     "chance": 1.0
+    },
+    {
+     "item": "coral",
+     "min": 1,
+     "max": 1,
+     "chance": 0.25
+    }
+   ]
+  },
+  "dungeon_mob": {
+   "rolls": [
+    {
+     "item": "gold",
+     "min": 1,
+     "max": 1,
+     "chance": 0.35
+    },
+    {
+     "item": "meat",
+     "min": 1,
+     "max": 1,
+     "chance": 0.15
+    }
+   ]
+  },
+  "boss": {
+   "rolls": [
+    {
+     "item": "gold",
+     "min": 0,
+     "max": 0,
+     "chance": 1.0
+    }
+   ]
+  }
+ },
+ "zoneAmountMult": {
+  "z1": 1.0,
+  "z2": 1.5,
+  "z3": 2.0
+ },
+ "dungeonGoldMult": "dungeon_mob: lượng vàng nhân floor.goldMult (làm tròn xuống, tối thiểu 1).",
+ "rule": "Mỗi roll độc lập: nếu rng < chance thì rơi số lượng nguyên đều trong [min,max] (rồi nhân hệ số zone, làm tròn). Mỗi đơn vị vật phẩm là một pickup riêng, tối đa 5 pickup/loại/lần chết (gộp số lượng)."
+}

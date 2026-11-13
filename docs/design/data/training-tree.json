@@ -1,0 +1,663 @@
+{
+ "version": 1,
+ "nodes": [
+  {
+   "index": 0,
+   "stat": "hp",
+   "value": 12,
+   "ore": 6,
+   "reqPlayerLevel": 1
+  },
+  {
+   "index": 1,
+   "stat": "atk",
+   "value": 3,
+   "ore": 6,
+   "reqPlayerLevel": 1
+  },
+  {
+   "index": 2,
+   "stat": "hp",
+   "value": 12,
+   "ore": 7,
+   "reqPlayerLevel": 1
+  },
+  {
+   "index": 3,
+   "stat": "atk",
+   "value": 3,
+   "ore": 7,
+   "reqPlayerLevel": 2
+  },
+  {
+   "index": 4,
+   "stat": "hp",
+   "value": 12,
+   "ore": 8,
+   "reqPlayerLevel": 2
+  },
+  {
+   "index": 5,
+   "stat": "atk",
+   "value": 3,
+   "ore": 8,
+   "reqPlayerLevel": 2
+  },
+  {
+   "index": 6,
+   "stat": "hp",
+   "value": 12,
+   "ore": 9,
+   "reqPlayerLevel": 3
+  },
+  {
+   "index": 7,
+   "stat": "atk",
+   "value": 3,
+   "ore": 10,
+   "reqPlayerLevel": 3
+  },
+  {
+   "index": 8,
+   "stat": "hp",
+   "value": 12,
+   "ore": 10,
+   "reqPlayerLevel": 3
+  },
+  {
+   "index": 9,
+   "stat": "atk",
+   "value": 3,
+   "ore": 11,
+   "reqPlayerLevel": 4
+  },
+  {
+   "index": 10,
+   "stat": "hp",
+   "value": 12,
+   "ore": 12,
+   "reqPlayerLevel": 4
+  },
+  {
+   "index": 11,
+   "stat": "atk",
+   "value": 3,
+   "ore": 13,
+   "reqPlayerLevel": 4
+  },
+  {
+   "index": 12,
+   "stat": "hp",
+   "value": 12,
+   "ore": 14,
+   "reqPlayerLevel": 5
+  },
+  {
+   "index": 13,
+   "stat": "atk",
+   "value": 3,
+   "ore": 14,
+   "reqPlayerLevel": 5
+  },
+  {
+   "index": 14,
+   "stat": "hp",
+   "value": 12,
+   "ore": 15,
+   "reqPlayerLevel": 5
+  },
+  {
+   "index": 15,
+   "stat": "atk",
+   "value": 3,
+   "ore": 17,
+   "reqPlayerLevel": 6
+  },
+  {
+   "index": 16,
+   "stat": "hp",
+   "value": 12,
+   "ore": 18,
+   "reqPlayerLevel": 6
+  },
+  {
+   "index": 17,
+   "stat": "atk",
+   "value": 3,
+   "ore": 19,
+   "reqPlayerLevel": 6
+  },
+  {
+   "index": 18,
+   "stat": "hp",
+   "value": 12,
+   "ore": 20,
+   "reqPlayerLevel": 7
+  },
+  {
+   "index": 19,
+   "stat": "atk",
+   "value": 3,
+   "ore": 22,
+   "reqPlayerLevel": 7
+  },
+  {
+   "index": 20,
+   "stat": "hp",
+   "value": 12,
+   "ore": 23,
+   "reqPlayerLevel": 7
+  },
+  {
+   "index": 21,
+   "stat": "atk",
+   "value": 3,
+   "ore": 25,
+   "reqPlayerLevel": 8
+  },
+  {
+   "index": 22,
+   "stat": "hp",
+   "value": 12,
+   "ore": 27,
+   "reqPlayerLevel": 8
+  },
+  {
+   "index": 23,
+   "stat": "atk",
+   "value": 3,
+   "ore": 28,
+   "reqPlayerLevel": 8
+  },
+  {
+   "index": 24,
+   "stat": "hp",
+   "value": 12,
+   "ore": 30,
+   "reqPlayerLevel": 9
+  },
+  {
+   "index": 25,
+   "stat": "atk",
+   "value": 3,
+   "ore": 33,
+   "reqPlayerLevel": 9
+  },
+  {
+   "index": 26,
+   "stat": "hp",
+   "value": 12,
+   "ore": 35,
+   "reqPlayerLevel": 9
+  },
+  {
+   "index": 27,
+   "stat": "atk",
+   "value": 3,
+   "ore": 37,
+   "reqPlayerLevel": 10
+  },
+  {
+   "index": 28,
+   "stat": "hp",
+   "value": 12,
+   "ore": 40,
+   "reqPlayerLevel": 10
+  },
+  {
+   "index": 29,
+   "stat": "atk",
+   "value": 3,
+   "ore": 43,
+   "reqPlayerLevel": 10
+  },
+  {
+   "index": 30,
+   "stat": "hp",
+   "value": 12,
+   "ore": 46,
+   "reqPlayerLevel": 11
+  },
+  {
+   "index": 31,
+   "stat": "atk",
+   "value": 3,
+   "ore": 49,
+   "reqPlayerLevel": 11
+  },
+  {
+   "index": 32,
+   "stat": "hp",
+   "value": 12,
+   "ore": 52,
+   "reqPlayerLevel": 11
+  },
+  {
+   "index": 33,
+   "stat": "atk",
+   "value": 3,
+   "ore": 56,
+   "reqPlayerLevel": 12
+  },
+  {
+   "index": 34,
+   "stat": "hp",
+   "value": 12,
+   "ore": 60,
+   "reqPlayerLevel": 12
+  },
+  {
+   "index": 35,
+   "stat": "atk",
+   "value": 3,
+   "ore": 64,
+   "reqPlayerLevel": 12
+  },
+  {
+   "index": 36,
+   "stat": "hp",
+   "value": 12,
+   "ore": 69,
+   "reqPlayerLevel": 13
+  },
+  {
+   "index": 37,
+   "stat": "atk",
+   "value": 3,
+   "ore": 73,
+   "reqPlayerLevel": 13
+  },
+  {
+   "index": 38,
+   "stat": "hp",
+   "value": 12,
+   "ore": 78,
+   "reqPlayerLevel": 13
+  },
+  {
+   "index": 39,
+   "stat": "atk",
+   "value": 3,
+   "ore": 84,
+   "reqPlayerLevel": 14
+  },
+  {
+   "index": 40,
+   "stat": "hp",
+   "value": 12,
+   "ore": 90,
+   "reqPlayerLevel": 14
+  },
+  {
+   "index": 41,
+   "stat": "atk",
+   "value": 3,
+   "ore": 96,
+   "reqPlayerLevel": 14
+  },
+  {
+   "index": 42,
+   "stat": "hp",
+   "value": 12,
+   "ore": 105,
+   "reqPlayerLevel": 15
+  },
+  {
+   "index": 43,
+   "stat": "atk",
+   "value": 3,
+   "ore": 110,
+   "reqPlayerLevel": 15
+  },
+  {
+   "index": 44,
+   "stat": "hp",
+   "value": 12,
+   "ore": 120,
+   "reqPlayerLevel": 15
+  },
+  {
+   "index": 45,
+   "stat": "atk",
+   "value": 3,
+   "ore": 125,
+   "reqPlayerLevel": 16
+  },
+  {
+   "index": 46,
+   "stat": "hp",
+   "value": 12,
+   "ore": 135,
+   "reqPlayerLevel": 16
+  },
+  {
+   "index": 47,
+   "stat": "atk",
+   "value": 3,
+   "ore": 145,
+   "reqPlayerLevel": 16
+  },
+  {
+   "index": 48,
+   "stat": "hp",
+   "value": 12,
+   "ore": 155,
+   "reqPlayerLevel": 17
+  },
+  {
+   "index": 49,
+   "stat": "atk",
+   "value": 3,
+   "ore": 165,
+   "reqPlayerLevel": 17
+  },
+  {
+   "index": 50,
+   "stat": "hp",
+   "value": 12,
+   "ore": 175,
+   "reqPlayerLevel": 17
+  },
+  {
+   "index": 51,
+   "stat": "atk",
+   "value": 3,
+   "ore": 190,
+   "reqPlayerLevel": 18
+  },
+  {
+   "index": 52,
+   "stat": "hp",
+   "value": 12,
+   "ore": 200,
+   "reqPlayerLevel": 18
+  },
+  {
+   "index": 53,
+   "stat": "atk",
+   "value": 3,
+   "ore": 215,
+   "reqPlayerLevel": 18
+  },
+  {
+   "index": 54,
+   "stat": "hp",
+   "value": 12,
+   "ore": 230,
+   "reqPlayerLevel": 19
+  },
+  {
+   "index": 55,
+   "stat": "atk",
+   "value": 3,
+   "ore": 250,
+   "reqPlayerLevel": 19
+  },
+  {
+   "index": 56,
+   "stat": "hp",
+   "value": 12,
+   "ore": 265,
+   "reqPlayerLevel": 19
+  },
+  {
+   "index": 57,
+   "stat": "atk",
+   "value": 3,
+   "ore": 285,
+   "reqPlayerLevel": 20
+  },
+  {
+   "index": 58,
+   "stat": "hp",
+   "value": 12,
+   "ore": 305,
+   "reqPlayerLevel": 20
+  },
+  {
+   "index": 59,
+   "stat": "atk",
+   "value": 3,
+   "ore": 325,
+   "reqPlayerLevel": 20
+  },
+  {
+   "index": 60,
+   "stat": "hp",
+   "value": 12,
+   "ore": 350,
+   "reqPlayerLevel": 21
+  },
+  {
+   "index": 61,
+   "stat": "atk",
+   "value": 3,
+   "ore": 370,
+   "reqPlayerLevel": 21
+  },
+  {
+   "index": 62,
+   "stat": "hp",
+   "value": 12,
+   "ore": 400,
+   "reqPlayerLevel": 21
+  },
+  {
+   "index": 63,
+   "stat": "atk",
+   "value": 3,
+   "ore": 425,
+   "reqPlayerLevel": 22
+  },
+  {
+   "index": 64,
+   "stat": "hp",
+   "value": 12,
+   "ore": 455,
+   "reqPlayerLevel": 22
+  },
+  {
+   "index": 65,
+   "stat": "atk",
+   "value": 3,
+   "ore": 490,
+   "reqPlayerLevel": 22
+  },
+  {
+   "index": 66,
+   "stat": "hp",
+   "value": 12,
+   "ore": 520,
+   "reqPlayerLevel": 23
+  },
+  {
+   "index": 67,
+   "stat": "atk",
+   "value": 3,
+   "ore": 560,
+   "reqPlayerLevel": 23
+  },
+  {
+   "index": 68,
+   "stat": "hp",
+   "value": 12,
+   "ore": 595,
+   "reqPlayerLevel": 23
+  },
+  {
+   "index": 69,
+   "stat": "atk",
+   "value": 3,
+   "ore": 640,
+   "reqPlayerLevel": 24
+  },
+  {
+   "index": 70,
+   "stat": "hp",
+   "value": 12,
+   "ore": 685,
+   "reqPlayerLevel": 24
+  },
+  {
+   "index": 71,
+   "stat": "atk",
+   "value": 3,
+   "ore": 730,
+   "reqPlayerLevel": 24
+  },
+  {
+   "index": 72,
+   "stat": "hp",
+   "value": 12,
+   "ore": 785,
+   "reqPlayerLevel": 25
+  },
+  {
+   "index": 73,
+   "stat": "atk",
+   "value": 3,
+   "ore": 840,
+   "reqPlayerLevel": 25
+  },
+  {
+   "index": 74,
+   "stat": "hp",
+   "value": 12,
+   "ore": 895,
+   "reqPlayerLevel": 25
+  },
+  {
+   "index": 75,
+   "stat": "atk",
+   "value": 3,
+   "ore": 960,
+   "reqPlayerLevel": 26
+  },
+  {
+   "index": 76,
+   "stat": "hp",
+   "value": 12,
+   "ore": 1030,
+   "reqPlayerLevel": 26
+  },
+  {
+   "index": 77,
+   "stat": "atk",
+   "value": 3,
+   "ore": 1100,
+   "reqPlayerLevel": 26
+  },
+  {
+   "index": 78,
+   "stat": "hp",
+   "value": 12,
+   "ore": 1180,
+   "reqPlayerLevel": 27
+  },
+  {
+   "index": 79,
+   "stat": "atk",
+   "value": 3,
+   "ore": 1260,
+   "reqPlayerLevel": 27
+  },
+  {
+   "index": 80,
+   "stat": "hp",
+   "value": 12,
+   "ore": 1350,
+   "reqPlayerLevel": 27
+  },
+  {
+   "index": 81,
+   "stat": "atk",
+   "value": 3,
+   "ore": 1440,
+   "reqPlayerLevel": 28
+  },
+  {
+   "index": 82,
+   "stat": "hp",
+   "value": 12,
+   "ore": 1540,
+   "reqPlayerLevel": 28
+  },
+  {
+   "index": 83,
+   "stat": "atk",
+   "value": 3,
+   "ore": 1650,
+   "reqPlayerLevel": 28
+  },
+  {
+   "index": 84,
+   "stat": "hp",
+   "value": 12,
+   "ore": 1760,
+   "reqPlayerLevel": 29
+  },
+  {
+   "index": 85,
+   "stat": "atk",
+   "value": 3,
+   "ore": 1890,
+   "reqPlayerLevel": 29
+  },
+  {
+   "index": 86,
+   "stat": "hp",
+   "value": 12,
+   "ore": 2020,
+   "reqPlayerLevel": 29
+  },
+  {
+   "index": 87,
+   "stat": "atk",
+   "value": 3,
+   "ore": 2160,
+   "reqPlayerLevel": 30
+  },
+  {
+   "index": 88,
+   "stat": "hp",
+   "value": 12,
+   "ore": 2310,
+   "reqPlayerLevel": 30
+  },
+  {
+   "index": 89,
+   "stat": "atk",
+   "value": 3,
+   "ore": 2470,
+   "reqPlayerLevel": 30
+  }
+ ],
+ "slotNodes": [
+  {
+   "slot": 4,
+   "coral": 2,
+   "reqYardLevel": 2
+  },
+  {
+   "slot": 5,
+   "coral": 4,
+   "reqYardLevel": 3
+  },
+  {
+   "slot": 6,
+   "coral": 6,
+   "reqYardLevel": 4
+  },
+  {
+   "slot": 7,
+   "coral": 9,
+   "reqYardLevel": 5
+  },
+  {
+   "slot": 8,
+   "coral": 12,
+   "reqYardLevel": 6
+  }
+ ],
+ "note": "Nấc phải mở theo thứ tự index. stat cộng phẳng vào MỌI hero (sở hữu), tính trước % hiệu ứng sở hữu."
+}
