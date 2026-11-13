@@ -3,6 +3,8 @@
 Tài liệu này dành cho agent lập trình. Đọc xong là làm được, không cần đọc thêm tài liệu khác.
 Ngày nghiên cứu: 2026-11-13. Người viết: tech lead (agent nghiên cứu).
 
+**Cập nhật 2026-11-13 (bản 2):** công cụ trong thư mục thí nghiệm đã được chuyển vào repo. Toolchain nằm ở `tools/` (hướng dẫn: `tools/README.md`), khung project nằm ở `game/`. Các mục 0, 1, 2.2, 3.1, 4, 6, 8, 9, 10 đã sửa theo repo. Đường dẫn `$R` bên dưới chỉ còn dùng để kể lại thí nghiệm gốc.
+
 ## Ký hiệu nguồn
 
 Mỗi khẳng định có một nhãn:
@@ -19,12 +21,12 @@ Thư mục thí nghiệm (gọi tắt là `$R` trong tài liệu này):
 
 ## 0. Tóm tắt quyết định
 
-1. **Phiên bản: Cocos Creator 3.8.8.** Đây là bản 3.8.x ổn định mới nhất trên trang download chính thức (16/12/2025) [DOC: https://www.cocos.com/en/creator-download]. Engine có tag `3.8.8` và `v3.8.8` trên GitHub [TN: `git ls-remote`]. Có nhánh `v3.8.9` nhưng chưa có tag và chưa có trên trang download [TN]. Không dùng Cocos 4: mới ở `4.0.0-beta.2` [TN: tag repo `cocos/cocos4`].
+1. **Phiên bản: Cocos Creator 3.8.8.** Đây là bản 3.8.x ổn định mới nhất trên trang download chính thức (16/12/2025) [DOC: https://www.cocos.com/en/creator-download]. Engine có **tag `3.8.8`** (commit `411f98df…`) trên GitHub; `v3.8.8` và `v3.8.8+patch.1` là **nhánh**, không phải tag [TN: `git ls-remote`, đã sửa so với bản 1]. Toolchain ghim tag `3.8.8` và kiểm tra commit (`tools/pins.json`). Có nhánh `v3.8.9` nhưng chưa có tag và chưa có trên trang download [TN]. Không dùng Cocos 4: mới ở `4.0.0-beta.2` [TN: tag repo `cocos/cocos4`].
 2. **Editor chỉ chạy trên Windows/macOS. Không có cách build bản chính thức trên Linux ở đây.** Wine không có trong apt, `download.cocos.com` bị reset kết nối, `cocos-cli` chỉ nhắm Cocos 4 [TN]. Bản build để giao hàng (web-mobile, Android) **chỉ do product owner làm** trong editor (hoặc bằng dòng lệnh của editor trên máy owner).
 3. **Nhưng agent trên Linux kiểm chứng được nhiều hơn dự kiến** [TN]:
    - Type-check toàn bộ code view với **đúng file `cc.d.ts` mà editor dùng**, tự build từ source engine 3.8.8.
    - Unit test phần lõi (không import `cc`) bằng vitest hoặc tsx dưới Node 22.
-   - **Harness trình duyệt chạy engine 3.8.8 thật** (build từ source thành 1 file ESM `cc.js`), render WebGL trong Chromium headless, chụp screenshot bằng Playwright. Đã chạy được: Sprite, Graphics, Label, 400 sprite 1 draw call, Sorting2D, multi-touch, và **chính file scene + script của project skeleton**.
+   - **Harness trình duyệt chạy engine 3.8.8 thật** (build từ source thành 1 file ESM `cc.js`), render WebGL trong Chromium headless, chụp screenshot bằng Playwright. Đã chạy được: Sprite, Graphics, Label, 400 sprite 1 draw call, Sorting2D, multi-touch, và **chính file scene + script của project skeleton**. Tất cả có sẵn trong repo: `cd tools && npm run setup` (~75 s từ bản clone sạch, ~800 MB đĩa) [TN].
 4. **Kiến trúc: code-first.** Một scene `Main.scene` duy nhất, trên Canvas chỉ có một component `Bootstrap`. Mọi node, sprite, UI, lưới iso tạo bằng TypeScript lúc chạy. Asset nạp từ `assets/resources/` theo đường dẫn, qua một lớp `AssetLoader` có thể thay thế. Luật chơi nằm trong `scripts/core/` không import `cc`. Số liệu nằm trong JSON.
 5. **Không cần agent viết `.meta` cho asset mới.** Editor tự sinh khi mở project [DOC]. Ngoại lệ duy nhất: `Main.scene` và `Bootstrap.ts` có `.meta` viết tay với uuid cố định, vì scene tham chiếu script bằng uuid [TN: harness đọc đúng scene đó]. Sau lần mở đầu tiên, owner commit lại mọi `.meta` editor sinh ra.
 6. **Phân vai kiểm chứng:**
@@ -55,8 +57,10 @@ Thư mục thí nghiệm (gọi tắt là `$R` trong tài liệu này):
     assets/
       scenes/Main.scene(.meta)  <- viết tay 1 lần, uuid cố định
       scripts/
+        Bootstrap.ts(.meta)     <- component duy nhất trong scene, uuid cố định
+        AssetLoader.ts          <- seam nạp file + loadPixelAtlas
         core/                   <- luật chơi. CẤM import 'cc'
-        view/                   <- component Cocos, Bootstrap, AssetLoader
+        view/                   <- component Cocos tạo bằng code
       resources/                <- mọi thứ nạp động theo path
         data/*.json
         textures/*.png (+ atlas json)
@@ -67,6 +71,8 @@ Thư mục thí nghiệm (gọi tắt là `$R` trong tài liệu này):
     harness/                    <- trang HTML, harness-boot.ts, runner Playwright
     tests/                      <- test cho game/assets/scripts/core
 ```
+
+Bố cục này **đã có trong repo** [TN]. Chi tiết `tools/` xem `tools/README.md`.
 
 Lý do:
 - Editor chỉ quét `assets/` [DOC: https://docs.cocos.com/creator/3.8/manual/en/getting-started/project-structure/]. Code test, harness, `node_modules` của tool phải nằm ngoài `assets/`, nếu không editor sẽ import và compile chúng [SL].
@@ -92,7 +98,9 @@ Kế hoạch cũ: lõi TypeScript không phụ thuộc engine, chạy dưới No
 ### 2.2 View (`scripts/view/`)
 - `Bootstrap` (component duy nhất trong scene) tạo mọi thứ khác. Các component khác được `addComponent` bằng code.
 - Một **manager** cập nhật tất cả sprite quái trong một vòng lặp `update`, thay vì mỗi quái một component có `update` riêng [SL; harness dùng cách này cho skeleton, 120 node, 2 draw call TN].
-- Nạp asset chỉ qua `AssetLoader` (xem `$R/skeleton/assets/scripts/view/AssetLoader.ts`). Bản mặc định dùng `resources.load`. Harness thay bằng bản dùng `fetch`/`assetManager.loadRemote` [TN].
+- Nạp asset chỉ qua `AssetLoader` (`game/assets/scripts/AssetLoader.ts`: `json(path)`, `image(path)`). Bản mặc định dùng `resources.load`. Harness thay bằng bản dùng `fetch`/`assetManager.loadRemote` [TN]. **Không gọi `resources.load` ở chỗ khác**: harness sẽ hỏng.
+- Ảnh: dùng `loadPixelAtlas(getLoader(), 'textures/<atlas>')`. Hàm này tạo một `Texture2D` lọc NEAREST, không mipmap, và các `SpriteFrame` với `packable = false` [TN: sắc nét khi phóng 4×]. Atlas do `npm run atlas` đóng gói từ `art-source/` (xem `tools/README.md` mục 5).
+- Bài học [TN]: tạo `SpriteFrame` từ một phần atlas phải đặt `texture`, `rect` **và** `originalSize` cùng lúc (`sf.reset({...})`). Chỉ đặt `rect` thì `Sprite.SizeMode.RAW` vẽ frame to bằng cả atlas.
 - Tạo SpriteFrame bằng code từ `ImageAsset` (`SpriteFrame.createWithImage`) hoặc từ một texture atlas + rect. Cách này **không phụ thuộc kiểu import ảnh trong `.meta`** (mặc định là `texture`, không có sub-asset `spriteFrame`) [DOC: https://docs.cocos.com/creator/3.8/manual/en/asset/image.html; TN: render đúng].
 
 ### 2.3 Dữ liệu
@@ -123,7 +131,7 @@ Kế hoạch cũ: lõi TypeScript không phụ thuộc engine, chạy dưới No
 `package.json` tối thiểu (dùng trong skeleton):
 ```json
 {
-  "name": "slop-skeleton",
+  "name": "slop-game",
   "uuid": "709abd13-00bd-4104-9dbb-a992afd4b70b",
   "type": "2d",
   "creator": { "version": "3.8.8" }
@@ -162,13 +170,13 @@ Các trường này lấy theo project chính thức `cocos/cocos-test-projects`
 
 ## 4. Code-first có khả thi không (câu hỏi 2)
 
-**Có.** Bằng chứng [TN]: scene viết tay + `Bootstrap` tạo 120 sprite + Label từ code, nạp JSON và PNG, chạy trên engine 3.8.8 thật trong harness, 2 draw call (`$R/harness/skeleton.png`).
+**Có.** Bằng chứng [TN]: scene viết tay + `Bootstrap` tạo 120 sprite + Label từ code, nạp JSON và PNG, chạy trên engine 3.8.8 thật trong harness, 2 draw call (`$R/harness/skeleton.png`). Bản trong repo (`game/`, 20 frame pixel art + Label) chạy bằng `npm run harness -- harness/scenarios/example.mjs`, cũng 2 draw call [TN].
 
 ### 4.1 Scene tối thiểu
-File `$R/skeleton/assets/scenes/Main.scene` (sinh bằng `$R/scripts/gen-scene.js`) gồm 14 object:
+File `game/assets/scenes/Main.scene` (sinh bằng `tools/scripts/gen-scene.mjs`, tất định) gồm 14 object:
 `cc.SceneAsset`, `cc.Scene` (`_id` = uuid của scene), node `Canvas` (layer `UI_2D` = 33554432) với `cc.UITransform`, `cc.Canvas`, `cc.Widget` (align 4 cạnh), component Bootstrap, node con `Camera` với `cc.Camera` (ORTHO, `_visibility` 41943040, clearFlags 7), `cc.SceneGlobals` + `AmbientInfo`/`ShadowsInfo`/`SkyboxInfo`, `cc.PrefabInfo`.
 
-- Component script trong scene được tham chiếu bằng **uuid nén** của file `.ts.meta`, không bằng tên class [TN: scene mẫu chính thức có `"__type__": "2c510NsGGFIbpHzebAjhUU0"` ứng với uuid `2c51036c-1861-486e-91f3-79b023854534`]. Thuật toán nén: giữ 5 ký tự hex đầu, 27 ký tự hex còn lại cứ 3 ký tự → 2 ký tự base64 [TN: tái tạo đúng chuỗi trên]. Code ở `$R/scripts/gen-scene.js`.
+- Component script trong scene được tham chiếu bằng **uuid nén** của file `.ts.meta`, không bằng tên class [TN: scene mẫu chính thức có `"__type__": "2c510NsGGFIbpHzebAjhUU0"` ứng với uuid `2c51036c-1861-486e-91f3-79b023854534`]. Thuật toán nén: giữ 5 ký tự hex đầu, 27 ký tự hex còn lại cứ 3 ký tự → 2 ký tự base64 [TN: tái tạo đúng chuỗi trên]. Code ở `tools/scripts/lib.mjs` (`compressUuid`), có test trong `tools/tests/scene-wiring.test.ts`.
 - Viết tay có an toàn không? Engine runtime đọc được [TN]. Editor có mở mà không sửa gì không: **chưa kiểm chứng** [SL]. Editor có thể bổ sung trường mặc định khi lưu lại; như vậy là bình thường. Quy tắc: agent **không sửa scene sau lần đầu**; mọi thứ mới đi vào code.
 
 ### 4.2 Nạp động (dynamic loading)
@@ -291,58 +299,48 @@ File `$R/skeleton/assets/scenes/Main.scene` (sinh bằng `$R/scripts/gen-scene.j
 
 ## 6. Agent kiểm chứng gì trên Linux, bằng cách nào
 
-### 6.1 Sinh khai báo `cc` (không cần editor)
-Lệnh đã chạy [TN]:
+Mọi thứ dưới đây chạy từ repo. Hướng dẫn đầy đủ: `tools/README.md`.
+
 ```bash
-git clone --depth 1 --branch v3.8.8 https://github.com/cocos/cocos-engine.git
-cd cocos-engine
-npm install --ignore-scripts --no-audit --no-fund        # 13 s, 1523 gói
-# Bundler khai báo cần các file .d.ts emscripten trong native/external:
-git clone --depth 1 --branch v3.8.8-2 --filter=blob:none --sparse \
-  https://github.com/cocos/cocos-engine-external.git native/external
-(cd native/external && git sparse-checkout set emscripten)   # 23 MB
-npm run build:debug-infos
-npm run build:declaration    # ~21 s -> bin/.declarations/cc.d.ts (3.3 MB, 75 874 dòng)
+cd tools
+npm run setup        # một lần; chạy lại an toàn (bước xong thì bỏ qua)
+npm run typecheck    # tsc cho game/ (giống editor) và tools/
+npm test             # vitest
+npm run harness -- harness/scenarios/example.mjs [--out <dir>]
+npm run drawcalls
+npm run atlas        # art-source -> game/assets/resources/textures
 ```
-- Không có `native/external` thì lỗi `Input file .../native/external/emscripten/external-wasm.d.ts ... not found` [TN].
-- Sau đó: `node $R/scripts/gen-declarations.js <engine> <project>` sinh `temp/declarations/{cc,cc.env,jsb,cc.custom-macro}.d.ts` và `temp/tsconfig.cocos.json` giống editor [TN].
-- Type-check: `tsc -p game/tsconfig.json --noEmit` → sạch với skeleton; bắt được lỗi API sai (`spriteFrameX`) và `cc.log` [TN].
-- Toàn bộ quy trình gói trong `$R/scripts/setup-engine.sh`.
+
+Số đo từ bản clone sạch trong container cloud [TN]: setup 72 s (79 s với npm cache rỗng), chạy lại 1–2 s; đĩa `tools/.cache` 724 MB + `tools/node_modules` 77 MB + `game/temp` 3.3 MB. Khi tải bị chặn, setup dừng với thông báo và gợi ý đọc `/root/.ccr/README.md` [TN: giả lập proxy hỏng].
+
+### 6.1 Khai báo `cc` (không cần editor)
+- `npm run setup` clone engine tag `3.8.8`, `npm ci --ignore-scripts`, clone thưa `cocos-engine-external` tag `v3.8.8-2` (phần `emscripten`, thiếu nó thì `build:declaration` lỗi `external-wasm.d.ts not found`), rồi `npm run build:declaration` → `cc.d.ts` [TN].
+- `tools/scripts/gen-declarations.cjs` sinh `game/temp/declarations/{cc,cc.env,jsb,cc.custom-macro}.d.ts` và `game/temp/tsconfig.cocos.json` theo đúng cách editor làm [TN; độ giống editor 3.8.8 là SL, xem mục 10].
+- `npm run typecheck` bắt lỗi API sai trong `game/` (đã thử `label.fontSizeX` → TS2551) [TN].
 
 ### 6.2 Unit test lõi
-- `npx vitest run` hoặc `npx tsx --test` trong `tools/` [TN]. Vitest cần `server.fs.allow: ['..']` nếu test import file ngoài thư mục gốc vitest [TN].
-- Kiểm tra cấm import: `grep -rn "from 'cc'" game/assets/scripts/core` phải rỗng [SL, nên đặt thành test].
+- vitest, file trong `tools/tests/`. Import code lõi không ghi đuôi `.ts` [TN].
+- Có sẵn: `core-purity.test.ts` (cấm `cc`, `window`, `Math.random`, `const enum`, đuôi `.ts` trong `core/`), `resources.test.ts`, `scene-wiring.test.ts` [TN: 9 test xanh].
 
 ### 6.3 Harness trình duyệt với engine thật
-Thành phần (tất cả trong `$R`):
-- `scripts/build-engine-web.js`: gọi `buildEngine` của `@cocos/ccbuild` (chính công cụ engine dùng), ra `out-engine-esm/cc.js` (1 file ESM ~3.7 MB, ~35 s). Features: `base, gfx-webgl, gfx-webgl2, 2d, ui, graphics, mask, rich-text, animation, tween, audio, tiled-map, intersection-2d, profiler, particle-2d, legacy-pipeline, sorting-2d`. **Phải đặt `targets: 'chrome 100'`**; mặc định Babel hạ cấp vòng lặp sinh code lỗi `ReferenceError: _i is not defined` trong `insertBuiltinBindings` [TN].
-- Builtin effect: editor đưa effect/material builtin qua bundle `internal`. Harness thay bằng: biên dịch `.effect` của engine 3.8.8 bằng `shdc-lib.js` (trình biên dịch shader JS, MIT, lấy từ repo chính thức `cocos/cocos-cli` commit `387dc4f`) chạy ngay trong Chromium cạnh `cc.js` (vì nó cần `offline-mappings` từ engine). Ra `harness/www/builtin-2d-effects.json` (`builtin-sprite`, `builtin-graphics`, `builtin-clear-stencil`, `builtin-unlit`, có glsl1/glsl3/glsl4) [TN]. Script: `effect-tool/build-browser.mjs`, `harness/compile-effects.mjs`.
-- `harness/src/harness-boot.ts`: đăng ký effect, tạo các material builtin (`ui-sprite-material`, `ui-graphics-material`...) giống fixture test của engine, rồi `game.init` + `game.run` [TN].
-- `harness/run.mjs`: server tĩnh + Playwright Chromium (`/opt/pw-browsers`), cờ `--use-angle=swiftshader`, chờ `window.__done`, in log, chụp screenshot [TN].
-- `harness/touch-run.mjs`: gửi multi-touch qua CDP `Input.dispatchTouchEvent` [TN].
+- Engine: `tools/scripts/build-engine-web.cjs` gọi `buildEngine` của `@cocos/ccbuild`, ra `tools/.cache/engine-web/cc.js`. **Bắt buộc `targets: 'chrome 100'`**, nếu không Babel sinh code lỗi `_i is not defined` [TN].
+- Effect builtin: `shdc-lib.js` (MIT, `cocos/cocos-cli`, commit + sha256 ghim trong `tools/pins.json`) chạy trong Chromium cạnh `cc.js` [TN].
+- Khởi động: `tools/harness/boot/harness-boot.ts` (effect + material builtin) và `tools/harness/boot/main.ts`. `main.ts` nạp **mọi** file `.ts` trong `game/assets/scripts`, alias class theo uuid trong `.meta`, đổi `AssetLoader` sang `fetch`, rồi chạy `game/assets/scenes/Main.scene` [TN].
+- Kịch bản: file `.mjs`, nhận `h` (tap, drag kiểu joystick, đa điểm, screenshot, stats). Tọa độ là tọa độ UI của Cocos (720×1280, gốc dưới-trái). Ánh xạ chạm khớp chính xác ở 540×960, 412×915, 600×800, 360×640 [TN].
+- Kết quả kịch bản mẫu trên skeleton: drag giữ ngón 0 tới (300,420), tap ngón 1 tại (560,260), game nhận đúng tọa độ; 2 draw call; ảnh `02-drag-held.png` cho thấy sprite 16 px phóng 4× sắc nét [TN].
+- Khác biệt với bản build của editor: xem `tools/README.md` mục 6 (biên dịch script, đăng ký class, không có Project Settings/`settings.json`, không có bundle `resources`, shader, feature engine, SwiftShader, native, audio, chạm tổng hợp).
+- Thí nghiệm gốc (trước khi chuyển vào repo), giữ để tham khảo [TN]:
 
-Kết quả [TN]:
 | Test | Kết quả |
 |---|---|
-| `smoke.html?rm=2` (150 component, update) | chạy, ~59 fps SwiftShader |
-| `smoke.html?rm=3` (headless renderMode) | lỗi: cần thêm feature `gfx-empty` khi build |
-| `render-demo.html` (150 sprite + Graphics + Label) | render đúng, 3 draw call (`render-demo.png`) |
-| `atlas-test.html` (400 sprite, 4 sub-rect cùng texture) | 1 draw call (`atlas-test.png`) |
-| `sorting-test.html?sort=0/1` | điểm chồng: xanh (thứ tự cây) / đỏ (Sorting2D order 10) |
-| `touch-test.html` + `touch-run.mjs` | START/MOVE/END đúng, 2 ngón id 0 và 1 |
-| `skeleton.html` (scene + script của skeleton) | `deserialized: SceneAsset scene=Main`, 122 node con, 2 draw call (`skeleton.png`) |
-
-Giới hạn của harness (phải nói rõ với mọi người) [SL trừ khi ghi khác]:
-- Không có `settings.json`, bundle `internal`, bundle `resources`. `resources.load` **không chạy** trong harness → bắt buộc lớp `AssetLoader` [TN: thiết kế đã dùng].
-- Script trong editor được Babel của Cocos biên dịch và class được đăng ký theo uuid (`_RF.push`). Harness dùng esbuild và `js.setClassAlias(Bootstrap, uuidNén)` để mô phỏng [TN chạy; tương đương là SL].
-- Shader biên dịch bằng `shdc-lib` của cocos-cli (Cocos 4) có thể khác chi tiết với editor 3.8.8; 4 effect trên render đúng [TN].
-- FPS trong SwiftShader vô nghĩa cho điện thoại. Chỉ tin số draw call và tính đúng.
-- Effect khác (profiler/showFPS, particle, spine...) chưa biên dịch → bật `showFPS` gây lỗi `getBinding` [TN]. Thêm effect vào lệnh `compile-effects.mjs` nếu cần.
+| headless `renderMode 3` | lỗi: cần feature `gfx-empty` |
+| 150 sprite + Graphics + Label | 3 draw call |
+| 400 sprite, 4 sub-rect cùng texture | 1 draw call |
+| Sorting2D order 10 vs 0 | thứ tự vẽ đảo đúng |
+| 2 ngón qua CDP | START/MOVE/END đúng, id 0 và 1 |
 
 ### 6.4 Chạy bản build do owner gửi về
-Bản web-mobile là HTML + JS tĩnh. Agent serve bằng server tĩnh và mở bằng Playwright để chụp màn hình/chạy kịch bản [SL; chưa có bản build để thử].
-
----
+Bản web-mobile là HTML + JS tĩnh. Có thể serve bằng `tools/harness/lib/browser.mjs` (`serve`) và mở bằng Playwright. Chưa có bản build để thử [SL].
 
 ## 7. Thí nghiệm khả thi (câu hỏi 3)
 
@@ -356,10 +354,12 @@ Bản web-mobile là HTML + JS tĩnh. Agent serve bằng server tĩnh và mở b
 | F | Wine chạy editor Windows | **Không khả thi ở đây**: `apt-get install wine64` → `Unable to locate package`; `https://download.cocos.com/` → `Connection reset by peer` [TN]. Không có báo cáo cộng đồng về Wine với 3.8 [CĐ: không tìm thấy] | 5 phút |
 | G | Docker/CI cộng đồng | Chỉ có image không chính thức (`jnqa/cocos-creator-builder`), không xác minh được, và quy tắc nhóm cấm chạy binary không chính thức. CI chính thức là chạy editor trên Windows/macOS bằng dòng lệnh [CĐ: https://github.com/cocos/cocos-engine/issues/16892] | 5 phút |
 
-Ghi chú lệnh then chốt và đầu ra:
+Ghi chú lệnh then chốt và đầu ra (lệnh của thí nghiệm gốc trong `$R`; trong repo, dùng `npm run setup` và `npm run harness` ở mục 6):
 ```text
-$ git ls-remote --tags https://github.com/cocos/cocos-engine.git | grep 3.8
-... 3.8.7  3.8.8  v3.8.8  v3.8.8+patch.1   (nhánh v3.8.9 có, tag chưa có)
+$ git ls-remote https://github.com/cocos/cocos-engine.git | grep 3.8.8
+411f98df...  refs/heads/v3.8.8
+3da0152e...  refs/heads/v3.8.8+patch.1
+411f98df...  refs/tags/3.8.8          (tag là "3.8.8"; nhánh v3.8.9 có, tag chưa có)
 
 $ node scripts/build-engine-web.js dl-engine/cocos-engine out-engine-esm
 done in 33.9 s   {"exports":{"cc":"cc.js"},"hasCriticalWarns":false}
@@ -374,20 +374,13 @@ drawCalls=2
 
 ---
 
-## 8. Sản phẩm để lại trong thư mục thí nghiệm
+## 8. Toolchain và skeleton trong repo
 
-Đường dẫn tuyệt đối:
-- `/tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/cocos-research/skeleton/` — project skeleton 3.8.8 (package.json, tsconfig.json, .gitignore, `Main.scene` + meta, `Bootstrap.ts` + meta, `AssetLoader.ts`, `core/sim.ts`, `resources/data/units.json`, `resources/textures/ball.png`). Có `temp/` do script sinh (để type-check; editor sẽ ghi đè). Uuid: scene `4a24a7dd-af17-483e-8cfa-f17abbcc6392`, Bootstrap `60aebf07-3501-4242-86eb-eae8e528621d` (nén: `60aeb8HNQFCQobr6ujlKGId`).
-- `.../cocos-research/scripts/` — `setup-engine.sh`, `build-engine-web.js`, `gen-declarations.js`, `gen-scene.js`.
-- `.../cocos-research/harness/` — harness: `src/*.ts`, `www/*.html`, `run.mjs`, `touch-run.mjs`, `compile-effects.mjs`, ảnh `*.png`.
-- `.../cocos-research/effect-tool/` — bundle trình biên dịch effect cho trình duyệt.
-- `.../cocos-research/out-engine-esm/cc.js` — engine 3.8.8 dạng ESM.
-- `.../cocos-research/skeleton-tests/` — ví dụ test tsx và vitest cho lõi.
-- `.../cocos-research/dl-engine/cocos-engine/` — source engine 3.8.8 đã cài (cần cho build lại; có thể xóa `node_modules`, cài lại mất 13 s).
-
-Đề xuất bước tiếp: một agent chuyển `scripts/` + `harness/` + `effect-tool/` vào `tools/` của repo, output (`cc.js`, `cc.d.ts`, effect JSON) để gitignore và sinh bằng một lệnh `npm run setup`.
-
----
+- `game/`: `package.json` (`creator.version` 3.8.8), `tsconfig.json`, `.gitignore`, `assets/scenes/Main.scene(.meta)`, `assets/scripts/Bootstrap.ts(.meta)`, `assets/scripts/AssetLoader.ts`, thư mục rỗng `scripts/core`, `scripts/view`, `resources/audio` (giữ bằng `.gitkeep`), `resources/data/boot.json`, `resources/textures/placeholder.png` + `placeholder-frames.json` (20 ô Kenney Tiny Dungeon, CC0).
+  - Uuid cố định: scene `4a24a7dd-af17-483e-8cfa-f17abbcc6392`, Bootstrap `60aebf07-3501-4242-86eb-eae8e528621d` (nén: `60aeb8HNQFCQobr6ujlKGId`). `tools/tests/scene-wiring.test.ts` chặn việc đổi chúng.
+  - `Bootstrap` hiện: tiêu đề, mọi frame của atlas phóng 4×, và một ô đánh dấu đi theo ngón tay đầu tiên (chỉ để kiểm tra input). Đây là nền, không phải gameplay.
+- `tools/`: xem `tools/README.md`. Phiên bản ghim trong `tools/package-lock.json` và `tools/pins.json`.
+- Thư mục thí nghiệm gốc (`$R`) không còn cần cho việc hằng ngày.
 
 ## 9. Checklist cho product owner (lần mở đầu tiên)
 
@@ -395,7 +388,7 @@ Cài đặt:
 1. Cài **Cocos Dashboard** từ https://www.cocos.com/en/creator-download, rồi cài **Cocos Creator 3.8.8** (đúng số này, không 3.8.9, không 4.x).
 
 Mở project:
-2. Dashboard → Projects → **Add/Import** → chọn thư mục `game/` (hoặc thư mục skeleton). Nếu hỏi phiên bản, chọn 3.8.8.
+2. Dashboard → Projects → **Add/Import** → chọn thư mục `game/` của repo. Nếu hỏi phiên bản, chọn 3.8.8.
 3. Chờ import xong. Mở panel **Console**. Chụp màn hình mọi dòng vàng/đỏ.
 4. Assets panel → mở `assets/scenes/Main.scene`. Chọn node **Canvas**. Inspector phải có component **Bootstrap** (không phải "Missing Script"). Chụp màn hình Inspector.
 
@@ -404,7 +397,7 @@ Cài đặt project:
 6. Project Settings → **Feature Cropping**: bật **2D Rendering Sorting** (Sorting2D). Có thể tắt module 3D, physics 3D, physics 2D, spine, dragonbones, terrain, xr nếu không cần (không bắt buộc ở bước này).
 
 Chạy thử:
-7. Bấm **Preview** (trình duyệt). Kỳ vọng: nền xanh tối, ~120 chấm tròn cam chạy, chữ vàng "Bootstrap OK". Chụp màn hình và copy log console trình duyệt.
+7. Bấm **Preview** (trình duyệt). Kỳ vọng: nền xanh tối, chữ vàng "Bootstrap OK", ba hàng nhân vật pixel 16 px phóng to **sắc nét** (không nhòe), và khi bấm-kéo chuột/ngón tay thì một ô vuông màu cát đi theo. So với ảnh harness `tools/.out/example/01-boot.png` (tạo bằng `npm run harness -- harness/scenarios/example.mjs`). Chụp màn hình và copy log console trình duyệt.
 
 Build:
 8. Project → **Build** → Platform **Web Mobile**, Start Scene = `Main`, Orientation = **Portrait**, Debug = bật. Build. Nén thư mục `build/web-mobile` gửi lại.
@@ -430,5 +423,8 @@ Gửi về / commit:
 10. `NodePool` reuse/unuse và `AnimationClip.createWithSpriteFrames` ở 3.8.8 (có báo cáo lỗi ở 3.8.2/3.8.3, chưa thử lại).
 11. Sorting2D có làm giảm batch khi kết hợp nhiều texture không; chỉ kiểm chứng thứ tự vẽ.
 12. Import JSON như ES module trong script Cocos; tài liệu tôi đọc không nói, nên dự án dùng `JsonAsset`.
-13. Bản 3.8.8 có bản vá `v3.8.8+patch.1` (tag GitHub); Dashboard có cung cấp bản vá này không thì chưa rõ. Owner ghi lại số phiên bản chính xác ở bước 11.
+13. GitHub có nhánh `v3.8.8+patch.1` (không phải tag); Dashboard có cung cấp bản vá này không thì chưa rõ. Owner ghi lại số phiên bản chính xác ở bước 11.
 14. `cocos-cli` có build được project 3.8 không: không thử build, chỉ đọc source (ghim engine Cocos 4).
+15. Editor có bỏ qua các file `.gitkeep` trong `assets/` không (asset-db thường bỏ file bắt đầu bằng dấu chấm) [SL].
+16. Trong bản build thật, `resources.load(path, ImageAsset)` + `Texture2D` tạo bằng code + `SpriteFrame.reset` cho kết quả giống harness, kể cả trên Android [SL]. Owner kiểm ở bước 7–8 của checklist.
+17. Editor mặc định `useDefineForClassFields` thế nào cho project mới không có `settings/`. Harness dùng `true` như project mẫu 3.8 [SL].
