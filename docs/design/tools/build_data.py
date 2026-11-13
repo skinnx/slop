@@ -60,17 +60,23 @@ TUNING = {
     "healFormula": "heal = round(ATK * mult), không vượt maxHP",
     "monsterAggroRadiusField": 4.0, "monsterAggroRadiusDungeon": 99,
     "monsterLeashField": 7.0, "monsterRegenOutOfCombatPctPerSec": 0.2,
-    "hitFlashSec": 0.1, "knockbackCells": 0.15
+    "hitFlashSec": 0.1, "knockbackCells": 0.15,
+    "retargetSec": 0.5, "hitRangeTolerance": 0.5, "healThresholdPct": 0.85,
+    "joystickDeadZonePct": 0.1, "bossAbilityStartCooldownPct": 0.5, "spatialHashCell": 2.0
   },
-  "pickup": {"magnetRadius": 2.5, "autoCollectSec": 6.0, "flySpeed": 10.0, "scatterRadius": 0.6},
+  "pickup": {"magnetRadius": 2.5, "autoCollectSec": 6.0, "flySpeed": 10.0, "scatterRadius": 0.6,
+             "maxObjectsPerType": 5, "toastMergeSec": 1.0},
+  "save": {"key": "tidecrew.save.v1", "autosaveSec": 15, "welcomeBackMinSec": 60},
   "field": {"heroReviveSec": 8, "wipeRespawnSec": 3, "monsterRespawnSec": 20, "eliteRespawnSec": 120,
             "treeRespawnSec": 30, "rockRespawnSec": 45, "storageFullToastCooldownSec": 30,
-            "collectRadius": 1.5},
+            "collectRadius": 1.5, "heroRegenPctPerSec": 0.02, "outOfCombatDelaySec": 5,
+            "campRadius": 1.5, "wanderSpeedMult": 0.4, "wanderRetargetSec": [2, 4], "campAggroShared": True},
   "dungeon": {
     "roomW": 16, "roomH": 24, "startPos": [8, 2], "exitPos": [8, 21],
     "maxAlive": 60, "healBetweenFloorsPct": 0.3, "floorExitDelaySec": 1.5,
     "floorsPerStage": 5, "stages": 6,
-    "streakTimeoutSec": 3.0, "streakMilestone": 20,
+    "streakTimeoutSec": 3.0, "streakMilestone": 20, "streakBonusGoldBase": 10,
+    "exitTouchRadius": 1.0, "floorFadeSec": 0.5, "bossMinionsDespawnOnDeath": True,
     "defeatKeepsLootPct": 1.0, "ringSpawnRadius": [6.0, 8.0], "spawnMinDistFromHero": 4.0,
     "difficultyLabels": [
       {"minRatio": 1.2, "label": "Dễ", "color": "#7CFC7C"},
