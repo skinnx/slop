@@ -243,6 +243,8 @@ export class GameView implements Ctx {
       /** UI coordinates of a cell (world). */
       cellToUi(x: number, y: number) { return self.world.uiOfCell(x, y); },
       send(cmd: Cmd) { return self.src.send(cmd); },
+      /** Runs the game `sec` seconds at once (core source only). For scenarios that need a later state. */
+      fastForward(sec: number) { (self.src as any).fastForward?.(sec); },
       get standIn() { return self.src instanceof StandInSource ? self.src : null; },
       totalFrames: () => director.getTotalFrames(),
     };

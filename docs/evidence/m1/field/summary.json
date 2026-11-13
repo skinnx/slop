@@ -1,0 +1,46 @@
+{
+  "scenario": "tools/harness/scenarios/m1-field.mjs",
+  "ok": true,
+  "failure": null,
+  "viewport": "540x960",
+  "scripts": 49,
+  "seconds": 23,
+  "lastFrame": {
+    "drawCalls": 19,
+    "tris": 1586,
+    "instances": 0,
+    "frames": 982
+  },
+  "notes": [
+    "start: level 1, cp 1340, quest \"Chặt cây lấy 10 gỗ\"",
+    "after gathering: wood 6, zone z1, quest 6/10",
+    "after combat: gold 101, meat 2, level 1",
+    "field drawCalls=22",
+    "portal blocked while fighting: true"
+  ],
+  "screenshots": [
+    "docs/evidence/m1/field/01-title.png",
+    "docs/evidence/m1/field/02-village-start.png",
+    "docs/evidence/m1/field/03-guide-arrow.png",
+    "docs/evidence/m1/field/04-joystick-held.png",
+    "docs/evidence/m1/field/05-gathering.png",
+    "docs/evidence/m1/field/07-return-channel.png",
+    "docs/evidence/m1/field/08-back-in-village.png",
+    "docs/evidence/m1/field/09-combat-pickups.png",
+    "docs/evidence/m1/field/10-portal-blocked-toast.png"
+  ],
+  "consoleErrors": [],
+  "console": [
+    "[timeEnd] Init Base: 2.305908203125 ms",
+    "[timeEnd] Init Infrastructure: 32.844970703125 ms",
+    "[timeEnd] Init SubSystem: 1.68017578125 ms",
+    "[log] Cocos Creator v3.8.8",
+    "[log] Using legacy pipeline",
+    "[timeEnd] Init Project: 4.431884765625 ms",
+    "[timeEnd] InitScene: 0.208984375 ms",
+    "[timeEnd] AttachPersist: 0.001953125 ms",
+    "[timeEnd] AutoRelease: 2.213134765625 ms",
+    "[timeEnd] Destroy: 2.346923828125 ms",
+    "[timeEnd] Activate: 26.840087890625 ms"
+  ]
+}

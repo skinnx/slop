@@ -280,16 +280,17 @@ export class WorldRenderer {
       const v = w.map.village, occupied = new Set<string>();
       for (const b of w.buildings) for (let y = b.y; y < b.y + b.h; y++) for (let x = b.x; x < b.x + b.w; x++) occupied.add(x + ',' + y);
       for (let y = v.y0; y < v.y0 + v.h; y++) for (let x = v.x0; x < v.x0 + v.w; x++) {
-        if (!occupied.has(x + ',' + y)) this.overlay.push(Assets.w('proc/dline'), isoX(x + 0.5, y + 0.5), isoY(x + 0.5, y + 0.5), 0, 1, 1, 0xffffff40);
+        if (!occupied.has(x + ',' + y)) this.overlay.push(Assets.w('proc/dline'), isoX(x + 0.5, y + 0.5), isoY(x + 0.5, y + 0.5), 0, 1, 1, 0xffffff80);
       }
     }
     for (const b of w.buildings) this.drawBuilding(b, dia);
     if (this.ghost) {
       const g = this.ghost;
       const cx = g.x + g.w / 2, cy = g.y + g.h / 2;
-      this.overlay.push(dia, isoX(cx, cy), isoY(cx, cy), 0, g.w, g.h, rgba(g.valid ? '#4CD137' : '#E5484D', 0.45));
+      // Drawn in the unit layer on top of everything: a ghost behind a tall building must stay visible.
+      this.units.push(dia, isoX(cx, cy), isoY(cx, cy), 1e6, g.w, g.h, rgba(g.valid ? '#4CD137' : '#E5484D', 0.45));
       const sc = g.w >= 3 ? 18 : 12;
-      this.units.push(Assets.w(buildingArt(g.type)), isoX(cx, cy), isoY(cx, cy) - 10, depth(cx, cy) + 10, sc, sc, 0xffffffb3, 0, 0);
+      this.units.push(Assets.w(buildingArt(g.type)), isoX(cx, cy), isoY(cx, cy) - 10, 1e6 + 1, sc, sc, 0xffffffb3, 0, 0);
     }
   }
 
@@ -302,7 +303,7 @@ export class WorldRenderer {
     this.overlay.push(dia, sx, sy, 0, b.w, b.h, scaffold ? rgba('#8B6B4A') : rgba('#C8A878', 0.8));
     if (this.selectedUid === b.uid) {
       const a = 0.5 + 0.5 * Math.abs(Math.sin(this.time * 4));
-      this.overlay.push(Assets.w('proc/ring'), sx, sy, 0, b.w * 1.9, b.h * 0.95, rgba('#FFD34D', a));
+      this.units.push(Assets.w('proc/ring'), sx, sy, 1e6, b.w * 1.9, b.h * 0.95, rgba('#FFD34D', a));
     }
     const sc = b.w >= 3 ? 18 : 12;
     const topY = sy - 10 + 16 * sc;

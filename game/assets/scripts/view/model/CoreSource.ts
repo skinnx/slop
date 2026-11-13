@@ -502,6 +502,17 @@ export class CoreSource implements Source {
     const s = this.g ? this.g.settings : { music: true, sfx: true };
     return { music: s.music, sfx: s.sfx, version: 'M1 · hợp đồng lõi v1' };
   }
+  /** Harness only (via globalThis.__game.fastForward): runs the core `sec` seconds at once, events included. */
+  fastForward(sec: number): void {
+    const g = this.g;
+    if (!g) return;
+    const n = Math.round(sec / g.stepSec);
+    for (let i = 0; i < n; i++) {
+      g.step();
+      if (g.eventCount > 500) { for (let k = 0; k < g.eventCount; k++) this.mapEvent(g.events[k]); g.clearEvents(); this.events.length = Math.min(this.events.length, 200); }
+    }
+  }
+
   debug(): Record<string, unknown> {
     const g = this.g;
     if (!g) return { started: false };

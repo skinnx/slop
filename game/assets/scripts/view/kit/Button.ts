@@ -2,7 +2,7 @@
 // Press = scale 0.95 + click sound; a press that moved more than 12 units is a drag (scroll), not a tap.
 // Disabled: grey, a tap shakes it, plays error and shows the reason as a toast.
 import { Node, EventTouch, Sprite, Label, tween, Tween, Vec3 } from 'cc';
-import { node, slice, label, ui, px, setColor, setText, size } from './Ui';
+import { node, slice, label, ui, px, setColor, setText, size, opacity } from './Ui';
 import { Services } from './Services';
 import { C, FS } from './Theme';
 
@@ -79,6 +79,7 @@ export class Button {
     this.enabled = on;
     this.reason = reason;
     if (this.bg && !this.o.frame) setColor(this.bg, on ? this.color : C.grey);
+    else if (this.o.frame === '') opacity(this.visual, on ? 1 : 0.5); // custom-drawn buttons: dim when locked
     return this;
   }
   get isEnabled(): boolean { return this.enabled; }

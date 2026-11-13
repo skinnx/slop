@@ -137,6 +137,7 @@ export class Screens {
     return {
       build: this.build.active ? this.build.debug() : null,
       guide: this.guideNode.active,
+      guideTarget: this.guideTarget, guideAngle: this.guideNode.angle,
       reveal: top instanceof RevealScreen ? { done: top.done } : null,
       heroDetail: top instanceof HeroDetailPanel ? top.hero : null,
     };
