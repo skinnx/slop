@@ -1,0 +1,37 @@
+{
+  "scenario": "tools/harness/scenarios/m1-quest.mjs",
+  "ok": true,
+  "failure": null,
+  "viewport": "540x960",
+  "scripts": 49,
+  "seconds": 4,
+  "lastFrame": {
+    "drawCalls": 7,
+    "tris": 1606,
+    "instances": 0,
+    "frames": 150
+  },
+  "notes": [
+    "quest before: {\"index\":10,\"id\":\"q11\",\"text\":\"Thu gỗ ở Trại Gỗ\",\"progress\":1,\"target\":1,\"complete\":true}",
+    "quest after: {\"index\":11,\"id\":\"q12\",\"text\":\"Nâng Nhà Kho lên cấp 2\",\"progress\":1,\"target\":1,\"complete\":true} toasts: [\"Thu gỗ +140\",\"Gỗ +30\"]"
+  ],
+  "screenshots": [
+    "../prog/m1-quest/01-title.png",
+    "../prog/m1-quest/02-quest-ready.png",
+    "../prog/m1-quest/03-claimed.png"
+  ],
+  "consoleErrors": [],
+  "console": [
+    "[timeEnd] Init Base: 1.0791015625 ms",
+    "[timeEnd] Init Infrastructure: 27.113037109375 ms",
+    "[timeEnd] Init SubSystem: 1.573974609375 ms",
+    "[log] Cocos Creator v3.8.8",
+    "[log] Using legacy pipeline",
+    "[timeEnd] Init Project: 4.490966796875 ms",
+    "[timeEnd] InitScene: 0.199951171875 ms",
+    "[timeEnd] AttachPersist: 0.001953125 ms",
+    "[timeEnd] AutoRelease: 0.09912109375 ms",
+    "[timeEnd] Destroy: 0.14208984375 ms",
+    "[timeEnd] Activate: 18.930908203125 ms"
+  ]
+}

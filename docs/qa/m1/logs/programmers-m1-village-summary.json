@@ -1,0 +1,50 @@
+{
+  "scenario": "tools/harness/scenarios/m1-village.mjs",
+  "ok": true,
+  "failure": null,
+  "viewport": "540x960",
+  "scripts": 49,
+  "seconds": 26.6,
+  "lastFrame": {
+    "drawCalls": 6,
+    "tris": 1578,
+    "instances": 0,
+    "frames": 802
+  },
+  "notes": [
+    "welcome lines: [\"Chào mừng trở lại!\",\"Bạn đã đi 3 giờ 12 phút (tính tối đa 8 giờ)\",\"Trại Gỗ: 556 gỗ chờ thu\",\"Mỏ Quặng: 174 quặng chờ thu\",\"THU HẾT\"]",
+    "wood 2000 -> 1931 after upgrade",
+    "ghost on storage: valid=false reason=\"Chồng lên Nhà Kho\"",
+    "village drawCalls=6"
+  ],
+  "screenshots": [
+    "../prog/m1-village/01-welcome-back.png",
+    "../prog/m1-village/02-village.png",
+    "../prog/m1-village/03-building-panel.png",
+    "../prog/m1-village/04-upgrade-started.png",
+    "../prog/m1-village/05-building-job.png",
+    "../prog/m1-village/06-cancel-confirm.png",
+    "../prog/m1-village/07-build-mode.png",
+    "../prog/m1-village/08-ghost-valid.png",
+    "../prog/m1-village/09-ghost-invalid.png",
+    "../prog/m1-village/10-scaffold.png",
+    "../prog/m1-village/11-selected.png",
+    "../prog/m1-village/12-upgrade-from-build.png",
+    "../prog/m1-village/13-settings.png",
+    "../prog/m1-village/14-reset-confirm.png"
+  ],
+  "consoleErrors": [],
+  "console": [
+    "[timeEnd] Init Base: 1.844970703125 ms",
+    "[timeEnd] Init Infrastructure: 39.89208984375 ms",
+    "[timeEnd] Init SubSystem: 1.510009765625 ms",
+    "[log] Cocos Creator v3.8.8",
+    "[log] Using legacy pipeline",
+    "[timeEnd] Init Project: 4.791015625 ms",
+    "[timeEnd] InitScene: 0.239013671875 ms",
+    "[timeEnd] AttachPersist: 0.001953125 ms",
+    "[timeEnd] AutoRelease: 0.10302734375 ms",
+    "[timeEnd] Destroy: 0.2080078125 ms",
+    "[timeEnd] Activate: 25.70703125 ms"
+  ]
+}

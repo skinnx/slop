@@ -1,0 +1,37 @@
+{
+  "scenario": "tools/harness/scenarios/example.mjs",
+  "ok": true,
+  "failure": null,
+  "viewport": "540x960",
+  "scripts": 49,
+  "seconds": 3.9,
+  "lastFrame": {
+    "drawCalls": 11,
+    "tris": 1448,
+    "instances": 0,
+    "frames": 164
+  },
+  "notes": [
+    "joystick vector (0.71, 0.71)",
+    "drawCalls=11 tris=1448 frames=164"
+  ],
+  "screenshots": [
+    "../prog/example/01-title.png",
+    "../prog/example/02-drag-held.png",
+    "../prog/example/03-settings.png"
+  ],
+  "consoleErrors": [],
+  "console": [
+    "[timeEnd] Init Base: 1.623046875 ms",
+    "[timeEnd] Init Infrastructure: 26.7529296875 ms",
+    "[timeEnd] Init SubSystem: 1.98388671875 ms",
+    "[log] Cocos Creator v3.8.8",
+    "[log] Using legacy pipeline",
+    "[timeEnd] Init Project: 5.152099609375 ms",
+    "[timeEnd] InitScene: 0.20703125 ms",
+    "[timeEnd] AttachPersist: 0.001953125 ms",
+    "[timeEnd] AutoRelease: 0.115966796875 ms",
+    "[timeEnd] Destroy: 0.157958984375 ms",
+    "[timeEnd] Activate: 22.431884765625 ms"
+  ]
+}

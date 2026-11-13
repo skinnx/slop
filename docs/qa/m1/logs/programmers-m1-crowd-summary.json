@@ -1,0 +1,41 @@
+{
+  "scenario": "tools/harness/scenarios/m1-crowd.mjs",
+  "ok": true,
+  "failure": null,
+  "viewport": "540x960",
+  "scripts": 49,
+  "seconds": 5.7,
+  "lastFrame": {
+    "drawCalls": 5,
+    "tris": 556,
+    "instances": 0,
+    "frames": 268
+  },
+  "notes": [
+    "alive after holding the stick 17 s: 58",
+    "floor 4, alive 43, squad 8, pickups 0",
+    "core floor 4: draw calls by layer (total minus total-without-layer): {\"hud\":4,\"toasts\":1,\"world-text\":2,\"joystick\":2}",
+    "core floor 4: total=7 worldWithText=2 worldSprites=1 monstersAlive=41 heroes=8 pickups=0 floaters=10 spritesInLayers=80+66+105",
+    "core floor 4 later: draw calls by layer (total minus total-without-layer): {\"hud\":3,\"toasts\":0,\"world-text\":1,\"joystick\":1}",
+    "core floor 4 later: total=6 worldWithText=2 worldSprites=1 monstersAlive=2 heroes=8 pickups=0 floaters=8 spritesInLayers=80+25+68",
+    "BUDGET total<=30: OK (7); world<=10: OK (1)"
+  ],
+  "screenshots": [
+    "../prog/m1-crowd/core-floor-4.png",
+    "../prog/m1-crowd/core-floor-4-later.png"
+  ],
+  "consoleErrors": [],
+  "console": [
+    "[timeEnd] Init Base: 1.94189453125 ms",
+    "[timeEnd] Init Infrastructure: 27.60791015625 ms",
+    "[timeEnd] Init SubSystem: 1.882080078125 ms",
+    "[log] Cocos Creator v3.8.8",
+    "[log] Using legacy pipeline",
+    "[timeEnd] Init Project: 5.107177734375 ms",
+    "[timeEnd] InitScene: 0.233154296875 ms",
+    "[timeEnd] AttachPersist: 0.001953125 ms",
+    "[timeEnd] AutoRelease: 0.134033203125 ms",
+    "[timeEnd] Destroy: 0.191162109375 ms",
+    "[timeEnd] Activate: 22.991943359375 ms"
+  ]
+}

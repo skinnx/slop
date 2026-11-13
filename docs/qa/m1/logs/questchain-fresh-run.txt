@@ -1,0 +1,14 @@
+[scenario] [0s real, 1s game] quest q01 "Chặt cây lấy 10 gỗ" lvl=1 cp=1340 res={"gold":100,"meat":0,"wood":0,"ore":0,"coral":0,"tickets":0}
+[scenario] [5s real, 11s game] quest q02 "Hạ 3 Cua Cát" lvl=1 cp=1340 res={"gold":150,"meat":0,"wood":12,"ore":0,"coral":0,"tickets":0}
+[scenario] [11s real, 23s game] quest q03 "Nâng một hero lên cấp 2" lvl=2 cp=1340 res={"gold":153,"meat":20,"wood":12,"ore":0,"coral":0,"tickets":0}
+[scenario] [25s real, 30s game] quest q04 "Xây: Trại Gỗ" lvl=2 cp=1379 res={"gold":154,"meat":30,"wood":12,"ore":0,"coral":0,"tickets":0}
+[scenario] [50s real, 199s game] quest q05 "Đập đá lấy 10 quặng" lvl=2 cp=1379 res={"gold":154,"meat":30,"wood":74,"ore":0,"coral":0,"tickets":0}
+[scenario] [56s real, 224s game] quest q06 "Xây: Quán Mỏ Neo" lvl=2 cp=1379 res={"gold":205,"meat":36,"wood":74,"ore":12,"coral":0,"tickets":0}
+[scenario] [83s real, 515s game] quest q07 "Tuyển 1 hero ở Quán Mỏ Neo" lvl=2 cp=1379 res={"gold":305,"meat":36,"wood":64,"ore":13,"coral":0,"tickets":0}
+[scenario] [90s real, 520s game] quest q08 "Mở Xếp đội và bấm TỰ XẾP" lvl=2 cp=2698 res={"gold":205,"meat":36,"wood":114,"ore":13,"coral":0,"tickets":1}
+[scenario] [94s real, 523s game] quest q09 "Hạ 5 Chuột Bến" lvl=2 cp=2698 res={"gold":205,"meat":66,"wood":114,"ore":13,"coral":0,"tickets":1}
+[scenario] [99s real, 550s game] quest q10 "Xây: Mỏ Quặng" lvl=3 cp=2698 res={"gold":276,"meat":74,"wood":114,"ore":13,"coral":0,"tickets":1}
+[scenario] [119s real, 690s game] quest q11 "Thu gỗ ở Trại Gỗ" lvl=3 cp=2698 res={"gold":276,"meat":74,"wood":91,"ore":43,"coral":0,"tickets":1}
+[scenario] [166s real, 5229s game] quest q12 "Nâng Nhà Kho lên cấp 2" lvl=3 cp=2698 res={"gold":276,"meat":74,"wood":126,"ore":43,"coral":0,"tickets":1}
+[scenario] [198s real, 6315s game] quest q13 "Tuyển thêm 2 lượt" lvl=3 cp=2698 res={"gold":276,"meat":74,"wood":102,"ore":73,"coral":0,"tickets":1}
+[scenario] [212s real, 6324s game] quest q14 "Nâng một hero lên cấp 5" lvl=3 cp=3718 res={"gold":176,"meat":74,"wood":102,"ore":73,"coral":0,"tickets":3}
