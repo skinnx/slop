@@ -328,7 +328,7 @@ Ngoài đồng nhân `fieldZoneMult` = z1 0.6, z2 2.0, z3 5.0 cho HP và ATK. Tr
 | b_ruong | Rương Nhai | boss | 9000 | 70 | 1.6 | 1.6 | 1.2 | 1.2 | 60 | boss | slam |
 | b_cua | Cua Càng Thép Chúa | boss | 9000 | 70 | 1.5 | 1.6 | 1.4 | 1.2 | 60 | boss | slam, charge |
 | b_mat | Mắt Đá | boss | 9500 | 72 | 1.7 | 1.6 | 1.0 | 1.2 | 60 | boss | slam, summon |
-| b_phuthuy | Phù Thủy Rạn | boss | 8500 | 75 | 1.4 | 1.6 | 1.3 | 1.2 | 60 | boss | slam, charge, summon |
+| b_ran | Rắn Biển Rạn | boss | 8500 | 75 | 1.4 | 1.6 | 1.3 | 1.2 | 60 | boss | slam, charge, summon |
 | b_thuyentruong | Thuyền Trưởng Ma | boss | 9500 | 75 | 1.4 | 1.6 | 1.5 | 1.2 | 60 | boss | slam, charge, summon |
 | b_vuanhen | Vua Nhện Rạn | boss | 10000 | 78 | 1.3 | 1.6 | 1.6 | 1.2 | 60 | boss | slam, charge, summon |
 
@@ -355,7 +355,7 @@ Ngoài đồng nhân `zoneAmountMult` z1 1.0, z2 1.5, z3 2.0. Vàng của `dunge
 | 1 | Hang Rương Cũ | 1–5 | 4550 | 300 vàng, 2 San Hô, 3 Vé | 75 vàng, 1 Vé, 35% 1 San Hô (chắc chắn mỗi lần thứ 3) |
 | 2 | Hang Càng Thép | 6–10 | 7300 | 500 vàng, 3 San Hô, 4 Vé | 125 vàng, 1 Vé, 35% 1 San Hô (chắc chắn mỗi lần thứ 3) |
 | 3 | Hang Mắt Đá | 11–15 | 11700 | 700 vàng, 4 San Hô, 5 Vé | 175 vàng, 1 Vé, 35% 1 San Hô (chắc chắn mỗi lần thứ 3) |
-| 4 | Hang Rạn Phù Thủy | 16–20 | 18800 | 1000 vàng, 5 San Hô, 6 Vé | 250 vàng, 1 Vé, 35% 1 San Hô (chắc chắn mỗi lần thứ 3) |
+| 4 | Hang Rắn Biển | 16–20 | 18800 | 1000 vàng, 5 San Hô, 6 Vé | 250 vàng, 1 Vé, 35% 1 San Hô (chắc chắn mỗi lần thứ 3) |
 | 5 | Hang Tàu Ma | 21–25 | 30200 | 1400 vàng, 6 San Hô, 8 Vé | 350 vàng, 1 Vé, 35% 1 San Hô (chắc chắn mỗi lần thứ 3) |
 | 6 | Hang Vua Nhện | 26–30 | 48550 | 1900 vàng, 7 San Hô, 10 Vé | 475 vàng, 1 Vé, 35% 1 San Hô (chắc chắn mỗi lần thứ 3) |
 
@@ -380,7 +380,7 @@ Ngoài đồng nhân `zoneAmountMult` z1 1.0, z2 1.5, z3 2.0. Vàng của `dunge
 | 17 | 4 | 14150 | 1.105 | 2.183 | 2.54 | 86 | d_nhay×16 front; d_ma×16 front; d_nhen×16 front |
 | 18 | 4 | 15550 | 1.031 | 2.292 | 2.693 | 93 | d_nhay×27 front; d_nhen×27 ring +4s |
 | 19 | 4 | 17100 | 1.161 | 2.407 | 2.854 | 100 | d_nhay×20 ring; d_ma×20 ring +8s; d_nhen×20 ring +16s |
-| 20 | 4 | 18800 | 1.678 | 2.527 | 3.026 | 0 | b_phuthuy×1 boss; d_nhay×15 front; d_nhen×15 ring +10s |
+| 20 | 4 | 18800 | 1.678 | 2.527 | 3.026 | 0 | b_ran×1 boss; d_nhay×15 front; d_nhen×15 ring +10s |
 | 21 | 5 | 20650 | 1.854 | 2.653 | 3.207 | 115 | d_ma×14 ring; d_doi×13 ring; d_nhay×13 ring |
 | 22 | 5 | 22700 | 1.787 | 2.786 | 3.4 | 125 | d_ma×16 front; d_doi×16 front; d_nhay×16 front |
 | 23 | 5 | 25000 | 1.804 | 2.925 | 3.604 | 135 | d_ma×27 front; d_nhay×27 ring +4s |
@@ -436,7 +436,7 @@ Giá 100 vàng/lượt, 1x/2x/3x, đổi thẻ 30 phút hoặc 50 vàng, +5 mả
 | q34 | kill | {"monster": "nhen_ran", "count": 20} | Hạ 20 Nhện Rạn ở Gò Đá Lam | meat 200 | camp:nhen_ran |
 | q35 | kill | {"monster": "cua_thep", "count": 1} | Hạ Cua Càng Thép (quái tinh anh) | coral 1 | camp:cua_thep |
 | q36 | upgrade | {"building": "dungeon_gate", "level": 4} | Nâng Cổng Xoáy lên cấp 4 | gold 300 | building:dungeon_gate |
-| q37 | clear_floor | {"floor": 20} | Hạ boss tầng 20: Phù Thủy Rạn | coral 2 | building:dungeon_gate |
+| q37 | clear_floor | {"floor": 20} | Hạ boss tầng 20: Rắn Biển Rạn | coral 2 | building:dungeon_gate |
 | q38 | hero_level | {"level": 20} | Nâng một hero lên cấp 20 | meat 300 | ui:hero_list |
 | q39 | slots | {"count": 6} | Mở ô đội thứ 6 | tickets 10 | building:training_yard |
 | q40 | clear_floor | {"floor": 25} | Hạ boss tầng 25: Thuyền Trưởng Ma | coral 3 | building:dungeon_gate |

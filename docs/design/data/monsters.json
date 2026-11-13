@@ -268,8 +268,8 @@
    ]
   },
   {
-   "id": "b_phuthuy",
-   "name": "Phù Thủy Rạn",
+   "id": "b_ran",
+   "name": "Rắn Biển Rạn",
    "kind": "boss",
    "baseHp": 8500,
    "baseAtk": 75,
@@ -280,7 +280,7 @@
    "radius": 1.2,
    "exp": 60,
    "dropTable": "boss",
-   "sprite": "td:0111",
+   "sprite": "td:0123",
    "tint": "#7FFFD4",
    "scaleKey": "boss",
    "abilities": [

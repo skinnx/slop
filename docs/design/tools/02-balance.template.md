@@ -114,7 +114,7 @@ Số dưới đây là **mục tiêu thiết kế**, khớp với mô hình kinh
 | Thời gian chơi | Người chơi mới nên đạt được |
 |---|---|
 | 5 phút | Cấp người chơi 3. Đã chặt cây, đập đá, hạ cua và chuột ở Bãi Vỏ Sò. Bàng cấp 4–5. Đã xây Trại Gỗ; Quán Mỏ Neo đang xây hoặc vừa xong; lượt tuyển đầu (Sẻ) ở khoảng phút 6. Đang ở nhiệm vụ 7–9. |
-| 30 phút | Cấp người chơi 8. Đủ 7 loại công trình (Nhà Kho cấp 2–3). 5–6 hero, đội 3 người cấp 6–7, CP khoảng 6500. Khoảng 25 nấc Sân Tập. **Đã vượt chặng 1 (tầng 5)**, có 2 San Hô Đỏ. Đã sang Rừng Dừa Rậm. |
+| 30 phút | Cấp người chơi 8. Đủ 7 loại công trình (Nhà Kho cấp 2–3). 5–6 hero, đội 3 người cấp khoảng 7, CP khoảng 6800. Khoảng 25 nấc Sân Tập. **Đã vượt chặng 1 (tầng 5)**, có 2 San Hô Đỏ. Đã sang Rừng Dừa Rậm. |
 | 2 giờ | Cấp người chơi 14. 10–12 hero, đội 5 người cấp khoảng 15, CP khoảng 19000. Khoảng 40 nấc. **Đã vượt chặng 3 (tầng 15)**. Đang farm Gò Đá Lam. Nhà Kho cấp 5. |
 | 10 giờ | Cấp người chơi 24. Đủ 12 hero, đội 7 người cấp 25–26, CP khoảng 40000. 72 nấc. **Đã vượt chặng 5 (tầng 25)** (mô hình: 6.6–7.3 giờ). Chặng 6 (CP đề nghị 48550) là mục tiêu tiếp theo, cần thêm vài giờ. |
 

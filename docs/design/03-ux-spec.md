@@ -352,7 +352,7 @@ H-120 [<]                                       |
     |  ┌ Đề nghị  ⚔ 9000 ┐                      |  bong bóng trắng 320x110, x 80, y 196
     |  └ Đội bạn  ⚔ 8590 ┘ (tím nếu thiếu) [TC]|  đè lên ruy-băng [TC]
     |            Khó  (màu theo nhãn)          |  y 320
-    |  [◀]   Chặng 4: Hang Rạn Phù Thủy   [▶]  |  y 370, mũi tên 88x88
+    |  [◀]   Chặng 4: Hang Rắn Biển       [▶]  |  y 370, mũi tên 88x88
     |          Tầng 16–20                      |
     |        (  ảnh tròn xem trước 360  )      |  y 440..800, vẽ phòng tối + boss
     |                         [icon cuộn]      |

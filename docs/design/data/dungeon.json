@@ -76,7 +76,7 @@
   },
   {
    "stage": 4,
-   "name": "Hang Rạn Phù Thủy",
+   "name": "Hang Rắn Biển",
    "firstFloor": 16,
    "bossFloor": 20,
    "recommendedCp": 18800,
@@ -726,7 +726,7 @@
    "isBoss": true,
    "groups": [
     {
-     "monster": "b_phuthuy",
+     "monster": "b_ran",
      "count": 1,
      "pattern": "boss",
      "delaySec": 0

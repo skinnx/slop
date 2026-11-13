@@ -6,7 +6,7 @@
    "durability": 6,
    "yieldPerHit": 2,
    "respawnSec": 30,
-   "sprite": "urban:0286",
+   "sprite": "urban:0260",
    "zone": "z1"
   },
   "tree_z2": {
@@ -14,7 +14,7 @@
    "durability": 6,
    "yieldPerHit": 2,
    "respawnSec": 30,
-   "sprite": "urban:0287",
+   "sprite": "urban:0291",
    "zone": "z2"
   },
   "tree_z3": {
@@ -22,7 +22,7 @@
    "durability": 8,
    "yieldPerHit": 2,
    "respawnSec": 30,
-   "sprite": "urban:0291",
+   "sprite": "urban:0346",
    "zone": "z3"
   },
   "rock_z1": {

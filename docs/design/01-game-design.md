@@ -500,7 +500,7 @@ Màn xếp đội hiện "CP cũ ▶ CP mới" (đỏ nếu giảm, xanh nếu t
 | 1 | Hang Rương Cũ | 1–5 | Rương Nhai | 4550 |
 | 2 | Hang Càng Thép | 6–10 | Cua Càng Thép Chúa | 7300 |
 | 3 | Hang Mắt Đá | 11–15 | Mắt Đá | 11700 |
-| 4 | Hang Rạn Phù Thủy | 16–20 | Phù Thủy Rạn | 18800 |
+| 4 | Hang Rắn Biển | 16–20 | Rắn Biển Rạn | 18800 |
 | 5 | Hang Tàu Ma | 21–25 | Thuyền Trưởng Ma | 30200 |
 | 6 | Hang Vua Nhện | 26–30 | Vua Nhện Rạn | 48550 |
 

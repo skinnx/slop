@@ -329,7 +329,7 @@ BOSSES = [
  ("b_ruong", "Rương Nhai", 9000, 70, 1.6, 1.2, "td:0092", "#FFFFFF", ["slam"]),
  ("b_cua", "Cua Càng Thép Chúa", 9000, 70, 1.5, 1.4, "td:0110", "#C0C8D8", ["slam", "charge"]),
  ("b_mat", "Mắt Đá", 9500, 72, 1.7, 1.0, "td:0109", "#B8B8B8", ["slam", "summon"]),
- ("b_phuthuy", "Phù Thủy Rạn", 8500, 75, 1.4, 1.3, "td:0111", "#7FFFD4", ["slam", "charge", "summon"]),
+ ("b_ran", "Rắn Biển Rạn", 8500, 75, 1.4, 1.3, "td:0123", "#7FFFD4", ["slam", "charge", "summon"]),
  ("b_thuyentruong", "Thuyền Trưởng Ma", 9500, 75, 1.4, 1.5, "td:0121", "#FF8080", ["slam", "charge", "summon"]),
  ("b_vuanhen", "Vua Nhện Rạn", 10000, 78, 1.3, 1.6, "td:0122", "#FF5050", ["slam", "charge", "summon"]),
 ]
@@ -371,7 +371,7 @@ dump("drop-tables.json", {"version": 1, "tables": DROPS,
      "rule": "Mỗi roll độc lập: nếu rng < chance thì rơi số lượng nguyên đều trong [min,max] (rồi nhân hệ số zone, làm tròn). Mỗi đơn vị vật phẩm là một pickup riêng, tối đa 5 pickup/loại/lần chết (gộp số lượng)."})
 
 # ---------------------------------------------------------------- dungeon
-STAGE_NAMES = ["Hang Rương Cũ", "Hang Càng Thép", "Hang Mắt Đá", "Hang Rạn Phù Thủy", "Hang Tàu Ma", "Hang Vua Nhện"]
+STAGE_NAMES = ["Hang Rương Cũ", "Hang Càng Thép", "Hang Mắt Đá", "Hang Rắn Biển", "Hang Tàu Ma", "Hang Vua Nhện"]
 STAGE_MOBS = [["d_chuot", "d_doi"], ["d_chuot", "d_nhen", "d_doi"], ["d_nhen", "d_nhay", "d_doi"],
               ["d_nhay", "d_ma", "d_nhen"], ["d_ma", "d_doi", "d_nhay"], ["d_nhen", "d_ma", "d_nhay"]]
 # recommended CP curve (tầng boss) — chốt bởi mô hình tiến độ trong check.py
@@ -455,9 +455,9 @@ print("ok")
 
 # ---------------------------------------------------------------- field layout
 NODE_TYPES = {
- "tree_z1": {"resource": "wood", "durability": 6, "yieldPerHit": 2, "respawnSec": 30, "sprite": "urban:0286", "zone": "z1"},
- "tree_z2": {"resource": "wood", "durability": 6, "yieldPerHit": 2, "respawnSec": 30, "sprite": "urban:0287", "zone": "z2"},
- "tree_z3": {"resource": "wood", "durability": 8, "yieldPerHit": 2, "respawnSec": 30, "sprite": "urban:0291", "zone": "z3"},
+ "tree_z1": {"resource": "wood", "durability": 6, "yieldPerHit": 2, "respawnSec": 30, "sprite": "urban:0260", "zone": "z1"},
+ "tree_z2": {"resource": "wood", "durability": 6, "yieldPerHit": 2, "respawnSec": 30, "sprite": "urban:0291", "zone": "z2"},
+ "tree_z3": {"resource": "wood", "durability": 8, "yieldPerHit": 2, "respawnSec": 30, "sprite": "urban:0346", "zone": "z3"},
  "rock_z1": {"resource": "ore", "durability": 6, "yieldPerHit": 1, "respawnSec": 45, "sprite": "composite:rock", "zone": "z1"},
  "rock_z2": {"resource": "ore", "durability": 5, "yieldPerHit": 2, "respawnSec": 45, "sprite": "composite:rock", "zone": "z2"},
  "rock_z3": {"resource": "ore", "durability": 7, "yieldPerHit": 2, "respawnSec": 45, "sprite": "composite:rock", "zone": "z3"},
@@ -550,7 +550,7 @@ Q = [
  ("kill", {"monster": "nhen_ran", "count": 20}, "Hạ 20 Nhện Rạn ở Gò Đá Lam", {"meat": 200}, "camp:nhen_ran"),
  ("kill", {"monster": "cua_thep", "count": 1}, "Hạ Cua Càng Thép (quái tinh anh)", {"coral": 1}, "camp:cua_thep"),
  ("upgrade", {"building": "dungeon_gate", "level": 4}, "Nâng Cổng Xoáy lên cấp 4", {"gold": 300}, "building:dungeon_gate"),
- ("clear_floor", {"floor": 20}, "Hạ boss tầng 20: Phù Thủy Rạn", {"coral": 2}, "building:dungeon_gate"),
+ ("clear_floor", {"floor": 20}, "Hạ boss tầng 20: Rắn Biển Rạn", {"coral": 2}, "building:dungeon_gate"),
  ("hero_level", {"level": 20}, "Nâng một hero lên cấp 20", {"meat": 300}, "ui:hero_list"),
  ("slots", {"count": 6}, "Mở ô đội thứ 6", {"tickets": 10}, "building:training_yard"),
  ("clear_floor", {"floor": 25}, "Hạ boss tầng 25: Thuyền Trưởng Ma", {"coral": 3}, "building:dungeon_gate"),
