@@ -1,0 +1,22 @@
+{
+  "_doc": "Which art-source PNGs go into which atlas. Run `npm run atlas` in tools/ after editing. Output: game/assets/resources/<out>.png + <out>-frames.json. Frame name = prefix + file name without .png.",
+  "atlases": [
+    {
+      "name": "placeholder",
+      "out": "textures/placeholder",
+      "padding": 2,
+      "extrude": 1,
+      "maxWidth": 256,
+      "sources": [
+        {
+          "dir": "art-source/kenney-tiny-dungeon/Tiles",
+          "prefix": "dungeon/",
+          "files": ["tile_0048.png", "tile_0049.png", "tile_0084.png", "tile_0085.png", "tile_0086.png", "tile_0087.png", "tile_0088.png",
+                    "tile_0096.png", "tile_0097.png", "tile_0098.png", "tile_0099.png", "tile_0100.png",
+                    "tile_0108.png", "tile_0109.png", "tile_0110.png", "tile_0111.png", "tile_0112.png",
+                    "tile_0120.png", "tile_0121.png", "tile_0122.png"]
+        }
+      ]
+    }
+  ]
+}

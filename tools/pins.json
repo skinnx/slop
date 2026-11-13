@@ -1,0 +1,21 @@
+{
+  "engine": {
+    "repo": "https://github.com/cocos/cocos-engine.git",
+    "tag": "3.8.8",
+    "commit": "411f98df047c25902f93440d4b22925c2fb65461"
+  },
+  "engineExternal": {
+    "repo": "https://github.com/cocos/cocos-engine-external.git",
+    "tag": "v3.8.8-2",
+    "commit": "c16ca649a9ab3c40543e989609c34d7bcecf8b7e",
+    "sparse": ["emscripten"]
+  },
+  "shdc": {
+    "url": "https://raw.githubusercontent.com/cocos/cocos-cli/387dc4f0be2674f0b66517e35b968c720d3040f7/src/core/assets/effect-compiler/shdc-lib.js",
+    "sha256": "9fcbec9694752cb90af3605d25fdfd9b926021486ab3bcbc2e619ca31f31e483",
+    "license": "MIT (cocos/cocos-cli LICENSE, Copyright (c) 2025 SUD)"
+  },
+  "engineFeatures": ["base", "gfx-webgl", "gfx-webgl2", "2d", "ui", "graphics", "mask", "rich-text", "animation", "tween", "audio", "tiled-map", "intersection-2d", "profiler", "particle-2d", "legacy-pipeline", "sorting-2d"],
+  "effects": ["for2d/builtin-sprite.effect", "internal/builtin-graphics.effect", "internal/builtin-clear-stencil.effect", "builtin-unlit.effect"],
+  "browserTargets": "chrome 100"
+}

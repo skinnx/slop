@@ -1,0 +1,20 @@
+{
+  // Type-checks tools/ TypeScript (harness boot code, tests). Game code is checked via ../game/tsconfig.json.
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "strictNullChecks": false,
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "lib": ["ES2022", "DOM"],
+    "types": ["node"],
+    "typeRoots": ["./node_modules/@types"]
+  },
+  "files": ["../game/temp/declarations/cc.d.ts", "../game/temp/declarations/cc.env.d.ts"],
+  "include": ["harness/**/*.ts", "tests/**/*.ts"]
+}
