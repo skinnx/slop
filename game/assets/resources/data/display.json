@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "note": "Dữ liệu hiển thị dùng chung cho lõi và view: icon của nhiệm vụ theo loại, tên tiếng Việt của loại kỹ năng và của tham số kỹ năng, icon cho từng dòng chỉ số trong panel công trình. Không có số liệu cân bằng. File này không có trong docs/design/data (thiết kế chưa có bảng tương ứng); id icon là tên frame trong atlas ui của view.",
+ "questIcons": {
+  "gather": "icon/resource_wood",
+  "kill": "icon/sword",
+  "hero_level": "icon/pawns",
+  "build": "icon/structure_house",
+  "recruit": "icon/card",
+  "auto_assign": "icon/pawns",
+  "collect": "icon/hourglass",
+  "upgrade": "icon/structure_house",
+  "training": "icon/shield",
+  "clear_floor": "icon/flag_triangle",
+  "slots": "icon/pawns"
+ },
+ "questIconFallback": "icon/flag_triangle",
+ "skillTypeNames": {
+  "strike": "Đánh đơn",
+  "cleave": "Chém vùng",
+  "nova": "Nổ quanh mình",
+  "volley": "Loạt bắn",
+  "heal": "Hồi máu",
+  "buff_atk": "Tăng ATK",
+  "taunt": "Khiêu khích"
+ },
+ "skillParamNames": {
+  "mult": "Hệ số",
+  "radius": "Bán kính",
+  "count": "Số mục tiêu",
+  "durationSec": "Thời gian (giây)",
+  "pct": "Tăng"
+ },
+ "statRowIcons": {
+  "cap": "icon/structure_house",
+  "perHour": "icon/hourglass",
+  "bufferCap": "icon/cards_stack",
+  "buffer": "icon/hourglass",
+  "oddsE": "icon/card",
+  "oddsL": "icon/card",
+  "maxSlots": "icon/pawns",
+  "maxStage": "icon/flag_triangle"
+ }
+}

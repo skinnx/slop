@@ -8,6 +8,8 @@ import { buildGameData, validateRawTables, DataError, DATA_FILES } from '../../.
 
 const DESIGN_DIR = path.join(REPO, 'docs/design/data');
 const CHANGES_FILE = path.join(REPO, 'docs/evidence/m1/balance-changes.md');
+/** Bảng chỉ có ở phía game (dữ liệu hiển thị, không có số liệu cân bằng); thiết kế chưa có bản gốc tương ứng. */
+const GAME_ONLY_TABLES = ['display'];
 
 function expectProblem(mutate: (raw: any) => void, fragment: string): void {
   const raw = readRawTables();
@@ -37,6 +39,10 @@ describe('data tables', () => {
     const changes = fs.existsSync(CHANGES_FILE) ? fs.readFileSync(CHANGES_FILE, 'utf8') : '';
     for (const f of DATA_FILES) {
       const game = JSON.parse(fs.readFileSync(path.join(DATA_DIR, f + '.json'), 'utf8'));
+      if (!fs.existsSync(path.join(DESIGN_DIR, f + '.json'))) {
+        expect(GAME_ONLY_TABLES, `${f}.json không có bản gốc trong docs/design/data`).toContain(f);
+        continue;
+      }
       const design = JSON.parse(fs.readFileSync(path.join(DESIGN_DIR, f + '.json'), 'utf8'));
       if (JSON.stringify(game) === JSON.stringify(design)) continue;
       expect(changes, `${f}.json khác bản gốc của thiết kế nhưng balance-changes.md không nhắc tới file này`).toContain(f + '.json');
@@ -89,6 +95,20 @@ describe('data tables', () => {
     expectProblem((raw) => { raw['field-layout'].camps[0].pos = [80, 5]; }, 'field-layout.json: camps[0].pos: nằm ngoài bản đồ');
     expectProblem((raw) => { raw.tuning.squad.moveSpeed = 'nhanh'; }, 'tuning.json: squad.moveSpeed: phải là số');
     expectProblem((raw) => { raw['training-tree'].slotNodes.pop(); }, 'training-tree.json: slotNodes');
+  });
+
+  it('display table: every quest type, skill type, skill parameter and panel row has its icon or name', () => {
+    const data = loadData();
+    for (const q of data.quests.quests) expect(data.display.questIcons[q.type], q.id).toBeTruthy();
+    for (const id of Object.keys(data.skillById)) {
+      const s = data.skillById[id];
+      expect(data.display.skillTypeNames[s.type], id).toBeTruthy();
+      for (const k of Object.keys(s.params)) expect(data.display.skillParamNames[k], id + '.' + k).toBeTruthy();
+    }
+    expectProblem((raw) => { delete raw.display.questIcons.training; }, 'display.json: questIcons.training: phải là chuỗi khác rỗng');
+    expectProblem((raw) => { delete raw.display.skillParamNames.pct; }, 'display.json: skillParamNames.pct');
+    expectProblem((raw) => { raw.display.skillTypeNames.taunt = ''; }, 'display.json: skillTypeNames.taunt');
+    expectProblem((raw) => { delete raw.display.statRowIcons.maxStage; }, 'display.json: statRowIcons.maxStage');
   });
 
   it('reports every problem at once, not only the first', () => {

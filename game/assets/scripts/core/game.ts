@@ -39,6 +39,7 @@ class QuestState implements QuestView {
   finished = false;
   reward: ResourceMap = {};
   hint = '';
+  icon = '';
 }
 
 class PlayerState implements PlayerView {
@@ -170,6 +171,7 @@ export class GameImpl implements Game, FieldHost, DungeonHost, Bank {
     else this.lastClockMs = now;
     this.buildersFree = this.village.buildersFree();
     this.refreshQuest(false);
+    this.refreshMarkers();
     this.eventCount = 0; // sự kiện sinh ra lúc tải không phát lại; view dùng offlineReport
   }
 
@@ -337,6 +339,50 @@ export class GameImpl implements Game, FieldHost, DungeonHost, Bank {
       if (this.autosaveT >= this.data.tuning.save.autosaveSec) this.savePoint();
     }
     this.refreshQuest(true);
+    this.refreshMarkers();
+  }
+
+  /** Dấu hiệu trên công trình (BuildingView.marker). Chỉ so sánh số, không cấp phát. */
+  private refreshMarkers(): void {
+    const list = this.buildings;
+    for (let i = 0; i < list.length; i++) {
+      const b = list[i];
+      if (b.job) b.marker = 'job';
+      else if (b.buffer >= 1) b.marker = 'buffer';
+      else if (b.level >= 1 && b.type === 'tavern' && this.tavernAlert()) b.marker = 'alert';
+      else if (b.level >= 1 && b.type === 'training_yard' && this.yardAlert(b.level)) b.marker = 'alert';
+      else if (b.level >= 1 && b.type === 'dungeon_gate' && this.readyStage() > 0) b.marker = 'check';
+      else b.marker = 'none';
+    }
+  }
+
+  /** Quán: đủ vàng cho ít nhất một lượt tuyển. */
+  private tavernAlert(): boolean {
+    return (this.resources.gold || 0) >= this.data.recruit.costGold;
+  }
+
+  /** Sân Tập: mở được nấc kế hoặc ô đội kế ngay bây giờ. */
+  private yardAlert(yardLevel: number): boolean {
+    const node = this.data.training.nodes[this.nodesUnlocked];
+    if (node && this.player.level >= node.reqPlayerLevel && (this.resources.ore || 0) >= node.ore && node.ore <= this.cap('ore')) return true;
+    const slots = this.data.training.slotNodes;
+    for (let i = 0; i < slots.length; i++) {
+      const s = slots[i];
+      if (s.slot !== this.squadSlots + 1) continue;
+      const lv = this.village.levelDef('training_yard');
+      return yardLevel >= s.reqYardLevel && (lv.effects.maxSquadSlotsUnlockable || 0) >= s.slot && (this.resources.coral || 0) >= s.coral;
+    }
+    return false;
+  }
+
+  /** Chặng chưa vượt đầu tiên mà Cổng đủ cấp và CP đội ≥ CP đề nghị (0 = không có). */
+  private readyStage(): number {
+    const stages = this.data.dungeon.stages;
+    const next = this.bestStageCleared + 1;
+    if (next > stages.length) return 0;
+    const lv = this.village.levelDef('dungeon_gate');
+    if (!lv || (lv.effects.maxStage || 0) < next) return 0;
+    return this.squadCp >= stages[next - 1].recommendedCp ? next : 0;
   }
 
   private savePoint(): void {
@@ -763,8 +809,11 @@ export class GameImpl implements Game, FieldHost, DungeonHost, Bank {
       const params: { [k: string]: number } = {};
       const next: { [k: string]: number } = {};
       for (const k of Object.keys(s.params)) { params[k] = skillParam(s, k, shown); next[k] = skillParam(s, k, shown + 1); }
+      const paramNames: { [k: string]: string } = {};
+      for (const k of Object.keys(s.params)) paramNames[k] = data.display.skillParamNames[k] || k;
       skills.push({
-        id: s.id, name: s.name, type: s.type, desc: s.desc, cooldownSec: s.cooldownSec, unlocked: stars > 0, stars,
+        id: s.id, name: s.name, type: s.type, typeName: data.display.skillTypeNames[s.type] || s.type, paramNames,
+        desc: s.desc, cooldownSec: s.cooldownSec, unlocked: stars > 0, stars,
         unlockLevel: skillMilestoneLevel(data, slot, 'skill_unlock'), star2Level: skillMilestoneLevel(data, slot, 'skill_star'),
         params, nextParams: shown >= 2 ? null : next,
       });
@@ -953,8 +1002,11 @@ export class GameImpl implements Game, FieldHost, DungeonHost, Bank {
     const now = this.clock.nowMs();
     const draws: RecruitDraw[] = [];
     this.resources.gold -= rec.costGold * times;
+    // Cả lần bấm (1x/2x/3x) rút từ bộ thẻ đang hiện lúc bấm. Thanh BONUS đầy giữa chừng thì bộ thẻ BONUS
+    // có hiệu lực SAU khi rút xong (quyết định của trưởng nhóm, README mục 3.9).
+    const cards = tv.cards.slice();
+    let bonusFilled = false;
     for (let i = 0; i < times; i++) {
-      const cards = tv.cards.slice();
       let idx = drawCardIndex(this.rng, cards.length);
       // lượt tuyển đầu tiên trong đời save luôn ra hero được chỉ định (Sẻ)
       if (tv.totalDraws === 0 && cards.indexOf(rec.firstHero) >= 0) idx = cards.indexOf(rec.firstHero);
@@ -970,9 +1022,8 @@ export class GameImpl implements Game, FieldHost, DungeonHost, Bank {
       tv.bonus++;
       let bonusTriggered = false;
       if (tv.bonus >= rec.bonusEvery) {
-        tv.bonus = 0;
-        tv.nextRefreshAt = now + rec.refreshSec * 1000;
-        this.rerollCards(true);
+        tv.bonus -= rec.bonusEvery; // các lượt sau lượt làm đầy được tính cho thanh kế tiếp
+        bonusFilled = true;
         bonusTriggered = true;
       }
       draws.push({
@@ -980,9 +1031,16 @@ export class GameImpl implements Game, FieldHost, DungeonHost, Bank {
         fragmentsBefore: before, fragmentsAfter: after, bonusTriggered, joinedSquad: joined,
       });
     }
+    if (bonusFilled) {
+      tv.nextRefreshAt = now + rec.refreshSec * 1000;
+      this.rerollCards(true);
+    }
     const q = this.currentQuest();
     if (q && q.type === 'recruit') this.quest.progress += times;
-    this.lastRecruit = { draws, goldSpent: rec.costGold * times, ticketsGained: rec.ticketsPerDraw * times };
+    this.lastRecruit = {
+      draws, goldSpent: rec.costGold * times, ticketsGained: rec.ticketsPerDraw * times,
+      cards, bonusRefreshed: bonusFilled, cardsAfter: tv.cards.slice(),
+    };
     const e = this.emit2('recruit', 0, 0, times, 0, '', 0);
     e.data = this.lastRecruit;
     this.savePoint();
@@ -1061,6 +1119,9 @@ export class GameImpl implements Game, FieldHost, DungeonHost, Bank {
       manualRefreshGold: rec.manualRefreshGold, canRefresh: this.checkRefresh(),
       bonus: tv.bonus, bonusEvery: rec.bonusEvery, costGold: rec.costGold, multi: rec.multi.slice(),
       canRecruit: rec.multi.map((m) => this.checkRecruit(m)),
+      recruitOptions: rec.multi.map((m) => ({
+        times: m, costGold: rec.costGold * m, affordable: (this.resources.gold || 0) >= rec.costGold * m, check: this.checkRecruit(m),
+      })),
       tickets: this.resources.tickets || 0, exchanges, totalDraws: tv.totalDraws,
       odds: { N: odds.N, R: odds.R, E: odds.E, L: odds.L },
     };
@@ -1183,7 +1244,7 @@ export class GameImpl implements Game, FieldHost, DungeonHost, Bank {
     return {
       built: this.village.levelOf('dungeon_gate') >= 1, gateLevel: this.village.levelOf('dungeon_gate'),
       bestStageCleared: this.bestStageCleared, bestFloorCleared: this.bestFloorCleared,
-      defaultStage: Math.min(d.stages.length, this.bestStageCleared + 1), stages,
+      defaultStage: Math.min(d.stages.length, this.bestStageCleared + 1), readyStage: this.readyStage(), stages,
     };
   }
 
@@ -1305,12 +1366,13 @@ export class GameImpl implements Game, FieldHost, DungeonHost, Bank {
     const q = this.currentQuest();
     if (!q) {
       qs.finished = true; qs.id = ''; qs.type = ''; qs.text = this.data.quests.endText; qs.progress = 0; qs.target = 0;
-      qs.complete = false; qs.hint = ''; qs.reward = {};
+      qs.complete = false; qs.hint = ''; qs.reward = {}; qs.icon = '';
       qs.index = this.data.quests.quests.length;
       return;
     }
     if (qs.id !== q.id) {
       qs.id = q.id; qs.type = q.type; qs.text = q.text; qs.hint = q.hint; qs.reward = q.reward; qs.finished = false;
+      qs.icon = this.data.display.questIcons[q.type] || this.data.display.questIconFallback;
       this.questWasComplete = false;
     }
     const p = q.params;

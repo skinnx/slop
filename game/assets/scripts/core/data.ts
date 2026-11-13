@@ -4,7 +4,7 @@
 
 export const DATA_FILES = [
   'tuning', 'heroes', 'skills', 'hero-levels', 'player-levels', 'buildings', 'training-tree',
-  'recruit', 'monsters', 'drop-tables', 'dungeon', 'field-layout', 'quests',
+  'recruit', 'monsters', 'drop-tables', 'dungeon', 'field-layout', 'quests', 'display',
 ];
 
 /** Object thô: khóa là tên file không đuôi (ví dụ raw['hero-levels']). */
@@ -178,6 +178,19 @@ export interface QuestDef {
 }
 export interface QuestsTable { quests: QuestDef[]; endText: string; }
 
+/** display.json: dữ liệu hiển thị (icon, tên gọi) để view không phải giữ bảng riêng. */
+export interface DisplayTable {
+  /** Icon của thẻ nhiệm vụ theo loại nhiệm vụ. */
+  questIcons: { [questType: string]: string };
+  questIconFallback: string;
+  /** Tên tiếng Việt của loại kỹ năng. */
+  skillTypeNames: { [skillType: string]: string };
+  /** Tên tiếng Việt của tham số kỹ năng (mult, radius, ...). */
+  skillParamNames: { [param: string]: string };
+  /** Icon cho từng dòng chỉ số của panel công trình (theo StatRow.key). */
+  statRowIcons: { [rowKey: string]: string };
+}
+
 /** Toàn bộ dữ liệu đã kiểm tra, kèm bảng tra theo id. Không sửa sau khi tạo. */
 export interface GameData {
   tuning: Tuning;
@@ -196,6 +209,7 @@ export interface GameData {
   dungeon: DungeonTable;
   field: FieldLayout;
   quests: QuestsTable;
+  display: DisplayTable;
 }
 
 export class DataError extends Error {
@@ -305,6 +319,7 @@ export function validateRawTables(rawInput: RawTables): string[] {
   checkDungeon(c, raw.dungeon, monsters, raw.tuning);
   checkField(c, raw['field-layout'], monsters, raw.tuning);
   checkQuests(c, raw.quests, { resources, buildings, monsters, raw });
+  checkDisplay(c, raw.display, raw);
   return c.problems;
 }
 
@@ -780,6 +795,28 @@ function checkQuests(c: Checker, q: any, ctx: { resources: string[]; buildings: 
   });
 }
 
+export const STAT_ROW_KEYS = ['cap', 'perHour', 'bufferCap', 'buffer', 'oddsE', 'oddsL', 'maxSlots', 'maxStage'];
+
+function checkDisplay(c: Checker, d: any, raw: RawTables): void {
+  c.file = 'display';
+  c.str(d, 'questIconFallback', '');
+  if (c.obj(d.questIcons, 'questIcons')) for (const t of QUEST_TYPES) c.str(d.questIcons, t, 'questIcons');
+  if (c.obj(d.skillTypeNames, 'skillTypeNames')) for (const t of SKILL_TYPES) c.str(d.skillTypeNames, t, 'skillTypeNames');
+  if (c.obj(d.statRowIcons, 'statRowIcons')) for (const k of STAT_ROW_KEYS) c.str(d.statRowIcons, k, 'statRowIcons');
+  if (c.obj(d.skillParamNames, 'skillParamNames') && Array.isArray(raw.skills.skills)) {
+    // mọi tham số xuất hiện trong skills.json phải có tên
+    const seen: { [k: string]: boolean } = {};
+    for (const s of raw.skills.skills) {
+      if (!s || !c.isObj(s.params)) continue;
+      for (const k of Object.keys(s.params)) {
+        if (seen[k]) continue;
+        seen[k] = true;
+        c.str(d.skillParamNames, k, 'skillParamNames');
+      }
+    }
+  }
+}
+
 /**
  * Bản sao nông của các bảng, đã bổ sung trường suy ra. recruit.json mô tả lượt tuyển đầu bằng chữ
  * (firstRecruitScript); nếu bảng chưa có trường máy đọc được (firstHero, firstCards) thì suy ra từ câu chữ đó,
@@ -835,5 +872,6 @@ export function buildGameData(raw: RawTables): GameData {
     dungeon: input.dungeon,
     field: input['field-layout'],
     quests: input.quests,
+    display: input.display,
   };
 }

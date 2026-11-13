@@ -1,7 +1,8 @@
 // Làng: công trình trên lưới, đặt/dời/nâng/hủy, thợ, sản xuất vào bộ đệm, thu (01 mục 7).
 import { BuildingDef, BuildingLevelDef, GameData, ResourceMap } from './data';
 import {
-  BuildingView, BuildJobView, BuildingPanelInfo, BuildMenuEntry, Check, CostInfo, PlacementCheck, SaveBuilding, StatRow,
+  BuildingView, BuildJobView, BuildingMarker, BuildingPanelInfo, BuildMenuEntry, Check, CostInfo, PlacementCheck, SaveBuilding,
+  StatRow,
 } from './contract';
 import { OK, PLACE_OK, fail, failPlace } from './checks';
 
@@ -16,6 +17,7 @@ export class Building implements BuildingView {
   buffer = 0;
   bufferCap = 0;
   bufferResource = '';
+  marker: BuildingMarker = 'none';
   def: BuildingDef = null;
   /** Bộ đệm thật (số thực); `buffer` là phần nguyên cho view. */
   bufferRaw = 0;
@@ -352,7 +354,7 @@ export class Village {
     const nextLv = b.level < b.def.levels.length ? b.def.levels[b.level].effects : null;
     const rows: StatRow[] = [];
     const row = (key: string, label: string, a: number, bNext: number | null, percent = false) => {
-      rows.push({ key, label, value: a, delta: bNext === null ? 0 : bNext - a, percent });
+      rows.push({ key, label, value: a, delta: bNext === null ? 0 : bNext - a, percent, icon: this.data.display.statRowIcons[key] || '' });
     };
     const e0 = b.def.levels[0].effects;
     const hours = this.data.tuning.economy.productionBufferHours;

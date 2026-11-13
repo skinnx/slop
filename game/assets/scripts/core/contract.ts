@@ -14,7 +14,7 @@
 
 import { GameData, Rarity, Attribute, HeroRole, SkillType, MonsterKind, ZoneId, ResourceMap } from './data';
 
-export const CONTRACT_VERSION = 1;
+export const CONTRACT_VERSION = 2;
 export const SAVE_VERSION = 1;
 
 /** Đồng hồ thời gian thực do bên ngoài cấp (view: Date.now; bot: đồng hồ giả). Lõi không tự đọc giờ. */
@@ -222,12 +222,27 @@ export interface BuildingView {
   readonly buffer: number;
   readonly bufferCap: number;
   readonly bufferResource: string;
+  /**
+   * Dấu hiệu vẽ trên công trình, đã chọn theo thứ tự ưu tiên của 03-ux-spec.md mục 4 (cập nhật mỗi bước):
+   *   'job'    đang xây hoặc nâng (giàn giáo / thanh tiến độ + đồng hồ);
+   *   'buffer' bộ đệm sản xuất ≥ 1 (bong bóng tài nguyên "số / trần");
+   *   'alert'  dấu chấm than: Quán tuyển được (đủ vàng cho 1 lượt); Sân Tập mở được nấc hoặc ô đội;
+   *   'check'  dấu check: Cổng Xoáy đủ cấp và CP đội ≥ CP đề nghị của chặng chưa vượt đầu tiên;
+   *   'none'   không có gì.
+   */
+  readonly marker: BuildingMarker;
 }
+
+export type BuildingMarker = 'none' | 'job' | 'buffer' | 'alert' | 'check';
 
 export interface PlayerView {
   readonly level: number;
+  /** EXP đã tích trong cấp hiện tại (về 0 mỗi khi lên cấp; phần dư được mang sang). */
   readonly exp: number;
-  /** EXP cần để lên cấp kế (0 khi đã tối đa). */
+  /**
+   * TỔNG EXP của cấp hiện tại, tức lượng cần để đi từ đầu cấp này lên cấp kế (không phải phần còn thiếu).
+   * Thanh EXP = exp / expToNext; còn thiếu = expToNext − exp. Bằng 0 khi đã ở cấp tối đa.
+   */
   readonly expToNext: number;
 }
 
@@ -244,6 +259,8 @@ export interface QuestView {
   readonly finished: boolean;
   readonly reward: ResourceMap;
   readonly hint: string;
+  /** Icon của thẻ nhiệm vụ (display.json → questIcons theo loại; rỗng khi đã hết chuỗi). */
+  readonly icon: string;
 }
 
 export interface DungeonRunView {
@@ -439,6 +456,8 @@ export interface StatRow {
   readonly delta: number;
   /** true: value và delta là tỉ lệ (0.07 = 7%). */
   readonly percent: boolean;
+  /** Icon của dòng (display.json → statRowIcons). */
+  readonly icon: string;
 }
 
 export interface BuildingPanelInfo {
@@ -464,6 +483,10 @@ export interface SkillInfo {
   readonly id: string;
   readonly name: string;
   readonly type: SkillType;
+  /** Tên tiếng Việt của loại kỹ năng (display.json → skillTypeNames), ví dụ "Chém vùng". */
+  readonly typeName: string;
+  /** Tên tiếng Việt của từng tham số trong `params` (display.json → skillParamNames), ví dụ { mult: "Hệ số" }. */
+  readonly paramNames: { [key: string]: string };
   readonly desc: string;
   readonly cooldownSec: number;
   readonly unlocked: boolean;
@@ -568,6 +591,8 @@ export interface TavernInfo {
   readonly multi: ReadonlyArray<number>;
   /** canRecruit[i] ứng với multi[i]. */
   readonly canRecruit: ReadonlyArray<Check>;
+  /** Mỗi nút 1x / 2x / 3x: số lượt, tổng giá vàng, có đủ vàng không, và lý do nếu bị khóa. */
+  readonly recruitOptions: ReadonlyArray<RecruitOption>;
   readonly tickets: number;
   readonly exchanges: ReadonlyArray<TicketExchangeInfo>;
   readonly totalDraws: number;
@@ -575,8 +600,18 @@ export interface TavernInfo {
   readonly odds: { [rarity: string]: number };
 }
 
+export interface RecruitOption {
+  readonly times: number;
+  readonly costGold: number;
+  readonly affordable: boolean;
+  readonly check: Check;
+}
+
 export interface RecruitDraw {
-  /** Bộ thẻ lúc rút lượt này và thẻ trúng. */
+  /**
+   * Bộ thẻ lúc rút lượt này và thẻ trúng. Từ hợp đồng v2, mọi lượt của một lần bấm 2x/3x dùng CÙNG bộ thẻ
+   * đang hiện lúc bấm, nên `cards` giống nhau cho mọi phần tử của `RecruitResult.draws`.
+   */
   readonly cards: ReadonlyArray<string>;
   readonly pickIndex: number;
   readonly heroId: string;
@@ -584,7 +619,7 @@ export interface RecruitDraw {
   readonly fragmentsGained: number;
   readonly fragmentsBefore: number;
   readonly fragmentsAfter: number;
-  /** Lượt này làm đầy thanh BONUS: bộ thẻ đã đổi ngay sau lượt. */
+  /** Lượt này làm đầy thanh BONUS. Bộ thẻ đổi sau khi cả lần bấm kết thúc (xem RecruitResult.bonusRefreshed). */
   readonly bonusTriggered: boolean;
   /** Hero mới đã tự vào ô đội trống. */
   readonly joinedSquad: boolean;
@@ -594,6 +629,12 @@ export interface RecruitResult {
   readonly draws: ReadonlyArray<RecruitDraw>;
   readonly goldSpent: number;
   readonly ticketsGained: number;
+  /** Bộ thẻ đang hiện lúc bấm nút: mọi lượt trong `draws` rút từ bộ này. */
+  readonly cards: ReadonlyArray<string>;
+  /** Thanh BONUS đầy trong lần bấm này: sau khi rút xong, Quán đã đổi sang bộ thẻ BONUS (`cardsAfter`). */
+  readonly bonusRefreshed: boolean;
+  /** Bộ thẻ của Quán sau lần bấm (bằng `cards` nếu không có BONUS). */
+  readonly cardsAfter: ReadonlyArray<string>;
 }
 
 export interface TrainingNodeInfo {
@@ -658,6 +699,8 @@ export interface DungeonInfo {
   readonly bestFloorCleared: number;
   /** Chặng nên hiện mặc định: chặng chưa vượt đầu tiên. */
   readonly defaultStage: number;
+  /** Chặng chưa vượt đầu tiên mà Cổng đủ cấp và CP đội ≥ CP đề nghị (0 = không có). Cùng điều kiện với marker 'check'. */
+  readonly readyStage: number;
   readonly stages: ReadonlyArray<StageInfo>;
 }
 
@@ -762,7 +805,13 @@ export interface Game {
   clearEvents(): void;
 
   // ----- lệnh: di chuyển -----
-  /** Vector joystick, độ dài 0..1 (đã chia cho bán kính joystick). (0, 0) = thả tay. Gọi mỗi khi đổi. */
+  /**
+   * Vector joystick TRONG TỌA ĐỘ Ô CỦA LÕI (không phải tọa độ màn hình): (1, 0) = đi theo chiều +x của lưới.
+   * Độ dài = độ lệch joystick 0..1 (đã chia cho bán kính joystick); dài hơn 1 thì lõi chuẩn hóa về 1.
+   * Tốc độ thủ lĩnh = tuning.squad.moveSpeed × độ dài (ô/giây, như nhau theo mọi hướng của lưới); độ dài dưới
+   * tuning.combat.joystickDeadZonePct = đứng yên. (0, 0) = thả tay. Gọi mỗi khi đổi.
+   * View đổi vector joystick trên màn hình iso sang vector lưới bằng joystickToWorld() trong index.ts.
+   */
   setJoystick(x: number, y: number): void;
   /** Nút "Về làng" (ngoài làng) / "Ra đồng" (trong làng). */
   returnToVillage(): Check;

@@ -116,18 +116,46 @@ describe('recruit', () => {
     expect(ev.some((e) => e.type === 'cards_refreshed' && e.n === 1)).toBe(true);
   });
 
-  it('a 3x pull that fills the bar mid-way draws the remaining pulls from the new set', () => {
+  it('a 3x pull that fills the bar mid-way still draws every pull from the set shown when the button was pressed', () => {
     const t = withTavern();
     const g = t.game;
     give(g, { gold: 5000 });
     for (let i = 0; i < 8; i++) g.recruit(1);
+    const shown = g.getTavernInfo().cards.map((c) => c.heroId);
+    g.clearEvents();
     g.recruit(3); // lượt 9, 10 (đầy thanh), 11
-    const r = g.lastRecruit!.draws;
+    const res = g.lastRecruit!;
+    const r = res.draws;
     expect(r.map((d) => d.bonusTriggered)).toEqual([false, true, false]);
-    expect(r[1].cards).toEqual(r[0].cards);
-    expect(r[2].cards).not.toEqual(r[1].cards);
-    expect(r[2].cards).toEqual(g.getTavernInfo().cards.map((c) => c.heroId));
-    expect(g.getTavernInfo().bonus).toBe(1);
+    // cả ba lượt rút từ bộ thẻ đang hiện lúc bấm
+    for (const d of r) { expect(d.cards).toEqual(shown); expect(shown[d.pickIndex]).toBe(d.heroId); }
+    expect(res.cards).toEqual(shown);
+    // bộ thẻ BONUS có hiệu lực sau khi cả lần bấm kết thúc
+    expect(res.bonusRefreshed).toBe(true);
+    const after = g.getTavernInfo();
+    expect(res.cardsAfter).toEqual(after.cards.map((c) => c.heroId));
+    expect(res.cardsAfter).not.toEqual(shown);
+    for (const c of after.cards) expect(c.rarity).not.toBe('N');
+    expect(after.bonus).toBe(1); // lượt thứ 11 tính cho thanh kế tiếp
+    expect(Math.round(after.refreshInSec)).toBe(1800);
+    const ev = Array.from({ length: g.eventCount }, (_, i) => g.events[i]);
+    expect(ev.filter((e) => e.type === 'cards_refreshed' && e.n === 1).length).toBe(1);
+    // lần bấm không làm đầy thanh thì bộ thẻ giữ nguyên
+    g.recruit(2);
+    expect(g.lastRecruit!.bonusRefreshed).toBe(false);
+    expect(g.lastRecruit!.cardsAfter).toEqual(g.lastRecruit!.cards);
+    expect(g.getTavernInfo().bonus).toBe(3);
+  });
+
+  it('each 1x / 2x / 3x option carries its own cost, affordability and blocking reason', () => {
+    const t = withTavern();
+    const g = t.game;
+    give(g, { gold: 150 }); // 250 vàng
+    const o = g.getTavernInfo().recruitOptions;
+    expect(o.map((x) => [x.times, x.costGold, x.affordable, x.check.ok])).toEqual([[1, 100, true, true], [2, 200, true, true], [3, 300, false, false]]);
+    expect(o[2].check.text).toBe('Thiếu 50 vàng');
+    const none = newGame().game.getTavernInfo().recruitOptions; // chưa có Quán: đủ vàng cho 1x nhưng vẫn bị khóa
+    expect([none[0].affordable, none[0].check.reason]).toEqual([true, 'not_built']);
   });
 
   it('the set refreshes by itself every 30 minutes and for 50 gold on demand, but never before the first draw', () => {

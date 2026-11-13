@@ -15,7 +15,7 @@ trình duyệt, không đọc đồng hồ, không dùng `Math.random`. Cùng m�
 import { buildGameData, createGame, DATA_FILES, SaveError } from './core/index';
 import type { Game, RawTables, SaveData } from './core/index';
 
-// 1) Nạp 13 bảng JSON (tên trong DATA_FILES, không đuôi) qua AssetLoader.
+// 1) Nạp các bảng JSON (tên trong DATA_FILES, không đuôi; hiện có 14 bảng) qua AssetLoader.
 const raw: RawTables = {};
 for (const f of DATA_FILES) raw[f] = await loader.json('data/' + f);
 const data = buildGameData(raw);            // ném DataError (liệt kê mọi lỗi) nếu bảng sai
@@ -60,6 +60,11 @@ update(dt: number) {
 - `game.field.nodes` (cây, đá) và `game.field.camps` (ổ quái) có chỉ số cố định theo `field-layout.json`.
 - HUD đọc mỗi frame: `game.player`, `game.resources`, `game.storageCap(res)`, `game.squadCp`, `game.quest`,
   `game.buildings`, `game.buildersFree`, `game.leaderZone`, `game.run` (trong dungeon), `game.result`.
+- `game.player.expToNext` là **tổng EXP của cấp hiện tại** (không phải phần còn thiếu); `exp` là phần đã tích trong
+  cấp. Thanh EXP = `exp / expToNext`.
+- `building.marker` cho biết vẽ gì trên công trình (`'job'`, `'buffer'`, `'alert'` = dấu "!", `'check'` = dấu check,
+  `'none'`), đã chọn theo thứ tự ưu tiên của đặc tả UX. View không tự so vàng, quặng hay CP.
+- `game.quest.icon` là icon của thẻ nhiệm vụ (bảng `display.json`).
 
 ### 1.3 Lệnh
 
@@ -68,7 +73,7 @@ cho toast hoặc chữ trên nút xám (ví dụ "Cần cấp người chơi 5",
 
 | Người chơi làm | Gọi |
 |---|---|
-| Kéo / thả joystick | `setJoystick(x, y)` với độ dài 0..1; thả tay = `(0, 0)` |
+| Kéo / thả joystick | `setJoystick(x, y)`: vector **trong tọa độ ô của lõi**, độ dài = độ lệch 0..1; thả tay = `(0, 0)`. Đổi từ vector joystick trên màn hình bằng `joystickToWorld(data, jx, jy, out)` |
 | Về làng / Ra đồng | `returnToVillage()`, `goToField()`; hỏi trước bằng `canReturnToVillage()`, `canGoToField()` |
 | Vào / thoát chế độ xây | `enterBuildMode()`, `exitBuildMode()`; `canEnterBuildMode()` |
 | Bóng công trình | `findFreeCell(type, nearX, nearY)`, `checkPlacement(type, x, y)`, `checkMove(uid, x, y)` |
@@ -93,11 +98,11 @@ không tính lại luật nào.
 |---|---|
 | Khay công trình trong chế độ xây | `getBuildMenu()` |
 | Panel công trình / nâng cấp | `getBuildingPanel(uid)` (dòng chỉ số, chênh lệch cấp kế, giá, `canUpgrade`, `canCollect`) |
-| Danh sách và chi tiết hero | `getHeroList()`, `getHeroInfo(id)` (HP/ATK/CP, "+X" cấp kế, mảnh, mốc, kỹ năng, `canLevelUp`) |
+| Danh sách và chi tiết hero | `getHeroList()`, `getHeroInfo(id)` (HP/ATK/CP, "+X" cấp kế, mảnh, mốc, kỹ năng kèm `typeName` và `paramNames` tiếng Việt, `canLevelUp`) |
 | Xếp đội | `getSquadInfo()` (CP đội, kết quả TỰ XẾP xem trước, `canImprove` cho mũi tên xanh) |
-| Quán | `getTavernInfo()` (thẻ, đồng hồ, BONUS, `canRecruit`, bảng đổi Vé) |
+| Quán | `getTavernInfo()` (thẻ, đồng hồ, BONUS, `recruitOptions`: giá và lý do khóa của từng nút 1x/2x/3x, bảng đổi Vé) |
 | Sân Tập | `getTrainingInfo()` |
-| Cổng Xoáy | `getDungeonInfo()` (CP đề nghị và CP đội, nhãn độ khó, thưởng, `canEnter`) |
+| Cổng Xoáy | `getDungeonInfo()` (CP đề nghị và CP đội, nhãn độ khó, thưởng, `canEnter`, `readyStage`) |
 | Thẻ nhiệm vụ | `game.quest` (đọc mỗi frame), `getQuestHint()` |
 
 ### 1.5 Sự kiện
@@ -173,7 +178,7 @@ Những chỗ tài liệu thiết kế im lặng hoặc tự mâu thuẫn. Mỗi
 6. **Trần kho.** Vật nhặt, thu thập, thu sản lượng và vật mang về từ dungeon bị trần kho cắt (phần vượt bị bỏ, có toast). **Thưởng nhiệm vụ và hoàn tiền khi hủy xây không bị cắt**, để người chơi không mất thưởng vì kho nhỏ.
 7. **Tiến độ ngoại tuyến có trần cho cả timer.** Thiết kế vừa ghi timer dùng mốc tuyệt đối, vừa ghi trần 8 giờ. Khi vắng quá 8 giờ, lõi dời mọi mốc (`endsAt`, đồng hồ Quán) về sau đúng phần vượt, nên chỉ 8 giờ được tính. Đồng hồ lùi: không có tiến độ, thời gian còn lại của timer giữ nguyên. Cùng luật áp dụng khi app bị treo lâu giữa hai bước.
 8. **Bộ thẻ đầu tiên [Lan, Sẻ, Đăng] không đổi cho tới lượt tuyển đầu.** Đồng hồ Quán bắt đầu chạy khi Quán xây xong; trước lượt đầu, tự đổi thẻ bị bỏ qua và nút ⟳ bị khóa (`first_draw_pending`). Nhờ vậy lượt đầu luôn ra Sẻ.
-9. **2x/3x và BONUS.** Thanh đầy giữa chừng thì bộ thẻ đổi ngay; các lượt còn lại rút từ bộ mới. Mỗi `RecruitDraw` ghi bộ thẻ lúc rút.
+9. **2x/3x và BONUS (quyết định của trưởng nhóm).** Cả lần bấm 1x/2x/3x rút từ bộ thẻ đang hiện lúc bấm. Nếu thanh BONUS đầy giữa chừng, bộ thẻ BONUS có hiệu lực **sau khi** lần bấm kết thúc; các lượt sau lượt làm đầy được tính cho thanh kế tiếp (ví dụ thanh 9/10, bấm 3x: rút 3 lượt từ bộ cũ, rồi đổi bộ, thanh còn 1/10). Thiết kế mục 9.3 ghi "làm mới ngay" nhưng không nói rõ trường hợp giữa một lần bấm; màn "Nhận Hero" (mục 9.5) chỉ có chỗ cho một bộ ba thẻ. `RecruitResult` có `cards`, `bonusRefreshed`, `cardsAfter`.
 10. **Đổi Vé `frag5`** cho `fragmentsPerDuplicate` mảnh (5). Mọi dòng đổi hero đều cho chọn hero.
 11. **Kỹ năng.** `nova` và `taunt` chỉ dùng khi có ít nhất một quái trong bán kính quanh hero (không phí chiêu vào chỗ trống). Kỹ năng trượt (mục tiêu chết hoặc ra khỏi tầm lúc hết gồng) thì không tính hồi chiêu. Hồi máu không cần mục tiêu, gồng 0.2 s, và không bắt hero dừng khi đội đang đi. Hai buff ATK không cộng dồn: giữ mức cao hơn, làm mới thời gian.
 12. **Boss.** Hồi chiêu kỹ năng boss tính từ lúc bắt đầu gồng. Húc Lao gây sát thương lúc hết báo đòn cho hero có tâm trong hình chữ nhật, rồi boss lao 0.4 s. Gọi Bầy không xếp hàng: chỉ gọi số quái còn chỗ trong giới hạn 60. Boss luôn xuất hiện dù phòng đang đủ 60 quái.
@@ -196,6 +201,9 @@ Những chỗ tài liệu thiết kế im lặng hoặc tự mâu thuẫn. Mỗi
 28. **Tầng boss:** boss chết là thắng ngay, kể cả khi nhóm quái đến trễ (sau 10 s) chưa kịp xuất hiện.
 29. **Đồng hồ đổi thẻ của Quán** bắt đầu chạy ở bước đầu tiên sau khi Quán xây xong.
 
+30. **Bảng `display.json` chỉ có ở phía game.** Nó chứa icon của nhiệm vụ theo loại, tên tiếng Việt của loại kỹ năng và tham số kỹ năng, icon của các dòng chỉ số công trình. Không có số liệu cân bằng. `docs/design/data` chưa có bảng này; đề nghị thiết kế nhận nó về làm bản gốc.
+31. **Dấu "!" trên Quán** hiện khi đủ vàng cho một lượt tuyển. Đặc tả UX còn ghi "hoặc thanh BONUS đầy", nhưng thanh không bao giờ đứng ở trạng thái đầy (đầy là đổi thẻ rồi về 0), nên điều kiện đó không có hiệu lực.
+
 ### Hằng số không có trong JSON
 
 Thiết kế ghi các số này bằng chữ nhưng `tuning.json` không có khóa tương ứng. Chúng nằm trong `constants.ts`:
@@ -208,3 +216,4 @@ khoảng cách "quái ở xa" 16 ô. Nếu thiết kế muốn chỉnh, chuyển
 | Phiên bản | Thay đổi |
 |---|---|
 | 1 | Bản đầu. |
+| 2 | **Chỉ thêm, không bỏ hay đổi kiểu trường nào.** (1) `setJoystick`: ghi rõ vector là tọa độ ô của lõi; thêm hàm `joystickToWorld`. (2) `PlayerView.expToNext`: ghi rõ là tổng EXP của cấp. (3) `TavernInfo.recruitOptions[]` (`times`, `costGold`, `affordable`, `check`). (4) `BuildingView.marker` và `DungeonInfo.readyStage`. (5) Bảng mới `display.json` (đã nằm trong `DATA_FILES`), `GameData.display`, `QuestView.icon`, `SkillInfo.typeName`, `SkillInfo.paramNames`, `StatRow.icon`. (6) **Đổi hành vi:** lần bấm 2x/3x rút hết từ bộ thẻ lúc bấm, bộ thẻ BONUS đổi sau lần bấm; thêm `RecruitResult.cards`, `bonusRefreshed`, `cardsAfter`. View có thể bỏ: phép nhân `costGold × multi`, phép so `squadCp >= recommendedCp` cho dấu check, các bảng `QUEST_ICON`, `SKILL_KIND`, `PARAM_NAME`, `ROW_ICON`. |

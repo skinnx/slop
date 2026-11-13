@@ -9,7 +9,7 @@ import { GameImpl } from './game';
 export * from './contract';
 export * from './data';
 export { SaveError } from './save';
-export { worldToIso, isoToWorld, depthKey } from './iso';
+export { worldToIso, isoToWorld, joystickToWorld, depthKey } from './iso';
 export type { Point } from './iso';
 export { resourceName, resourceTitle, reasonText } from './checks';
 

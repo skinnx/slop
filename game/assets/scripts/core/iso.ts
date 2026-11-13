@@ -22,5 +22,20 @@ export function isoToWorld(data: GameData, sx: number, sy: number, out: Point): 
   return out;
 }
 
+/**
+ * Đổi vector joystick trên màn hình (y hướng lên, độ dài = độ lệch 0..1) thành vector cho Game.setJoystick():
+ * hướng là hướng tương ứng trên lưới ô, độ dài giữ nguyên. Ghi vào `out`.
+ */
+export function joystickToWorld(data: GameData, jx: number, jy: number, out: Point): Point {
+  const len = Math.sqrt(jx * jx + jy * jy);
+  if (!(len > 0)) { out.x = 0; out.y = 0; return out; }
+  isoToWorld(data, jx, jy, out);
+  const w = Math.sqrt(out.x * out.x + out.y * out.y);
+  if (!(w > 0)) { out.x = 0; out.y = 0; return out; }
+  const k = len / w;
+  out.x *= k; out.y *= k;
+  return out;
+}
+
 /** Khóa sắp chiều sâu: vật có giá trị lớn hơn vẽ TRƯỚC (xa hơn). */
 export function depthKey(x: number, y: number): number { return x + y; }
