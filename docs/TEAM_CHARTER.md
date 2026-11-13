@@ -41,6 +41,10 @@ Khi hai tài liệu mâu thuẫn, đừng tự chọn im lặng. Ghi mâu thuẫ
 8. Hero tự đánh khi đội đứng yên, giống mô tả của người chơi game gốc. Hành vi này là một tham số trong dữ liệu để đổi được.
 9. Chủ đề nguyên bản. Không dùng tên, nhân vật, câu chữ hay hình ảnh của Rumble Heroes, One Piece hay bất kỳ IP nào.
 10. Asset tạm: chỉ CC0, hoặc OFL với font. Lấy từ `art-source/`.
+11. Lên cấp hero tốn thịt ở mọi cấp, và tốn thêm mảnh hero ở các cấp 5, 10, 15, 20, 25, như tài liệu thiết kế.
+12. Ngân sách draw call ban đầu, đo trong harness ở màn dungeon với 60 quái, đủ đội hero và HUD: tổng không quá 30, riêng lớp thế giới (nền, nhân vật, vật rơi) không quá 10. Con số này do trưởng nhóm đặt và có thể đổi khi có số đo.
+13. Mục tiêu bot cho cột mốc 1: từ file lưu mới, hạ boss tầng 20 trong không quá 6 giờ chơi mô phỏng, không có đoạn 30 phút nào không tiến bộ.
+14. Số liệu đang dùng là `game/assets/resources/data/`. `docs/design/data/` là bản gốc của thiết kế. Mọi con số bị đổi so với bản gốc phải được ghi vào `docs/evidence/m1/balance-changes.md`, kèm lý do.
 
 ## 4. Vai trò và phạm vi ghi
 
@@ -51,7 +55,8 @@ Mỗi người chỉ ghi vào phần của mình. Cần đổi file của ngư�
 | Trưởng nhóm | `docs/TEAM_CHARTER.md`, điều phối, quyết định phạm vi. Không viết code |
 | Thiết kế game | `docs/design/` |
 | Trưởng kỹ thuật | `docs/tech/`, `tools/`, khung dự án ban đầu trong `game/` |
-| Lập trình gameplay | `game/assets/`, `tools/tests/`, kịch bản chơi thử trong `tools/harness/` |
+| Lập trình lõi | `game/assets/scripts/core/`, `game/assets/resources/data/`, `tools/tests/`, `tools/sim/`, `docs/evidence/m1/sim/` |
+| Lập trình hiển thị | `game/assets/scripts/view/`, `game/assets/resources/` trừ `data/`, `tools/atlas/`, `tools/harness/`, `docs/evidence/m1/` trừ `sim/` |
 | Kiểm thử (QA) | `docs/qa/`. Không sửa code game |
 | Phụ trách asset | `art-source/` |
 
