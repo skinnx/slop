@@ -4,17 +4,17 @@
   "failure": null,
   "viewport": "540x960",
   "scripts": 49,
-  "seconds": 23.6,
+  "seconds": 22.9,
   "lastFrame": {
-    "drawCalls": 7,
-    "tris": 1584,
+    "drawCalls": 8,
+    "tris": 1606,
     "instances": 0,
-    "frames": 888
+    "frames": 887
   },
   "notes": [
     "start: level 1, cp 1340, quest \"Chặt cây lấy 10 gỗ\"",
     "after gathering: wood 6, zone z1, quest 6/10",
-    "after combat: gold 100, meat 1, level 1",
+    "after combat: gold 101, meat 2, level 1",
     "field drawCalls=8",
     "portal blocked while fighting: true"
   ],
@@ -31,16 +31,16 @@
   ],
   "consoleErrors": [],
   "console": [
-    "[timeEnd] Init Base: 1.912109375 ms",
-    "[timeEnd] Init Infrastructure: 27.701904296875 ms",
-    "[timeEnd] Init SubSystem: 1.5791015625 ms",
+    "[timeEnd] Init Base: 1 ms",
+    "[timeEnd] Init Infrastructure: 23.76708984375 ms",
+    "[timeEnd] Init SubSystem: 3.865234375 ms",
     "[log] Cocos Creator v3.8.8",
     "[log] Using legacy pipeline",
-    "[timeEnd] Init Project: 4.380859375 ms",
-    "[timeEnd] InitScene: 0.198974609375 ms",
+    "[timeEnd] Init Project: 4.365966796875 ms",
+    "[timeEnd] InitScene: 0.209228515625 ms",
     "[timeEnd] AttachPersist: 0.001953125 ms",
-    "[timeEnd] AutoRelease: 0.125 ms",
-    "[timeEnd] Destroy: 0.172119140625 ms",
-    "[timeEnd] Activate: 29.087890625 ms"
+    "[timeEnd] AutoRelease: 0.14208984375 ms",
+    "[timeEnd] Destroy: 0.262939453125 ms",
+    "[timeEnd] Activate: 31.9560546875 ms"
   ]
 }
