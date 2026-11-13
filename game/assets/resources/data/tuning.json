@@ -1,0 +1,292 @@
+{
+ "version": 1,
+ "sim": {
+  "fixedStepSec": 0.0333333,
+  "stepsPerSec": 30,
+  "rng": "mulberry32",
+  "rngNote": "Một RNG có seed cho mỗi phiên chơi; dungeon run dùng RNG con seed = hash(seedGame, runIndex)."
+ },
+ "world": {
+  "mapW": 60,
+  "mapH": 60,
+  "cellUnit": "ô (1 ô = 1 đơn vị lõi)",
+  "villageCenter": [
+   30,
+   30
+  ],
+  "villageGrid": {
+   "x0": 20,
+   "y0": 20,
+   "w": 20,
+   "h": 20
+  },
+  "zones": [
+   {
+    "id": "village",
+    "name": "Làng Bến Neo",
+    "dMin": 0,
+    "dMax": 10
+   },
+   {
+    "id": "z1",
+    "name": "Bãi Vỏ Sò",
+    "dMin": 10,
+    "dMax": 17
+   },
+   {
+    "id": "z2",
+    "name": "Rừng Dừa Rậm",
+    "dMin": 17,
+    "dMax": 24
+   },
+   {
+    "id": "z3",
+    "name": "Gò Đá Lam",
+    "dMin": 24,
+    "dMax": 30
+   }
+  ],
+  "zoneRule": "d = max(|x-30|, |y-30|) theo ô; zone là vùng có dMin < d <= dMax (village: d <= 10).",
+  "mapEdgeBlocked": 1,
+  "zoneRecommendedCp": {
+   "z1": 1050,
+   "z2": 4350,
+   "z3": 10950
+  }
+ },
+ "render": {
+  "cellW": 120,
+  "cellH": 60,
+  "checkerBlock": 2,
+  "spriteScale": {
+   "hero": 4,
+   "monster": 3,
+   "elite": 5,
+   "boss": 10,
+   "node": 4,
+   "pickup": 2
+  },
+  "groundColorsField": [
+   "#5DBB63",
+   "#52A957"
+  ],
+  "groundColorsVillage": [
+   "#6CC46F",
+   "#60B565"
+  ],
+  "groundColorsDungeon": [
+   "#3B3F5C",
+   "#34374F"
+  ],
+  "pathColor": "#D9B07A",
+  "cameraFollowLerp": 0.15
+ },
+ "squad": {
+  "moveSpeed": 3.0,
+  "followerSpeedMult": 1.25,
+  "followerArriveDist": 0.15,
+  "heroRadius": 0.35,
+  "separationDist": 0.6,
+  "leashRadius": 4.0,
+  "aggroRadius": 5.0,
+  "gatherRadius": 3.0,
+  "attackOnlyWhenIdle": true,
+  "idleAfterReleaseSec": 0.15,
+  "startSlots": 3,
+  "maxSlots": 8,
+  "formationOffsets": [
+   [
+    0,
+    0
+   ],
+   [
+    -0.9,
+    -0.5
+   ],
+   [
+    0.5,
+    -0.9
+   ],
+   [
+    -1.4,
+    -1.3
+   ],
+   [
+    -0.2,
+    -1.6
+   ],
+   [
+    0.9,
+    -1.9
+   ],
+   [
+    -1.0,
+    -2.3
+   ],
+   [
+    0.3,
+    -2.7
+   ]
+  ],
+  "formationNote": "Offset theo ô, cộng vào vị trí thủ lĩnh, KHÔNG xoay theo hướng đi. Chỉ số 0 là thủ lĩnh."
+ },
+ "combat": {
+  "monsterRadius": 0.35,
+  "bossRadius": 1.2,
+  "meleeRange": 0.9,
+  "attackWindupSec": 0.2,
+  "projectileVisualSec": 0.15,
+  "damageFormula": "dmg = max(1, round(ATK * mult))",
+  "healFormula": "heal = round(ATK * mult), không vượt maxHP",
+  "monsterAggroRadiusField": 4.0,
+  "monsterAggroRadiusDungeon": 99,
+  "monsterLeashField": 7.0,
+  "monsterRegenOutOfCombatPctPerSec": 0.2,
+  "hitFlashSec": 0.1,
+  "knockbackCells": 0.15,
+  "retargetSec": 0.5,
+  "hitRangeTolerance": 0.5,
+  "healThresholdPct": 0.85,
+  "joystickDeadZonePct": 0.1,
+  "bossAbilityStartCooldownPct": 0.5,
+  "spatialHashCell": 2.0
+ },
+ "pickup": {
+  "magnetRadius": 2.5,
+  "autoCollectSec": 6.0,
+  "flySpeed": 10.0,
+  "scatterRadius": 0.6,
+  "maxObjectsPerType": 5,
+  "toastMergeSec": 1.0
+ },
+ "save": {
+  "key": "tidecrew.save.v1",
+  "autosaveSec": 15,
+  "welcomeBackMinSec": 60
+ },
+ "field": {
+  "heroReviveSec": 8,
+  "wipeRespawnSec": 3,
+  "monsterRespawnSec": 20,
+  "eliteRespawnSec": 120,
+  "treeRespawnSec": 30,
+  "rockRespawnSec": 45,
+  "storageFullToastCooldownSec": 30,
+  "collectRadius": 1.5,
+  "heroRegenPctPerSec": 0.02,
+  "outOfCombatDelaySec": 5,
+  "campRadius": 1.5,
+  "wanderSpeedMult": 0.4,
+  "wanderRetargetSec": [
+   2,
+   4
+  ],
+  "campAggroShared": true
+ },
+ "dungeon": {
+  "roomW": 16,
+  "roomH": 24,
+  "startPos": [
+   8,
+   2
+  ],
+  "exitPos": [
+   8,
+   21
+  ],
+  "maxAlive": 60,
+  "healBetweenFloorsPct": 0.3,
+  "floorExitDelaySec": 1.5,
+  "floorsPerStage": 5,
+  "stages": 6,
+  "streakTimeoutSec": 3.0,
+  "streakMilestone": 20,
+  "streakBonusGoldBase": 10,
+  "exitTouchRadius": 1.0,
+  "floorFadeSec": 0.5,
+  "bossMinionsDespawnOnDeath": true,
+  "defeatKeepsLootPct": 1.0,
+  "ringSpawnRadius": [
+   6.0,
+   8.0
+  ],
+  "spawnMinDistFromHero": 4.0,
+  "difficultyLabels": [
+   {
+    "minRatio": 1.2,
+    "label": "Dễ",
+    "color": "#7CFC7C"
+   },
+   {
+    "minRatio": 0.9,
+    "label": "Vừa",
+    "color": "#FFD34D"
+   },
+   {
+    "minRatio": 0.0,
+    "label": "Khó",
+    "color": "#C77DFF"
+   }
+  ],
+  "difficultyNote": "ratio = CP đội / CP đề nghị của tầng boss trong chặng."
+ },
+ "economy": {
+  "startResources": {
+   "gold": 100,
+   "meat": 0,
+   "wood": 0,
+   "ore": 0,
+   "coral": 0,
+   "tickets": 0
+  },
+  "uncapped": [
+   "gold",
+   "coral",
+   "tickets"
+  ],
+  "builderSlots": 2,
+  "offlineCapHours": 8,
+  "productionBufferHours": 8,
+  "offlineNote": "Khi mở game: offlineSec = min(now - lastSaveTime, 8h). Chạy production, timer xây, timer quán bằng offlineSec. Không mô phỏng chiến đấu."
+ },
+ "hero": {
+  "maxLevel": 30,
+  "growthPerLevel": 0.03,
+  "rarityMult": {
+   "N": 1.0,
+   "R": 1.2,
+   "E": 1.45,
+   "L": 1.75
+  },
+  "rarityColor": {
+   "N": "#9AA0A6",
+   "R": "#3D8BFF",
+   "E": "#B455F5",
+   "L": "#FFB020"
+  },
+  "attrColor": {
+   "STR": "#E5484D",
+   "AGI": "#46C35A",
+   "INT": "#F2C230"
+  }
+ },
+ "cp": {
+  "atkWeight": 4,
+  "hpWeight": 1,
+  "refAttackInterval": 1.0,
+  "formula": "CP_hero = round(4 * ATK * (1.0 / attackInterval) * (1 + skillCpBonus) + HP); CP_đội = tổng CP_hero trong đội",
+  "skillCpBonusByType": {
+   "strike": 0.1,
+   "cleave": 0.15,
+   "nova": 0.15,
+   "volley": 0.15,
+   "heal": 0.25,
+   "buff_atk": 0.1,
+   "taunt": 0.05
+  },
+  "skillCpBonusNote": "skillCpBonus = tổng bonus của các kỹ năng đã mở; mỗi sao thêm sau sao 1 cộng thêm 0.05."
+ },
+ "player": {
+  "maxLevel": 30
+ }
+}

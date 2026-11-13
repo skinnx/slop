@@ -1,0 +1,245 @@
+{
+ "version": 1,
+ "heroes": [
+  {
+   "id": "bang",
+   "name": "Bàng",
+   "attribute": "STR",
+   "rarity": "N",
+   "role": "tank",
+   "baseHp": 900,
+   "baseAtk": 110,
+   "attackInterval": 1.1,
+   "attackRange": 0.9,
+   "ranged": false,
+   "gatherPower": 1,
+   "skills": [
+    "khien_dap",
+    "ho_vang"
+   ],
+   "sprite": "td:0097",
+   "tint": "#FFFFFF",
+   "flavor": "Thủy thủ khiên gỗ, người đầu tiên theo bạn ra khơi."
+  },
+  {
+   "id": "do_neo",
+   "name": "Đô Neo",
+   "attribute": "STR",
+   "rarity": "R",
+   "role": "bruiser",
+   "baseHp": 840,
+   "baseAtk": 180,
+   "attackInterval": 1.0,
+   "attackRange": 0.9,
+   "ranged": false,
+   "gatherPower": 2,
+   "skills": [
+    "vung_neo",
+    "dap_dat"
+   ],
+   "sprite": "td:0087",
+   "tint": "#FFFFFF",
+   "flavor": "Lực sĩ bến cảng, vác mỏ neo làm vũ khí. Chặt cây nhanh."
+  },
+  {
+   "id": "rua_sat",
+   "name": "Rùa Sắt",
+   "attribute": "STR",
+   "rarity": "E",
+   "role": "tank",
+   "baseHp": 1305,
+   "baseAtk": 160,
+   "attackInterval": 1.1,
+   "attackRange": 0.9,
+   "ranged": false,
+   "gatherPower": 1,
+   "skills": [
+    "mai_sat",
+    "song_dong"
+   ],
+   "sprite": "td:0096",
+   "tint": "#9FE3C9",
+   "flavor": "Hiệp sĩ áo giáp mai rùa."
+  },
+  {
+   "id": "kinh_vuong",
+   "name": "Kình Vương",
+   "attribute": "STR",
+   "rarity": "L",
+   "role": "bruiser",
+   "baseHp": 1225,
+   "baseAtk": 262,
+   "attackInterval": 1.0,
+   "attackRange": 0.9,
+   "ranged": false,
+   "gatherPower": 1,
+   "skills": [
+    "kinh_ngu",
+    "ha_kinh"
+   ],
+   "sprite": "td:0086",
+   "tint": "#8FB8FF",
+   "flavor": "Gã khổng lồ lớn lên giữa đàn cá voi."
+  },
+  {
+   "id": "se",
+   "name": "Sẻ",
+   "attribute": "AGI",
+   "rarity": "N",
+   "role": "archer",
+   "baseHp": 450,
+   "baseAtk": 170,
+   "attackInterval": 0.9,
+   "attackRange": 4.0,
+   "ranged": true,
+   "gatherPower": 1,
+   "skills": [
+    "ban_doi",
+    "mua_ten"
+   ],
+   "sprite": "td:0088",
+   "tint": "#FFFFFF",
+   "flavor": "Cô bé cung thủ chợ cá."
+  },
+  {
+   "id": "muc",
+   "name": "Mực",
+   "attribute": "AGI",
+   "rarity": "R",
+   "role": "rogue",
+   "baseHp": 660,
+   "baseAtk": 120,
+   "attackInterval": 0.6,
+   "attackRange": 0.9,
+   "ranged": false,
+   "gatherPower": 1,
+   "skills": [
+    "dao_xoay",
+    "muc_den"
+   ],
+   "sprite": "td:0112",
+   "tint": "#FFFFFF",
+   "flavor": "Kẻ trộm hai dao, nhanh như mực phun."
+  },
+  {
+   "id": "en",
+   "name": "Én",
+   "attribute": "AGI",
+   "rarity": "E",
+   "role": "archer",
+   "baseHp": 652,
+   "baseAtk": 246,
+   "attackInterval": 0.9,
+   "attackRange": 4.0,
+   "ranged": true,
+   "gatherPower": 2,
+   "skills": [
+    "lao_xuyen",
+    "gio_bien"
+   ],
+   "sprite": "td:0098",
+   "tint": "#7FE0FF",
+   "flavor": "Thợ săn phóng lao trên vách đá. Đào quặng nhanh."
+  },
+  {
+   "id": "dieu",
+   "name": "Diều",
+   "attribute": "AGI",
+   "rarity": "L",
+   "role": "archer",
+   "baseHp": 788,
+   "baseAtk": 298,
+   "attackInterval": 0.9,
+   "attackRange": 4.0,
+   "ranged": true,
+   "gatherPower": 1,
+   "skills": [
+    "dieu_hau",
+    "bao_long"
+   ],
+   "sprite": "td:0099",
+   "tint": "#FFE08A",
+   "flavor": "Xạ thủ bay theo cánh diều."
+  },
+  {
+   "id": "lan",
+   "name": "Lan",
+   "attribute": "INT",
+   "rarity": "N",
+   "role": "healer",
+   "baseHp": 520,
+   "baseAtk": 120,
+   "attackInterval": 1.2,
+   "attackRange": 3.5,
+   "ranged": true,
+   "gatherPower": 1,
+   "skills": [
+    "tay_lanh",
+    "suong_mat"
+   ],
+   "sprite": "td:0100",
+   "tint": "#FFFFFF",
+   "flavor": "Bà lang làng chài."
+  },
+  {
+   "id": "dang",
+   "name": "Đăng",
+   "attribute": "INT",
+   "rarity": "R",
+   "role": "mage",
+   "baseHp": 576,
+   "baseAtk": 276,
+   "attackInterval": 1.4,
+   "attackRange": 3.5,
+   "ranged": true,
+   "gatherPower": 1,
+   "skills": [
+    "lua_den",
+    "chop_sang"
+   ],
+   "sprite": "td:0084",
+   "tint": "#FFFFFF",
+   "flavor": "Người giữ hải đăng, phóng lửa từ đèn lồng."
+  },
+  {
+   "id": "san",
+   "name": "San",
+   "attribute": "INT",
+   "rarity": "E",
+   "role": "healer",
+   "baseHp": 754,
+   "baseAtk": 174,
+   "attackInterval": 1.2,
+   "attackRange": 3.5,
+   "ranged": true,
+   "gatherPower": 1,
+   "skills": [
+    "san_ho_hoi",
+    "ken_bao_ve"
+   ],
+   "sprite": "td:0085",
+   "tint": "#FF9FB0",
+   "flavor": "Thầy thuốc dùng phép san hô."
+  },
+  {
+   "id": "trieu",
+   "name": "Triều",
+   "attribute": "INT",
+   "rarity": "L",
+   "role": "mage",
+   "baseHp": 840,
+   "baseAtk": 402,
+   "attackInterval": 1.4,
+   "attackRange": 3.5,
+   "ranged": true,
+   "gatherPower": 1,
+   "skills": [
+    "song_than",
+    "trieu_cuong"
+   ],
+   "sprite": "td:0111",
+   "tint": "#7FA8FF",
+   "flavor": "Bà đồng điều khiển thủy triều."
+  }
+ ]
+}

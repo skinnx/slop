@@ -1,0 +1,848 @@
+{
+ "version": 1,
+ "buildings": [
+  {
+   "id": "storage",
+   "name": "Nhà Kho",
+   "footprint": [
+    3,
+    3
+   ],
+   "maxCount": 1,
+   "unlockPlayerLevel": 1,
+   "prePlaced": [
+    21,
+    21
+   ],
+   "desc": "Chứa thịt, gỗ, quặng. Nâng cấp để tăng sức chứa.",
+   "levels": [
+    {
+     "level": 1,
+     "cost": {
+      "wood": 0
+     },
+     "buildSec": 0,
+     "reqPlayerLevel": 1,
+     "effects": {
+      "cap": {
+       "meat": 300,
+       "wood": 300,
+       "ore": 300
+      }
+     }
+    },
+    {
+     "level": 2,
+     "cost": {
+      "wood": 90
+     },
+     "buildSec": 30,
+     "reqPlayerLevel": 2,
+     "effects": {
+      "cap": {
+       "meat": 500,
+       "wood": 500,
+       "ore": 500
+      }
+     }
+    },
+    {
+     "level": 3,
+     "cost": {
+      "wood": 140,
+      "ore": 40
+     },
+     "buildSec": 60,
+     "reqPlayerLevel": 4,
+     "effects": {
+      "cap": {
+       "meat": 800,
+       "wood": 800,
+       "ore": 800
+      }
+     }
+    },
+    {
+     "level": 4,
+     "cost": {
+      "wood": 215,
+      "ore": 62
+     },
+     "buildSec": 120,
+     "reqPlayerLevel": 6,
+     "effects": {
+      "cap": {
+       "meat": 1300,
+       "wood": 1300,
+       "ore": 1300
+      }
+     }
+    },
+    {
+     "level": 5,
+     "cost": {
+      "wood": 335,
+      "ore": 96
+     },
+     "buildSec": 240,
+     "reqPlayerLevel": 8,
+     "effects": {
+      "cap": {
+       "meat": 2000,
+       "wood": 2000,
+       "ore": 2000
+      }
+     }
+    },
+    {
+     "level": 6,
+     "cost": {
+      "wood": 520,
+      "ore": 150
+     },
+     "buildSec": 420,
+     "reqPlayerLevel": 11,
+     "effects": {
+      "cap": {
+       "meat": 3200,
+       "wood": 3200,
+       "ore": 3200
+      }
+     }
+    },
+    {
+     "level": 7,
+     "cost": {
+      "wood": 805,
+      "ore": 230
+     },
+     "buildSec": 600,
+     "reqPlayerLevel": 14,
+     "effects": {
+      "cap": {
+       "meat": 5000,
+       "wood": 5000,
+       "ore": 5000
+      }
+     }
+    },
+    {
+     "level": 8,
+     "cost": {
+      "wood": 1250,
+      "ore": 360
+     },
+     "buildSec": 900,
+     "reqPlayerLevel": 17,
+     "effects": {
+      "cap": {
+       "meat": 8000,
+       "wood": 8000,
+       "ore": 8000
+      }
+     }
+    },
+    {
+     "level": 9,
+     "cost": {
+      "wood": 1930,
+      "ore": 555
+     },
+     "buildSec": 1200,
+     "reqPlayerLevel": 20,
+     "effects": {
+      "cap": {
+       "meat": 12000,
+       "wood": 12000,
+       "ore": 12000
+      }
+     }
+    },
+    {
+     "level": 10,
+     "cost": {
+      "wood": 3000,
+      "ore": 860
+     },
+     "buildSec": 1800,
+     "reqPlayerLevel": 23,
+     "effects": {
+      "cap": {
+       "meat": 18000,
+       "wood": 18000,
+       "ore": 18000
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "lumber_camp",
+   "name": "Trại Gỗ",
+   "footprint": [
+    2,
+    2
+   ],
+   "maxCount": 1,
+   "unlockPlayerLevel": 1,
+   "desc": "Tự sản xuất gỗ. Đi lại gần hoặc bấm Thu để lấy.",
+   "levels": [
+    {
+     "level": 1,
+     "cost": {
+      "wood": 30
+     },
+     "buildSec": 10,
+     "reqPlayerLevel": 1,
+     "effects": {
+      "resource": "wood",
+      "perHour": 60
+     }
+    },
+    {
+     "level": 2,
+     "cost": {
+      "wood": 48
+     },
+     "buildSec": 30,
+     "reqPlayerLevel": 3,
+     "effects": {
+      "resource": "wood",
+      "perHour": 90
+     }
+    },
+    {
+     "level": 3,
+     "cost": {
+      "wood": 77,
+      "ore": 51
+     },
+     "buildSec": 60,
+     "reqPlayerLevel": 5,
+     "effects": {
+      "resource": "wood",
+      "perHour": 130
+     }
+    },
+    {
+     "level": 4,
+     "cost": {
+      "wood": 125,
+      "ore": 82
+     },
+     "buildSec": 120,
+     "reqPlayerLevel": 7,
+     "effects": {
+      "resource": "wood",
+      "perHour": 180
+     }
+    },
+    {
+     "level": 5,
+     "cost": {
+      "wood": 195,
+      "ore": 130
+     },
+     "buildSec": 240,
+     "reqPlayerLevel": 9,
+     "effects": {
+      "resource": "wood",
+      "perHour": 240
+     }
+    },
+    {
+     "level": 6,
+     "cost": {
+      "wood": 315,
+      "ore": 210
+     },
+     "buildSec": 420,
+     "reqPlayerLevel": 12,
+     "effects": {
+      "resource": "wood",
+      "perHour": 310
+     }
+    },
+    {
+     "level": 7,
+     "cost": {
+      "wood": 505,
+      "ore": 335
+     },
+     "buildSec": 600,
+     "reqPlayerLevel": 15,
+     "effects": {
+      "resource": "wood",
+      "perHour": 390
+     }
+    },
+    {
+     "level": 8,
+     "cost": {
+      "wood": 805,
+      "ore": 535
+     },
+     "buildSec": 900,
+     "reqPlayerLevel": 18,
+     "effects": {
+      "resource": "wood",
+      "perHour": 480
+     }
+    },
+    {
+     "level": 9,
+     "cost": {
+      "wood": 1290,
+      "ore": 860
+     },
+     "buildSec": 1200,
+     "reqPlayerLevel": 21,
+     "effects": {
+      "resource": "wood",
+      "perHour": 580
+     }
+    },
+    {
+     "level": 10,
+     "cost": {
+      "wood": 2060,
+      "ore": 1370
+     },
+     "buildSec": 1800,
+     "reqPlayerLevel": 24,
+     "effects": {
+      "resource": "wood",
+      "perHour": 700
+     }
+    }
+   ],
+   "collectableBufferHours": 8
+  },
+  {
+   "id": "tavern",
+   "name": "Quán Mỏ Neo",
+   "footprint": [
+    3,
+    3
+   ],
+   "maxCount": 1,
+   "unlockPlayerLevel": 2,
+   "desc": "Tuyển hero, đổi Vé Quán lấy mảnh hero.",
+   "levels": [
+    {
+     "level": 1,
+     "cost": {
+      "wood": 60
+     },
+     "buildSec": 20,
+     "reqPlayerLevel": 2,
+     "effects": {
+      "oddsTier": 1
+     }
+    },
+    {
+     "level": 2,
+     "cost": {
+      "wood": 300,
+      "ore": 120
+     },
+     "buildSec": 120,
+     "reqPlayerLevel": 6,
+     "effects": {
+      "oddsTier": 2
+     }
+    },
+    {
+     "level": 3,
+     "cost": {
+      "wood": 900,
+      "ore": 400
+     },
+     "buildSec": 600,
+     "reqPlayerLevel": 11,
+     "effects": {
+      "oddsTier": 3
+     }
+    },
+    {
+     "level": 4,
+     "cost": {
+      "wood": 2400,
+      "ore": 1100
+     },
+     "buildSec": 1200,
+     "reqPlayerLevel": 16,
+     "effects": {
+      "oddsTier": 4
+     }
+    },
+    {
+     "level": 5,
+     "cost": {
+      "wood": 5600,
+      "ore": 2600
+     },
+     "buildSec": 1800,
+     "reqPlayerLevel": 21,
+     "effects": {
+      "oddsTier": 5
+     }
+    }
+   ]
+  },
+  {
+   "id": "ore_mine",
+   "name": "Mỏ Quặng",
+   "footprint": [
+    2,
+    2
+   ],
+   "maxCount": 1,
+   "unlockPlayerLevel": 3,
+   "desc": "Tự sản xuất quặng lam.",
+   "levels": [
+    {
+     "level": 1,
+     "cost": {
+      "wood": 60
+     },
+     "buildSec": 10,
+     "reqPlayerLevel": 3,
+     "effects": {
+      "resource": "ore",
+      "perHour": 30
+     }
+    },
+    {
+     "level": 2,
+     "cost": {
+      "wood": 96
+     },
+     "buildSec": 30,
+     "reqPlayerLevel": 4,
+     "effects": {
+      "resource": "ore",
+      "perHour": 45
+     }
+    },
+    {
+     "level": 3,
+     "cost": {
+      "wood": 155,
+      "ore": 64
+     },
+     "buildSec": 60,
+     "reqPlayerLevel": 6,
+     "effects": {
+      "resource": "ore",
+      "perHour": 65
+     }
+    },
+    {
+     "level": 4,
+     "cost": {
+      "wood": 245,
+      "ore": 100
+     },
+     "buildSec": 120,
+     "reqPlayerLevel": 8,
+     "effects": {
+      "resource": "ore",
+      "perHour": 90
+     }
+    },
+    {
+     "level": 5,
+     "cost": {
+      "wood": 395,
+      "ore": 165
+     },
+     "buildSec": 240,
+     "reqPlayerLevel": 10,
+     "effects": {
+      "resource": "ore",
+      "perHour": 120
+     }
+    },
+    {
+     "level": 6,
+     "cost": {
+      "wood": 630,
+      "ore": 260
+     },
+     "buildSec": 420,
+     "reqPlayerLevel": 13,
+     "effects": {
+      "resource": "ore",
+      "perHour": 155
+     }
+    },
+    {
+     "level": 7,
+     "cost": {
+      "wood": 1010,
+      "ore": 420
+     },
+     "buildSec": 600,
+     "reqPlayerLevel": 16,
+     "effects": {
+      "resource": "ore",
+      "perHour": 195
+     }
+    },
+    {
+     "level": 8,
+     "cost": {
+      "wood": 1610,
+      "ore": 670
+     },
+     "buildSec": 900,
+     "reqPlayerLevel": 19,
+     "effects": {
+      "resource": "ore",
+      "perHour": 240
+     }
+    },
+    {
+     "level": 9,
+     "cost": {
+      "wood": 2580,
+      "ore": 1070
+     },
+     "buildSec": 1200,
+     "reqPlayerLevel": 22,
+     "effects": {
+      "resource": "ore",
+      "perHour": 290
+     }
+    },
+    {
+     "level": 10,
+     "cost": {
+      "wood": 4120,
+      "ore": 1720
+     },
+     "buildSec": 1800,
+     "reqPlayerLevel": 25,
+     "effects": {
+      "resource": "ore",
+      "perHour": 350
+     }
+    }
+   ],
+   "collectableBufferHours": 8
+  },
+  {
+   "id": "training_yard",
+   "name": "Sân Tập",
+   "footprint": [
+    3,
+    3
+   ],
+   "maxCount": 1,
+   "unlockPlayerLevel": 4,
+   "desc": "Mở cây nâng cấp toàn đội bằng quặng và ô đội bằng San Hô Đỏ.",
+   "levels": [
+    {
+     "level": 1,
+     "cost": {
+      "wood": 100
+     },
+     "buildSec": 30,
+     "reqPlayerLevel": 4,
+     "effects": {
+      "maxSquadSlotsUnlockable": 3
+     }
+    },
+    {
+     "level": 2,
+     "cost": {
+      "wood": 400,
+      "ore": 150
+     },
+     "buildSec": 300,
+     "reqPlayerLevel": 7,
+     "effects": {
+      "maxSquadSlotsUnlockable": 4
+     }
+    },
+    {
+     "level": 3,
+     "cost": {
+      "wood": 1000,
+      "ore": 450
+     },
+     "buildSec": 900,
+     "reqPlayerLevel": 10,
+     "effects": {
+      "maxSquadSlotsUnlockable": 5
+     }
+    },
+    {
+     "level": 4,
+     "cost": {
+      "wood": 2000,
+      "ore": 900
+     },
+     "buildSec": 1500,
+     "reqPlayerLevel": 14,
+     "effects": {
+      "maxSquadSlotsUnlockable": 6
+     }
+    },
+    {
+     "level": 5,
+     "cost": {
+      "wood": 3600,
+      "ore": 1600
+     },
+     "buildSec": 2400,
+     "reqPlayerLevel": 18,
+     "effects": {
+      "maxSquadSlotsUnlockable": 7
+     }
+    },
+    {
+     "level": 6,
+     "cost": {
+      "wood": 6000,
+      "ore": 2800
+     },
+     "buildSec": 3600,
+     "reqPlayerLevel": 22,
+     "effects": {
+      "maxSquadSlotsUnlockable": 8
+     }
+    }
+   ]
+  },
+  {
+   "id": "market",
+   "name": "Chợ Bến",
+   "footprint": [
+    2,
+    2
+   ],
+   "maxCount": 1,
+   "unlockPlayerLevel": 5,
+   "desc": "Tự sản xuất vàng.",
+   "levels": [
+    {
+     "level": 1,
+     "cost": {
+      "wood": 80
+     },
+     "buildSec": 10,
+     "reqPlayerLevel": 5,
+     "effects": {
+      "resource": "gold",
+      "perHour": 40
+     }
+    },
+    {
+     "level": 2,
+     "cost": {
+      "wood": 130,
+      "ore": 48
+     },
+     "buildSec": 30,
+     "reqPlayerLevel": 6,
+     "effects": {
+      "resource": "gold",
+      "perHour": 60
+     }
+    },
+    {
+     "level": 3,
+     "cost": {
+      "wood": 205,
+      "ore": 77
+     },
+     "buildSec": 60,
+     "reqPlayerLevel": 8,
+     "effects": {
+      "resource": "gold",
+      "perHour": 85
+     }
+    },
+    {
+     "level": 4,
+     "cost": {
+      "wood": 330,
+      "ore": 125
+     },
+     "buildSec": 120,
+     "reqPlayerLevel": 10,
+     "effects": {
+      "resource": "gold",
+      "perHour": 115
+     }
+    },
+    {
+     "level": 5,
+     "cost": {
+      "wood": 525,
+      "ore": 195
+     },
+     "buildSec": 240,
+     "reqPlayerLevel": 12,
+     "effects": {
+      "resource": "gold",
+      "perHour": 150
+     }
+    },
+    {
+     "level": 6,
+     "cost": {
+      "wood": 840,
+      "ore": 315
+     },
+     "buildSec": 420,
+     "reqPlayerLevel": 14,
+     "effects": {
+      "resource": "gold",
+      "perHour": 190
+     }
+    },
+    {
+     "level": 7,
+     "cost": {
+      "wood": 1340,
+      "ore": 505
+     },
+     "buildSec": 600,
+     "reqPlayerLevel": 17,
+     "effects": {
+      "resource": "gold",
+      "perHour": 235
+     }
+    },
+    {
+     "level": 8,
+     "cost": {
+      "wood": 2150,
+      "ore": 805
+     },
+     "buildSec": 900,
+     "reqPlayerLevel": 20,
+     "effects": {
+      "resource": "gold",
+      "perHour": 285
+     }
+    },
+    {
+     "level": 9,
+     "cost": {
+      "wood": 3440,
+      "ore": 1290
+     },
+     "buildSec": 1200,
+     "reqPlayerLevel": 23,
+     "effects": {
+      "resource": "gold",
+      "perHour": 340
+     }
+    },
+    {
+     "level": 10,
+     "cost": {
+      "wood": 5500,
+      "ore": 2060
+     },
+     "buildSec": 1800,
+     "reqPlayerLevel": 26,
+     "effects": {
+      "resource": "gold",
+      "perHour": 400
+     }
+    }
+   ],
+   "collectableBufferHours": 8
+  },
+  {
+   "id": "dungeon_gate",
+   "name": "Cổng Xoáy",
+   "footprint": [
+    3,
+    3
+   ],
+   "maxCount": 1,
+   "unlockPlayerLevel": 6,
+   "desc": "Mở cổng vào Hang Xoáy. Cấp cổng = chặng cao nhất được vào.",
+   "levels": [
+    {
+     "level": 1,
+     "cost": {
+      "wood": 150
+     },
+     "buildSec": 30,
+     "reqPlayerLevel": 6,
+     "effects": {
+      "maxStage": 1
+     }
+    },
+    {
+     "level": 2,
+     "cost": {
+      "wood": 600,
+      "ore": 250
+     },
+     "buildSec": 300,
+     "reqPlayerLevel": 8,
+     "effects": {
+      "maxStage": 2
+     }
+    },
+    {
+     "level": 3,
+     "cost": {
+      "wood": 1500,
+      "ore": 700
+     },
+     "buildSec": 900,
+     "reqPlayerLevel": 11,
+     "effects": {
+      "maxStage": 3
+     }
+    },
+    {
+     "level": 4,
+     "cost": {
+      "wood": 3000,
+      "ore": 1300
+     },
+     "buildSec": 1500,
+     "reqPlayerLevel": 15,
+     "effects": {
+      "maxStage": 4
+     }
+    },
+    {
+     "level": 5,
+     "cost": {
+      "wood": 5000,
+      "ore": 2400
+     },
+     "buildSec": 2400,
+     "reqPlayerLevel": 19,
+     "effects": {
+      "maxStage": 5
+     }
+    },
+    {
+     "level": 6,
+     "cost": {
+      "wood": 8000,
+      "ore": 4000
+     },
+     "buildSec": 3600,
+     "reqPlayerLevel": 23,
+     "effects": {
+      "maxStage": 6
+     }
+    }
+   ]
+  }
+ ],
+ "note": "level 1 = chi phí và thời gian để XÂY MỚI; level L>1 = chi phí nâng từ L-1 lên L. buildSec tính bằng giây. Nhà Kho cấp 1 có sẵn khi bắt đầu."
+}

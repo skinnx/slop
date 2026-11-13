@@ -1,0 +1,92 @@
+{
+ "version": 1,
+ "costGold": 100,
+ "multi": [
+  1,
+  2,
+  3
+ ],
+ "cardCount": 3,
+ "refreshSec": 1800,
+ "manualRefreshGold": 50,
+ "drawRule": "Mỗi lượt: chọn ngẫu nhiên đều 1 trong 3 thẻ (seeded RNG). 2x/3x = 2/3 lượt độc lập, trả 200/300 vàng.",
+ "fragmentsPerDuplicate": 5,
+ "newHeroGivesFragments": 0,
+ "odds": [
+  {
+   "tier": 1,
+   "N": 0.62,
+   "R": 0.3,
+   "E": 0.07,
+   "L": 0.01
+  },
+  {
+   "tier": 2,
+   "N": 0.55,
+   "R": 0.33,
+   "E": 0.1,
+   "L": 0.02
+  },
+  {
+   "tier": 3,
+   "N": 0.48,
+   "R": 0.35,
+   "E": 0.14,
+   "L": 0.03
+  },
+  {
+   "tier": 4,
+   "N": 0.42,
+   "R": 0.36,
+   "E": 0.17,
+   "L": 0.05
+  },
+  {
+   "tier": 5,
+   "N": 0.36,
+   "R": 0.37,
+   "E": 0.2,
+   "L": 0.07
+  }
+ ],
+ "bonusOdds": {
+  "N": 0.0,
+  "R": 0.5,
+  "E": 0.38,
+  "L": 0.12
+ },
+ "bonusEvery": 10,
+ "bonusRule": "Mỗi lượt +1 vào thanh BONUS. Khi đạt 10: bộ thẻ làm mới NGAY bằng bonusOdds, thanh về 0, đồng hồ làm mới đặt lại 30 phút.",
+ "unownedWeight": 2,
+ "ownedWeight": 1,
+ "heroPickRule": "Trong một độ hiếm: chọn hero theo trọng số (chưa có = 3, đã có = 1). Ba thẻ trong một bộ không trùng hero; nếu độ hiếm đó hết hero chưa dùng thì rút lại độ hiếm từ bảng odds.",
+ "ticketsPerDraw": 1,
+ "ticketExchange": [
+  {
+   "id": "frag5",
+   "desc": "5 mảnh của 1 hero ĐÃ CÓ tùy chọn",
+   "tickets": 8
+  },
+  {
+   "id": "unlockN",
+   "desc": "Mở 1 hero Thường chưa có",
+   "tickets": 15
+  },
+  {
+   "id": "unlockR",
+   "desc": "Mở 1 hero Hiếm chưa có",
+   "tickets": 30
+  },
+  {
+   "id": "unlockE",
+   "desc": "Mở 1 hero Sử Thi chưa có",
+   "tickets": 80
+  },
+  {
+   "id": "unlockL",
+   "desc": "Mở 1 hero Huyền Thoại chưa có",
+   "tickets": 150
+  }
+ ],
+ "firstRecruitScript": "Lượt tuyển đầu tiên trong đời save luôn ra hero 'se' (Sẻ, cung thủ) để người mới có tầm xa; bộ thẻ đầu tiên là [lan, se, dang] hiển thị NEW."
+}
