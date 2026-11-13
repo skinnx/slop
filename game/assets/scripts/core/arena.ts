@@ -7,7 +7,7 @@ import {
 } from './contract';
 import { Rng } from './rng';
 import { skillParam } from './formulas';
-import { CORPSE_SEC, PICKUP_TOUCH_DIST, VOLLEY_EXTRA_RANGE } from './constants';
+import { CORPSE_SEC, PICKUP_TOUCH_DIST, TIME_EPS, VOLLEY_EXTRA_RANGE } from './constants';
 
 export const ACT_NONE = 0;
 export const ACT_BASIC = 1;
@@ -160,7 +160,7 @@ export abstract class Arena implements SceneView {
     this.host = host;
     this.data = host.data;
     this.t = host.data.tuning;
-    this.dt = this.t.sim.fixedStepSec;
+    this.dt = 1 / this.t.sim.stepsPerSec; // chính xác 1/30, không dùng số đã làm tròn trong JSON
     this.rng = rng;
     this.gridCell = this.t.combat.spatialHashCell;
   }
@@ -298,7 +298,7 @@ export abstract class Arena implements SceneView {
     }
     if (playerMoving) this.idleT = 0; else this.idleT += dt;
     const idleOnly = t.squad.attackOnlyWhenIdle;
-    const canAttack = !idleOnly || this.idleT >= t.squad.idleAfterReleaseSec;
+    const canAttack = !idleOnly || this.idleT >= t.squad.idleAfterReleaseSec - TIME_EPS;
 
     this.updateLeader();
     const leader = this.leader;
@@ -307,7 +307,6 @@ export abstract class Arena implements SceneView {
     const followSpeed = speed * t.squad.followerSpeedMult;
     const offs = t.squad.formationOffsets;
     let formIndex = 0;
-    let anyMonsterTarget = false;
 
     for (let i = 0; i < this.heroes.length; i++) {
       const h = this.heroes[i];
@@ -315,9 +314,9 @@ export abstract class Arena implements SceneView {
       const fi = formIndex++;
       h.vx = 0; h.vy = 0;
       if (h.attackCd > 0) h.attackCd -= dt;
-      if (h.skillCd0 > 0) { h.skillCd0 -= dt; if (h.skillCd0 < 0) h.skillCd0 = 0; }
-      if (h.skillCd1 > 0) { h.skillCd1 -= dt; if (h.skillCd1 < 0) h.skillCd1 = 0; }
-      if (h.buffT > 0) { h.buffT -= dt; if (h.buffT <= 0) { h.buffT = 0; h.buffPct = 0; } }
+      if (h.skillCd0 > 0) { h.skillCd0 -= dt; if (h.skillCd0 < TIME_EPS) h.skillCd0 = 0; }
+      if (h.skillCd1 > 0) { h.skillCd1 -= dt; if (h.skillCd1 < TIME_EPS) h.skillCd1 = 0; }
+      if (h.buffT > 0) { h.buffT -= dt; if (h.buffT <= TIME_EPS) { h.buffT = 0; h.buffPct = 0; } }
 
       // hồi máu: dùng được cả khi đang đi, không cần mục tiêu
       if (h.windupT <= 0) this.tryStartHeal(h);
@@ -353,12 +352,13 @@ export abstract class Arena implements SceneView {
       h.retargetT -= dt;
       if (h.target && (!h.target.alive || h.target.invulnerable)) { h.target = null; h.retargetT = 0; }
       if (h.nodeTarget >= 0 && !this.nodeAvailable(h.nodeTarget)) { h.nodeTarget = -1; h.retargetT = 0; }
-      if (h.retargetT <= 0) {
+      if (h.retargetT <= TIME_EPS) {
         h.retargetT = t.combat.retargetSec;
         this.pickHeroTarget(h, leader);
       }
       if (h.target) {
-        anyMonsterTarget = true;
+        // vào trận trước khi ra đòn đầu tiên: hồi chiêu đặt lại đầy rồi mới chọn đòn
+        this.noteCombat();
         h.targetId = h.target.id;
         this.approachAndAttack(h, h.target.x, h.target.y, h.target.radius, h === leader ? speed : followSpeed, leader, false);
       } else if (h.nodeTarget >= 0) {
@@ -369,12 +369,11 @@ export abstract class Arena implements SceneView {
         if (h !== leader) this.steerTo(h, leader.x + offs[fi][0], leader.y + offs[fi][1], followSpeed, t.squad.followerArriveDist);
       }
     }
-    if (anyMonsterTarget) this.noteCombat();
   }
 
   /** Ghi nhận "đang chiến đấu". Ngoài đồng: vào trận sau một quãng nghỉ thì hồi chiêu đặt lại đầy (01 mục 8.4). */
   protected noteCombat(): void {
-    if (this.kind === 'field' && this.sinceCombat >= this.t.field.outOfCombatDelaySec) {
+    if (this.kind === 'field' && this.sinceCombat >= this.t.field.outOfCombatDelaySec - TIME_EPS) {
       for (const h of this.heroes) this.resetSkillCooldowns(h);
     }
     this.sinceCombat = 0;
@@ -421,7 +420,7 @@ export abstract class Arena implements SceneView {
     const reach = h.attackRange + tRadius;
     if (d > 1e-6) { h.faceX = dx / d; h.faceY = dy / d; }
     if (d <= reach) {
-      if (h.attackCd <= 0) this.startHeroAttack(h, isNode);
+      if (h.attackCd <= TIME_EPS) this.startHeroAttack(h, isNode);
       return;
     }
     const want = d - reach + 0.02;
@@ -439,7 +438,7 @@ export abstract class Arena implements SceneView {
 
   /** Cờ attackOnlyWhenIdle = false: vừa đi vừa đánh mục tiêu đã nằm trong tầm, không đuổi. */
   private attackInRangeWhileMoving(h: Unit): void {
-    if (h.attackCd > 0 || h.windupT > 0) return;
+    if (h.attackCd > TIME_EPS || h.windupT > 0) return;
     let best: Unit = null;
     let bestD = Infinity;
     const list = this.active;
@@ -535,11 +534,11 @@ export abstract class Arena implements SceneView {
     if (m.attackCd > 0) m.attackCd -= dt;
     if (m.tauntT > 0) {
       m.tauntT -= dt;
-      if (m.tauntT <= 0 || !m.tauntBy || !m.tauntBy.alive) { m.tauntT = 0; m.tauntBy = null; }
+      if (m.tauntT <= TIME_EPS || !m.tauntBy || !m.tauntBy.alive) { m.tauntT = 0; m.tauntBy = null; }
       else m.target = m.tauntBy;
     }
     m.retargetT -= dt;
-    if (m.tauntT <= 0 && (m.retargetT <= 0 || !m.target || !m.target.alive)) {
+    if (m.tauntT <= 0 && (m.retargetT <= TIME_EPS || !m.target || !m.target.alive)) {
       m.retargetT = this.t.combat.retargetSec;
       m.target = this.nearestHero(m.x, m.y);
     }
@@ -553,7 +552,7 @@ export abstract class Arena implements SceneView {
     if (d > 1e-6) { m.faceX = dx / d; m.faceY = dy / d; }
     const reach = m.attackRange + tg.radius;
     if (d <= reach) {
-      if (m.attackCd <= 0) {
+      if (m.attackCd <= TIME_EPS) {
         m.windupT = this.t.combat.attackWindupSec;
         m.attackCd = m.attackInterval;
         m.pending = ACT_BASIC;
@@ -600,7 +599,7 @@ export abstract class Arena implements SceneView {
       u.anim = 'move';
     } else if (u.windupT > 0) u.anim = u.castAbility ? 'cast' : 'windup';
     else u.anim = u.castAbility ? 'cast' : 'idle';
-    if (u.hitFlashT > 0) u.hitFlashT -= dt;
+    if (u.hitFlashT > 0) { u.hitFlashT -= dt; if (u.hitFlashT < TIME_EPS) u.hitFlashT = 0; }
   }
 
   private separate(units: Unit[]): void {
@@ -678,14 +677,14 @@ export abstract class Arena implements SceneView {
       const h = this.heroes[i];
       if (!h.alive || h.windupT <= 0) continue;
       h.windupT -= dt;
-      if (h.windupT <= 0) { h.windupT = 0; this.resolveHeroAction(h); }
+      if (h.windupT <= TIME_EPS) { h.windupT = 0; this.resolveHeroAction(h); }
     }
     const list = this.active;
     for (let i = 0; i < list.length; i++) {
       const m = list[i];
       if (!m.alive || m.windupT <= 0) continue;
       m.windupT -= dt;
-      if (m.windupT <= 0) { m.windupT = 0; this.resolveMonsterAttack(m); }
+      if (m.windupT <= TIME_EPS) { m.windupT = 0; this.resolveMonsterAttack(m); }
     }
   }
 
@@ -976,7 +975,7 @@ export abstract class Arena implements SceneView {
       const p = this.pickups[i];
       p.age += dt;
       let tg: Unit = null;
-      if (p.age >= pk.autoCollectSec) {
+      if (p.age >= pk.autoCollectSec - TIME_EPS) {
         // quá 6 s: tự bay về thủ lĩnh
         tg = this.leader;
         if (tg) p.flying = true;
@@ -1044,7 +1043,7 @@ export abstract class Arena implements SceneView {
       const m = list[i];
       if (!m.alive) {
         m.corpseT -= dt;
-        if (m.corpseT <= 0) {
+        if (m.corpseT <= TIME_EPS) {
           this.onCorpseGone(m);
           this.freeUnit(m);
           removed = true;

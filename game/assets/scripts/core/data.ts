@@ -281,7 +281,8 @@ function indexById<T extends { id: string }>(c: Checker, list: T[], path: string
 }
 
 /** Trả về danh sách lỗi (rỗng nếu dữ liệu hợp lệ). Không ném lỗi. */
-export function validateRawTables(raw: RawTables): string[] {
+export function validateRawTables(rawInput: RawTables): string[] {
+  const raw = prepareTables(rawInput);
   const c = new Checker();
   for (const f of DATA_FILES) {
     c.file = f;
@@ -780,26 +781,35 @@ function checkQuests(c: Checker, q: any, ctx: { resources: string[]; buildings: 
 }
 
 /**
- * Kiểm tra và đóng gói dữ liệu. Ném DataError (liệt kê mọi lỗi) nếu bảng nào sai.
- * `raw` có khóa là tên file không đuôi: tuning, heroes, skills, 'hero-levels', ...
+ * Bản sao nông của các bảng, đã bổ sung trường suy ra. recruit.json mô tả lượt tuyển đầu bằng chữ
+ * (firstRecruitScript); nếu bảng chưa có trường máy đọc được (firstHero, firstCards) thì suy ra từ câu chữ đó,
+ * để không phải gõ lại id trong code.
  */
-export function buildGameData(raw: RawTables): GameData {
+function prepareTables(raw: RawTables): RawTables {
   const input: RawTables = {};
   for (const k of Object.keys(raw || {})) input[k] = raw[k];
-  // recruit.json mô tả lượt tuyển đầu bằng chữ (firstRecruitScript). Nếu bảng chưa có trường máy đọc
-  // được thì suy ra từ câu chữ đó để không phải gõ lại id trong code.
-  if (input.recruit && typeof input.recruit === 'object' && !Array.isArray(input.recruit) && !input.recruit.firstCards) {
+  const rec = input.recruit;
+  if (rec && typeof rec === 'object' && !Array.isArray(rec) && !rec.firstCards) {
     const copy: any = {};
-    for (const k of Object.keys(input.recruit)) copy[k] = input.recruit[k];
+    for (const k of Object.keys(rec)) copy[k] = rec[k];
     const script = String(copy.firstRecruitScript || '');
     const hero = /'([a-z_]+)'/.exec(script);
     const cards = /\[([a-z_,\s]+)\]/.exec(script);
     if (hero && cards) {
       copy.firstHero = hero[1];
-      copy.firstCards = cards[1].split(',').map((s: string) => s.trim());
+      copy.firstCards = cards[1].split(',').map((x: string) => x.trim());
     }
     input.recruit = copy;
   }
+  return input;
+}
+
+/**
+ * Kiểm tra và đóng gói dữ liệu. Ném DataError (liệt kê mọi lỗi) nếu bảng nào sai.
+ * `raw` có khóa là tên file không đuôi: tuning, heroes, skills, 'hero-levels', ...
+ */
+export function buildGameData(raw: RawTables): GameData {
+  const input = prepareTables(raw);
   const problems = validateRawTables(input);
   if (problems.length > 0) throw new DataError(problems);
 

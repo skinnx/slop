@@ -103,7 +103,7 @@ export class GameImpl implements Game, FieldHost, DungeonHost, Bank {
     const data = opts.data;
     this.data = data;
     this.clock = opts.clock;
-    this.stepSec = data.tuning.sim.fixedStepSec;
+    this.stepSec = 1 / data.tuning.sim.stepsPerSec; // chính xác 1/30; fixedStepSec trong JSON là số đã làm tròn
     this.buildersTotal = data.tuning.economy.builderSlots;
     for (const r of data.tuning.economy.uncapped) this.uncapped[r] = true;
     const now = this.clock.nowMs();
@@ -385,6 +385,8 @@ export class GameImpl implements Game, FieldHost, DungeonHost, Bank {
       if (report) report.finished.push(b);
     });
     const tv = this.tavern;
+    // đồng hồ đổi thẻ bắt đầu chạy khi Quán đã xây xong
+    if (tv.nextRefreshAt <= 0 && this.village.levelOf('tavern') >= 1) tv.nextRefreshAt = now + this.data.recruit.refreshSec * 1000;
     if (tv.nextRefreshAt > 0 && now >= tv.nextRefreshAt) {
       const period = this.data.recruit.refreshSec * 1000;
       tv.nextRefreshAt = now + period - ((now - tv.nextRefreshAt) % period);

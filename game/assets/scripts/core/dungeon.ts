@@ -4,7 +4,7 @@ import { BossAbilityDef, FloorDef, MonsterDef, ResourceMap, StageDef } from './d
 import { DungeonRunView } from './contract';
 import { Arena, ArenaHost, HeroSpec, Unit } from './arena';
 import { Rng } from './rng';
-import { CHARGE_DASH_SEC, SUMMON_RADIUS } from './constants';
+import { CHARGE_DASH_SEC, SUMMON_RADIUS, TIME_EPS } from './constants';
 
 export interface DungeonHost extends ArenaHost {
   /** Vừa sạch quái tầng `floor` (kể cả tầng boss). */
@@ -125,7 +125,7 @@ export class DungeonSim extends Arena implements DungeonRunView {
     this.durationSec += dt;
     if (this.fadeT > 0) {
       this.fadeT -= dt;
-      if (this.fadeT <= 0) this.startFloor(this.floor + 1, false);
+      if (this.fadeT <= TIME_EPS) { this.fadeT = 0; this.startFloor(this.floor + 1, false); }
       return;
     }
     this.floorTime += dt;
@@ -136,7 +136,7 @@ export class DungeonSim extends Arena implements DungeonRunView {
     let ay = 0;
     if (this.cleared && this.exitOpen) {
       this.clearedT += dt;
-      if (this.auto && this.clearedT >= d.floorExitDelaySec && this.leader) {
+      if (this.auto && this.clearedT >= d.floorExitDelaySec - TIME_EPS && this.leader) {
         const dx = this.exitX - this.leader.x;
         const dy = this.exitY - this.leader.y;
         const len = Math.sqrt(dx * dx + dy * dy);
@@ -157,7 +157,7 @@ export class DungeonSim extends Arena implements DungeonRunView {
     if (!this.cleared) {
       if (this.streakT > 0) {
         this.streakT -= dt;
-        if (this.streakT <= 0) { this.streakT = 0; this.streak = 0; }
+        if (this.streakT <= TIME_EPS) { this.streakT = 0; this.streak = 0; }
       }
       if (this.remaining === 0 && !this.isBossFloor) this.clearFloor();
     } else if (this.exitOpen && this.leader) {
@@ -187,7 +187,7 @@ export class DungeonSim extends Arena implements DungeonRunView {
     const max = this.t.dungeon.maxAlive;
     for (let g = 0; g < groups.length; g++) {
       const grp = groups[g];
-      if (this.floorTime < grp.delaySec || this.spawned[g] >= grp.count) continue;
+      if (this.floorTime < grp.delaySec - TIME_EPS || this.spawned[g] >= grp.count) continue;
       const def = this.data.monsterById[grp.monster];
       const base = this.rng.next() * 6.283185307179586;
       while (this.spawned[g] < grp.count) {
@@ -277,17 +277,17 @@ export class DungeonSim extends Arena implements DungeonRunView {
     if (m.dashing) {
       m.dashT -= dt;
       m.vx = m.dashVx; m.vy = m.dashVy;
-      if (m.dashT <= 0) { m.dashing = false; m.vx = 0; m.vy = 0; }
+      if (m.dashT <= TIME_EPS) m.dashing = false; // bước cuối vẫn di chuyển để đi đủ chiều dài
       return true;
     }
     if (m.castAbility !== '') {
       m.castT -= dt;
-      if (m.castT <= 0) this.resolveAbility(m, m.castAbility, this.data.monsters.abilities[m.castAbility]);
+      if (m.castT <= TIME_EPS) this.resolveAbility(m, m.castAbility, this.data.monsters.abilities[m.castAbility]);
       return true;
     }
     if (m.windupT > 0) return false; // đang gồng đòn thường: để đánh xong
     for (let k = 0; k < ids.length; k++) {
-      if (m.abilityCd[k] > 0) continue;
+      if (m.abilityCd[k] > TIME_EPS) continue;
       const ab = this.data.monsters.abilities[ids[k]];
       if (this.startAbility(m, ids[k], ab)) { m.abilityCd[k] = ab.cooldownSec; return true; }
     }

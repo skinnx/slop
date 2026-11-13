@@ -3,7 +3,7 @@ import { CampDef, MonsterDef, ZoneId } from './data';
 import { CampView, FieldView, ResourceNodeView } from './contract';
 import { Arena, ArenaHost, Unit } from './arena';
 import { Rng } from './rng';
-import { CAMP_ACTIVE_DIST, HOME_ARRIVE_DIST, NODE_RADIUS, RETURN_CHANNEL_SEC } from './constants';
+import { CAMP_ACTIVE_DIST, HOME_ARRIVE_DIST, NODE_RADIUS, RETURN_CHANNEL_SEC, TIME_EPS } from './constants';
 
 export class FieldNode implements ResourceNodeView {
   index = 0;
@@ -163,7 +163,7 @@ export class FieldSim extends Arena implements FieldView {
         outcome = 'channel_cancel';
       } else {
         this.returnChannelT -= dt;
-        if (this.returnChannelT <= 0) { this.returnChannelT = 0; outcome = 'channel_done'; }
+        if (this.returnChannelT <= TIME_EPS) { this.returnChannelT = 0; outcome = 'channel_done'; }
       }
     }
 
@@ -230,7 +230,7 @@ export class FieldSim extends Arena implements FieldView {
       if (m.state === 'wander') {
         if (m.hp < m.maxHp) m.hp = Math.min(m.maxHp, m.hp + m.maxHp * cmb.monsterRegenOutOfCombatPctPerSec * dt);
         m.wanderT -= dt;
-        if (m.wanderT <= 0) {
+        if (m.wanderT <= TIME_EPS) {
           m.wanderT = this.rng.range(f.wanderRetargetSec[0], f.wanderRetargetSec[1]);
           const ang = this.rng.next() * 6.283185307179586;
           const r = this.rng.next() * camp.radius;
@@ -313,7 +313,7 @@ export class FieldSim extends Arena implements FieldView {
       const n = this.nodes[i];
       if (!n.depleted) continue;
       n.respawnT -= dt;
-      if (n.respawnT <= 0) {
+      if (n.respawnT <= TIME_EPS) {
         n.respawnT = 0; n.depleted = false; n.durability = n.maxDurability;
         this.depletedCount--;
       }
@@ -330,7 +330,7 @@ export class FieldSim extends Arena implements FieldView {
         let tm = c.slotTimers[s];
         if (tm < 0) continue;
         tm -= dt;
-        if (tm <= 0) {
+        if (tm <= TIME_EPS) {
           // mọc lại tại tâm ổ (lệch nhẹ để không chồng khít lên nhau)
           const ang = this.rng.next() * 6.283185307179586;
           this.spawnCampMonster(c, s, c.x + Math.cos(ang) * 0.3, c.y + Math.sin(ang) * 0.3);
@@ -356,20 +356,20 @@ export class FieldSim extends Arena implements FieldView {
         return false;
       }
       this.wipeT -= dt;
-      if (this.wipeT <= 0) {
+      if (this.wipeT <= TIME_EPS) {
         this.wipeT = 0;
         return true;
       }
       return false;
     }
-    const regen = this.sinceCombat >= f.outOfCombatDelaySec;
+    const regen = this.sinceCombat >= f.outOfCombatDelaySec - TIME_EPS;
     for (const h of this.heroes) {
       if (h.alive) {
         if (regen && h.hp < h.maxHp) h.hp = Math.min(h.maxHp, h.hp + h.maxHp * f.heroRegenPctPerSec * dt);
         continue;
       }
       h.reviveT -= dt;
-      if (h.reviveT <= 0) {
+      if (h.reviveT <= TIME_EPS) {
         h.reviveT = 0; h.alive = true; h.hp = h.maxHp; h.anim = 'idle'; h.attackCd = 0;
         this.host.emit('revive', h.x, h.y, 0, h.id, h.heroId);
       }

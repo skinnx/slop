@@ -15,9 +15,15 @@ export function loadGameData(dir?: string): GameData {
   return buildGameData(raw);
 }
 
-/** Đồng hồ giả: bot tăng nó đúng một bước mô phỏng trước mỗi game.step(). */
+/**
+ * Đồng hồ giả: bot gọi tick() đúng một lần trước mỗi game.step(). Giờ được tính từ số bước (không cộng dồn)
+ * để không tích lũy sai số dấu phẩy động.
+ */
 export class SimClock {
-  ms: number;
-  constructor(startMs = 1_700_000_000_000) { this.ms = startMs; }
-  nowMs(): number { return this.ms; }
+  private base: number;
+  private steps = 0;
+  private stepMs: number;
+  constructor(stepsPerSec = 30, startMs = 1_700_000_000_000) { this.base = startMs; this.stepMs = 1000 / stepsPerSec; }
+  nowMs(): number { return this.base + this.steps * this.stepMs; }
+  tick(): void { this.steps++; }
 }

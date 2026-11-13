@@ -85,10 +85,9 @@ export interface SimOptions {
 }
 
 export function simulate(data: GameData, opts: SimOptions): SimReport {
-  const clock = new SimClock();
+  const clock = new SimClock(data.tuning.sim.stepsPerSec);
   const game = createGame({ data, clock, seed: opts.seed });
   const bot = new Bot(game, opts.bot || {});
-  const stepMs = 1000 / data.tuning.sim.stepsPerSec;
   const totalSteps = Math.round(opts.hours * 3600 * data.tuning.sim.stepsPerSec);
   const rowEvery = Math.round((opts.rowEveryMin || 15) * 60 * data.tuning.sim.stepsPerSec);
   const rows: ProgressRow[] = [];
@@ -122,7 +121,7 @@ export function simulate(data: GameData, opts: SimOptions): SimReport {
 
   for (let i = 1; i <= totalSteps; i++) {
     bot.act();
-    clock.ms += stepMs;
+    clock.tick();
     game.step();
     steps = i;
     const n = game.eventCount;

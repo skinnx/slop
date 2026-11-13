@@ -24,5 +24,7 @@ export const PICKUP_TOUCH_DIST = 0.3;
 export const CAMP_ACTIVE_DIST = 16;
 /** Quái về tới ổ khi cách điểm nhà dưới khoảng này. */
 export const HOME_ARRIVE_DIST = 0.3;
+/** Sai số cho phép khi so đồng hồ đếm lùi với 0 (đồng hồ là số thực, bước là 1/30 s). */
+export const TIME_EPS = 1e-6;
 /** Giới hạn số sự kiện giữ lại nếu view/bot quên clearEvents(). */
 export const MAX_EVENTS = 4096;
