@@ -1,13 +1,17 @@
 // The ONLY place that knows how files are fetched.
 // Editor/preview/build: ResourcesLoader (assets/resources, path without extension).
 // tools/harness: replaces it with a fetch-based loader via setLoader(). Nothing else differs.
-import { resources, JsonAsset, ImageAsset, Texture2D, SpriteFrame, Rect, Size, Vec2 } from 'cc';
+import { resources, JsonAsset, ImageAsset, Texture2D, SpriteFrame, Rect, Size, Vec2, TTFFont, AudioClip } from 'cc';
 
 export interface AssetLoader {
   /** Parsed JSON of assets/resources/<path>.json */
   json<T = unknown>(path: string): Promise<T>;
   /** Decoded image of assets/resources/<path>.png (works for every image import type). */
   image(path: string): Promise<ImageAsset>;
+  /** TTF font of assets/resources/<path>.ttf (use as label.font with useSystemFont = false). */
+  font(path: string): Promise<TTFFont>;
+  /** Audio clip of assets/resources/<path> (.ogg or .mp3; pass the path WITHOUT extension, ext is the real one). */
+  audio(path: string, ext: string): Promise<AudioClip>;
 }
 
 export class ResourcesLoader implements AssetLoader {
@@ -16,6 +20,12 @@ export class ResourcesLoader implements AssetLoader {
   }
   image(path: string): Promise<ImageAsset> {
     return new Promise((ok, fail) => resources.load(path, ImageAsset, (err, a) => (err ? fail(err) : ok(a))));
+  }
+  font(path: string): Promise<TTFFont> {
+    return new Promise((ok, fail) => resources.load(path, TTFFont, (err, a) => (err ? fail(err) : ok(a))));
+  }
+  audio(path: string, _ext: string): Promise<AudioClip> {
+    return new Promise((ok, fail) => resources.load(path, AudioClip, (err, a) => (err ? fail(err) : ok(a))));
   }
 }
 

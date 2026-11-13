@@ -1,0 +1,75 @@
+{
+  "_doc": "Atlases of the view layer, built by tools/atlas/build-view-atlases.mjs (npm run atlas:view). Frame name = group prefix + item name. An item is a name (file name without .png under dir) or [name, file]. 'scale' grows by an integer factor (nearest), 'size' resizes (box filter when shrinking). 'proc' groups are white shapes drawn by the script. 'border' = 9-slice insets [left, top, right, bottom] in source pixels.",
+  "atlases": [
+    {
+      "name": "world",
+      "out": "textures/world",
+      "filter": "nearest",
+      "padding": 2,
+      "extrude": 1,
+      "maxWidth": 1024,
+      "groups": [
+        { "prefix": "td/", "dir": "art-source/kenney-tiny-dungeon/Tiles/tile_{}",
+          "items": ["0084", "0085", "0086", "0087", "0088", "0096", "0097", "0098", "0099", "0100", "0111", "0112",
+                    "0092", "0108", "0109", "0110", "0120", "0121", "0122", "0123", "0124",
+                    "0103", "0104", "0118", "0131", "0063", "0040", "0029", "0041"] },
+        { "prefix": "tb/", "dir": "art-source/kenney-tiny-battle/Tiles/tile_{}",
+          "items": ["0081", "0029", "0048", "0064", "0067", "0080", "0025", "0197"] },
+        { "prefix": "urban/", "dir": "art-source/kenney-rpg-urban-kit/Tiles/tile_{}",
+          "items": ["0260", "0291", "0346", "0320", "0023", "0104", "0266", "0131", "0158", "0185"] },
+        { "prefix": "pp/", "dir": "art-source/kenney-pixel-platformer/Tiles/tile_{}",
+          "items": ["0067", "0007", "0086", "0151", "0152"] },
+        { "prefix": "food/", "dir": "art-source/kenney-pixel-platformer-food/Tiles/tile_{}", "items": ["0008"] },
+        { "prefix": "fol/", "dir": "art-source/kenney-foliage-sprites/PNG/Flat/sprite_{}", "size": [36, 36],
+          "items": ["0001", "0002", "0003", "0004", "0005", "0006"] },
+        { "prefix": "fol/", "dir": "art-source/kenney-foliage-sprites/PNG/Flat/sprite_{}", "size": [28, 28], "items": ["0010"] },
+        { "prefix": "icon/", "dir": "art-source/kenney-board-game-icons/PNG/Default (64px)/{}", "size": [32, 32],
+          "items": ["timer_CW_25", "timer_CW_50", "timer_CW_75", "timer_100", "crown_a", "resource_wood"] },
+        { "prefix": "ui/", "dir": "art-source/kenney-ui-pack/PNG/{}",
+          "items": [["bubble", "Grey/Default/button_round_flat"], ["check", "Green/Default/check_round_color"],
+                    ["arrow_s", "Yellow/Default/arrow_basic_s"], ["arrow_e", "Yellow/Default/arrow_decorative_e"]] },
+        { "prefix": "proc/", "proc": true,
+          "items": [["pixel", ["pixel", 8]], ["diamond", ["diamond", 120]], ["diamond2", ["diamond", 240]],
+                    ["circle", ["circle", 64]], ["ring", ["ring", 64, 6]], ["arc", ["arc", 64]],
+                    ["circle256", ["circle", 256]], ["ring256", ["ring", 256, 10]]] }
+      ]
+    },
+    {
+      "name": "ui",
+      "out": "textures/ui",
+      "filter": "linear",
+      "padding": 2,
+      "extrude": 1,
+      "maxWidth": 1024,
+      "groups": [
+        { "prefix": "ui/", "dir": "art-source/kenney-ui-pack/PNG/{}",
+          "border": {
+            "panel": [16, 16, 16, 16], "rect": [16, 16, 16, 16], "rect_blue": [16, 14, 16, 20],
+            "btn_green": [16, 14, 16, 20], "btn_grey": [16, 14, 16, 20], "btn_red": [16, 14, 16, 20], "btn_blue": [16, 14, 16, 20],
+            "btn_yellow": [16, 14, 16, 20], "sq_blue": [16, 14, 16, 20], "sq_grey": [16, 14, 16, 20]
+          },
+          "items": [["panel", "Grey/Default/button_square_flat"], ["rect", "Grey/Default/button_rectangle_flat"],
+                    ["rect_blue", "Blue/Default/button_rectangle_depth_flat"],
+                    ["btn_green", "Green/Default/button_rectangle_depth_flat"], ["btn_grey", "Grey/Default/button_rectangle_depth_flat"],
+                    ["btn_red", "Red/Default/button_rectangle_depth_flat"], ["btn_blue", "Blue/Default/button_rectangle_depth_flat"],
+                    ["btn_yellow", "Yellow/Default/button_rectangle_depth_flat"],
+                    ["sq_blue", "Blue/Default/button_square_depth_flat"], ["sq_grey", "Grey/Default/button_square_depth_flat"],
+                    ["round", "Grey/Default/button_round_depth_flat"], ["round_flat", "Grey/Default/button_round_flat"],
+                    ["arrow_w", "Blue/Default/arrow_basic_w"], ["arrow_e", "Blue/Default/arrow_basic_e"],
+                    ["arrow_yellow_e", "Yellow/Default/arrow_decorative_e"], ["arrow_yellow_n", "Yellow/Default/arrow_basic_n"],
+                    ["arrow_green_n", "Green/Default/arrow_basic_n"],
+                    ["star", "Yellow/Default/star"], ["star_outline", "Grey/Default/star_outline"],
+                    ["check_round", "Green/Default/check_round_color"], ["checkmark", "Green/Default/icon_checkmark"],
+                    ["cross", "Red/Default/icon_cross"]] },
+        { "prefix": "icon/", "dir": "art-source/kenney-board-game-icons/PNG/Default (64px)/{}",
+          "items": ["sword", "suit_hearts", "shield", "bow", "flask_full", "lock_closed", "hourglass", "skull", "flag_triangle",
+                    "arrow_clockwise", "campfire", "crown_a", "pawns", "structure_house", "card", "cards_stack", "resource_wood",
+                    "hexagon", "hexagon_outline", "flag_square", "book_closed"] },
+        { "prefix": "proc/", "proc": true,
+          "border": { "rrect": [16, 16, 16, 16] },
+          "items": [["pixel", ["pixel", 8]], ["diamond", ["diamond", 120]], ["circle", ["circle", 128]], ["ring", ["ring", 128, 12]],
+                    ["ring220", ["ring", 220, 4]], ["arc", ["arc", 64]], ["cone", ["cone", 128, 256]], ["rrect", ["rrect", 48, 16]]] }
+      ]
+    }
+  ]
+}
