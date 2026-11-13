@@ -139,6 +139,7 @@ export class GameView implements Ctx {
     if (prev && (prev === 'DUNGEON' || mode === 'DUNGEON' || mode === 'RESULT')) this.flash();
     this.closeAll();
     this.dialogs.close();
+    if (mode === 'RESULT' || mode === 'TITLE') this.toasts.clear();
     this.joystick.cancel();
     this.fieldHud.root.active = mode === 'WORLD';
     this.dungeonHud.root.active = mode === 'DUNGEON';
@@ -216,12 +217,14 @@ export class GameView implements Ctx {
       get source() { return self.src.kind; },
       get mode() { return self.src.mode(); },
       get panels() { return self.panels.map((p) => p.id); },
+      get settled() { const t = self.top(); return !t || t.settled; },
       get dialog() { return self.dialogs.isOpen ? self.dialogs.title : null; },
       get toasts() { return self.toasts.state; },
       get frame() { return self.frame; },
       get H() { return Layout.H; },
       get safe() { return { top: Layout.safeTop, bottom: Layout.safeBottom }; },
       get world() { return self.world.stats; },
+      get telegraphCount() { const m = self.src.mode(); return m === 'DUNGEON' ? self.src.world().telegraphs.length : 0; },
       get joystick() { return { x: self.joystick.vx, y: self.joystick.vy, enabled: self.joystick.enabled }; },
       get fieldHud() { return self.src.mode() === 'WORLD' ? self.src.fieldHud() : null; },
       get dungeonHud() { return self.src.mode() === 'DUNGEON' ? self.src.dungeonHud() : null; },
@@ -247,6 +250,15 @@ export class GameView implements Ctx {
       fastForward(sec: number) { (self.src as any).fastForward?.(sec); },
       get standIn() { return self.src instanceof StandInSource ? self.src : null; },
       totalFrames: () => director.getTotalFrames(),
+      /** Measurement aid: hides the named view layers ('world-text', 'hud', 'joystick', 'panels', 'dialogs', 'toasts'); null shows them again. */
+      hideLayers(names: string[] | null) {
+        const all = [self.world.text.root, self.hudLayer, self.joystick.root, self.panelLayer, self.dialogs.root, self.toasts.root];
+        for (const n of all) {
+          const anyN = n as any;
+          if (names === null) { if (anyN.__hidden) { n.active = true; anyN.__hidden = false; } }
+          else if (names.indexOf(n.name) >= 0 && n.active) { n.active = false; anyN.__hidden = true; }
+        }
+      },
     };
   }
 

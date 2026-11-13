@@ -250,19 +250,22 @@ export class WorldRenderer {
     const room = w.room!;
     const wall = Assets.w('td/0040'), banner = Assets.w('td/0029'), spike = Assets.w('proc/pixel'), glow = Assets.w('proc/circle');
     const spikeCol = rgba('#C9CED6');
-    const wallCell = (x: number, y: number, i: number) => {
+    // Back walls are two blocks high with spikes; front walls (x = -1, y = -1) one block, so they do not hide the
+    // squad standing next to them (decision, see view/README.md).
+    const wallCell = (x: number, y: number, i: number, front = false) => {
       const sx = isoX(x + 0.5, y + 0.5), sy = isoY(x + 0.5, y + 0.5) - 30;
       const d = depth(x + 0.5, y + 0.5);
-      const isBanner = i % 4 === 2;
+      const isBanner = !front && i % 4 === 2;
       this.units.push(isBanner ? banner : wall, sx, sy, d, 6, 6, WHITE, 0, 0);
+      if (front) return;
       this.units.push(wall, sx, sy + 48, d + 0.001, 6, 6, WHITE, 0, 0);
       for (let k = -1; k <= 1; k++) this.units.push(spike, sx + k * 24, sy + 144, d + 0.002, 6 / 8, 18 / 8, spikeCol, 0, 0);
       if (isBanner) this.units.push(glow, sx, sy + 80, d + 0.003, 80 / 64, 80 / 64, rgba('#FFB347', 0.18 + 0.07 * Math.sin(this.time * 9 + i)), 0, 0.5);
     };
     // Walls ring the room: row y = -1 and column x = -1 (front edges) and y = h, x = w (back edges).
     let i = 0;
-    for (let x = -1; x <= room.w; x++) { wallCell(x, room.h, i++); wallCell(x, -1, i++); }
-    for (let y = 0; y < room.h; y++) { wallCell(-1, y, i++); wallCell(room.w, y, i++); }
+    for (let x = -1; x <= room.w; x++) { wallCell(x, room.h, i++); wallCell(x, -1, i++, x < room.w); }
+    for (let y = 0; y < room.h; y++) { wallCell(-1, y, i++, true); wallCell(room.w, y, i++); }
     if (room.exit) {
       const ex = isoX(room.exit.x, room.exit.y), ey = isoY(room.exit.x, room.exit.y);
       const r = 1.6 * CELL_W / 64;

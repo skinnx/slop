@@ -28,7 +28,7 @@
           "items": ["timer_CW_25", "timer_CW_50", "timer_CW_75", "timer_100", "crown_a", "resource_wood"] },
         { "prefix": "ui/", "dir": "art-source/kenney-ui-pack/PNG/{}",
           "items": [["bubble", "Grey/Default/button_round_flat"], ["check", "Green/Default/check_round_color"],
-                    ["arrow_s", "Yellow/Default/arrow_basic_s"], ["arrow_e", "Yellow/Default/arrow_decorative_e"]] },
+                    ["arrow_s", "Yellow/Default/arrow_basic_s"], ["cross", "Red/Default/icon_cross"], ["arrow_e", "Yellow/Default/arrow_decorative_e"]] },
         { "prefix": "proc/", "proc": true,
           "items": [["pixel", ["pixel", 8]], ["diamond", ["diamond", 120]], ["diamond2", ["diamond", 240]], ["dline", ["dline", 120, 2]],
                     ["circle", ["circle", 64]], ["ring", ["ring", 64, 6]], ["arc", ["arc", 64]],

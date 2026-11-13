@@ -1,6 +1,6 @@
 // Toasts (info/error, big), the pickup banner and the confirm dialog of 03-ux-spec.md sections 3 and 14.
 import { Node, Label, tween, Vec3 } from 'cc';
-import { node, rect, slice, label, setBand, setText } from './Ui';
+import { node, rect, slice, label, setBand, setText, useCharCache, groupAtlases } from './Ui';
 import { Layout, W } from './Layout';
 import { BAND, C } from './Theme';
 import { Button, onTap } from './Button';
@@ -18,6 +18,8 @@ export class Toasts {
 
   constructor(parent: Node) {
     this.root = node(parent, 'toasts');
+    useCharCache(this.root);
+    groupAtlases(this.root);
     setBand(this.root, BAND.toast);
   }
 
@@ -81,6 +83,14 @@ export class Toasts {
       p.t += dt;
       if (p.t > 1.2) { p.n.destroy(); this.pickups.splice(i, 1); this.layoutPickups(); }
     }
+  }
+
+  /** Removes every toast and pickup line (full-screen results start clean). */
+  clear(): void {
+    for (const i of this.items) i.n.destroy();
+    for (const p of this.pickups) p.n.destroy();
+    this.items = []; this.pickups = [];
+    this.bigNode?.destroy(); this.bigNode = null;
   }
 
   get state(): { toasts: string[]; big: boolean; pickups: number } {

@@ -61,6 +61,9 @@ export abstract class Panel {
   /** Called every frame while the panel is on top (timers). */
   tick(_dt: number): void {}
 
+  /** True once the slide-in animation has finished (scenarios wait for it before tapping). */
+  get settled(): boolean { return !!this.slide && this.slide.isValid && Math.abs(this.slide.position.y) < 0.5; }
+
   back(): void { this.ctx.close(this); }
   onClosed(): void {}
 

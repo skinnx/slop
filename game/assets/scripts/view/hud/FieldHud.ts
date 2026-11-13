@@ -2,7 +2,7 @@
 // region of the same map. Top bar + resource column + quest card are top-anchored; the four round buttons are
 // bottom-anchored. All numbers come from FieldHudV.
 import { Node, Label, Sprite, tween, Vec3, Tween } from 'cc';
-import { useCharCache, node, rect, ui, px, label, slice, place, placeB, setBand, setText, setColor, num } from '../kit/Ui';
+import { useCharCache, groupAtlases, node, rect, ui, px, label, slice, place, placeB, setBand, setText, setColor, num } from '../kit/Ui';
 import { Layout, W } from '../kit/Layout';
 import { BAND, C } from '../kit/Theme';
 import { Button, onTap } from '../kit/Button';
@@ -107,6 +107,7 @@ export class FieldHud {
   constructor(parent: Node, private act: FieldHudActions) {
     this.root = node(parent, 'field-hud');
     useCharCache(this.root);
+    groupAtlases(this.root);
     setBand(this.root, BAND.hud);
     this.build();
   }

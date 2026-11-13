@@ -2,7 +2,7 @@
 // in the draw-call budget scene, so its sprites come from the UI atlas plus hero portraits from the world
 // atlas (grouped in one strip), and all text is CHAR-cached.
 import { Node, Label, Sprite } from 'cc';
-import { useCharCache, node, ui, px, label, place, placeB, setBand, setText, setColor, num, rect } from '../kit/Ui';
+import { useCharCache, groupAtlases, node, ui, px, label, place, placeB, setBand, setText, setColor, num, rect } from '../kit/Ui';
 import { Layout } from '../kit/Layout';
 import { BAND, C } from '../kit/Theme';
 import { Button } from '../kit/Button';
@@ -23,6 +23,7 @@ export class DungeonHud {
   constructor(parent: Node, private onPause: () => void, private onAuto: () => void) {
     this.root = node(parent, 'dungeon-hud');
     useCharCache(this.root);
+    groupAtlases(this.root);
     setBand(this.root, BAND.hud);
     this.build();
   }
@@ -98,7 +99,7 @@ export class DungeonHud {
       rect(n, 64, 80, '#0E2347', 0.7);
       const img = px(n, 'td/0097', { w: 56, h: 56 }); img.node.setPosition(0, 8, 0);
       const bar = new Bar(n, 56, 10, C.green, '#000000', 0.9); bar.root.setPosition(0, -30, 0);
-      const x = ui(n, 'ui/cross', { w: 40, h: 40 }); x.node.setPosition(0, 8, 0);
+      const x = px(n, 'ui/cross', { w: 40, h: 40 }); x.node.setPosition(0, 8, 0); // world-atlas copy: drawn above the portrait
       this.slots.push({ n, img, bar, x });
     }
     this.slots.forEach((s, i) => {

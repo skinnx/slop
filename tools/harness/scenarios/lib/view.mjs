@@ -43,8 +43,8 @@ export async function startGame(h) {
 
 /** Waits until the top panel is `id` and its slide-in is over. */
 export async function panel(h, id) {
-  await until(h, (g, a) => g.panels[g.panels.length - 1] === a, id);
-  await h.wait(300);
+  await until(h, (g, a) => g.panels[g.panels.length - 1] === a && g.settled, id);
+  await h.wait(100);
 }
 
 /** Closes panels with the back button until none (or `keep`) remain. */

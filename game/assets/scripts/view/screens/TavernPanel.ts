@@ -34,7 +34,7 @@ export class TavernCard {
     this.fragBar = new Bar(strip, 110, 22, '#36C8F0', '#000000', 0.8); this.fragBar.root.setPosition(22, 0, 0);
     this.fragL = label(strip, '0/5', { size: 20, bold: true, outline: '#000000', outlineWidth: 2 }); this.fragL.node.setPosition(22, 0, 0);
     this.alert = label(this.root, '!!', { size: 44, bold: true, color: '#FF3B3B', outline: '#FFFFFF', outlineWidth: 4 });
-    this.alert.node.setPosition(0, h / 2 + 34, 0);
+    this.alert.node.setPosition(0, h / 2 + 6, 0); // "!!" sits on the card's top edge
   }
   set(c: HeroCardV & { isNew?: boolean; dupFrags?: number; highlight?: boolean }, fragOverride?: number): void {
     setColor(this.frame, RARITY[c.rarity]);
@@ -178,7 +178,7 @@ export class HeroPickPanel extends Panel {
     this.ctext(b, this.title, 336, 30, { size: 24, w: 600 });
     const all = this.ctx.src.heroes().filter((h) => this.ids.indexOf(h.id) >= 0);
     all.forEach((c, i) => {
-      const hc = new HeroCard(b); hc.root.name = 'pick-' + c.id; hc.set({ ...c, owned: true });
+      const hc = new HeroCard(b); hc.root.name = 'pick-' + c.id; hc.set({ ...c, owned: true, inSquad: false, canLevel: false });
       hc.root.setPosition(16 + 74 + (i % 4) * 164, -(80 + 92 + Math.floor(i / 4) * 200), 0);
       onTap(hc.root, () => this.onPick(c.id, c.name));
     });

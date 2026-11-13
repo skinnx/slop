@@ -44,6 +44,12 @@ export function strongSquad(now) {
   });
 }
 
+/** Full 8-hero squad of modest level: fights 60 monsters for several seconds (crowd test). */
+export function crowdSquad(now) {
+  const ids = ['bang', 'do_neo', 'rua_sat', 'se', 'muc', 'lan', 'dang', 'san'];
+  return midGame(now, { level: 12, gateLevel: 2, slots: 8, heroes: ids.map((id) => ({ id, level: 4, fragments: 0 })), squad: ids });
+}
+
 /** Writes a save into the page's localStorage (call before the title tap). */
 export async function installSave(h, save) {
   await h.eval(([k, s]) => localStorage.setItem(k, JSON.stringify(s)), [SAVE_KEY, save]);

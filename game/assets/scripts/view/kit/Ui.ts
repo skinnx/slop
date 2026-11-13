@@ -33,15 +33,28 @@ function bandOf(n: Node | null): number {
   }
   return 0;
 }
-function sortRenderer(n: Node, text: boolean): void {
+const grouped = new WeakSet<Node>();
+/**
+ * In this subtree, sprites from the world (pixel) atlas draw after all UI-atlas sprites of the same band, so a
+ * band costs one batch per atlas instead of one per switch. Only for HUDs where no world-atlas sprite must sit
+ * under a UI-atlas sprite (DungeonHud, FieldHud). Elsewhere the hierarchy order between the atlases is kept.
+ */
+export function groupAtlases(n: Node): void { grouped.add(n); }
+function isGrouped(n: Node | null): boolean {
+  for (let p = n; p; p = p.parent) if (grouped.has(p)) return true;
+  return false;
+}
+/** sortingOrder = band * 4 + kind: 0 UI-atlas sprite (and every sprite outside grouped subtrees), 1 world-atlas sprite, 2 label. */
+export const ORDER_PER_BAND = 4;
+function sortRenderer(n: Node, kind: 0 | 1 | 2): void {
   const s = n.addComponent(Sorting2D);
-  s.sortingOrder = bandOf(n) * 2 + (text ? 1 : 0);
+  s.sortingOrder = bandOf(n) * ORDER_PER_BAND + kind;
 }
 /** Re-applies the band of the node's current parent chain to every renderer below `root` (after re-parenting). */
 export function rebandTree(root: Node): void {
   const walk = (n: Node) => {
     const s = n.getComponent(Sorting2D);
-    if (s) s.sortingOrder = bandOf(n) * 2 + (n.getComponent(Label) ? 1 : 0);
+    if (s) s.sortingOrder = bandOf(n) * ORDER_PER_BAND + (n.getComponent(Label) ? 2 : 0);
     n.children.forEach(walk);
   };
   walk(root);
@@ -105,7 +118,7 @@ export function sprite(parent: Node, frame: SpriteFrame, o: SpriteOpts = {}): Sp
   const r = frame.rect;
   size(n, o.w ?? r.width, o.h ?? r.height);
   applyColor(s, o.color, o.alpha);
-  sortRenderer(n, false);
+  sortRenderer(n, isGrouped(n) && Assets.world.get('proc/pixel')?.texture === frame.texture ? 1 : 0);
   return s;
 }
 export const ui = (parent: Node, name: string, o: SpriteOpts = {}) => sprite(parent, Assets.u(name), o);
@@ -168,7 +181,7 @@ export function label(parent: Node, text: string, o: LabelOpts = {}): Label {
   if (wantsChar(n)) charLabels.add(l);
   l.cacheMode = Label.CacheMode.NONE;
   setText(l, text);
-  sortRenderer(n, true);
+  sortRenderer(n, 2);
   return l;
 }
 

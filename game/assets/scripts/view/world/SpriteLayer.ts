@@ -3,7 +3,7 @@
 // into the pooled nodes (frame, position, scale, angle, colour), and unused nodes are hidden. All frames come
 // from one atlas, so the whole layer is one batch whatever is shown. Setters run only when a value changes.
 import { Node, Sprite, SpriteFrame, UITransform, Color, Sorting2D } from 'cc';
-import { node, setBand } from '../kit/Ui';
+import { node, setBand, ORDER_PER_BAND } from '../kit/Ui';
 
 interface Slot {
   n: Node;
@@ -77,7 +77,7 @@ export class SpriteLayer {
     const s = n.addComponent(Sprite);
     s.sizeMode = Sprite.SizeMode.CUSTOM;
     s.trim = false;
-    n.addComponent(Sorting2D).sortingOrder = this.band * 2; // same rule as kit/Ui.ts
+    n.addComponent(Sorting2D).sortingOrder = this.band * ORDER_PER_BAND; // same rule as kit/Ui.ts
     n.active = false;
     return { n, s, t: n.getComponent(UITransform)!, frame: null, x: NaN, y: NaN, sx: NaN, sy: NaN, rot: NaN, ay: 0.5, w: 0, h: 0, rgba: -1, on: false };
   }

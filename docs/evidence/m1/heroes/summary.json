@@ -1,0 +1,50 @@
+{
+  "scenario": "tools/harness/scenarios/m1-heroes.mjs",
+  "ok": true,
+  "failure": null,
+  "viewport": "540x960",
+  "scripts": 49,
+  "seconds": 32,
+  "lastFrame": {
+    "drawCalls": 15,
+    "tris": 1560,
+    "instances": 0,
+    "frames": 640
+  },
+  "notes": [
+    "meat after one level: 855",
+    "swiped to lan",
+    "squad after auto: [\"bang\",\"se\",\"do_neo\",\"lan\"]",
+    "ore 900 -> 888 after unlocking node 10"
+  ],
+  "screenshots": [
+    "docs/evidence/m1/heroes/01-hero-list.png",
+    "docs/evidence/m1/heroes/02-filter-agi.png",
+    "docs/evidence/m1/heroes/03-hero-detail.png",
+    "docs/evidence/m1/heroes/04-after-level-up.png",
+    "docs/evidence/m1/heroes/05-skill-tooltip.png",
+    "docs/evidence/m1/heroes/06-swiped.png",
+    "docs/evidence/m1/heroes/07-squad.png",
+    "docs/evidence/m1/heroes/08-squad-changed.png",
+    "docs/evidence/m1/heroes/09-swap.png",
+    "docs/evidence/m1/heroes/10-auto-assign-cp-band.png",
+    "docs/evidence/m1/heroes/11-training.png",
+    "docs/evidence/m1/heroes/12-training-tooltip.png",
+    "docs/evidence/m1/heroes/13-training-unlocked.png",
+    "docs/evidence/m1/heroes/14-slot-tooltip.png"
+  ],
+  "consoleErrors": [],
+  "console": [
+    "[timeEnd] Init Base: 0.989990234375 ms",
+    "[timeEnd] Init Infrastructure: 28.27685546875 ms",
+    "[timeEnd] Init SubSystem: 1.678955078125 ms",
+    "[log] Cocos Creator v3.8.8",
+    "[log] Using legacy pipeline",
+    "[timeEnd] Init Project: 4.66796875 ms",
+    "[timeEnd] InitScene: 0.294189453125 ms",
+    "[timeEnd] AttachPersist: 0.0029296875 ms",
+    "[timeEnd] AutoRelease: 0.174072265625 ms",
+    "[timeEnd] Destroy: 0.31396484375 ms",
+    "[timeEnd] Activate: 19.064208984375 ms"
+  ]
+}
