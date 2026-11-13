@@ -210,12 +210,13 @@ export class StandInSource implements Source {
         .map((c, k) => ({ ...c, isNew: k === 1 ? false : !c.owned })),
       bonus: 4, bonusMax: 10, refreshSec: 1772, refreshCost: 50, drawCost: 100, gold: 277, tickets: 23,
       exchange: [
-        { id: 'frags', label: '5 mảnh của một hero đã có', price: 8, enabled: true, pick: true },
-        { id: 'N', label: 'Mở một hero Thường chưa có', price: 15, enabled: true, pick: true },
-        { id: 'R', label: 'Mở một hero Hiếm chưa có', price: 30, enabled: false, pick: false },
-        { id: 'E', label: 'Mở một hero Sử Thi chưa có', price: 80, enabled: false, pick: false },
-        { id: 'L', label: 'Mở một hero Huyền Thoại chưa có', price: 150, enabled: false, pick: false },
+        { id: 'frags', label: '5 mảnh của một hero đã có', price: 8, enabled: true, reason: '', eligible: ['bang', 'se', 'lan'] },
+        { id: 'N', label: 'Mở một hero Thường chưa có', price: 15, enabled: true, reason: '', eligible: ['lan'] },
+        { id: 'R', label: 'Mở một hero Hiếm chưa có', price: 30, enabled: false, reason: 'Thiếu 7 Vé Quán', eligible: [] },
+        { id: 'E', label: 'Mở một hero Sử Thi chưa có', price: 80, enabled: false, reason: 'Thiếu 57 Vé Quán', eligible: [] },
+        { id: 'L', label: 'Mở một hero Huyền Thoại chưa có', price: 150, enabled: false, reason: 'Thiếu 127 Vé Quán', eligible: [] },
       ],
+      recruitBlocked: [null, null, 'Thiếu 23 Vàng'], recruitCost: [100, 200, 300], refreshBlocked: null,
     };
   }
   lastReveal(): RevealV | null { return this.reveal; }
@@ -235,7 +236,7 @@ export class StandInSource implements Source {
         { name: 'Bắn Đôi', stars: 1, maxStars: 3, unlocked: true, unlockLevel: 1, desc: 'Bắn hai mũi tên vào mục tiêu.', kind: 'Đánh đơn', cooldownSec: 6 },
         { name: 'Mưa Tên', stars: 0, maxStars: 3, unlocked: c.level >= 10, unlockLevel: 10, desc: 'Mưa tên rơi lên nhiều quái gần nhất.', kind: 'Loạt bắn', cooldownSec: 10 },
       ],
-      cost: c.owned ? { meat: 100, frags: c.level % 5 === 0 ? 5 : 0, lackMeat: false, lackFrags: false } : null, maxed: false,
+      cost: c.owned ? { meat: 100, frags: c.level % 5 === 0 ? 5 : 0, lackMeat: false, lackFrags: false, blocked: null } : null, maxed: false,
     };
   }
   squad(): SquadV { return { slots: 4, members: this.squadIds.slice(), cards: this.heroes(), cp: 2949 }; }
@@ -243,7 +244,7 @@ export class StandInSource implements Source {
     const nodes = Array.from({ length: 30 }, (_, k) => ({ index: k, stat: (k % 2 ? 'ATK' : 'HP') as 'HP' | 'ATK', amount: k % 2 ? 3 : 12, cost: 6 + k * 3,
       state: (k < 7 ? 'done' : k === 7 ? 'open' : 'locked') as 'done' | 'open' | 'locked', reqPlayerLevel: Math.floor(k / 3) + 1 }));
     return { ore: 15, coral: 0, playerLevel: 3, nodes,
-      slots: [4, 5, 6, 7, 8].map((s, i) => ({ slot: s, cost: [2, 4, 6, 9, 12][i], reqYardLevel: i + 2, state: (i === 0 ? 'open' : 'locked') as 'open' | 'locked', lockText: `Cần Sân Tập cấp ${i + 2}` })) };
+      slots: [4, 5, 6, 7, 8].map((s, i) => ({ slot: s, cost: [2, 4, 6, 9, 12][i], reqYardLevel: i + 2, state: (i === 0 ? 'open' : 'locked') as 'open' | 'locked', lockText: `Cần Sân Tập cấp ${i + 2}`, blocked: i === 0 ? 'Thiếu 2 San Hô Đỏ' : `Cần Sân Tập cấp ${i + 2}` })), nextBlocked: 'Thiếu 12 Quặng' };
   }
   gate(stage: number | null): GateV {
     const s = stage ?? 1;

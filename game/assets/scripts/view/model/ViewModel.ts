@@ -102,7 +102,11 @@ export interface TavernV {
   bonus: number; bonusMax: number;
   refreshSec: number; refreshCost: number;
   drawCost: number; gold: number; tickets: number;
-  exchange: { id: string; label: string; price: number; enabled: boolean; pick: boolean }[];
+  exchange: { id: string; label: string; price: number; enabled: boolean; reason: string; eligible: string[] }[];
+  /** Check of 1x/2x/3x (index 0..2): null = can recruit, otherwise the reason. Price per option. */
+  recruitBlocked: (string | null)[];
+  recruitCost: number[];
+  refreshBlocked: string | null;
 }
 export interface RevealV { cards: HeroCardV[]; draws: { cardIndex: number; isNew: boolean; frags: number }[]; }
 export interface MilestoneV { level: number; text: string; reached: boolean; }
@@ -113,7 +117,7 @@ export interface HeroDetailV {
   meat: number;
   milestones: MilestoneV[];
   skills: SkillV[];
-  cost: { meat: number; frags: number; lackMeat: boolean; lackFrags: boolean } | null;
+  cost: { meat: number; frags: number; lackMeat: boolean; lackFrags: boolean; blocked: string | null } | null;
   maxed: boolean;
 }
 export interface SquadV { slots: number; members: string[]; cards: HeroCardV[]; cp: number; }
@@ -121,7 +125,9 @@ export interface TrainingNodeV { index: number; stat: 'HP' | 'ATK'; amount: numb
 export interface TrainingV {
   ore: number; coral: number; playerLevel: number;
   nodes: TrainingNodeV[];
-  slots: { slot: number; cost: number; reqYardLevel: number; state: 'done' | 'open' | 'locked'; lockText: string }[];
+  slots: { slot: number; cost: number; reqYardLevel: number; state: 'done' | 'open' | 'locked'; lockText: string; blocked: string | null }[];
+  /** Why the next node cannot be unlocked now (null = it can). */
+  nextBlocked: string | null;
 }
 export interface GateV {
   stage: number; stageName: string; floors: string; recommendedCp: number; teamCp: number;
@@ -154,4 +160,7 @@ export type ViewEvent =
   | { t: 'big'; text: string }
   | { t: 'streakBonus'; amount: number }
   | { t: 'floor'; floor: number }
-  | { t: 'sound'; name: string };
+  | { t: 'sound'; name: string }
+  | { t: 'skill'; unitId: number; x: number; y: number; name: string; radius: number; color: string }
+  | { t: 'teleport' }
+  | { t: 'fade' };

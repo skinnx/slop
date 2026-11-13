@@ -119,6 +119,17 @@ export class WorldRenderer {
       case 'death':
         this.motion.die(e.unitId, this.time);
         break;
+      case 'skill': {
+        // Ring in the attribute colour 0.5 -> 1.5 in 0.3 s, name above the head 0.8 s, area flash for cleave/nova.
+        const sx = isoX(e.x, e.y), sy = isoY(e.x, e.y);
+        this.fx.push({ kind: 'ring', x: sx, y: sy, t: 0, dur: 0.3, color: rgba(e.color, 0.9), size: 1, angle: 0 });
+        if (e.radius > 0) this.fx.push({ kind: 'area', x: sx, y: sy, t: 0, dur: 0.2, color: rgba(e.color, 0.3), size: e.radius, angle: 0 });
+        if (e.name) this.text.float(e.name, sx, sy + 90, { color: '#FFFFFF', size: 22, dur: 0.8, rise: 20 });
+        break;
+      }
+      case 'teleport':
+        if (w) this.snapCamera(w);
+        break;
       case 'streakBonus':
         if (w) this.text.float('Thưởng chuỗi! +' + e.amount, isoX(w.focusX, w.focusY), isoY(w.focusX, w.focusY) + 160, { color: '#FFD34D', size: 30, dur: 1.2, rise: 50 });
         break;
@@ -441,6 +452,7 @@ export class WorldRenderer {
       const a = Math.round(255 * (1 - k));
       if (f.kind === 'arc') this.units.push(Assets.w('proc/arc'), f.x, f.y, -1e6, 1, 1, (0xffffff00 | a) >>> 0, -f.angle, 0.5);
       else if (f.kind === 'ring') { const s = 0.5 + k; this.units.push(Assets.w('proc/ring'), f.x, f.y, -1e6, s * 2, s, ((f.color & 0xffffff00) | a) >>> 0, 0, 0.5); }
+      else if (f.kind === 'area') { const rx = (f.size * 60 * Math.SQRT2 * 2) / 256; this.overlay.push(Assets.w('proc/circle256'), f.x, f.y, 0, rx, rx / 2, ((f.color & 0xffffff00) | Math.round((f.color & 255) * (1 - k))) >>> 0); }
       else if (f.kind === 'chip') this.units.push(Assets.w(f.frame!), f.x + f.dx! * k, f.y + f.dy! * k - 60 * k * k, -1e6, f.size, f.size, WHITE, k * 360, 0.5);
     }
   }

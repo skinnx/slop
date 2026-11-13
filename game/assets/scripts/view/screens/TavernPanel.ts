@@ -103,19 +103,21 @@ export class TavernPanel extends Panel {
     this.timerL.node.setPosition(90, -16, 0);
     const rf = new Button(sw, { w: 72, h: 72, frame: '', name: 'refresh', minHit: 88,
       onTap: () => Services.confirm({ title: 'Đổi bộ hero?', body: `Đổi bộ hero ngay với ${v.refreshCost} vàng?`, onOk: () => { if (this.ctx.send({ t: 'refreshCards' }).ok) this.refresh(); } }) });
+    rf.setEnabled(!v.refreshBlocked, v.refreshBlocked ?? '');
     ui(rf.visual, 'proc/circle', { w: 72, h: 72, color: '#F2C230' });
     ui(rf.visual, 'icon/arrow_clockwise', { w: 48, h: 48, color: '#5A3A00' });
     rf.root.setPosition(150, 0, 0);
     this.ctext(T, 'Bạn sẽ nhận một trong các hero.', 0, 856, { size: 24, color: '#B9CBE8' });
-    const cost = v.drawCost * this.times;
-    const lack = v.gold < cost;
+    const cost = v.recruitCost[this.times - 1];
+    const blocked = v.recruitBlocked[this.times - 1];
+    const lack = !!blocked;
     const main = this.mainButton(T, '', 0, -950, () => this.recruit());
     main.root.name = 'recruit';
     const pr = node(main.visual, 'price'); pr.setPosition(0, 24, 0);
     resIcon(pr, 'gold', 36).node.setPosition(-50, 0, 0);
     label(pr, num(cost), { size: 30, bold: true, color: lack ? C.lack : '#FFFFFF', outline: '#20304A', align: 'left' }).node.setPosition(-26, 0, 0);
     label(main.visual, 'TUYỂN', { size: FS.big, bold: true, outline: C.greenDark }).node.setPosition(0, -22, 0);
-    main.setEnabled(!lack, 'Không đủ vàng');
+    main.setEnabled(!lack, blocked ?? '');
     [1, 2, 3].forEach((k, i) => {
       const t = new Button(T, { w: 104, h: 80, text: `${k}x`, textSize: 30, color: this.times === k ? '#3DB4FF' : '#24477F', name: 'times' + k, minHit: 80, sound: 'switch-a',
         onTap: () => { this.times = k; this.refresh(); } });
@@ -140,12 +142,16 @@ export class TavernPanel extends Panel {
       resIcon(pr, 'tickets', 30).node.setPosition(0, 0, 0);
       label(pr, String(e.price), { size: 24, bold: true, color: v.tickets < e.price ? C.lack : '#FFFFFF', align: 'left' }).node.setPosition(22, 0, 0);
       const btn = new Button(row, { w: 160, h: 88, text: 'ĐỔI', textSize: 28, color: C.green, name: 'exchange-' + e.id,
-        onTap: () => Services.confirm({ title: 'Đổi Vé?', body: `${e.label} với ${e.price} vé?`, onOk: () => { if (this.ctx.send({ t: 'exchange', id: e.id }).ok) { Services.sfx('confirm-01'); this.refresh(); } } }) });
+        onTap: () => this.ctx.open(new HeroPickPanel(e.eligible, e.label, (heroId, name) => Services.confirm({ title: 'Đổi Vé?', body: `${e.label}: ${name}, giá ${e.price} vé?`,
+          onOk: () => { if (this.ctx.send({ t: 'exchange', id: e.id, heroId }).ok) { Services.sfx('confirm-01'); this.ctx.close(this.ctx.top()!); this.afterExchange(); } } }))) });
       btn.root.setPosition(220, 0, 0);
-      btn.setEnabled(e.enabled, v.tickets < e.price ? 'Không đủ vé' : 'Không có hero phù hợp');
+      btn.setEnabled(e.enabled, e.reason);
     });
     list.setExtent(v.exchange.length * 128);
   }
+
+  /** Hook: open the reveal screen after an exchange that gave a hero (set by Screens). */
+  afterExchange: () => void = () => {};
 
   private recruit(): void {
     if (this.ctx.send({ t: 'recruit', count: this.times }).ok) { Services.sfx('menu-confirm'); this.openReveal(); }
@@ -161,4 +167,21 @@ export class TavernPanel extends Panel {
   }
 }
 
-export { HeroCard };
+/** Grid of the heroes a ticket exchange can give (03-ux-spec.md 7.2: "lưới chọn hero, chỉ hiện hero hợp lệ"). */
+export class HeroPickPanel extends Panel {
+  readonly id = 'heroPick';
+  constructor(private ids: string[], private title: string, private onPick: (id: string, name: string) => void) { super(); }
+  protected build(): void {
+    this.backButton();
+    this.ribbon('Chọn hero', 140, undefined, 'icon/pawns');
+    const b = this.body(228, { bottomGap: 140 });
+    this.ctext(b, this.title, 336, 30, { size: 24, w: 600 });
+    const all = this.ctx.src.heroes().filter((h) => this.ids.indexOf(h.id) >= 0);
+    all.forEach((c, i) => {
+      const hc = new HeroCard(b); hc.root.name = 'pick-' + c.id; hc.set({ ...c, owned: true });
+      hc.root.setPosition(16 + 74 + (i % 4) * 164, -(80 + 92 + Math.floor(i / 4) * 200), 0);
+      onTap(hc.root, () => this.onPick(c.id, c.name));
+    });
+    if (!all.length) this.ctext(b, 'Không có hero phù hợp', 336, 200, { size: 26 });
+  }
+}

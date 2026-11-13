@@ -155,6 +155,7 @@ export class GameView implements Ctx {
       case 'big': this.toasts.big(e.text); break;
       case 'pickup': this.toasts.pickup(e.res, e.amount); this.playSfx(e.res === 'gold' ? 'pickup-coin' : 'pickup-item', 1, 4); break;
       case 'floor': this.dungeonHud.showFloor(e.floor); break;
+      case 'fade': this.flash(0.6); break;
       case 'sound': this.playSfx(e.name); break;
       case 'damage': this.playSfx('hit-01', 0.5, 6); break;
       case 'streakBonus': this.playSfx('pickup-coin'); break;

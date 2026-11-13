@@ -2,6 +2,7 @@
 // (harness page URL ?standin=1, or globalThis.__viewStandIn = true before boot).
 import { Source } from './Source';
 import { StandInSource } from './StandInSource';
+import { loadCore } from './CoreSource';
 
 export async function createSource(): Promise<Source> {
   const g = globalThis as any;
@@ -13,7 +14,14 @@ export async function createSource(): Promise<Source> {
   return new StandInSource();
 }
 
-/** Replaced when the core contract is bound (CoreSource). */
 async function tryCore(): Promise<Source | null> {
-  return null;
+  try {
+    return await loadCore();
+  } catch (e) {
+    // Data that fails validation (DataError lists every problem) or a core that does not load: show it loudly,
+    // fall back to the stand-in so the screens still render.
+    console.error('[view] core unavailable, using stand-in data', e);
+    (globalThis as any).__viewCoreError = String(e && (e as Error).stack ? (e as Error).stack : e);
+    return null;
+  }
 }

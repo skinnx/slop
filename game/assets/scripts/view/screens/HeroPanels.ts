@@ -220,7 +220,7 @@ export class HeroDetailPanel extends Panel {
         const txt = d.cost.frags ? `${d.cost.meat} + ${d.cost.frags} mảnh` : String(d.cost.meat);
         label(pr, txt, { size: 28, bold: true, color: d.cost.lackMeat || d.cost.lackFrags ? C.lack : '#FFFFFF', align: 'left', outline: '#20304A' }).node.setPosition(-36, 0, 0);
         label(main.visual, 'NÂNG CẤP', { size: FS.big, bold: true, outline: C.greenDark }).node.setPosition(0, -22, 0);
-        main.setEnabled(!d.cost.lackMeat && !d.cost.lackFrags, d.cost.lackFrags ? 'Thiếu mảnh' : 'Thiếu thịt');
+        main.setEnabled(!d.cost.blocked, d.cost.blocked ?? '');
         // Hold 0.5 s = repeat 4 levels per second while affordable.
         // The panel rebuilds after each level, destroying this node: the release is then seen by the global input.
         const stop = () => { this.holdT = -1; };

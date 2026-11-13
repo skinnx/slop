@@ -198,18 +198,17 @@ export class TrainingPanel extends Panel {
   private nodeTip(nd: TrainingV['nodes'][number], at: Node): void {
     Services.sfx('select-01');
     const v = this.ctx.src.training();
-    const lack = v.ore < nd.cost;
-    const enabled = nd.state === 'open' && !lack;
-    const reason = nd.state === 'done' ? 'Đã mở' : nd.state === 'locked' ? `Cần cấp người chơi ${nd.reqPlayerLevel}` : 'Thiếu quặng';
+    const enabled = nd.state === 'open' && !v.nextBlocked;
+    const lack = nd.state === 'open' && !!v.nextBlocked;
+    const reason = nd.state === 'done' ? 'Đã mở' : nd.state === 'locked' ? `Cần cấp người chơi ${nd.reqPlayerLevel}` : v.nextBlocked ?? '';
     this.tooltip(at, nd.stat, `Mọi hero ${nd.stat} +${nd.amount}`, nd.state === 'done' ? null : { res: 'ore', n: nd.cost, lack }, enabled, reason,
       () => { if (this.ctx.send({ t: 'trainingUnlock', index: nd.index }).ok) { Services.sfx('confirm-01'); this.keepScroll(); } }, true);
   }
   private slotTip(s: TrainingV['slots'][number], at: Node): void {
     Services.sfx('select-01');
-    const v = this.ctx.src.training();
-    const lack = v.coral < s.cost;
-    const enabled = s.state === 'open' && !lack;
-    const reason = s.state === 'done' ? 'Đã mở' : s.state === 'locked' ? s.lockText : 'Thiếu San Hô Đỏ';
+    const enabled = s.state === 'open' && !s.blocked;
+    const lack = s.state === 'open' && !!s.blocked;
+    const reason = s.state === 'done' ? 'Đã mở' : s.state === 'locked' ? s.lockText : s.blocked ?? '';
     this.tooltip(at, 'Số ô đội', 'Ô đội tối đa +1', s.state === 'done' ? null : { res: 'coral', n: s.cost, lack }, enabled, reason,
       () => { if (this.ctx.send({ t: 'slotUnlock', slot: s.slot }).ok) { Services.sfx('confirm-01'); this.keepScroll(); } }, false);
   }
