@@ -9,6 +9,8 @@ export function createApi(page, cdp, outDir) {
   const active = new Map(); // touch id -> css point
 
   const toCss = (x, y) => page.evaluate(([x, y]) => window.__harness.uiToCss(x, y), [x, y]);
+  // `id` keeps each finger's identity: without it Chromium matches touch points by array position, so lifting
+  // finger 1 while finger 0 stays down was reported as finger 0 ending.
   const points = async () => [...active.entries()].map(([id, p]) => ({ id, x: p.x, y: p.y, radiusX: 1, radiusY: 1, force: 1 }));
   const send = async (type) => cdp.send('Input.dispatchTouchEvent', { type, touchPoints: await points() });
   const nextFrames = (n = 1) => page.evaluate((n) => new Promise((r) => {
@@ -28,9 +30,11 @@ export function createApi(page, cdp, outDir) {
     async touchDown(id, x, y) { const p = await toCss(x, y); active.set(id, p); await send('touchStart'); await nextFrames(1); },
     async touchMove(id, x, y) { const p = await toCss(x, y); active.set(id, p); await send('touchMove'); await nextFrames(1); },
     async touchUp(id) {
+      // Chromium ends the touch points LISTED in a touchEnd (matched by id). The previous version listed the
+      // fingers that remain down, which lifted the wrong finger when two were down (verified with DOM events).
+      const p = active.get(id);
       active.delete(id);
-      // CDP: touchEnd carries the touches that REMAIN down.
-      await send('touchEnd');
+      if (p) await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [{ id, x: p.x, y: p.y, radiusX: 1, radiusY: 1, force: 1 }] });
       await nextFrames(1);
     },
     /** Quick tap with finger `id` (default 9 so it does not collide with a held joystick finger 0). */

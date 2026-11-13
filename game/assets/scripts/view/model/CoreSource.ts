@@ -5,7 +5,7 @@ import { sys, game as ccGame, Game as CCGame } from 'cc';
 import { getLoader } from '../../AssetLoader';
 import {
   buildGameData, createGame, DATA_FILES, Game, GameData, GameEvent, HeroInfo, Check, RawTables, ResourceMap, UnitAnim,
-  MonsterUnitView, HeroUnitView, SceneView,
+  MonsterUnitView, HeroUnitView, SceneView, resourceName,
 } from '../../core/index';
 import { Source, Cmd, CmdResult } from './Source';
 import {
@@ -25,6 +25,12 @@ const QUEST_ICON: Record<string, string> = { gather: 'icon/resource_wood', kill:
 
 const tint = (t: string | undefined) => (!t || t.toUpperCase() === '#FFFFFF' ? undefined : t);
 const fail = (c: Check): CmdResult => ({ ok: c.ok, reason: c.ok ? '' : c.text });
+
+const PARAM_NAME: Record<string, string> = { mult: 'Hệ số', radius: 'Bán kính', count: 'Số mục tiêu', durationSec: 'Thời gian (giây)', pct: 'Tăng' };
+/** "Hệ số 1.8 ▶ 2.2" lines from the core's current/next star parameters (tooltip of 03-ux-spec.md 8.2). */
+function paramText(p: { [k: string]: number }, next: { [k: string]: number } | null): string {
+  return Object.keys(p).map((k) => `${PARAM_NAME[k] ?? k} ${p[k]}${next && next[k] !== undefined ? ' ▶ ' + next[k] : ''}`).join(' · ');
+}
 
 function animToAct(a: UnitAnim, alive: boolean): UnitV['act'] {
   if (!alive || a === 'dead') return 'dead';
@@ -427,7 +433,7 @@ export class CoreSource implements Source {
     return {
       card: this.heroCard(h), atk: Math.round(h.atk), hp: Math.round(h.hp), atkNext: Math.round(h.atkNext), hpNext: Math.round(h.hpNext), meat: Math.floor(g.resources.meat ?? 0),
       milestones: h.milestones.map((m) => ({ level: m.level, text: m.desc, reached: m.reached })),
-      skills: h.skills.map((s) => ({ name: s.name, stars: s.stars, maxStars: 3, unlocked: s.unlocked, unlockLevel: s.unlockLevel, desc: s.desc, kind: SKILL_KIND[s.type] ?? s.type, cooldownSec: s.cooldownSec })),
+      skills: h.skills.map((s) => ({ name: s.name, stars: s.stars, maxStars: 3, unlocked: s.unlocked, unlockLevel: s.unlockLevel, desc: s.desc, kind: SKILL_KIND[s.type] ?? s.type, cooldownSec: s.cooldownSec, params: paramText(s.params, s.nextParams) })),
       cost: h.owned && !maxed ? { meat: h.levelUpMeat, frags: h.levelUpFragments, lackMeat: !c.ok && c.reason === 'missing_resources', lackFrags: !c.ok && c.reason === 'missing_fragments', blocked: c.ok ? null : c.text } : null,
       maxed,
     };
@@ -492,7 +498,7 @@ export class CoreSource implements Source {
     if (!r || !r.showPanel || this.welcomeTaken) return null;
     this.welcomeTaken = true;
     const lines = [
-      ...r.buffers.filter((b) => b.amount >= 1).map((b) => `${b.name}: ${Math.floor(b.amount)} ${b.resource === 'wood' ? 'gỗ' : b.resource === 'ore' ? 'quặng' : b.resource === 'gold' ? 'vàng' : b.resource} chờ thu`),
+      ...r.buffers.filter((b) => b.amount >= 1).map((b) => `${b.name}: ${Math.floor(b.amount)} ${resourceName(b.resource)} chờ thu`),
       ...r.finished.map((f) => `Xây xong: ${f.name} cấp ${f.level}`),
       ...(r.tavernRefreshed ? ['Quán đã đổi hero mới'] : []),
     ];

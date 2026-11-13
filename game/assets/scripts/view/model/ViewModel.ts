@@ -110,7 +110,7 @@ export interface TavernV {
 }
 export interface RevealV { cards: HeroCardV[]; draws: { cardIndex: number; isNew: boolean; frags: number }[]; }
 export interface MilestoneV { level: number; text: string; reached: boolean; }
-export interface SkillV { name: string; stars: number; maxStars: number; unlocked: boolean; unlockLevel: number; desc: string; kind: string; cooldownSec: number; }
+export interface SkillV { name: string; stars: number; maxStars: number; unlocked: boolean; unlockLevel: number; desc: string; kind: string; cooldownSec: number; params?: string; }
 export interface HeroDetailV {
   card: HeroCardV;
   atk: number; hp: number; atkNext: number; hpNext: number;

@@ -133,6 +133,8 @@ describe('save and load', () => {
     expect(u.game.run).toBeNull();
     expect(u.game.resources.gold).toBe(JSON.parse(before).resources.gold);
     expect(u.game.leaderZone).toBe('village');
+    const gate = u.game.findBuilding('dungeon_gate')!; // đội đứng cạnh Cổng Xoáy
+    expect([u.game.field.leader!.x, u.game.field.leader!.y]).toEqual([gate.x + 1.5, gate.y - 1]);
   });
 
   it('transactions and the 15 s timer ask the view to save', () => {

@@ -231,15 +231,16 @@ export class HeroDetailPanel extends Panel {
     }
   }
 
-  private skillTip(s: { name: string; kind: string; cooldownSec: number; desc: string; stars: number; unlocked: boolean; unlockLevel: number }, at: Node): void {
+  private skillTip(s: { name: string; kind: string; cooldownSec: number; desc: string; stars: number; unlocked: boolean; unlockLevel: number; params?: string }, at: Node): void {
     this.tipNode?.destroy();
     const t = node(this.top, 'tooltip', 560, 220);
     place(t, 80, 700, 560, 220);
     slice(t, 'ui/panel', 560, 220, '#FFFFFF');
     label(t, s.name, { size: 28, bold: true, color: C.darkText }).node.setPosition(0, 80, 0);
     label(t, `${s.kind} · Hồi chiêu ${s.cooldownSec} giây`, { size: 22, color: '#44506A' }).node.setPosition(0, 44, 0);
-    label(t, s.desc, { size: 22, color: C.darkText, w: 520 }).node.setPosition(0, -10, 0);
-    label(t, s.unlocked ? `Sao hiện tại: ${s.stars}` : `Mở ở cấp ${s.unlockLevel}`, { size: 22, bold: true, color: '#2E6FD8' }).node.setPosition(0, -74, 0);
+    label(t, s.desc, { size: 22, color: C.darkText, w: 520 }).node.setPosition(0, 4, 0);
+    if (s.params) label(t, s.params, { size: 20, color: '#44506A', w: 520 }).node.setPosition(0, -44, 0);
+    label(t, s.unlocked ? `Sao hiện tại: ${s.stars}` : `Mở ở cấp ${s.unlockLevel}`, { size: 22, bold: true, color: '#2E6FD8' }).node.setPosition(0, -84, 0);
     onTap(t, () => { t.destroy(); this.tipNode = null; });
     this.tipNode = t;
     void at;

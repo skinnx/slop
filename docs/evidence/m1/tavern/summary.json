@@ -4,12 +4,12 @@
   "failure": null,
   "viewport": "540x960",
   "scripts": 49,
-  "seconds": 26.3,
+  "seconds": 32,
   "lastFrame": {
-    "drawCalls": 15,
-    "tris": 1564,
+    "drawCalls": 7,
+    "tris": 1596,
     "instances": 0,
-    "frames": 507
+    "frames": 513
   },
   "notes": [
     "gold 2000 -> 1700 after 3x recruit",
@@ -30,16 +30,16 @@
   ],
   "consoleErrors": [],
   "console": [
-    "[timeEnd] Init Base: 2.346923828125 ms",
-    "[timeEnd] Init Infrastructure: 29.2509765625 ms",
-    "[timeEnd] Init SubSystem: 2.056884765625 ms",
+    "[timeEnd] Init Base: 1.231201171875 ms",
+    "[timeEnd] Init Infrastructure: 29.0849609375 ms",
+    "[timeEnd] Init SubSystem: 2.076904296875 ms",
     "[log] Cocos Creator v3.8.8",
     "[log] Using legacy pipeline",
-    "[timeEnd] Init Project: 4.97314453125 ms",
-    "[timeEnd] InitScene: 0.216064453125 ms",
-    "[timeEnd] AttachPersist: 0.0029296875 ms",
-    "[timeEnd] AutoRelease: 0.10888671875 ms",
-    "[timeEnd] Destroy: 0.180908203125 ms",
-    "[timeEnd] Activate: 22.27099609375 ms"
+    "[timeEnd] Init Project: 5.655029296875 ms",
+    "[timeEnd] InitScene: 0.2822265625 ms",
+    "[timeEnd] AttachPersist: 0.00390625 ms",
+    "[timeEnd] AutoRelease: 0.169921875 ms",
+    "[timeEnd] Destroy: 0.244140625 ms",
+    "[timeEnd] Activate: 28.05615234375 ms"
   ]
 }

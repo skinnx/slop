@@ -1,28 +1,30 @@
-// Example scenario against the skeleton. Copy this file to start a new one.
-// Coordinates: design/UI space, 720 x 1280, origin BOTTOM-LEFT (what game code gets from getUILocation()).
+// Example scenario (copy it to start a new one). Coordinates: design/UI space, 720 x 1280, origin BOTTOM-LEFT
+// (what game code gets from getUILocation()). The game's own nodes swallow touches, so the harness-level touch
+// log (h.touches()) only sees touches no node handled; read the game's debug object (globalThis.__game) instead.
+import { boot, until, read, where } from './lib/view.mjs';
+
 export default async function (h) {
-  await h.waitForGlobal('__bootstrapReady');
-  await h.screenshot('01-boot');
+  await boot(h);
+  await h.screenshot('01-title');
+  await h.tap(360, 640);
+  await until(h, (g) => g.mode === 'WORLD');
+  await h.wait(400);
 
   // Joystick-style drag with finger 0: press lower-left, pull up-right, keep holding.
-  await h.clearTouches();
   await h.drag([180, 300], [300, 420], { id: 0, steps: 12, keepDown: true });
-  await h.screenshot('02-drag-held'); // the touch marker sprite sits under the finger
+  await h.screenshot('02-drag-held');
+  const j = await read(h, (g) => g.joystick);
+  h.note(`joystick vector (${j.x.toFixed(2)}, ${j.y.toFixed(2)})`);
+  h.assert(j.x > 0.6 && j.y > 0.6 && Math.abs(Math.hypot(j.x, j.y) - 1) < 0.02, 'stick pulled up-right to full length');
 
-  // Tap with a second finger while the first is still down (skill-button style).
-  await h.tap(560, 260, { id: 1 });
+  // Second finger taps the gear while the first still holds the stick (multi-touch): the settings panel opens.
+  const gear = await where(h, 'settings');
+  await h.tap(gear.x, gear.y, { id: 1 });
+  await until(h, (g) => g.panels.indexOf('settings') >= 0);
   await h.touchUp(0);
-
-  const t = await h.touches();
-  const lastMove = t.filter((e) => e.type === 'move' && e.id === 0).pop();
-  const tapStart = t.find((e) => e.type === 'start' && e.id === 1);
-  h.note(`finger0 last move at ui (${lastMove?.x}, ${lastMove?.y}); finger1 tap at ui (${tapStart?.x}, ${tapStart?.y}); events=${t.length}`);
-  h.assert(lastMove && Math.abs(lastMove.x - 300) <= 2 && Math.abs(lastMove.y - 420) <= 2, 'drag ends where requested');
-  h.assert(tapStart && Math.abs(tapStart.x - 560) <= 2 && Math.abs(tapStart.y - 260) <= 2, 'second finger tap lands where requested');
-
-  await h.wait(100);
-  await h.screenshot('03-released');
+  await h.wait(300);
+  await h.screenshot('03-settings');
   const s = await h.stats();
   h.note(`drawCalls=${s.drawCalls} tris=${s.tris} frames=${s.frames}`);
-  h.assert(s.drawCalls <= 4, `skeleton should need very few draw calls (got ${s.drawCalls})`);
+  h.assert(s.drawCalls <= 30, `draw calls within the charter budget (got ${s.drawCalls})`);
 }

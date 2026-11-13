@@ -1,7 +1,7 @@
 // Entry of the view layer, created by Bootstrap. Owns the layers (world, joystick, HUD, panels, dialogs,
 // toasts, fade), picks the data source, runs the per-frame loop and routes one-shot events.
 // Layer order (= touch priority, front-most last): world < joystick < hud < panels < dialogs < toasts < fade.
-import { Node, Component, UITransform, Vec3, director, AudioSource, Label } from 'cc';
+import { Node, Component, UITransform, Vec3, director, AudioSource, Label, input, Input, EventKeyboard, KeyCode } from 'cc';
 import { getLoader } from '../AssetLoader';
 import { Assets } from './kit/Assets';
 import { Layout, W } from './kit/Layout';
@@ -76,6 +76,12 @@ export class GameView implements Ctx {
     this.screens = new Screens(this, this.hudLayer);
     Layout.onResize(() => this.relayout());
     this.installDebug();
+    // Android back (and Escape on desktop) = back button of the top panel / dialog (03-ux-spec.md 2.3, 16).
+    input.on(Input.EventType.KEY_DOWN, (e: EventKeyboard) => {
+      if (e.keyCode !== KeyCode.MOBILE_BACK && e.keyCode !== KeyCode.ESCAPE) return;
+      if (this.dialogs.isOpen) this.dialogs.close();
+      else this.top()?.back();
+    }, this);
     this.applyMode(this.src.mode());
   }
 

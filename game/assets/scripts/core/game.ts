@@ -380,10 +380,10 @@ export class GameImpl implements Game, FieldHost, DungeonHost, Bank {
     }
     this.lastClockMs = now;
     if (elapsed <= 0) return 0;
-    this.village.advance(now - elapsed, now, (b) => {
-      this.onBuildingDone(b, now);
-      if (report) report.finished.push(b);
-    });
+    this.clockNow = now;
+    this.clockReport = report;
+    this.village.advance(now - elapsed, now, this.onDone);
+    this.clockReport = null;
     const tv = this.tavern;
     // đồng hồ đổi thẻ bắt đầu chạy khi Quán đã xây xong
     if (tv.nextRefreshAt <= 0 && this.village.levelOf('tavern') >= 1) tv.nextRefreshAt = now + this.data.recruit.refreshSec * 1000;
@@ -398,6 +398,14 @@ export class GameImpl implements Game, FieldHost, DungeonHost, Bank {
     this.buildersFree = this.village.buildersFree();
     return elapsed;
   }
+
+  // một hàm cố định (không tạo closure mỗi bước) cho Village.advance
+  private clockNow = 0;
+  private clockReport: { finished: Building[]; tavernRefreshed: boolean } | null = null;
+  private onDone = (b: Building): void => {
+    this.onBuildingDone(b, this.clockNow);
+    if (this.clockReport) this.clockReport.finished.push(b);
+  };
 
   private shiftTimestamps(deltaMs: number): void {
     this.village.shiftTimestamps(deltaMs);
@@ -1187,6 +1195,8 @@ export class GameImpl implements Game, FieldHost, DungeonHost, Bank {
     // save giữ trạng thái trước khi vào hang; thoát app giữa lượt thì lượt bị hủy
     this.field.returnChannelT = 0;
     this.preDungeonSave = this.save();
+    // thoát app giữa lượt: tải lại ở làng cạnh Cổng Xoáy (01 mục 13.5)
+    this.preDungeonSave.world.leaderPos = this.gateSidePos();
     this.dungeonRuns++;
     const rng = new Rng(hashSeed(this.seed, this.dungeonRuns));
     this.dungeonScene.start(def, this.squadSpecs(), rng, this.auto);
@@ -1244,9 +1254,9 @@ export class GameImpl implements Game, FieldHost, DungeonHost, Bank {
     d.stop();
     this.preDungeonSave = null;
     // về làng, đội đứng cạnh Cổng Xoáy, máu đầy
-    const gate = this.village.byType('dungeon_gate');
-    const gx = gate ? gate.x + gate.w / 2 : this.data.tuning.world.villageCenter[0];
-    const gy = gate ? gate.y - 1 : this.data.tuning.world.villageCenter[1];
+    const side = this.gateSidePos();
+    const gx = side[0];
+    const gy = side[1];
     this.field.restoreSquad();
     this.field.placeSquad(gx, gy);
     this.field.sinceCombat = 99;
@@ -1260,6 +1270,13 @@ export class GameImpl implements Game, FieldHost, DungeonHost, Bank {
     this.emit('teleport', gx, gy, 0, 0, 'gate');
     this.emit('save_point', 0, 0, 0, 0, '');
     this.autosaveT = 0;
+  }
+
+  /** Chỗ đội đứng "cạnh Cổng Xoáy": ngay trước mặt cổng, cách mép footprint 1 ô. */
+  private gateSidePos(): number[] {
+    const gate = this.village.byType('dungeon_gate');
+    const c = this.data.tuning.world.villageCenter;
+    return gate ? [gate.x + gate.w / 2, gate.y - 1] : [c[0], c[1]];
   }
 
   closeResult(): Check {
