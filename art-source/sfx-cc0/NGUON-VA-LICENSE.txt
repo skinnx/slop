@@ -1,0 +1,33 @@
+Nguon va giay phep cho cac file trong thu muc sfx-cc0/
+(Tep goc duoc tai tu OpenGameArt ngay 2026-11-13. Trang OGA moi muc ghi "License: CC0"; ban ghi lai ten muc va tac gia nhu trang hien thi.)
+
+1. https://opengameart.org/content/interface-sounds
+   Giay phep: CC0 (trang ghi "All CC0 - Uploader: Kenney"). File goc: kenney_interfaceSounds.zip
+   Dung: ui/click-01.ogg, ui/click-02.ogg, ui/confirm-01.ogg, ui/select-01.ogg, ui/error-01.ogg, ui/drop-01.ogg
+   Ghi chu: day la ban cua Kenney tren OpenGameArt; ban goc tren kenney.nl khong truy cap duoc tu moi truong nay.
+
+2. https://opengameart.org/content/7-assorted-sound-effects-menu-level-up
+   Giay phep: CC0 (Uploader: Joth). File goc: UISoundEffects.zip
+   Dung: game/pickup-item.mp3 (Item Pickup), game/level-up.mp3 (Level Up), game/menu-confirm.mp3 (Menu Confirm)
+
+3. https://opengameart.org/content/level-up-power-up-coin-get-13-sounds
+   Giay phep: CC0. File goc: SoundPack01.zip (Coin01.aif)
+   Dung: game/pickup-coin.ogg (da chuyen tu .aif sang .ogg bang ffmpeg, libvorbis q5)
+   Tac gia: trang OGA khong ghi ten uploader.
+
+4. https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx
+   Giay phep: CC0 (Uploader: rubberduck). File goc: sfx_breaking_and_falling.zip
+   Dung: combat/hit-01.ogg (bfh1_hit_01), combat/chop-wood-hit-01.ogg (bfh1_wood_hit_01),
+         combat/mine-rock-hit-01.ogg (bfh1_rock_hit_01), combat/tree-fall-01.ogg (bfh1_wood_breaking_01)
+
+5. https://opengameart.org/content/ub04-sounds-and-music-pack
+   Giay phep: CC0. File goc: ub04soundspack.zip
+   Dung: combat/build-drop.mp3 (sndDrop.mp3, dung tam lam am thanh dat cong trinh);
+         music/menu-loop.ogg (Minigames/MenuMusic.ogg, 16 s);
+         music/platformer-room.ogg (musPlatfromerRooms.wav, 48 s);
+         music/runner-room.ogg (musRunnerRooms.mp3, 43 s)
+   Ghi chu: nhac da chuyen sang .ogg (libvorbis q4). Chua kiem tra diem lap (loop point) cua nhac.
+   Tac gia: trang OGA khong ghi ten uploader.
+
+Tat ca cac muc tren duoc trang OGA ghi nhan la CC0 (public domain dedication).
+Cac file tu .7z (qubodupImpact, GUI_Sound_Effects_by_Lokif, mousebyte chimeyui) khong duoc lay vi khong co cong cu giai nen .7z trong moi truong nay.
