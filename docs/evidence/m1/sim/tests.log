@@ -1,0 +1,231 @@
+ RUN  v2.1.8 tools
+ ✓ tests/core/save.test.ts > save and load > a save is plain versioned JSON
+ ✓ tests/core/save.test.ts > save and load > round trip: quitting and coming back at once keeps everything
+ ✓ tests/core/save.test.ts > save and load > node and camp state is not saved: everything is full again after loading
+ ✓ tests/core/save.test.ts > save and load > the game continues the same random sequence after a reload
+ ✓ tests/core/save.test.ts > save and load > inside the dungeon save() returns the state from before entering
+ ✓ tests/core/save.test.ts > save and load > transactions and the 15 s timer ask the view to save
+ ✓ tests/core/save.test.ts > save versions and bad saves > rejects a save from a newer game version, and things that are not saves
+ ✓ tests/core/save.test.ts > save versions and bad saves > repairs out-of-range values instead of crashing
+ ✓ tests/core/save.test.ts > save versions and bad saves > loads the sample save from the design document (no bestFloorCleared, quest.baseValue)
+ ✓ tests/core/save.test.ts > offline progress > production runs while away and stays in the buffers until collected
+ ✓ tests/core/save.test.ts > offline progress > is capped at 8 hours, and buffers at 8 hours of output
+ ✓ tests/core/save.test.ts > offline progress > build and upgrade timers finish while away and take effect; the report lists them
+ ✓ tests/core/save.test.ts > offline progress > a production building that finishes its upgrade while away produces at the old rate first, then the new one
+ ✓ tests/core/save.test.ts > offline progress > a timer longer than the 8-hour cap only advances 8 hours
+ ✓ tests/core/save.test.ts > offline progress > the tavern clock runs while away and the set refreshes
+ ✓ tests/core/save.test.ts > offline progress > a clock that went backwards gives no progress and keeps remaining times
+ ✓ tests/core/save.test.ts > offline progress > no combat or gathering is simulated while away
+ ✓ tests/core/save.test.ts > offline progress > data sanity: the offline cap and the buffer cap are both 8 hours
+ ✓ tests/core/combat.test.ts > movement > the leader moves at 3 cells/s scaled by joystick deflection, with a 10% dead zone
+ ✓ tests/core/combat.test.ts > movement > followers keep the formation offsets around the leader (not rotated)
+ ✓ tests/core/combat.test.ts > movement > nobody walks into the water at the map edge
+ ✓ tests/core/combat.test.ts > movement > zones follow d = max(|x − 30|, |y − 30|)
+ ✓ tests/core/combat.test.ts > attack only when standing still > heroes deal no damage while the joystick is held; they attack once it is released
+ ✓ tests/core/combat.test.ts > attack only when standing still > waits 0.15 s after release, and pulling the joystick cancels a windup
+ ✓ tests/core/combat.test.ts > attack only when standing still > with attackOnlyWhenIdle = false heroes also hit targets in range while moving
+ ✓ tests/core/combat.test.ts > damage and timing > a basic hit deals round(ATK); field monsters have base × zone multiplier
+ ✓ tests/core/combat.test.ts > damage and timing > attacks come every attackInterval, each after a 0.2 s windup
+ ✓ tests/core/combat.test.ts > damage and timing > a hit flashes and pushes the target back 0.15 cells
+ ✓ tests/core/combat.test.ts > damage and timing > killing monsters gives EXP and player levels; extra EXP carries over
+ ✓ tests/core/combat.test.ts > gathering > a tree takes `durability` hits, gives yieldPerHit each, then regrows after respawnSec
+ ✓ tests/core/combat.test.ts > gathering > a hero with gatherPower 2 gathers twice as fast and the node still gives the same total
+ ✓ tests/core/combat.test.ts > gathering > heroes prefer monsters over nodes, and do not use skills on nodes
+ ✓ tests/core/combat.test.ts > camps > hitting or approaching one monster makes the whole camp chase
+ ✓ tests/core/combat.test.ts > camps > monsters dragged more than 7 cells from the camp go home, cannot be hit, and heal 20% per second there
+ ✓ tests/core/combat.test.ts > camps > a dead monster leaves a corpse for 1 s and respawns at the camp after respawnSec
+ ✓ tests/core/combat.test.ts > camps > the camp shows a countdown only while it is completely empty
+ ✓ tests/core/combat.test.ts > pickups > drop tables: independent rolls, uniform amounts, zone multiplier, at most 5 objects per type
+ ✓ tests/core/combat.test.ts > pickups > a pickup flies to a hero within 2.5 cells, otherwise to the leader after 6 s; it is never lost
+ ✓ tests/core/combat.test.ts > death, revive and regeneration > a dead hero revives in place after 8 s with full health; the next living hero leads meanwhile
+ ✓ tests/core/combat.test.ts > death, revive and regeneration > when the whole squad falls it reappears in the village after 3 s with nothing lost
+ ✓ tests/core/combat.test.ts > death, revive and regeneration > heroes regenerate 2% of max health per second after 5 s out of combat
+ ✓ tests/core/combat.test.ts > return to village > teleports after a 1 s channel, remembers the spot, and "to field" goes back
+ ✓ tests/core/combat.test.ts > return to village > pulling the joystick cancels the channel; chasing monsters block the button
+ ✓ tests/core/dungeon.test.ts > entering > needs the gate, a high enough gate level, and the previous stage cleared
+ ✓ tests/core/dungeon.test.ts > entering > the squad starts at (8, 2) in formation with full health and full cooldowns
+ ✓ tests/core/dungeon.test.ts > spawning > floor 1 spawns 40 monsters in a ring, inside the room and at least 4 cells from every hero
+ ✓ tests/core/dungeon.test.ts > spawning > delayed groups appear at their delaySec
+ ✓ tests/core/dungeon.test.ts > spawning > never has more than maxAlive monsters alive; the rest queue and spawn as room frees up
+ ✓ tests/core/dungeon.test.ts > spawning > the real tables never exceed 60 alive on a normal floor of 60
+ ✓ tests/core/dungeon.test.ts > kill streak > counts kills, pays a bonus at every multiple of 20, and resets after 3 s without a kill
+ ✓ tests/core/dungeon.test.ts > kill streak > the bonus grows with the streak and with the floor gold multiplier, and goes into the run loot
+ ✓ tests/core/dungeon.test.ts > kill streak > the streak clock pauses between floors
+ ✓ tests/core/dungeon.test.ts > clearing floors > a cleared floor opens the exit, pays clearGold, pulls in every pickup, and the exit leads to the next floor
+ ✓ tests/core/dungeon.test.ts > clearing floors > with AUTO on, the squad walks to the exit by itself 1.5 s after the floor is clear
+ ✓ tests/core/dungeon.test.ts > boss > appears at (8, 19) with its name, ability cooldowns at 50%, and 15 minions now + 15 after 10 s
+ ✓ tests/core/dungeon.test.ts > boss > slam: a red circle of radius 3 for 1.5 s, then ATK × 3 to every hero whose centre is inside
+ ✓ tests/core/dungeon.test.ts > boss > a hero who walks out of the red circle before it fills takes no damage
+ ✓ tests/core/dungeon.test.ts > boss > charge: a 7 × 1.6 rectangle locked on the nearest hero for 1.2 s, ATK × 2 inside, then the boss dashes its length
+ ✓ tests/core/dungeon.test.ts > boss > summon: 8 of the first normal monster of the floor around the boss, respecting the 60 cap
+ ✓ tests/core/dungeon.test.ts > boss > is not pushed by other units and not knocked back by hits
+ ✓ tests/core/dungeon.test.ts > results > killing the boss wins the stage: first-clear reward plus everything picked up, then back beside the gate
+ ✓ tests/core/dungeon.test.ts > results > repeat clears pay 25% gold and a ticket, with coral guaranteed on every third repeat
+ ✓ tests/core/dungeon.test.ts > results > a wiped squad loses the run but keeps what it picked up; no stage reward
+ ✓ tests/core/dungeon.test.ts > results > leaving from the pause menu ends the run like a defeat
+ ✓ tests/core/dungeon.test.ts > results > the field is frozen while in the dungeon, but production keeps running on the clock
+ ✓ tests/core/quests.test.ts > main quest chain > starts with q01 and shows text, progress and reward
+ ✓ tests/core/quests.test.ts > main quest chain > counting quests count only what happens after they become active
+ ✓ tests/core/quests.test.ts > main quest chain > gather counts even when the storage is full
+ ✓ tests/core/quests.test.ts > main quest chain > kill quests count the named monster, or any field monster of the named zone, never dungeon monsters
+ ✓ tests/core/quests.test.ts > main quest chain > state quests look at the current state and can be complete the moment they activate
+ ✓ tests/core/quests.test.ts > main quest chain > a building under construction does not satisfy a build quest until it is finished
+ ✓ tests/core/quests.test.ts > main quest chain > recruit, auto_assign, collect, upgrade, training, slots and clear_floor quests
+ ✓ tests/core/quests.test.ts > main quest chain > quest rewards are not cut by the storage cap
+ ✓ tests/core/quests.test.ts > main quest chain > after the last quest the card shows the chapter-complete text
+ ✓ tests/core/quests.test.ts > main quest chain > the hint points at the nearest matching thing, a building, or a HUD button
+ ✓ tests/core/quests.test.ts > main quest chain > every quest in the table has a resolvable hint and a reachable target
+ ✓ tests/core/village.test.ts > placement > starts with a level-1 storage at (21, 21) that occupies 3×3 cells
+ ✓ tests/core/village.test.ts > placement > checks the grid, overlap, unlock level, count, cost and builders, in that order
+ ✓ tests/core/village.test.ts > placement > placing needs build mode, pays at once, takes a builder and the build time
+ ✓ tests/core/village.test.ts > placement > only two jobs run at the same time
+ ✓ tests/core/village.test.ts > placement > the build-mode button only works inside the village, and the joystick is off in build mode
+ ✓ tests/core/village.test.ts > placement > moving is free and instant, keeps the timer, and obeys the same geometry rules
+ ✓ tests/core/village.test.ts > placement > findFreeCell returns the nearest valid cell, or null when the village is full
+ ✓ tests/core/village.test.ts > upgrades > reasons come in the design order: player level, storage cap, resources, builders; then max level
+ ✓ tests/core/village.test.ts > upgrades > an upgrading building keeps working at the old level until the timer ends
+ ✓ tests/core/village.test.ts > upgrades > cancelling refunds 100%; cancelling a new build removes the scaffold
+ ✓ tests/core/village.test.ts > upgrades > the panel lists current values and the gain at the next level
+ ✓ tests/core/village.test.ts > storage cap > discards the overflow of capped resources and says so at most once every 30 s
+ ✓ tests/core/village.test.ts > storage cap > gold, coral and tickets have no cap
+ ✓ tests/core/village.test.ts > production > fills the buffer by the clock, stops at 8 hours of output, and is not lost when storage is full
+ ✓ tests/core/village.test.ts > production > is collected when the leader walks within 1.5 cells of the footprint, with a toast
+ ✓ tests/core/village.test.ts > production > a building under construction produces nothing; an upgrading one produces at the old rate
+ ✓ tests/core/skills.test.ts > skills > cooldowns start full when a fight begins, and a ready skill replaces the next basic attack
+ ✓ tests/core/skills.test.ts > skills > strike hits the current target for ATK × mult; two stars at level 20
+ ✓ tests/core/skills.test.ts > skills > cleave hits every monster within the radius around the target
+ ✓ tests/core/skills.test.ts > skills > nova hits every monster within the radius around the hero, and is not wasted when nothing is close
+ ✓ tests/core/skills.test.ts > skills > volley hits up to `count` nearest monsters
+ ✓ tests/core/skills.test.ts > skills > heal restores ATK × mult to the most hurt hero, only when someone is below 85%, even while moving
+ ✓ tests/core/skills.test.ts > skills > heal never exceeds max health and skips dead heroes
+ ✓ tests/core/skills.test.ts > skills > attack buff raises every living hero’s ATK for its duration and does not stack
+ ✓ tests/core/skills.test.ts > skills > taunt makes monsters within the radius target the tank for its duration
+ ✓ tests/core/skills.test.ts > skills > a skill whose target died before the windup ended is not consumed
+ ✓ tests/core/skills.test.ts > skills > the hero panel lists both skills with their unlock levels and parameters
+ ✓ tests/core/contract-v2.test.ts > joystick convention > setJoystick takes a vector in core grid coordinates: (1, 0) moves along +x of the grid
+ ✓ tests/core/contract-v2.test.ts > joystick convention > joystickToWorld turns a screen-space stick vector into a grid vector of the same length
+ ✓ tests/core/contract-v2.test.ts > joystick convention > pushing the stick up on screen moves the leader up on screen at 3 cells per second
+ ✓ tests/core/contract-v2.test.ts > player EXP > expToNext is the whole EXP of the current level, exp is the progress inside it
+ ✓ tests/core/contract-v2.test.ts > building markers > a job shows first, then a waiting buffer, then nothing
+ ✓ tests/core/contract-v2.test.ts > building markers > the tavern shows "!" exactly when one draw is affordable
+ ✓ tests/core/contract-v2.test.ts > building markers > the training yard shows "!" when the next node or the next squad slot can be unlocked
+ ✓ tests/core/contract-v2.test.ts > building markers > the dungeon gate shows the check mark when the squad CP reaches the recommended CP of the first uncleared stage
+ ✓ tests/core/contract-v2.test.ts > building markers > markers are also right immediately after loading a save
+ ✓ tests/core/contract-v2.test.ts > display metadata > the quest card carries its icon
+ ✓ tests/core/contract-v2.test.ts > display metadata > skills carry the Vietnamese name of their type and of each parameter
+ ✓ tests/core/contract-v2.test.ts > display metadata > building panel rows carry their icon
+ ✓ tests/core/contract-v2.test.ts > display metadata > the contract version is 2
+ ✓ tests/core/recruit.test.ts > recruit > needs a finished tavern and 100 gold per draw
+ ✓ tests/core/recruit.test.ts > recruit > the first set is [Lan, Sẻ, Đăng] and the first draw of a save is always Sẻ, who joins the squad
+ ✓ tests/core/recruit.test.ts > recruit > a duplicate gives 5 fragments, every draw gives one ticket, and the result is reported per draw
+ ✓ tests/core/recruit.test.ts > recruit > each draw picks one of the three cards uniformly
+ ✓ tests/core/recruit.test.ts > recruit > the BONUS bar fills every 10 draws, then the set refreshes at once with no Common hero
+ ✓ tests/core/recruit.test.ts > recruit > a 3x pull that fills the bar mid-way still draws every pull from the set shown when the button was pressed
+ ✓ tests/core/recruit.test.ts > recruit > each 1x / 2x / 3x option carries its own cost, affordability and blocking reason
+ ✓ tests/core/recruit.test.ts > recruit > the set refreshes by itself every 30 minutes and for 50 gold on demand, but never before the first draw
+ ✓ tests/core/recruit.test.ts > recruit > refresh costs are checked
+ ✓ tests/core/recruit.test.ts > card generation > rarity of a card follows the odds table of the tavern level 1275ms
+ ✓ tests/core/recruit.test.ts > card generation > a hero the player does not own is twice as likely as an owned one of the same rarity 508ms
+ ✓ tests/core/recruit.test.ts > card generation > the bonus set never contains a Common hero
+ ✓ tests/core/recruit.test.ts > card generation > the tavern panel shows the odds of its level
+ ✓ tests/core/recruit.test.ts > every hero is obtainable > all 12 heroes appear in the card pool at every tavern level
+ ✓ tests/core/recruit.test.ts > every hero is obtainable > a level-1 tavern with normal play (draws, auto refresh, tickets) ends with all 12 heroes
+ ✓ tests/core/recruit.test.ts > every hero is obtainable > tickets unlock a chosen missing hero of each rarity, or 5 fragments of an owned one
+ ✓ tests/core/squad.test.ts > squad > starts with 3 slots; add, remove, swap and replace keep the rules
+ ✓ tests/core/squad.test.ts > squad > squad CP is the sum of the CP of the heroes in the squad
+ ✓ tests/core/squad.test.ts > squad > a hero swapped in appears next to the leader, at full health
+ ✓ tests/core/squad.test.ts > auto assign > with 3 slots takes the best healer plus the highest CP, tank first
+ ✓ tests/core/squad.test.ts > auto assign > with 4 slots also takes the best tank and puts it in slot 1
+ ✓ tests/core/squad.test.ts > auto assign > uses real power: a levelled Common hero beats a level-1 Rare one
+ ✓ tests/core/squad.test.ts > auto assign > with only ranged heroes the highest CP leads; ties break by id
+ ✓ tests/core/squad.test.ts > squad slots > slots 4..8 cost 2/4/6/9/12 coral and need training yard level 2..6
+ ✓ tests/core/squad.test.ts > training yard > nodes unlock in order for ore, three per player level, and add flat stats to every owned hero
+ ✓ tests/core/squad.test.ts > training yard > the whole tree costs 37744 ore
+ ✓ tests/core/squad.test.ts > squad changes during a fight > monsters chasing a hero who is swapped out pick a new target instead of a stale one
+ ✓ tests/core/data.test.ts > data tables > the tables the game uses pass validation
+ ✓ tests/core/data.test.ts > data tables > has every design table, and each one equals the design original unless the change is recorded
+ ✓ tests/core/data.test.ts > data tables > reads the scripted first recruit from recruit.json
+ ✓ tests/core/data.test.ts > data tables > rejects a missing table
+ ✓ tests/core/data.test.ts > data tables > rejects a hero whose skill does not exist
+ ✓ tests/core/data.test.ts > data tables > rejects a negative or non-numeric cost
+ ✓ tests/core/data.test.ts > data tables > rejects recruit odds that do not sum to 1
+ ✓ tests/core/data.test.ts > data tables > rejects a recruit table in which some hero could never be drawn
+ ✓ tests/core/data.test.ts > data tables > rejects a dungeon with the wrong number of floors or an unknown monster
+ ✓ tests/core/data.test.ts > data tables > rejects a quest that points at something that does not exist
+ ✓ tests/core/data.test.ts > data tables > rejects levels out of order, a camp outside the map, and a bad tuning value
+ ✓ tests/core/data.test.ts > data tables > display table: every quest type, skill type, skill parameter and panel row has its icon or name
+ ✓ tests/core/data.test.ts > data tables > reports every problem at once, not only the first
+ ✓ tests/core/formulas.test.ts > hero stats > stat = round(base × (1 + 0.03 × (L − 1)))
+ ✓ tests/core/formulas.test.ts > hero stats > level-1 CP of all 12 heroes matches the balance document
+ ✓ tests/core/formulas.test.ts > hero stats > CP = round(4 × ATK / interval × (1 + skill bonus) + HP)
+ ✓ tests/core/formulas.test.ts > hero stats > skills unlock at 1 and 10 and reach two stars at 20 and 30
+ ✓ tests/core/formulas.test.ts > hero stats > skill CP bonus grows with unlocked skills and stars
+ ✓ tests/core/formulas.test.ts > hero stats > owned effects: +5% HP at 5 and 25, +5% ATK at 15, for every hero of the same attribute, stacking
+ ✓ tests/core/formulas.test.ts > hero stats > training nodes add flat stats before the owned-effect percentage
+ ✓ tests/core/formulas.test.ts > hero stats > the strongest possible M1 squad has the CP the design computed (54568)
+ ✓ tests/core/formulas.test.ts > level-up costs > meat per level and fragments at the five breakthroughs
+ ✓ tests/core/formulas.test.ts > level-up costs > levelUpHero spends meat and fragments, and explains why it is blocked
+ ✓ tests/core/formulas.test.ts > level-up costs > hero info shows the gain at the next level and the squad CP follows level-ups
+ ✓ tests/core/formulas.test.ts > difficulty label > ≥ 1.2 easy, ≥ 0.9 medium, below hard
+ ✓ tests/scene-wiring.test.ts > scene wiring > compressUuid matches a value taken from an official 3.8 sample scene
+ ✓ tests/scene-wiring.test.ts > scene wiring > Main.scene references Bootstrap by uuid and keeps its own uuid
+ ✓ tests/scene-wiring.test.ts > scene wiring > fixed uuids did not change
+ ✓ tests/scene-wiring.test.ts > scene wiring > Bootstrap class name stays "Bootstrap"
+ ✓ tests/core/determinism.test.ts > determinism > mulberry32 gives a fixed sequence for a seed
+ ✓ tests/core/determinism.test.ts > determinism > same seed and same inputs give exactly the same game, 10 simulated minutes of bot play 827ms
+ ✓ tests/core/determinism.test.ts > determinism > a dungeon run depends only on the save seed and the run number
+ ✓ tests/core/determinism.test.ts > determinism > ties are broken by the smaller entity id
+ ✓ tests/core/determinism.test.ts > core has no hidden inputs > core files never read the wall clock or timers
+ ✓ tests/core/determinism.test.ts > core has no hidden inputs > the bot only uses the public entry of the core and never casts its way into internals
+ ✓ tests/core/determinism.test.ts > iso mapping > worldToIso and isoToWorld are inverse, with 120 × 60 cells
+ ✓ tests/core/determinism.test.ts > performance > a dungeon step with 60 monsters and a full squad is cheap 310ms
+ ✓ tests/core/determinism.test.ts > performance > reading state and stepping does not grow the event buffer when the view clears it
+ ✓ tests/core/determinism.test.ts > performance > the event buffer stays bounded even if nobody clears it
+ ✓ tests/core/determinism.test.ts > bot > a new player bot gets through the first part of the loop in 12 simulated minutes
+ ✓ tests/core/determinism.test.ts > bot > events of one step can be read by the bot before they are cleared
+ ✓ tests/core/smoke.test.ts > smoke > a new game starts in the village with Bàng and a storage
+ ✓ tests/core/smoke.test.ts > smoke > the squad gathers wood from a tree when standing still next to it
+ ✓ tests/core/smoke.test.ts > smoke > the squad kills a crab camp and gets meat and exp
+ ✓ tests/resources.test.ts > resources > parses data/boot.json
+ ✓ tests/resources.test.ts > resources > parses data/buildings.json
+ ✓ tests/resources.test.ts > resources > parses data/display.json
+ ✓ tests/resources.test.ts > resources > parses data/drop-tables.json
+ ✓ tests/resources.test.ts > resources > parses data/dungeon.json
+ ✓ tests/resources.test.ts > resources > parses data/field-layout.json
+ ✓ tests/resources.test.ts > resources > parses data/hero-levels.json
+ ✓ tests/resources.test.ts > resources > parses data/heroes.json
+ ✓ tests/resources.test.ts > resources > parses data/monsters.json
+ ✓ tests/resources.test.ts > resources > parses data/player-levels.json
+ ✓ tests/resources.test.ts > resources > parses data/quests.json
+ ✓ tests/resources.test.ts > resources > parses data/recruit.json
+ ✓ tests/resources.test.ts > resources > parses data/skills.json
+ ✓ tests/resources.test.ts > resources > parses data/training-tree.json
+ ✓ tests/resources.test.ts > resources > parses data/tuning.json
+ ✓ tests/resources.test.ts > resources > parses textures/placeholder-frames.json
+ ✓ tests/resources.test.ts > resources > parses textures/ui-frames.json
+ ✓ tests/resources.test.ts > resources > parses textures/world-frames.json
+ ✓ tests/resources.test.ts > resources > atlas textures/placeholder-frames.json fits its image
+ ✓ tests/resources.test.ts > resources > atlas textures/ui-frames.json fits its image
+ ✓ tests/resources.test.ts > resources > atlas textures/world-frames.json fits its image
+ ✓ tests/resources.test.ts > resources > has no resource names with spaces (paths are used in code)
+ ✓ tests/core-purity.test.ts > core purity > scans the core folder
+ ✓ tests/core-purity.test.ts > core purity > arena.ts
+ ✓ tests/core-purity.test.ts > core purity > checks.ts
+ ✓ tests/core-purity.test.ts > core purity > constants.ts
+ ✓ tests/core-purity.test.ts > core purity > contract.ts
+ ✓ tests/core-purity.test.ts > core purity > data.ts
+ ✓ tests/core-purity.test.ts > core purity > dungeon.ts
+ ✓ tests/core-purity.test.ts > core purity > field.ts
+ ✓ tests/core-purity.test.ts > core purity > formulas.ts
+ ✓ tests/core-purity.test.ts > core purity > game.ts
+ ✓ tests/core-purity.test.ts > core purity > index.ts
+ ✓ tests/core-purity.test.ts > core purity > iso.ts
+ ✓ tests/core-purity.test.ts > core purity > rng.ts
+ ✓ tests/core-purity.test.ts > core purity > save.ts
+ ✓ tests/core-purity.test.ts > core purity > tavern.ts
+ ✓ tests/core-purity.test.ts > core purity > village.ts
+ Test Files  16 passed (16)
+      Tests  225 passed (225)
+   Start at  20:29:02
+   Duration  4.51s (transform 826ms, setup 0ms, collect 2.30s, tests 6.89s, environment 3ms, prepare 1.21s)
+exit code: 0

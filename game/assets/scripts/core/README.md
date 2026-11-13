@@ -155,6 +155,7 @@ hình dạng `{ type, x, y, n, id, id2, key, text, data }`; bảng ý nghĩa t�
 | `npm test` | vitest; test của lõi nằm trong `tools/tests/core/` |
 | `npm run sim` | Bot chơi 5 seed × 6 giờ mô phỏng, in bảng tiến độ mỗi 15 phút và kết luận ĐẠT/TRƯỢT |
 | `npm run sim -- --seeds 1,2,3 --hours 10 --out ../docs/evidence/m1/sim --verbose` | Chọn seed, số giờ, thư mục ghi `bot-report.md` + `seed-N.csv`, in nhật ký quyết định của bot |
+| `npm run sim:difficulty` | Đo tỉ lệ thắng của từng chặng theo tỉ lệ CP đội / CP đề nghị (đội dựng qua bản lưu, bot điều khiển) |
 
 Test theo chủ đề: `data` (bảng hợp lệ, khớp bản gốc thiết kế, bảng sai báo lỗi rõ), `formulas` (chỉ số, CP, giá),
 `village` (đặt, thợ, nâng, hủy, trần kho, sản xuất), `recruit` (lượt đầu, BONUS, tỉ lệ, mọi hero lấy được), `squad`

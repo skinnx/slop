@@ -1,0 +1,570 @@
+# Kết quả bot mô phỏng (cột mốc 1)
+
+Lệnh: `cd tools && npm run sim -- --seeds 1,2,3,4,5,6,7,8,9,10 --hours 6 --out <thư mục>`
+
+Mục tiêu (`docs/design/02-balance.md` mục 5): từ save mới, vượt tầng 5 trước 0:45, tầng 10 trước 1:30, tầng 15 trước 3:00, **tầng 20 trước 6:00**, và không có 30 phút mô phỏng liên tiếp nào không tiến bộ. Thời gian là thời gian chơi mô phỏng (số bước × 1/30 s), không có thời gian ngoại tuyến.
+
+## Tóm tắt: ĐẠT (10 seed, 6 giờ mỗi seed)
+
+| Seed | Tầng 5 (≤ 0:45) | Tầng 10 (≤ 1:30) | Tầng 15 (≤ 3:00) | Tầng 20 (≤ 6:00) | Tầng 25 (tham khảo) | Đoạn dài nhất không tiến bộ | Cấp NC cuối | CP cuối | Kết quả |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | 0:13:17 | 0:29:29 | 1:07:37 | 2:12:41 | 3:47:26 | 0:05:58 | 26 | 49458 | ĐẠT |
+| 2 | 0:19:02 | 0:33:34 | 1:12:24 | 2:13:30 | 3:53:48 | 0:05:07 | 25 | 48591 | ĐẠT |
+| 3 | 0:16:55 | 0:33:30 | 1:13:16 | 2:16:28 | 3:59:32 | 0:05:31 | 25 | 47580 | ĐẠT |
+| 4 | 0:15:35 | 0:30:58 | 1:09:19 | 2:18:23 | 3:54:11 | 0:04:55 | 25 | 46192 | ĐẠT |
+| 5 | 0:15:50 | 0:30:43 | 1:06:39 | 2:11:27 | 3:46:14 | 0:09:30 | 26 | 47799 | ĐẠT |
+| 6 | 0:15:19 | 0:33:50 | 1:09:29 | 2:10:49 | 3:42:15 | 0:06:21 | 26 | 48342 | ĐẠT |
+| 7 | 0:14:20 | 0:29:30 | 1:10:53 | 2:15:12 | 3:51:10 | 0:06:27 | 26 | 48158 | ĐẠT |
+| 8 | 0:15:23 | 0:30:33 | 1:10:29 | 2:16:04 | 3:56:00 | 0:04:54 | 25 | 45101 | ĐẠT |
+| 9 | 0:17:41 | 0:34:14 | 1:16:49 | 2:20:40 | 3:59:21 | 0:05:09 | 25 | 46652 | ĐẠT |
+| 10 | 0:16:17 | 0:30:42 | 1:11:36 | 2:04:22 | 4:00:22 | 0:06:57 | 25 | 46317 | ĐẠT |
+
+## Seed 1: ĐẠT
+
+| Mốc | Hạn chót | Bot | Kết quả |
+|---|---|---|---|
+| Vượt tầng 5 | 0:45:00 | 0:13:17 | ĐẠT |
+| Vượt tầng 10 | 1:30:00 | 0:29:29 | ĐẠT |
+| Vượt tầng 15 | 3:00:00 | 1:07:37 | ĐẠT |
+| Vượt tầng 20 | 6:00:00 | 2:12:41 | ĐẠT |
+| Vượt tầng 25 | không bắt buộc | 3:47:26 | — |
+| Đoạn dài nhất không tiến bộ (cả 6 giờ) | dưới 0:30:00 | 0:05:58 (bắt đầu ở 3:56:42) | ĐẠT |
+
+Bảng tiến độ (mỗi 15 phút mô phỏng):
+
+| Thời gian | Cấp NC | CP đội | Hero có | Ô đội | Cấp hero trong đội | Nấc | Công trình (cấp) | Chặng | Tầng | Tài nguyên | Tuyển | Nhiệm vụ |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 0:14:59 | 7 | 6096 | 6 | 3 | 5, 5, 4 | 21 | Kho2 Gỗ3 Quán1 Mỏ2 Tập1 Chợ2 Cổng1 | 1 | 5 | vàng 278, thịt 17, gỗ 263, quặng 295, san hô 2, vé 12 | 14 | q22 Mở ô đội thứ 4 ở Sân Tập (0/1) |
+| 0:29:59 | 9 | 9450 | 8 | 4 | 9, 9, 9, 9 | 27 | Kho4 Gỗ4 Quán1 Mỏ3 Tập2 Chợ3 Cổng2 | 2 | 10 | vàng 87, thịt 0, gỗ 90, quặng 78, san hô 4, vé 16 | 30 | q27 Nâng một hero lên cấp 10 (0/1) |
+| 0:44:59 | 11 | 12476 | 10 | 4 | 10, 10, 10, 10 | 33 | Kho5 Gỗ4 Quán2 Mỏ3 Tập2+ Chợ3 Cổng2 | 2 | 10 | vàng 152, thịt 13, gỗ 706, quặng 286, san hô 7, vé 26 | 42 | q32 Hạ boss tầng 15: Mắt Đá (0/1) |
+| 0:59:59 | 12 | 16420 | 11 | 5 | 13, 13, 13, 12, 12 | 36 | Kho5 Gỗ4+ Quán2 Mỏ3 Tập3 Chợ3 Cổng2+ | 2 | 10 | vàng 93, thịt 28, gỗ 839, quặng 438, san hô 3, vé 15 | 47 | q32 Hạ boss tầng 15: Mắt Đá (0/1) |
+| 1:15:00 | 14 | 18824 | 11 | 5 | 17, 16, 16, 16, 16 | 42 | Kho5 Gỗ6 Quán2 Mỏ4 Tập3 Chợ4 Cổng3 | 3 | 15 | vàng 31, thịt 26, gỗ 1375, quặng 420, san hô 15, vé 38 | 75 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 1:30:00 | 15 | 19829 | 11 | 5 | 19, 19, 19, 18, 18 | 45 | Kho5+ Gỗ6 Quán2 Mỏ4 Tập3+ Chợ4 Cổng3 | 3 | 15 | vàng 121, thịt 15, gỗ 628, quặng 292, san hô 19, vé 48 | 85 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 1:45:00 | 16 | 20828 | 11 | 5 | 20, 20, 20, 20, 19 | 48 | Kho6 Gỗ6 Quán2 Mỏ4 Tập3+ Chợ4 Cổng3 | 3 | 15 | vàng 131, thịt 77, gỗ 2933, quặng 1147, san hô 22, vé 65 | 101 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 2:00:00 | 17 | 26276 | 11 | 6 | 21, 20, 20, 20, 20, 20 | 51 | Kho6 Gỗ6 Quán2 Mỏ5 Tập4 Chợ5 Cổng3+ | 3 | 15 | vàng 64, thịt 11, gỗ 1829, quặng 220, san hô 22, vé 77 | 113 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 2:15:00 | 18 | 27155 | 12 | 6 | 22, 22, 22, 22, 22, 21 | 53 | Kho6+ Gỗ6+ Quán2 Mỏ6 Tập4 Chợ5 Cổng4 | 4 | 20 | vàng 170, thịt 23, gỗ 2232, quặng 194, san hô 34, vé 133 | 152 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 2:30:00 | 18 | 27621 | 12 | 6 | 23, 23, 23, 23, 22, 22 | 54 | Kho7 Gỗ7 Quán2 Mỏ6 Tập4+ Chợ6 Cổng4 | 4 | 20 | vàng 82, thịt 117, gỗ 220, quặng 111, san hô 34, vé 141 | 160 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 2:45:00 | 19 | 28228 | 12 | 6 | 24, 24, 24, 24, 24, 24 | 55 | Kho7 Gỗ7 Quán2 Mỏ6 Tập4+ Chợ6 Cổng4 | 4 | 20 | vàng 111, thịt 22, gỗ 3083, quặng 872, san hô 38, vé 166 | 184 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:00:00 | 20 | 29716 | 12 | 6 | 25, 25, 25, 25, 24, 24 | 60 | Kho7 Gỗ7 Quán2 Mỏ6 Tập4+ Chợ6 Cổng4 | 4 | 20 | vàng 106, thịt 104, gỗ 4972, quặng 1627, san hô 38, vé 166 | 192 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:14:59 | 20 | 35706 | 12 | 7 | 26, 26, 25, 13, 25, 25, 25 | 60 | Kho7 Gỗ7 Quán2+ Mỏ6 Tập5 Chợ6 Cổng4+ | 4 | 20 | vàng 45, thịt 12, gỗ 941, quặng 389, san hô 31, vé 190 | 215 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:29:59 | 21 | 37388 | 12 | 7 | 26, 24, 26, 25, 25, 25, 25 | 62 | Kho7 Gỗ7+ Quán3 Mỏ6 Tập5 Chợ6 Cổng4+ | 4 | 20 | vàng 143, thịt 131, gỗ 3511, quặng 223, san hô 33, vé 204 | 229 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:44:59 | 21 | 38323 | 12 | 7 | 26, 26, 26, 26, 26, 26, 26 | 63 | Kho7+ Gỗ8 Quán3 Mỏ6 Tập5 Chợ6 Cổng4+ | 4 | 20 | vàng 267, thịt 58, gỗ 4859, quặng 615, san hô 38, vé 226 | 250 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:59:59 | 22 | 38895 | 12 | 7 | 27, 27, 27, 27, 26, 26, 26 | 65 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5 Chợ6 Cổng5 | 5 | 25 | vàng 231, thịt 129, gỗ 5985, quặng 1152, san hô 47, vé 269 | 285 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:14:59 | 23 | 39209 | 12 | 7 | 27, 27, 27, 27, 27, 27, 27 | 66 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5+ Chợ6 Cổng5 | 5 | 25 | vàng 136, thịt 144, gỗ 2098, quặng 152, san hô 47, vé 291 | 306 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:29:59 | 23 | 39620 | 12 | 7 | 28, 28, 28, 28, 28, 27, 27 | 66 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5+ Chợ6 Cổng5 | 5 | 25 | vàng 40, thịt 134, gỗ 5574, quặng 1514, san hô 51, vé 306 | 321 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:44:59 | 23 | 40248 | 12 | 7 | 29, 29, 28, 28, 28, 28, 28 | 69 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5+ Chợ6 Cổng5 | 5 | 25 | vàng 137, thịt 67, gỗ 7535, quặng 1832, san hô 53, vé 331 | 345 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:59:59 | 24 | 40920 | 12 | 7 | 29, 29, 29, 29, 29, 29, 28 | 72 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5+ Chợ6 Cổng5 | 5 | 25 | vàng 158, thịt 146, gỗ 8000, quặng 2691, san hô 55, vé 341 | 355 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:14:59 | 24 | 45604 | 12 | 8 | 30, 30, 30, 29, 29, 29, 29, 7 | 72 | Kho8 Gỗ8 Quán3 Mỏ7 Tập6 Chợ6 Cổng5+ | 5 | 25 | vàng 180, thịt 14, gỗ 1255, quặng 438, san hô 48, vé 369 | 382 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:29:59 | 25 | 47619 | 12 | 8 | 30, 30, 30, 29, 24, 29, 29, 29 | 72 | Kho8+ Gỗ8 Quán3 Mỏ7 Tập6 Chợ7 Cổng5+ | 5 | 25 | vàng 285, thịt 24, gỗ 1777, quặng 324, san hô 52, vé 382 | 395 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:44:59 | 25 | 48375 | 12 | 8 | 30, 30, 30, 29, 29, 29, 29, 29 | 73 | Kho8+ Gỗ8 Quán3 Mỏ7 Tập6 Chợ7 Cổng5+ | 5 | 25 | vàng 61, thịt 183, gỗ 5252, quặng 397, san hô 67, vé 415 | 427 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:59:59 | 26 | 49458 | 12 | 8 | 30, 30, 30, 30, 30, 30, 30, 30 | 74 | Kho9 Gỗ8 Quán3 Mỏ7+ Tập6 Chợ7 Cổng5+ | 5 | 25 | vàng 140, thịt 39, gỗ 6981, quặng 569, san hô 71, vé 428 | 440 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+
+Lượt dungeon: 16 (thắng 16, thua 0). Cả đội gục ngoài đồng: 6 lần. Chuyến về làng: 147. Quái hạ: 9731 ngoài đồng, 3778 trong dungeon.
+
+Thu nhập theo nguồn trong 6 giờ:
+
+| Nguồn | vàng | thịt | gỗ | quặng | san hô | vé |
+|---|---|---|---|---|---|---|
+| Quái ngoài đồng (vật rơi) | 21529 | 18942 | 0 | 0 | 68 | 0 |
+| Cây và đá | 0 | 0 | 51724 | 32772 | 0 | 0 |
+| Công trình sản xuất | 938 | 0 | 2183 | 836 | 0 | 0 |
+| Thưởng nhiệm vụ | 1310 | 885 | 720 | 540 | 9 | 23 |
+| Dungeon: nhặt, qua tầng, chuỗi | 13613 | 572 | 0 | 0 | 0 | 0 |
+| Dungeon: thưởng chặng | 6650 | 0 | 0 | 0 | 27 | 37 |
+
+Thời gian chạy thật: 4.4 s cho 648000 bước (6.7 µs mỗi bước).
+
+## Seed 2: ĐẠT
+
+| Mốc | Hạn chót | Bot | Kết quả |
+|---|---|---|---|
+| Vượt tầng 5 | 0:45:00 | 0:19:02 | ĐẠT |
+| Vượt tầng 10 | 1:30:00 | 0:33:34 | ĐẠT |
+| Vượt tầng 15 | 3:00:00 | 1:12:24 | ĐẠT |
+| Vượt tầng 20 | 6:00:00 | 2:13:30 | ĐẠT |
+| Vượt tầng 25 | không bắt buộc | 3:53:48 | — |
+| Đoạn dài nhất không tiến bộ (cả 6 giờ) | dưới 0:30:00 | 0:05:07 (bắt đầu ở 4:06:13) | ĐẠT |
+
+Bảng tiến độ (mỗi 15 phút mô phỏng):
+
+| Thời gian | Cấp NC | CP đội | Hero có | Ô đội | Cấp hero trong đội | Nấc | Công trình (cấp) | Chặng | Tầng | Tài nguyên | Tuyển | Nhiệm vụ |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 0:14:59 | 6 | 5045 | 3 | 3 | 5, 8, 5 | 18 | Kho3+ Gỗ3 Quán1 Mỏ2+ Tập1 Chợ2 Cổng1 | 0 | 1 | vàng 83, thịt 25, gỗ 43, quặng 85, san hô 0, vé 4 | 4 | q13 Tuyển thêm 2 lượt (1/2) |
+| 0:29:59 | 8 | 8509 | 6 | 4 | 9, 8, 8, 8 | 24 | Kho4 Gỗ4 Quán1 Mỏ3 Tập2 Chợ2+ Cổng1+ | 1 | 5 | vàng 92, thịt 26, gỗ 547, quặng 51, san hô 0, vé 19 | 21 | q25 Nâng Cổng Xoáy lên cấp 2 (0/1) |
+| 0:44:59 | 10 | 10427 | 8 | 4 | 8, 9, 9, 8 | 30 | Kho4 Gỗ4+ Quán1 Mỏ4 Tập2+ Chợ3 Cổng2 | 2 | 10 | vàng 78, thịt 27, gỗ 448, quặng 65, san hô 4, vé 35 | 40 | q27 Nâng một hero lên cấp 10 (0/1) |
+| 0:59:59 | 11 | 16060 | 10 | 5 | 11, 11, 11, 11, 11 | 33 | Kho5 Gỗ5 Quán2 Mỏ4 Tập3 Chợ4 Cổng2+ | 2 | 10 | vàng 222, thịt 12, gỗ 484, quặng 167, san hô 0, vé 31 | 47 | q32 Hạ boss tầng 15: Mắt Đá (0/1) |
+| 1:15:00 | 13 | 18424 | 11 | 5 | 15, 15, 15, 14, 14 | 39 | Kho6 Gỗ5 Quán2 Mỏ5 Tập3 Chợ4 Cổng3 | 3 | 15 | vàng 244, thịt 11, gỗ 1302, quặng 97, san hô 13, vé 69 | 74 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 1:30:00 | 14 | 19442 | 11 | 5 | 17, 17, 16, 16, 16 | 42 | Kho6 Gỗ6 Quán2 Mỏ5 Tập3+ Chợ4+ Cổng3 | 3 | 15 | vàng 83, thịt 52, gỗ 550, quặng 89, san hô 13, vé 77 | 82 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 1:45:00 | 15 | 20163 | 11 | 5 | 18, 18, 18, 18, 18 | 45 | Kho6 Gỗ6 Quán2 Mỏ5 Tập3+ Chợ5 Cổng3 | 3 | 15 | vàng 250, thịt 20, gỗ 2802, quặng 1035, san hô 15, vé 93 | 97 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 2:00:00 | 16 | 25308 | 11 | 6 | 19, 19, 16, 19, 19, 19 | 48 | Kho6 Gỗ6 Quán2 Mỏ5+ Tập4 Chợ5 Cổng3+ | 3 | 15 | vàng 133, thịt 42, gỗ 1305, quặng 306, san hô 15, vé 105 | 109 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 2:15:00 | 17 | 26921 | 12 | 6 | 21, 21, 20, 20, 20, 20 | 51 | Kho6+ Gỗ7 Quán2 Mỏ6 Tập4 Chợ5+ Cổng4 | 4 | 20 | vàng 194, thịt 37, gỗ 1304, quặng 191, san hô 22, vé 151 | 146 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 2:30:00 | 18 | 27780 | 12 | 6 | 22, 22, 22, 22, 21, 21 | 54 | Kho7 Gỗ7 Quán2+ Mỏ6 Tập4 Chợ6 Cổng4 | 4 | 20 | vàng 38, thịt 69, gỗ 3008, quặng 809, san hô 24, vé 163 | 158 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 2:45:00 | 19 | 28261 | 12 | 6 | 23, 23, 23, 23, 23, 22 | 54 | Kho7 Gỗ7 Quán3 Mỏ6 Tập4+ Chợ6 Cổng4 | 4 | 20 | vàng 276, thịt 12, gỗ 1719, quặng 581, san hô 26, vé 184 | 178 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:00:00 | 19 | 28886 | 12 | 6 | 24, 24, 24, 24, 23, 23 | 57 | Kho7 Gỗ7 Quán3 Mỏ6 Tập4+ Chợ6 Cổng4 | 4 | 20 | vàng 215, thịt 74, gỗ 4628, quặng 1455, san hô 26, vé 195 | 189 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:14:59 | 20 | 30823 | 12 | 6 | 25, 25, 25, 25, 24, 24 | 60 | Kho7 Gỗ7 Quán3 Mỏ6 Tập4+ Chợ6 Cổng4+ | 4 | 20 | vàng 294, thịt 8, gỗ 522, quặng 135, san hô 27, vé 216 | 209 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:29:59 | 20 | 36572 | 12 | 7 | 25, 25, 22, 25, 25, 24, 24 | 60 | Kho7 Gỗ7+ Quán3 Mỏ7 Tập5 Chợ6 Cổng4+ | 4 | 20 | vàng 140, thịt 98, gỗ 1749, quặng 218, san hô 28, vé 231 | 224 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:44:59 | 21 | 37856 | 12 | 7 | 26, 25, 25, 25, 25, 25, 25 | 63 | Kho7 Gỗ8 Quán3 Mỏ7 Tập5 Chợ6 Cổng4+ | 4 | 20 | vàng 101, thịt 108, gỗ 4847, quặng 168, san hô 35, vé 239 | 247 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:59:59 | 22 | 38453 | 12 | 7 | 26, 26, 26, 26, 26, 26, 26 | 64 | Kho7+ Gỗ8 Quán3 Mỏ7 Tập5 Chợ6+ Cổng5 | 5 | 25 | vàng 209, thịt 117, gỗ 4504, quặng 388, san hô 48, vé 285 | 285 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:14:59 | 22 | 38939 | 12 | 7 | 27, 27, 27, 26, 26, 26, 26 | 66 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5 Chợ7 Cổng5 | 5 | 25 | vàng 276, thịt 144, gỗ 6760, quặng 1597, san hô 49, vé 307 | 306 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:29:59 | 23 | 39284 | 12 | 7 | 28, 27, 27, 27, 27, 27, 27 | 66 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5+ Chợ7 Cổng5 | 5 | 25 | vàng 128, thịt 4, gỗ 3700, quặng 692, san hô 51, vé 319 | 318 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:44:59 | 23 | 39729 | 12 | 7 | 28, 28, 28, 28, 28, 27, 27 | 67 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5+ Chợ7 Cổng5 | 5 | 25 | vàng 229, thịt 51, gỗ 6115, quặng 1777, san hô 55, vé 345 | 343 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:59:59 | 24 | 40482 | 12 | 7 | 29, 29, 28, 28, 28, 28, 28 | 71 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5+ Chợ7 Cổng5 | 5 | 25 | vàng 197, thịt 94, gỗ 7888, quặng 1693, san hô 59, vé 357 | 355 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:14:59 | 24 | 40920 | 12 | 7 | 29, 29, 29, 29, 29, 29, 28 | 72 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5+ Chợ7 Cổng5 | 5 | 25 | vàng 133, thịt 218, gỗ 8000, quặng 3364, san hô 64, vé 386 | 383 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:29:59 | 25 | 46817 | 12 | 8 | 30, 29, 29, 29, 29, 29, 20, 29 | 72 | Kho8+ Gỗ8 Quán3 Mỏ7 Tập6 Chợ7 Cổng5+ | 5 | 25 | vàng 139, thịt 57, gỗ 1043, quặng 155, san hô 58, vé 400 | 397 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:44:59 | 25 | 47724 | 12 | 8 | 30, 29, 29, 29, 27, 29, 29, 29 | 73 | Kho8+ Gỗ8 Quán3 Mỏ7 Tập6 Chợ7 Cổng5+ | 5 | 25 | vàng 275, thịt 48, gỗ 4733, quặng 366, san hô 61, vé 427 | 423 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:59:59 | 25 | 48591 | 12 | 8 | 30, 30, 30, 30, 29, 29, 29, 29 | 73 | Kho9 Gỗ8 Quán3 Mỏ7+ Tập6 Chợ7 Cổng5+ | 5 | 25 | vàng 157, thịt 117, gỗ 6610, quặng 787, san hô 63, vé 444 | 440 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+
+Lượt dungeon: 17 (thắng 16, thua 1, tầng lúc thua: 4). Cả đội gục ngoài đồng: 6 lần. Chuyến về làng: 148. Quái hạ: 9635 ngoài đồng, 3955 trong dungeon.
+
+Thu nhập theo nguồn trong 6 giờ:
+
+| Nguồn | vàng | thịt | gỗ | quặng | san hô | vé |
+|---|---|---|---|---|---|---|
+| Quái ngoài đồng (vật rơi) | 21133 | 18041 | 0 | 0 | 62 | 0 |
+| Cây và đá | 0 | 0 | 51363 | 32092 | 0 | 0 |
+| Công trình sản xuất | 1020 | 0 | 2173 | 894 | 0 | 0 |
+| Thưởng nhiệm vụ | 1310 | 885 | 720 | 540 | 9 | 23 |
+| Dungeon: nhặt, qua tầng, chuỗi | 13994 | 601 | 0 | 0 | 0 | 0 |
+| Dungeon: thưởng chặng | 6600 | 0 | 0 | 0 | 25 | 37 |
+
+Thời gian chạy thật: 3.8 s cho 648000 bước (5.9 µs mỗi bước).
+
+## Seed 3: ĐẠT
+
+| Mốc | Hạn chót | Bot | Kết quả |
+|---|---|---|---|
+| Vượt tầng 5 | 0:45:00 | 0:16:55 | ĐẠT |
+| Vượt tầng 10 | 1:30:00 | 0:33:30 | ĐẠT |
+| Vượt tầng 15 | 3:00:00 | 1:13:16 | ĐẠT |
+| Vượt tầng 20 | 6:00:00 | 2:16:28 | ĐẠT |
+| Vượt tầng 25 | không bắt buộc | 3:59:32 | — |
+| Đoạn dài nhất không tiến bộ (cả 6 giờ) | dưới 0:30:00 | 0:05:31 (bắt đầu ở 4:53:13) | ĐẠT |
+
+Bảng tiến độ (mỗi 15 phút mô phỏng):
+
+| Thời gian | Cấp NC | CP đội | Hero có | Ô đội | Cấp hero trong đội | Nấc | Công trình (cấp) | Chặng | Tầng | Tài nguyên | Tuyển | Nhiệm vụ |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 0:14:59 | 6 | 5318 | 4 | 3 | 5, 9, 5 | 18 | Kho3+ Gỗ3 Quán1 Mỏ2+ Tập1 Chợ2 Cổng1 | 0 | 1 | vàng 11, thịt 11, gỗ 12, quặng 125, san hô 0, vé 5 | 5 | q13 Tuyển thêm 2 lượt (2/2) |
+| 0:29:59 | 8 | 9662 | 7 | 4 | 10, 10, 10, 9 | 24 | Kho4 Gỗ4 Quán1 Mỏ3 Tập2 Chợ3 Cổng1+ | 1 | 5 | vàng 112, thịt 16, gỗ 231, quặng 54, san hô 0, vé 16 | 18 | q25 Nâng Cổng Xoáy lên cấp 2 (0/1) |
+| 0:44:59 | 10 | 11311 | 9 | 4 | 12, 12, 11, 11 | 30 | Kho5 Gỗ4 Quán2 Mỏ3 Tập2+ Chợ3 Cổng2 | 2 | 10 | vàng 106, thịt 24, gỗ 493, quặng 15, san hô 5, vé 47 | 39 | q32 Hạ boss tầng 15: Mắt Đá (0/1) |
+| 0:59:59 | 11 | 14765 | 10 | 5 | 14, 14, 14, 14, 2 | 33 | Kho5 Gỗ4+ Quán2 Mỏ3 Tập3 Chợ3 Cổng2+ | 2 | 10 | vàng 90, thịt 8, gỗ 303, quặng 70, san hô 1, vé 51 | 43 | q32 Hạ boss tầng 15: Mắt Đá (0/1) |
+| 1:15:00 | 13 | 18285 | 11 | 5 | 15, 13, 15, 14, 14 | 37 | Kho5+ Gỗ5+ Quán2 Mỏ4 Tập3 Chợ4 Cổng3 | 3 | 15 | vàng 154, thịt 48, gỗ 450, quặng 61, san hô 8, vé 62 | 67 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 1:30:00 | 14 | 19815 | 11 | 5 | 17, 16, 16, 16, 16 | 42 | Kho6 Gỗ6 Quán2 Mỏ5 Tập3+ Chợ4 Cổng3 | 3 | 15 | vàng 56, thịt 46, gỗ 186, quặng 14, san hô 8, vé 54 | 75 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 1:45:00 | 15 | 20653 | 11 | 5 | 18, 18, 18, 18, 18 | 45 | Kho6 Gỗ6 Quán2 Mỏ5 Tập3+ Chợ4 Cổng3 | 3 | 15 | vàng 63, thịt 31, gỗ 2615, quặng 562, san hô 10, vé 71 | 91 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 2:00:00 | 16 | 25059 | 11 | 6 | 20, 19, 19, 19, 19, 18 | 48 | Kho6 Gỗ6 Quán2 Mỏ5 Tập4 Chợ4 Cổng3+ | 3 | 15 | vàng 169, thịt 31, gỗ 1770, quặng 146, san hô 6, vé 79 | 99 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 2:15:00 | 17 | 26322 | 11 | 6 | 21, 21, 20, 20, 20, 20 | 51 | Kho6 Gỗ6 Quán2 Mỏ6 Tập4 Chợ5 Cổng4 | 3 | 15 | vàng 433, thịt 61, gỗ 3124, quặng 220, san hô 7, vé 87 | 114 | q37 Hạ boss tầng 20: Rắn Biển Rạn (0/1) |
+| 2:30:00 | 18 | 27298 | 11 | 6 | 22, 22, 22, 22, 22, 22 | 54 | Kho7 Gỗ7 Quán2 Mỏ6 Tập4 Chợ5 Cổng4 | 4 | 20 | vàng 186, thịt 79, gỗ 3543, quặng 654, san hô 16, vé 134 | 145 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 2:45:00 | 18 | 27649 | 12 | 6 | 23, 23, 23, 23, 23, 22 | 54 | Kho7 Gỗ7 Quán2 Mỏ6 Tập4+ Chợ5+ Cổng4 | 4 | 20 | vàng 80, thịt 96, gỗ 1564, quặng 68, san hô 18, vé 5 | 165 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:00:00 | 19 | 28258 | 12 | 6 | 24, 24, 24, 24, 23, 23 | 57 | Kho7 Gỗ7 Quán2 Mỏ6 Tập4+ Chợ6 Cổng4 | 4 | 20 | vàng 78, thịt 106, gỗ 4171, quặng 905, san hô 18, vé 14 | 174 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:14:59 | 20 | 29657 | 12 | 6 | 25, 25, 25, 24, 24, 24 | 60 | Kho7 Gỗ7 Quán2 Mỏ6 Tập4+ Chợ6 Cổng4 | 4 | 20 | vàng 110, thịt 81, gỗ 5000, quặng 1872, san hô 21, vé 34 | 193 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:29:59 | 20 | 35361 | 12 | 7 | 25, 25, 25, 18, 25, 25, 24 | 60 | Kho7 Gỗ7 Quán2+ Mỏ6 Tập5 Chợ6 Cổng4+ | 4 | 20 | vàng 267, thịt 43, gỗ 1840, quặng 499, san hô 14, vé 20 | 203 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:44:59 | 21 | 36780 | 12 | 7 | 25, 25, 25, 25, 25, 25, 25 | 62 | Kho7 Gỗ7+ Quán3 Mỏ6 Tập5 Chợ6 Cổng4+ | 4 | 20 | vàng 144, thịt 166, gỗ 3956, quặng 115, san hô 21, vé 40 | 230 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:59:59 | 22 | 37414 | 12 | 7 | 26, 26, 26, 26, 26, 26, 26 | 63 | Kho7+ Gỗ8 Quán3 Mỏ6+ Tập5 Chợ6 Cổng5 | 5 | 25 | vàng 45, thịt 68, gỗ 3914, quặng 61, san hô 30, vé 87 | 269 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:14:59 | 22 | 37792 | 12 | 7 | 27, 27, 27, 26, 26, 26, 26 | 64 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5 Chợ6 Cổng5 | 5 | 25 | vàng 206, thịt 146, gỗ 6520, quặng 1376, san hô 30, vé 109 | 290 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:29:59 | 22 | 38349 | 12 | 7 | 28, 27, 27, 27, 27, 27, 27 | 66 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5 Chợ6 Cổng5 | 5 | 25 | vàng 189, thịt 33, gỗ 7917, quặng 2807, san hô 30, vé 118 | 299 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:44:59 | 23 | 38730 | 12 | 7 | 28, 28, 28, 28, 28, 28, 27 | 66 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5+ Chợ6+ Cổng5 | 5 | 25 | vàng 201, thịt 40, gỗ 3473, quặng 292, san hô 40, vé 147 | 327 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:59:59 | 23 | 39064 | 12 | 7 | 29, 29, 28, 28, 28, 28, 28 | 67 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5+ Chợ7 Cổng5 | 5 | 25 | vàng 236, thịt 71, gỗ 5964, quặng 1812, san hô 40, vé 155 | 335 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:14:59 | 24 | 39716 | 12 | 7 | 29, 29, 29, 29, 29, 29, 28 | 70 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5+ Chợ7 Cổng5 | 5 | 25 | vàng 204, thịt 8, gỗ 7777, quặng 1850, san hô 43, vé 180 | 359 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:29:59 | 24 | 40381 | 12 | 7 | 30, 30, 29, 29, 29, 29, 29 | 72 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5+ Chợ7 Cổng5 | 5 | 25 | vàng 78, thịt 249, gỗ 8000, quặng 2974, san hô 45, vé 191 | 370 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:44:59 | 25 | 46689 | 12 | 8 | 30, 30, 29, 29, 24, 29, 29, 29 | 75 | Kho8 Gỗ8 Quán3 Mỏ7 Tập6 Chợ7 Cổng5 | 5 | 25 | vàng 69, thịt 31, gỗ 8000, quặng 2930, san hô 37, vé 222 | 400 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:59:59 | 25 | 47580 | 12 | 8 | 30, 30, 30, 29, 29, 29, 29, 29 | 75 | Kho8+ Gỗ8 Quán3 Mỏ7 Tập6 Chợ7 Cổng5+ | 5 | 25 | vàng 206, thịt 18, gỗ 522, quặng 174, san hô 43, vé 236 | 414 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+
+Lượt dungeon: 16 (thắng 16, thua 0). Cả đội gục ngoài đồng: 6 lần. Chuyến về làng: 145. Quái hạ: 9519 ngoài đồng, 3788 trong dungeon.
+
+Thu nhập theo nguồn trong 6 giờ:
+
+| Nguồn | vàng | thịt | gỗ | quặng | san hô | vé |
+|---|---|---|---|---|---|---|
+| Quái ngoài đồng (vật rơi) | 18987 | 17440 | 0 | 0 | 42 | 0 |
+| Cây và đá | 0 | 0 | 43702 | 32597 | 0 | 0 |
+| Công trình sản xuất | 938 | 0 | 2136 | 841 | 0 | 0 |
+| Thưởng nhiệm vụ | 1310 | 885 | 720 | 540 | 9 | 23 |
+| Dungeon: nhặt, qua tầng, chuỗi | 13671 | 609 | 0 | 0 | 0 | 0 |
+| Dungeon: thưởng chặng | 6600 | 0 | 0 | 0 | 25 | 37 |
+
+Thời gian chạy thật: 3.8 s cho 648000 bước (5.8 µs mỗi bước).
+
+## Seed 4: ĐẠT
+
+| Mốc | Hạn chót | Bot | Kết quả |
+|---|---|---|---|
+| Vượt tầng 5 | 0:45:00 | 0:15:35 | ĐẠT |
+| Vượt tầng 10 | 1:30:00 | 0:30:58 | ĐẠT |
+| Vượt tầng 15 | 3:00:00 | 1:09:19 | ĐẠT |
+| Vượt tầng 20 | 6:00:00 | 2:18:23 | ĐẠT |
+| Vượt tầng 25 | không bắt buộc | 3:54:11 | — |
+| Đoạn dài nhất không tiến bộ (cả 6 giờ) | dưới 0:30:00 | 0:04:55 (bắt đầu ở 2:30:37) | ĐẠT |
+
+Bảng tiến độ (mỗi 15 phút mô phỏng):
+
+| Thời gian | Cấp NC | CP đội | Hero có | Ô đội | Cấp hero trong đội | Nấc | Công trình (cấp) | Chặng | Tầng | Tài nguyên | Tuyển | Nhiệm vụ |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 0:14:59 | 7 | 5232 | 4 | 3 | 5, 5, 8 | 18 | Kho3 Gỗ3 Quán1 Mỏ3 Tập1 Chợ2 Cổng1 | 0 | 3 | vàng 95, thịt 15, gỗ 40, quặng 141, san hô 0, vé 4 | 4 | q13 Tuyển thêm 2 lượt (1/2) |
+| 0:29:59 | 9 | 9910 | 7 | 4 | 10, 9, 9, 9 | 24 | Kho4 Gỗ4 Quán1 Mỏ3 Tập2 Chợ3 Cổng2 | 1 | 8 | vàng 30, thịt 4, gỗ 186, quặng 134, san hô 0, vé 3 | 21 | q26 Hạ boss tầng 10: Cua Càng Thép Chúa (0/1) |
+| 0:44:59 | 11 | 11595 | 10 | 4 | 13, 12, 12, 12 | 33 | Kho5 Gỗ4 Quán2 Mỏ3 Tập2+ Chợ3 Cổng2 | 2 | 10 | vàng 80, thịt 17, gỗ 851, quặng 67, san hô 5, vé 27 | 43 | q32 Hạ boss tầng 15: Mắt Đá (0/1) |
+| 0:59:59 | 11 | 15263 | 10 | 5 | 14, 14, 9, 14, 14 | 33 | Kho5 Gỗ4 Quán2 Mỏ3+ Tập3 Chợ3 Cổng2+ | 2 | 10 | vàng 221, thịt 11, gỗ 908, quặng 73, san hô 1, vé 30 | 46 | q32 Hạ boss tầng 15: Mắt Đá (0/1) |
+| 1:15:00 | 13 | 19030 | 12 | 5 | 16, 15, 15, 15, 15 | 39 | Kho5 Gỗ5 Quán2 Mỏ4 Tập3 Chợ4 Cổng3 | 3 | 15 | vàng 34, thịt 14, gỗ 1942, quặng 99, san hô 9, vé 37 | 74 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 1:30:00 | 14 | 20107 | 12 | 5 | 18, 18, 18, 17, 17 | 42 | Kho5 Gỗ5+ Quán2 Mỏ5 Tập3+ Chợ4 Cổng3 | 3 | 15 | vàng 164, thịt 31, gỗ 556, quặng 178, san hô 13, vé 44 | 81 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 1:45:00 | 15 | 20899 | 12 | 5 | 20, 19, 19, 19, 19 | 45 | Kho6 Gỗ6 Quán2 Mỏ5 Tập3+ Chợ4 Cổng3 | 3 | 15 | vàng 267, thịt 8, gỗ 2447, quặng 691, san hô 17, vé 59 | 95 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 2:00:00 | 16 | 25286 | 12 | 6 | 20, 20, 20, 20, 20, 19 | 48 | Kho6 Gỗ6 Quán2 Mỏ5+ Tập4 Chợ5 Cổng3+ | 3 | 15 | vàng 219, thịt 22, gỗ 610, quặng 127, san hô 11, vé 36 | 104 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 2:15:00 | 17 | 26066 | 12 | 6 | 22, 21, 21, 21, 21, 20 | 51 | Kho6+ Gỗ6 Quán2 Mỏ6 Tập4 Chợ5 Cổng3+ | 3 | 15 | vàng 45, thịt 72, gỗ 2540, quặng 387, san hô 14, vé 1 | 124 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 2:30:00 | 18 | 26890 | 12 | 6 | 23, 23, 22, 22, 22, 22 | 54 | Kho7 Gỗ7 Quán2 Mỏ6 Tập4 Chợ6 Cổng4 | 4 | 20 | vàng 60, thịt 118, gỗ 3333, quặng 748, san hô 23, vé 39 | 154 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 2:45:00 | 19 | 27288 | 12 | 6 | 24, 24, 23, 23, 23, 23 | 54 | Kho7+ Gỗ7 Quán2 Mỏ6 Tập4+ Chợ6 Cổng4 | 4 | 20 | vàng 202, thịt 27, gỗ 1079, quặng 102, san hô 23, vé 60 | 174 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:00:00 | 19 | 28210 | 12 | 6 | 25, 24, 24, 24, 24, 24 | 56 | Kho8 Gỗ7 Quán2 Mỏ6 Tập4+ Chợ6 Cổng4 | 4 | 20 | vàng 58, thịt 30, gỗ 4069, quặng 1003, san hô 25, vé 70 | 184 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:14:59 | 20 | 29571 | 12 | 6 | 25, 25, 25, 25, 24, 24 | 57 | Kho8 Gỗ7 Quán2 Mỏ6 Tập4+ Chợ6 Cổng4+ | 4 | 20 | vàng 217, thịt 116, gỗ 1458, quặng 13, san hô 26, vé 87 | 200 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:29:59 | 20 | 35489 | 12 | 7 | 25, 25, 25, 21, 25, 25, 24 | 60 | Kho8 Gỗ7 Quán2 Mỏ6 Tập5 Chợ6 Cổng4+ | 4 | 20 | vàng 9, thịt 47, gỗ 4754, quặng 69, san hô 23, vé 62 | 215 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:44:59 | 21 | 36276 | 12 | 7 | 26, 25, 25, 25, 25, 25, 25 | 61 | Kho8 Gỗ7 Quán2+ Mỏ6 Tập5 Chợ6 Cổng4+ | 4 | 20 | vàng 247, thịt 157, gỗ 6922, quặng 276, san hô 26, vé 44 | 236 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:59:59 | 22 | 36945 | 12 | 7 | 26, 26, 26, 26, 26, 26, 26 | 63 | Kho8 Gỗ7 Quán3 Mỏ6+ Tập5 Chợ6+ Cổng5 | 5 | 25 | vàng 106, thịt 52, gỗ 6507, quặng 93, san hô 41, vé 92 | 276 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:14:59 | 22 | 37552 | 12 | 7 | 27, 27, 27, 26, 26, 26, 26 | 66 | Kho8 Gỗ7 Quán3 Mỏ7 Tập5 Chợ7 Cổng5 | 5 | 25 | vàng 60, thịt 109, gỗ 7871, quặng 1079, san hô 41, vé 114 | 297 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:29:59 | 22 | 37869 | 12 | 7 | 28, 27, 27, 27, 27, 27, 27 | 66 | Kho8 Gỗ7 Quán3 Mỏ7 Tập5+ Chợ7 Cổng5 | 5 | 25 | vàng 13, thịt 142, gỗ 3131, quặng 426, san hô 43, vé 126 | 309 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:44:59 | 23 | 38374 | 12 | 7 | 28, 28, 28, 28, 28, 28, 27 | 67 | Kho8 Gỗ7+ Quán3 Mỏ7 Tập5+ Chợ7 Cổng5 | 5 | 25 | vàng 57, thịt 77, gỗ 5292, quặng 355, san hô 49, vé 154 | 336 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:59:59 | 23 | 38871 | 12 | 7 | 29, 29, 29, 29, 28, 28, 28 | 68 | Kho8+ Gỗ8 Quán3 Mỏ7 Tập5+ Chợ7 Cổng5 | 5 | 25 | vàng 271, thịt 3, gỗ 6479, quặng 555, san hô 51, vé 166 | 348 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:14:59 | 24 | 39215 | 12 | 7 | 29, 29, 29, 29, 29, 29, 28 | 70 | Kho9 Gỗ8 Quán3 Mỏ7 Tập5+ Chợ7 Cổng5 | 5 | 25 | vàng 31, thịt 99, gỗ 8831, quặng 1551, san hô 54, vé 191 | 372 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:29:59 | 24 | 44301 | 12 | 8 | 30, 29, 29, 29, 29, 29, 15, 29 | 72 | Kho9 Gỗ8 Quán3 Mỏ7 Tập6 Chợ7 Cổng5 | 5 | 25 | vàng 137, thịt 31, gỗ 10811, quặng 2491, san hô 42, vé 200 | 381 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:44:59 | 25 | 45664 | 12 | 8 | 30, 29, 29, 29, 29, 25, 29, 29 | 75 | Kho9 Gỗ8 Quán3 Mỏ7 Tập6 Chợ7 Cổng5 | 5 | 25 | vàng 263, thịt 66, gỗ 11848, quặng 2233, san hô 46, vé 228 | 408 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:59:59 | 25 | 46192 | 12 | 8 | 30, 30, 29, 29, 29, 29, 29, 29 | 75 | Kho9 Gỗ8 Quán3 Mỏ7 Tập6 Chợ7 Cổng5+ | 5 | 25 | vàng 51, thịt 237, gỗ 4925, quặng 356, san hô 48, vé 244 | 424 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+
+Lượt dungeon: 16 (thắng 16, thua 0). Cả đội gục ngoài đồng: 6 lần. Chuyến về làng: 139. Quái hạ: 9245 ngoài đồng, 3795 trong dungeon.
+
+Thu nhập theo nguồn trong 6 giờ:
+
+| Nguồn | vàng | thịt | gỗ | quặng | san hô | vé |
+|---|---|---|---|---|---|---|
+| Quái ngoài đồng (vật rơi) | 19309 | 17242 | 0 | 0 | 46 | 0 |
+| Cây và đá | 0 | 0 | 48196 | 32761 | 0 | 0 |
+| Công trình sản xuất | 993 | 0 | 2045 | 859 | 0 | 0 |
+| Thưởng nhiệm vụ | 1310 | 885 | 720 | 540 | 9 | 23 |
+| Dungeon: nhặt, qua tầng, chuỗi | 14089 | 568 | 0 | 0 | 0 | 0 |
+| Dungeon: thưởng chặng | 6650 | 0 | 0 | 0 | 26 | 37 |
+
+Thời gian chạy thật: 3.7 s cho 648000 bước (5.7 µs mỗi bước).
+
+## Seed 5: ĐẠT
+
+| Mốc | Hạn chót | Bot | Kết quả |
+|---|---|---|---|
+| Vượt tầng 5 | 0:45:00 | 0:15:50 | ĐẠT |
+| Vượt tầng 10 | 1:30:00 | 0:30:43 | ĐẠT |
+| Vượt tầng 15 | 3:00:00 | 1:06:39 | ĐẠT |
+| Vượt tầng 20 | 6:00:00 | 2:11:27 | ĐẠT |
+| Vượt tầng 25 | không bắt buộc | 3:46:14 | — |
+| Đoạn dài nhất không tiến bộ (cả 6 giờ) | dưới 0:30:00 | 0:09:30 (bắt đầu ở 5:15:56) | ĐẠT |
+
+Bảng tiến độ (mỗi 15 phút mô phỏng):
+
+| Thời gian | Cấp NC | CP đội | Hero có | Ô đội | Cấp hero trong đội | Nấc | Công trình (cấp) | Chặng | Tầng | Tài nguyên | Tuyển | Nhiệm vụ |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 0:14:59 | 6 | 5048 | 3 | 3 | 5, 5, 9 | 18 | Kho3+ Gỗ3 Quán1 Mỏ3 Tập1 Chợ2 Cổng1 | 0 | 3 | vàng 4, thịt 18, gỗ 66, quặng 106, san hô 0, vé 5 | 5 | q13 Tuyển thêm 2 lượt (2/2) |
+| 0:29:59 | 9 | 9429 | 6 | 4 | 10, 11, 11, 11 | 27 | Kho4 Gỗ4 Quán1 Mỏ3 Tập2 Chợ2 Cổng2 | 1 | 8 | vàng 46, thịt 29, gỗ 470, quặng 21, san hô 0, vé 3 | 21 | q26 Hạ boss tầng 10: Cua Càng Thép Chúa (0/1) |
+| 0:44:59 | 11 | 11157 | 9 | 4 | 13, 13, 13, 12 | 33 | Kho5 Gỗ4 Quán2 Mỏ3 Tập2+ Chợ2 Cổng2 | 2 | 10 | vàng 144, thịt 18, gỗ 931, quặng 211, san hô 4, vé 34 | 42 | q32 Hạ boss tầng 15: Mắt Đá (0/1) |
+| 0:59:59 | 12 | 15175 | 9 | 5 | 15, 15, 15, 7, 15 | 36 | Kho5 Gỗ4+ Quán2 Mỏ3 Tập3 Chợ3 Cổng2+ | 2 | 10 | vàng 56, thịt 16, gỗ 603, quặng 108, san hô 0, vé 0 | 48 | q32 Hạ boss tầng 15: Mắt Đá (0/1) |
+| 1:15:00 | 14 | 18714 | 10 | 5 | 15, 15, 15, 15, 15 | 42 | Kho5 Gỗ5 Quán2 Mỏ4 Tập3 Chợ3 Cổng3 | 3 | 15 | vàng 101, thịt 40, gỗ 1943, quặng 677, san hô 16, vé 21 | 74 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 1:30:00 | 15 | 19972 | 12 | 5 | 19, 18, 18, 18, 18 | 45 | Kho5+ Gỗ5 Quán2 Mỏ4 Tập3+ Chợ4 Cổng3 | 3 | 15 | vàng 159, thịt 20, gỗ 1143, quặng 44, san hô 20, vé 33 | 86 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 1:45:00 | 16 | 20867 | 12 | 5 | 20, 20, 19, 19, 19 | 48 | Kho6 Gỗ5 Quán2 Mỏ4 Tập4 Chợ4 Cổng3+ | 3 | 15 | vàng 57, thịt 63, gỗ 205, quặng 33, san hô 22, vé 49 | 101 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 2:00:00 | 17 | 25438 | 12 | 6 | 21, 21, 21, 21, 20, 20 | 50 | Kho6 Gỗ6 Quán2 Mỏ5 Tập4 Chợ4 Cổng3+ | 3 | 15 | vàng 225, thịt 41, gỗ 2830, quặng 70, san hô 22, vé 2 | 110 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 2:15:00 | 18 | 26292 | 12 | 6 | 23, 23, 22, 22, 22, 22 | 52 | Kho6+ Gỗ6+ Quán2 Mỏ5 Tập4 Chợ5 Cổng4 | 4 | 20 | vàng 201, thịt 109, gỗ 2633, quặng 98, san hô 33, vé 37 | 152 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 2:30:00 | 19 | 27154 | 12 | 6 | 24, 24, 23, 23, 23, 23 | 57 | Kho7 Gỗ7 Quán2 Mỏ5 Tập4 Chợ5 Cổng4 | 4 | 20 | vàng 117, thịt 105, gỗ 4530, quặng 803, san hô 35, vé 47 | 162 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 2:45:00 | 19 | 27951 | 12 | 6 | 25, 25, 24, 24, 24, 24 | 57 | Kho7 Gỗ7 Quán2 Mỏ5 Tập4+ Chợ5 Cổng4 | 4 | 20 | vàng 159, thịt 21, gỗ 3292, quặng 719, san hô 38, vé 68 | 182 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:00:00 | 20 | 29445 | 12 | 6 | 25, 25, 25, 25, 25, 25 | 60 | Kho7 Gỗ7 Quán2 Mỏ5 Tập4+ Chợ5 Cổng4 | 4 | 20 | vàng 50, thịt 168, gỗ 5000, quặng 1956, san hô 40, vé 5 | 191 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:14:59 | 20 | 29827 | 12 | 6 | 26, 26, 26, 26, 26, 25 | 60 | Kho7 Gỗ7 Quán2 Mỏ5 Tập4+ Chợ5 Cổng4+ | 4 | 20 | vàng 219, thịt 149, gỗ 2268, quặng 994, san hô 40, vé 18 | 211 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:29:59 | 21 | 36229 | 12 | 7 | 26, 26, 22, 26, 26, 26, 26 | 63 | Kho7 Gỗ7 Quán2 Mỏ6 Tập5 Chợ5+ Cổng4+ | 4 | 20 | vàng 193, thịt 74, gỗ 4421, quặng 176, san hô 35, vé 31 | 224 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:44:59 | 22 | 37262 | 12 | 7 | 27, 27, 26, 26, 26, 26, 26 | 65 | Kho7+ Gỗ7 Quán2+ Mỏ6 Tập5 Chợ6 Cổng5 | 4 | 21 | vàng 9, thịt 183, gỗ 3721, quặng 111, san hô 38, vé 58 | 250 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:59:59 | 22 | 37810 | 12 | 7 | 28, 27, 27, 27, 27, 27, 27 | 66 | Kho8 Gỗ7 Quán3 Mỏ7 Tập5 Chợ6 Cổng5 | 5 | 25 | vàng 288, thịt 143, gỗ 4916, quặng 487, san hô 53, vé 104 | 288 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:14:59 | 23 | 38426 | 12 | 7 | 28, 28, 28, 28, 27, 27, 27 | 69 | Kho8 Gỗ7 Quán3 Mỏ7 Tập5 Chợ6 Cổng5 | 5 | 25 | vàng 108, thịt 195, gỗ 7039, quặng 1071, san hô 54, vé 129 | 312 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:29:59 | 23 | 38647 | 12 | 7 | 29, 28, 28, 28, 28, 28, 28 | 69 | Kho8 Gỗ7 Quán3 Mỏ7 Tập5+ Chợ6 Cổng5 | 5 | 25 | vàng 123, thịt 170, gỗ 2971, quặng 404, san hô 58, vé 139 | 322 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:44:59 | 24 | 38990 | 12 | 7 | 29, 29, 29, 29, 29, 28, 28 | 69 | Kho8 Gỗ7+ Quán3 Mỏ7 Tập5+ Chợ6 Cổng5 | 5 | 25 | vàng 256, thịt 208, gỗ 5230, quặng 1230, san hô 60, vé 167 | 349 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:59:59 | 24 | 39902 | 12 | 7 | 30, 30, 29, 29, 29, 29, 29 | 72 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5+ Chợ6 Cổng5 | 5 | 25 | vàng 270, thịt 197, gỗ 7400, quặng 1703, san hô 62, vé 179 | 361 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:14:59 | 25 | 41086 | 12 | 7 | 30, 30, 30, 30, 30, 30, 29 | 75 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5+ Chợ6 Cổng5 | 5 | 25 | vàng 72, thịt 172, gỗ 7988, quặng 1470, san hô 69, vé 209 | 390 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:29:59 | 25 | 46607 | 12 | 8 | 30, 30, 30, 30, 30, 21, 30, 30 | 75 | Kho8 Gỗ8 Quán3 Mỏ7 Tập6 Chợ6 Cổng5+ | 5 | 25 | vàng 183, thịt 48, gỗ 612, quặng 260, san hô 61, vé 221 | 402 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:44:59 | 25 | 47262 | 12 | 8 | 30, 30, 30, 30, 30, 27, 30, 30 | 75 | Kho8 Gỗ8 Quán3 Mỏ7+ Tập6 Chợ7 Cổng5+ | 5 | 25 | vàng 75, thịt 149, gỗ 1140, quặng 213, san hô 66, vé 252 | 432 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:59:59 | 26 | 47799 | 12 | 8 | 30, 30, 30, 30, 30, 30, 30, 30 | 76 | Kho8 Gỗ8 Quán3 Mỏ8 Tập6 Chợ7 Cổng5+ | 5 | 25 | vàng 287, thịt 658, gỗ 4773, quặng 368, san hô 72, vé 266 | 446 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+
+Lượt dungeon: 16 (thắng 16, thua 0). Cả đội gục ngoài đồng: 4 lần. Chuyến về làng: 153. Quái hạ: 10203 ngoài đồng, 3809 trong dungeon.
+
+Thu nhập theo nguồn trong 6 giờ:
+
+| Nguồn | vàng | thịt | gỗ | quặng | san hô | vé |
+|---|---|---|---|---|---|---|
+| Quái ngoài đồng (vật rơi) | 22351 | 19295 | 0 | 0 | 70 | 0 |
+| Cây và đá | 0 | 0 | 47764 | 33916 | 0 | 0 |
+| Công trình sản xuất | 845 | 0 | 2005 | 791 | 0 | 0 |
+| Thưởng nhiệm vụ | 1310 | 885 | 720 | 540 | 9 | 23 |
+| Dungeon: nhặt, qua tầng, chuỗi | 13631 | 574 | 0 | 0 | 0 | 0 |
+| Dungeon: thưởng chặng | 6650 | 0 | 0 | 0 | 26 | 37 |
+
+Thời gian chạy thật: 3.7 s cho 648000 bước (5.7 µs mỗi bước).
+
+## Seed 6: ĐẠT
+
+| Mốc | Hạn chót | Bot | Kết quả |
+|---|---|---|---|
+| Vượt tầng 5 | 0:45:00 | 0:15:19 | ĐẠT |
+| Vượt tầng 10 | 1:30:00 | 0:33:50 | ĐẠT |
+| Vượt tầng 15 | 3:00:00 | 1:09:29 | ĐẠT |
+| Vượt tầng 20 | 6:00:00 | 2:10:49 | ĐẠT |
+| Vượt tầng 25 | không bắt buộc | 3:42:15 | — |
+| Đoạn dài nhất không tiến bộ (cả 6 giờ) | dưới 0:30:00 | 0:06:21 (bắt đầu ở 4:50:02) | ĐẠT |
+
+Bảng tiến độ (mỗi 15 phút mô phỏng):
+
+| Thời gian | Cấp NC | CP đội | Hero có | Ô đội | Cấp hero trong đội | Nấc | Công trình (cấp) | Chặng | Tầng | Tài nguyên | Tuyển | Nhiệm vụ |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 0:14:59 | 7 | 5399 | 4 | 3 | 8, 8, 5 | 18 | Kho3 Gỗ3 Quán1 Mỏ3 Tập1 Chợ2 Cổng1 | 0 | 4 | vàng 39, thịt 6, gỗ 160, quặng 62, san hô 0, vé 0 | 8 | q20 Vượt tầng 1 Hang Xoáy (1/1) |
+| 0:29:59 | 8 | 9425 | 7 | 4 | 9, 9, 9, 9 | 24 | Kho4 Gỗ4 Quán1 Mỏ3 Tập2 Chợ2+ Cổng1+ | 1 | 5 | vàng 119, thịt 5, gỗ 252, quặng 59, san hô 0, vé 9 | 19 | q25 Nâng Cổng Xoáy lên cấp 2 (0/1) |
+| 0:44:59 | 11 | 12186 | 10 | 4 | 10, 10, 10, 9 | 31 | Kho5 Gỗ4 Quán2 Mỏ3 Tập2+ Chợ3 Cổng2 | 2 | 10 | vàng 98, thịt 28, gỗ 671, quặng 51, san hô 4, vé 42 | 42 | q32 Hạ boss tầng 15: Mắt Đá (0/1) |
+| 0:59:59 | 12 | 16304 | 10 | 5 | 14, 13, 13, 13, 12 | 36 | Kho5 Gỗ4+ Quán2 Mỏ3 Tập3 Chợ3 Cổng2+ | 2 | 10 | vàng 138, thịt 6, gỗ 689, quặng 132, san hô 0, vé 50 | 50 | q32 Hạ boss tầng 15: Mắt Đá (0/1) |
+| 1:15:00 | 14 | 18500 | 10 | 5 | 17, 16, 16, 16, 16 | 39 | Kho6 Gỗ5 Quán2 Mỏ4 Tập3 Chợ4 Cổng3 | 3 | 15 | vàng 123, thịt 37, gỗ 1292, quặng 348, san hô 9, vé 73 | 78 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 1:30:00 | 15 | 19243 | 10 | 5 | 18, 18, 18, 18, 17 | 42 | Kho6 Gỗ5+ Quán2 Mỏ5 Tập3+ Chợ4 Cổng3 | 3 | 15 | vàng 205, thịt 42, gỗ 1074, quặng 268, san hô 11, vé 79 | 84 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 1:45:00 | 15 | 19960 | 10 | 5 | 20, 19, 19, 19, 19 | 45 | Kho6 Gỗ6 Quán2 Mỏ5 Tập3+ Chợ4 Cổng3+ | 3 | 15 | vàng 123, thịt 4, gỗ 199, quặng 115, san hô 12, vé 96 | 100 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 2:00:00 | 16 | 24676 | 10 | 6 | 20, 20, 20, 20, 19, 19 | 48 | Kho6 Gỗ6 Quán2 Mỏ5 Tập4 Chợ4+ Cổng3+ | 3 | 15 | vàng 28, thịt 89, gỗ 2456, quặng 211, san hô 10, vé 94 | 114 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 2:15:00 | 18 | 25766 | 10 | 6 | 22, 22, 21, 21, 21, 21 | 51 | Kho7 Gỗ6 Quán2 Mỏ5+ Tập4 Chợ5+ Cổng4 | 4 | 20 | vàng 210, thịt 64, gỗ 2300, quặng 312, san hô 17, vé 146 | 149 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 2:30:00 | 18 | 26451 | 11 | 6 | 23, 23, 22, 22, 22, 22 | 54 | Kho7 Gỗ6 Quán2 Mỏ6 Tập4+ Chợ6 Cổng4 | 4 | 20 | vàng 56, thịt 22, gỗ 1156, quặng 262, san hô 23, vé 5 | 158 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 2:45:00 | 19 | 26828 | 11 | 6 | 24, 24, 23, 23, 23, 23 | 54 | Kho7 Gỗ7 Quán2 Mỏ6 Tập4+ Chợ6 Cổng4 | 4 | 20 | vàng 279, thịt 91, gỗ 3636, quặng 1070, san hô 29, vé 27 | 179 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:00:00 | 19 | 27864 | 11 | 6 | 25, 25, 24, 24, 24, 24 | 57 | Kho7 Gỗ7 Quán2 Mỏ6 Tập4+ Chợ6 Cổng4 | 4 | 20 | vàng 40, thịt 110, gỗ 4978, quặng 2605, san hô 31, vé 39 | 191 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:14:59 | 20 | 34217 | 12 | 7 | 25, 25, 25, 14, 25, 25, 25 | 60 | Kho7 Gỗ7 Quán2 Mỏ6 Tập5 Chợ6 Cổng4+ | 4 | 20 | vàng 234, thịt 43, gỗ 3090, quặng 266, san hô 28, vé 45 | 212 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:29:59 | 21 | 36289 | 12 | 7 | 26, 25, 25, 25, 25, 25, 25 | 62 | Kho7+ Gỗ7 Quán2 Mỏ6 Tập5 Chợ6 Cổng4+ | 4 | 20 | vàng 84, thịt 61, gỗ 4874, quặng 275, san hô 34, vé 29 | 228 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:44:59 | 22 | 36725 | 12 | 7 | 26, 26, 26, 26, 26, 25, 25 | 63 | Kho8 Gỗ7+ Quán3 Mỏ6 Tập5 Chợ6 Cổng5 | 5 | 25 | vàng 168, thịt 103, gỗ 5321, quặng 522, san hô 48, vé 83 | 273 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 3:59:59 | 22 | 37364 | 12 | 7 | 27, 27, 26, 26, 26, 26, 26 | 66 | Kho8 Gỗ8 Quán3 Mỏ6 Tập5 Chợ6 Cổng5 | 5 | 25 | vàng 164, thịt 5, gỗ 7771, quặng 1578, san hô 48, vé 88 | 278 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:14:59 | 22 | 37710 | 12 | 7 | 27, 27, 27, 27, 27, 27, 27 | 66 | Kho8 Gỗ8 Quán3 Mỏ6+ Tập5+ Chợ6 Cổng5 | 5 | 25 | vàng 139, thịt 76, gỗ 2631, quặng 166, san hô 53, vé 118 | 307 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:29:59 | 23 | 38193 | 12 | 7 | 28, 28, 28, 28, 28, 27, 27 | 67 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5+ Chợ6+ Cổng5 | 5 | 25 | vàng 201, thịt 152, gỗ 4760, quặng 251, san hô 57, vé 131 | 320 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:44:59 | 24 | 38695 | 12 | 7 | 29, 29, 29, 28, 28, 28, 28 | 68 | Kho8+ Gỗ8 Quán3 Mỏ7 Tập5+ Chợ7 Cổng5 | 5 | 25 | vàng 251, thịt 202, gỗ 5775, quặng 132, san hô 63, vé 162 | 350 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:59:59 | 24 | 38996 | 12 | 7 | 29, 29, 29, 29, 29, 29, 28 | 69 | Kho8+ Gỗ8 Quán3 Mỏ7 Tập5+ Chợ7 Cổng5 | 5 | 25 | vàng 228, thịt 205, gỗ 7907, quặng 1903, san hô 63, vé 170 | 358 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:14:59 | 24 | 45052 | 12 | 8 | 30, 29, 29, 29, 29, 15, 29, 29 | 72 | Kho9 Gỗ8 Quán3 Mỏ7 Tập6 Chợ7 Cổng5 | 5 | 25 | vàng 77, thịt 30, gỗ 9853, quặng 2108, san hô 52, vé 196 | 383 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:29:59 | 25 | 46828 | 12 | 8 | 30, 29, 26, 29, 29, 29, 29, 29 | 75 | Kho9 Gỗ8 Quán3 Mỏ7 Tập6 Chợ7 Cổng5 | 5 | 25 | vàng 69, thịt 33, gỗ 11698, quặng 1810, san hô 56, vé 210 | 397 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:44:59 | 25 | 47580 | 12 | 8 | 30, 30, 30, 29, 29, 29, 29, 29 | 75 | Kho9 Gỗ8 Quán3 Mỏ7 Tập6 Chợ7 Cổng5+ | 5 | 25 | vàng 294, thịt 16, gỗ 4584, quặng 181, san hô 60, vé 237 | 423 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:59:59 | 26 | 48342 | 12 | 8 | 30, 30, 30, 30, 30, 30, 30, 29 | 75 | Kho9 Gỗ8 Quán3 Mỏ7+ Tập6 Chợ7 Cổng5+ | 5 | 25 | vàng 270, thịt 126, gỗ 6760, quặng 775, san hô 64, vé 251 | 437 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+
+Lượt dungeon: 16 (thắng 16, thua 0). Cả đội gục ngoài đồng: 6 lần. Chuyến về làng: 153. Quái hạ: 9794 ngoài đồng, 3787 trong dungeon.
+
+Thu nhập theo nguồn trong 6 giờ:
+
+| Nguồn | vàng | thịt | gỗ | quặng | san hô | vé |
+|---|---|---|---|---|---|---|
+| Quái ngoài đồng (vật rơi) | 21329 | 18594 | 0 | 0 | 64 | 0 |
+| Cây và đá | 0 | 0 | 51592 | 33880 | 0 | 0 |
+| Công trình sản xuất | 973 | 0 | 2094 | 829 | 0 | 0 |
+| Thưởng nhiệm vụ | 1310 | 885 | 720 | 540 | 9 | 23 |
+| Dungeon: nhặt, qua tầng, chuỗi | 13658 | 561 | 0 | 0 | 0 | 0 |
+| Dungeon: thưởng chặng | 6600 | 0 | 0 | 0 | 24 | 37 |
+
+Thời gian chạy thật: 3.5 s cho 648000 bước (5.4 µs mỗi bước).
+
+## Seed 7: ĐẠT
+
+| Mốc | Hạn chót | Bot | Kết quả |
+|---|---|---|---|
+| Vượt tầng 5 | 0:45:00 | 0:14:20 | ĐẠT |
+| Vượt tầng 10 | 1:30:00 | 0:29:30 | ĐẠT |
+| Vượt tầng 15 | 3:00:00 | 1:10:53 | ĐẠT |
+| Vượt tầng 20 | 6:00:00 | 2:15:12 | ĐẠT |
+| Vượt tầng 25 | không bắt buộc | 3:51:10 | — |
+| Đoạn dài nhất không tiến bộ (cả 6 giờ) | dưới 0:30:00 | 0:06:27 (bắt đầu ở 4:32:39) | ĐẠT |
+
+Bảng tiến độ (mỗi 15 phút mô phỏng):
+
+| Thời gian | Cấp NC | CP đội | Hero có | Ô đội | Cấp hero trong đội | Nấc | Công trình (cấp) | Chặng | Tầng | Tài nguyên | Tuyển | Nhiệm vụ |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 0:14:59 | 7 | 5573 | 5 | 3 | 4, 8, 8 | 21 | Kho3 Gỗ3 Quán1 Mỏ2 Tập1 Chợ2 Cổng1 | 1 | 5 | vàng 147, thịt 10, gỗ 125, quặng 195, san hô 2, vé 16 | 13 | q18 Hạ 20 quái ở Bãi Vỏ Sò (8/20) |
+| 0:29:59 | 9 | 9694 | 8 | 4 | 9, 2, 9, 9 | 27 | Kho3 Gỗ4 Quán1 Mỏ3 Tập2 Chợ2 Cổng2 | 2 | 10 | vàng 52, thịt 9, gỗ 444, quặng 37, san hô 4, vé 33 | 31 | q27 Nâng một hero lên cấp 10 (0/1) |
+| 0:44:59 | 11 | 12824 | 11 | 4 | 6, 11, 5, 11 | 33 | Kho5 Gỗ4 Quán2 Mỏ3 Tập2+ Chợ2 Cổng2 | 2 | 10 | vàng 51, thịt 10, gỗ 524, quặng 64, san hô 6, vé 29 | 45 | q32 Hạ boss tầng 15: Mắt Đá (0/1) |
+| 0:59:59 | 12 | 17505 | 11 | 5 | 13, 12, 12, 11, 12 | 36 | Kho5 Gỗ4 Quán2 Mỏ3 Tập3 Chợ2 Cổng2+ | 2 | 10 | vàng 33, thịt 27, gỗ 794, quặng 71, san hô 4, vé 35 | 51 | q32 Hạ boss tầng 15: Mắt Đá (0/1) |
+| 1:15:00 | 14 | 19877 | 11 | 5 | 15, 15, 16, 16, 15 | 41 | Kho5 Gỗ5 Quán2 Mỏ3 Tập3 Chợ3 Cổng3 | 3 | 15 | vàng 33, thịt 45, gỗ 1974, quặng 374, san hô 13, vé 55 | 76 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 1:30:00 | 15 | 21070 | 11 | 5 | 18, 18, 18, 18, 17 | 45 | Kho5+ Gỗ5 Quán2 Mỏ4 Tập3+ Chợ4 Cổng3 | 3 | 15 | vàng 79, thịt 12, gỗ 355, quặng 142, san hô 19, vé 63 | 84 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 1:45:00 | 16 | 25131 | 11 | 6 | 20, 20, 19, 19, 19, 9 | 48 | Kho6 Gỗ5 Quán2 Mỏ4 Tập4 Chợ4 Cổng3 | 3 | 15 | vàng 9, thịt 17, gỗ 2719, quặng 781, san hô 16, vé 81 | 101 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 2:00:00 | 17 | 27126 | 11 | 6 | 20, 20, 20, 20, 20, 20 | 51 | Kho6 Gỗ6 Quán2 Mỏ4+ Tập4 Chợ4 Cổng3+ | 3 | 15 | vàng 72, thịt 67, gỗ 1460, quặng 15, san hô 20, vé 84 | 112 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 2:15:00 | 18 | 27716 | 11 | 6 | 22, 22, 21, 21, 21, 21 | 51 | Kho6 Gỗ6+ Quán2 Mỏ5+ Tập4 Chợ5 Cổng4 | 3 | 19 | vàng 41, thịt 78, gỗ 2474, quặng 84, san hô 22, vé 107 | 134 | q37 Hạ boss tầng 20: Rắn Biển Rạn (0/1) |
+| 2:30:00 | 18 | 28667 | 12 | 6 | 23, 23, 23, 23, 23, 22 | 54 | Kho7 Gỗ7 Quán2 Mỏ6 Tập4 Chợ5+ Cổng4 | 4 | 20 | vàng 73, thịt 77, gỗ 3312, quặng 747, san hô 31, vé 152 | 163 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 2:45:00 | 19 | 29308 | 12 | 6 | 24, 24, 24, 24, 23, 23 | 57 | Kho7 Gỗ7 Quán2 Mỏ6 Tập4+ Chợ6 Cổng4 | 4 | 20 | vàng 246, thịt 10, gỗ 2008, quặng 314, san hô 33, vé 169 | 179 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:00:00 | 19 | 30927 | 12 | 6 | 25, 25, 25, 25, 24, 24 | 57 | Kho7 Gỗ7 Quán2 Mỏ6 Tập4+ Chợ6 Cổng4 | 4 | 20 | vàng 246, thịt 4, gỗ 4836, quặng 2055, san hô 33, vé 181 | 191 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:14:59 | 20 | 31923 | 12 | 6 | 26, 26, 26, 26, 25, 25 | 60 | Kho7 Gỗ7 Quán2 Mỏ6 Tập4+ Chợ6 Cổng4+ | 4 | 20 | vàng 67, thịt 1, gỗ 818, quặng 600, san hô 35, vé 208 | 217 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:29:59 | 21 | 36610 | 12 | 7 | 26, 26, 26, 26, 26, 26, 22 | 63 | Kho7 Gỗ7 Quán2+ Mỏ6 Tập5 Chợ6 Cổng4+ | 4 | 20 | vàng 258, thịt 40, gỗ 2759, quặng 98, san hô 30, vé 163 | 228 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:44:59 | 21 | 37462 | 12 | 7 | 27, 27, 26, 26, 26, 26, 26 | 63 | Kho7+ Gỗ7 Quán3 Mỏ6 Tập5 Chợ6 Cổng4+ | 4 | 20 | vàng 349, thịt 174, gỗ 4256, quặng 718, san hô 35, vé 148 | 252 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:59:59 | 22 | 38097 | 12 | 7 | 27, 27, 27, 27, 27, 27, 26 | 66 | Kho8 Gỗ7 Quán3 Mỏ6 Tập5 Chợ6 Cổng5 | 5 | 25 | vàng 109, thịt 57, gỗ 6428, quặng 1266, san hô 46, vé 191 | 287 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:14:59 | 23 | 38333 | 12 | 7 | 28, 28, 27, 27, 27, 27, 27 | 66 | Kho8 Gỗ7 Quán3 Mỏ6 Tập5+ Chợ6 Cổng5 | 5 | 25 | vàng 198, thịt 141, gỗ 2954, quặng 280, san hô 46, vé 215 | 310 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:29:59 | 23 | 38777 | 12 | 7 | 28, 28, 28, 28, 28, 28, 28 | 67 | Kho8 Gỗ7 Quán3 Mỏ7 Tập5+ Chợ6 Cổng5 | 5 | 25 | vàng 118, thịt 168, gỗ 5499, quặng 461, san hô 52, vé 230 | 325 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:44:59 | 23 | 39080 | 12 | 7 | 29, 29, 28, 28, 28, 28, 28 | 68 | Kho8 Gỗ7+ Quán3 Mỏ7 Tập5+ Chợ6 Cổng5 | 5 | 25 | vàng 98, thịt 228, gỗ 6954, quặng 1454, san hô 52, vé 252 | 346 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:59:59 | 24 | 39892 | 12 | 7 | 29, 29, 29, 29, 29, 29, 29 | 72 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5+ Chợ6 Cổng5 | 5 | 25 | vàng 171, thịt 175, gỗ 7894, quặng 1411, san hô 54, vé 264 | 358 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:14:59 | 24 | 45712 | 12 | 8 | 30, 30, 29, 29, 29, 18, 29, 29 | 72 | Kho8 Gỗ8 Quán3 Mỏ7 Tập6 Chợ6 Cổng5 | 5 | 25 | vàng 33, thịt 5, gỗ 8000, quặng 3731, san hô 47, vé 293 | 386 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:29:59 | 25 | 46764 | 12 | 8 | 30, 30, 29, 27, 29, 29, 29, 29 | 72 | Kho8 Gỗ8 Quán3 Mỏ7 Tập6 Chợ6+ Cổng5+ | 5 | 25 | vàng 201, thịt 38, gỗ 2297, quặng 386, san hô 53, vé 306 | 399 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:44:59 | 25 | 47528 | 12 | 8 | 30, 30, 30, 30, 29, 29, 29, 29 | 73 | Kho8+ Gỗ8 Quán3 Mỏ7 Tập6 Chợ7 Cổng5+ | 5 | 25 | vàng 26, thịt 97, gỗ 3723, quặng 69, san hô 57, vé 336 | 428 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:59:59 | 26 | 48158 | 12 | 8 | 30, 30, 30, 30, 30, 30, 30, 30 | 73 | Kho9 Gỗ8 Quán3 Mỏ7+ Tập6 Chợ7 Cổng5+ | 5 | 25 | vàng 65, thịt 162, gỗ 5600, quặng 857, san hô 59, vé 349 | 441 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+
+Lượt dungeon: 16 (thắng 16, thua 0). Cả đội gục ngoài đồng: 4 lần. Chuyến về làng: 151. Quái hạ: 9638 ngoài đồng, 3819 trong dungeon.
+
+Thu nhập theo nguồn trong 6 giờ:
+
+| Nguồn | vàng | thịt | gỗ | quặng | san hô | vé |
+|---|---|---|---|---|---|---|
+| Quái ngoài đồng (vật rơi) | 21096 | 18867 | 0 | 0 | 60 | 0 |
+| Cây và đá | 0 | 0 | 50510 | 32256 | 0 | 0 |
+| Công trình sản xuất | 901 | 0 | 2016 | 800 | 0 | 0 |
+| Thưởng nhiệm vụ | 1310 | 885 | 720 | 540 | 9 | 23 |
+| Dungeon: nhặt, qua tầng, chuỗi | 14108 | 586 | 0 | 0 | 0 | 0 |
+| Dungeon: thưởng chặng | 6650 | 0 | 0 | 0 | 23 | 37 |
+
+Thời gian chạy thật: 3.6 s cho 648000 bước (5.6 µs mỗi bước).
+
+## Seed 8: ĐẠT
+
+| Mốc | Hạn chót | Bot | Kết quả |
+|---|---|---|---|
+| Vượt tầng 5 | 0:45:00 | 0:15:23 | ĐẠT |
+| Vượt tầng 10 | 1:30:00 | 0:30:33 | ĐẠT |
+| Vượt tầng 15 | 3:00:00 | 1:10:29 | ĐẠT |
+| Vượt tầng 20 | 6:00:00 | 2:16:04 | ĐẠT |
+| Vượt tầng 25 | không bắt buộc | 3:56:00 | — |
+| Đoạn dài nhất không tiến bộ (cả 6 giờ) | dưới 0:30:00 | 0:04:54 (bắt đầu ở 4:31:12) | ĐẠT |
+
+Bảng tiến độ (mỗi 15 phút mô phỏng):
+
+| Thời gian | Cấp NC | CP đội | Hero có | Ô đội | Cấp hero trong đội | Nấc | Công trình (cấp) | Chặng | Tầng | Tài nguyên | Tuyển | Nhiệm vụ |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 0:14:59 | 7 | 5134 | 4 | 3 | 5, 5, 5 | 18 | Kho3 Gỗ3 Quán1 Mỏ3 Tập1 Chợ2 Cổng1 | 0 | 4 | vàng 95, thịt 34, gỗ 148, quặng 162, san hô 0, vé 4 | 4 | q13 Tuyển thêm 2 lượt (1/2) |
+| 0:29:59 | 9 | 9201 | 6 | 4 | 9, 9, 9, 8 | 24 | Kho4 Gỗ4 Quán1 Mỏ4 Tập2 Chợ3 Cổng2 | 1 | 8 | vàng 37, thịt 9, gỗ 259, quặng 89, san hô 0, vé 2 | 20 | q26 Hạ boss tầng 10: Cua Càng Thép Chúa (0/1) |
+| 0:44:59 | 11 | 11917 | 8 | 4 | 12, 11, 11, 11 | 33 | Kho4+ Gỗ4 Quán2 Mỏ4 Tập2+ Chợ3 Cổng2 | 2 | 10 | vàng 15, thịt 14, gỗ 28, quặng 154, san hô 4, vé 18 | 42 | q31 Nâng Nhà Kho lên cấp 5 (0/1) |
+| 0:59:59 | 11 | 15173 | 9 | 5 | 13, 13, 13, 12, 12 | 33 | Kho5 Gỗ4+ Quán2 Mỏ4 Tập3 Chợ3 Cổng2+ | 2 | 10 | vàng 133, thịt 23, gỗ 738, quặng 173, san hô 0, vé 21 | 45 | q32 Hạ boss tầng 15: Mắt Đá (0/1) |
+| 1:15:00 | 13 | 17208 | 10 | 5 | 16, 16, 16, 15, 15 | 39 | Kho5 Gỗ5 Quán2 Mỏ5 Tập3 Chợ4 Cổng3 | 3 | 15 | vàng 125, thịt 34, gỗ 1785, quặng 79, san hô 7, vé 18 | 71 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 1:30:00 | 14 | 18046 | 11 | 5 | 18, 18, 18, 17, 17 | 42 | Kho6 Gỗ6 Quán2 Mỏ5 Tập3+ Chợ4 Cổng3 | 3 | 15 | vàng 189, thịt 31, gỗ 930, quặng 88, san hô 9, vé 25 | 78 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 1:45:00 | 15 | 18614 | 12 | 5 | 19, 19, 19, 19, 18 | 45 | Kho6 Gỗ6 Quán2 Mỏ5 Tập3+ Chợ5 Cổng3 | 3 | 15 | vàng 85, thịt 81, gỗ 2742, quặng 607, san hô 16, vé 42 | 94 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 2:00:00 | 16 | 23672 | 12 | 6 | 20, 20, 20, 14, 19, 19 | 47 | Kho6 Gỗ6 Quán2 Mỏ5+ Tập4 Chợ5 Cổng3+ | 3 | 15 | vàng 143, thịt 24, gỗ 1562, quặng 76, san hô 12, vé 2 | 102 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 2:15:00 | 17 | 25176 | 12 | 6 | 21, 20, 20, 20, 20, 20 | 51 | Kho6+ Gỗ6 Quán2 Mỏ6 Tập4 Chợ5 Cổng4 | 3 | 16 | vàng 53, thịt 97, gỗ 3128, quặng 165, san hô 14, vé 1 | 124 | q37 Hạ boss tầng 20: Rắn Biển Rạn (0/1) |
+| 2:30:00 | 18 | 25823 | 12 | 6 | 22, 22, 22, 22, 21, 21 | 51 | Kho7 Gỗ6+ Quán2+ Mỏ6 Tập4 Chợ6 Cổng4 | 4 | 20 | vàng 299, thịt 109, gỗ 3084, quặng 590, san hô 25, vé 19 | 150 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 2:45:00 | 18 | 26449 | 12 | 6 | 23, 23, 23, 22, 22, 22 | 54 | Kho7 Gỗ7 Quán3 Mỏ6 Tập4+ Chợ6 Cổng4 | 4 | 20 | vàng 294, thịt 45, gỗ 1710, quặng 315, san hô 27, vé 38 | 168 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:00:00 | 19 | 26902 | 12 | 6 | 24, 24, 24, 23, 23, 23 | 55 | Kho7+ Gỗ7 Quán3 Mỏ6 Tập4+ Chợ6 Cổng4 | 4 | 20 | vàng 118, thịt 47, gỗ 3473, quặng 934, san hô 31, vé 49 | 179 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:14:59 | 19 | 27275 | 12 | 6 | 24, 24, 24, 24, 24, 24 | 57 | Kho8 Gỗ7 Quán3 Mỏ6 Tập4+ Chợ6 Cổng4+ | 4 | 20 | vàng 63, thịt 148, gỗ 555, quặng 66, san hô 31, vé 67 | 196 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:29:59 | 20 | 33454 | 12 | 7 | 16, 25, 25, 25, 24, 25, 24 | 60 | Kho8 Gỗ7 Quán3 Mỏ6 Tập5 Chợ6 Cổng4+ | 4 | 20 | vàng 114, thịt 47, gỗ 3697, quặng 138, san hô 24, vé 39 | 208 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:44:59 | 21 | 34641 | 12 | 7 | 25, 25, 25, 25, 24, 25, 24 | 61 | Kho8 Gỗ7 Quán3 Mỏ6+ Tập5 Chợ6 Cổng4+ | 4 | 20 | vàng 129, thịt 22, gỗ 5646, quặng 248, san hô 25, vé 63 | 231 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:59:59 | 21 | 35456 | 12 | 7 | 26, 26, 25, 25, 25, 25, 25 | 63 | Kho8 Gỗ7+ Quán3 Mỏ7 Tập5 Chợ6 Cổng5 | 5 | 25 | vàng 79, thịt 120, gỗ 7513, quặng 334, san hô 38, vé 69 | 269 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:14:59 | 22 | 35975 | 12 | 7 | 26, 26, 26, 26, 26, 26, 25 | 65 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5 Chợ7 Cổng5 | 5 | 25 | vàng 32, thịt 137, gỗ 7798, quặng 1118, san hô 39, vé 93 | 292 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:29:59 | 22 | 36481 | 12 | 7 | 27, 27, 27, 27, 26, 26, 26 | 66 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5+ Chợ7 Cổng5 | 5 | 25 | vàng 296, thịt 151, gỗ 2570, quặng 197, san hô 45, vé 101 | 300 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:44:59 | 23 | 36807 | 12 | 7 | 28, 27, 27, 27, 27, 27, 27 | 67 | Kho8+ Gỗ8 Quán3 Mỏ7 Tập5+ Chợ7 Cổng5 | 5 | 25 | vàng 174, thịt 199, gỗ 3788, quặng 149, san hô 47, vé 130 | 328 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:59:59 | 23 | 37407 | 12 | 7 | 28, 28, 28, 28, 28, 28, 27 | 69 | Kho9 Gỗ8 Quán3 Mỏ7 Tập5+ Chợ7 Cổng5 | 5 | 25 | vàng 105, thịt 135, gỗ 7230, quặng 89, san hô 47, vé 144 | 342 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:14:59 | 24 | 37816 | 12 | 7 | 29, 29, 29, 28, 28, 28, 28 | 70 | Kho9 Gỗ8 Quán3 Mỏ7 Tập5+ Chợ7 Cổng5 | 5 | 25 | vàng 76, thịt 196, gỗ 10027, quặng 454, san hô 50, vé 173 | 370 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:29:59 | 24 | 42155 | 12 | 8 | 29, 29, 29, 29, 29, 29, 9, 28 | 71 | Kho9 Gỗ8 Quán3 Mỏ7+ Tập6 Chợ7 Cổng5 | 5 | 25 | vàng 240, thịt 23, gỗ 11237, quặng 972, san hô 38, vé 180 | 377 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:44:59 | 24 | 43937 | 12 | 8 | 29, 29, 29, 29, 29, 21, 29, 28 | 72 | Kho9 Gỗ8 Quán3 Mỏ8 Tập6 Chợ7 Cổng5 | 5 | 25 | vàng 254, thịt 89, gỗ 11800, quặng 3019, san hô 40, vé 205 | 401 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:59:59 | 25 | 45101 | 12 | 8 | 29, 29, 29, 29, 28, 29, 29, 28 | 75 | Kho9 Gỗ8 Quán3 Mỏ8 Tập6 Chợ7 Cổng5 | 5 | 25 | vàng 130, thịt 119, gỗ 12000, quặng 3133, san hô 40, vé 220 | 416 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+
+Lượt dungeon: 16 (thắng 16, thua 0). Cả đội gục ngoài đồng: 7 lần. Chuyến về làng: 132. Quái hạ: 8749 ngoài đồng, 3809 trong dungeon.
+
+Thu nhập theo nguồn trong 6 giờ:
+
+| Nguồn | vàng | thịt | gỗ | quặng | san hô | vé |
+|---|---|---|---|---|---|---|
+| Quái ngoài đồng (vật rơi) | 18465 | 16202 | 0 | 0 | 40 | 0 |
+| Cây và đá | 0 | 0 | 48854 | 32153 | 0 | 0 |
+| Công trình sản xuất | 1014 | 0 | 2072 | 914 | 0 | 0 |
+| Thưởng nhiệm vụ | 1310 | 885 | 720 | 540 | 9 | 23 |
+| Dungeon: nhặt, qua tầng, chuỗi | 14191 | 602 | 0 | 0 | 0 | 0 |
+| Dungeon: thưởng chặng | 6650 | 0 | 0 | 0 | 24 | 37 |
+
+Thời gian chạy thật: 3.5 s cho 648000 bước (5.4 µs mỗi bước).
+
+## Seed 9: ĐẠT
+
+| Mốc | Hạn chót | Bot | Kết quả |
+|---|---|---|---|
+| Vượt tầng 5 | 0:45:00 | 0:17:41 | ĐẠT |
+| Vượt tầng 10 | 1:30:00 | 0:34:14 | ĐẠT |
+| Vượt tầng 15 | 3:00:00 | 1:16:49 | ĐẠT |
+| Vượt tầng 20 | 6:00:00 | 2:20:40 | ĐẠT |
+| Vượt tầng 25 | không bắt buộc | 3:59:21 | — |
+| Đoạn dài nhất không tiến bộ (cả 6 giờ) | dưới 0:30:00 | 0:05:09 (bắt đầu ở 5:07:28) | ĐẠT |
+
+Bảng tiến độ (mỗi 15 phút mô phỏng):
+
+| Thời gian | Cấp NC | CP đội | Hero có | Ô đội | Cấp hero trong đội | Nấc | Công trình (cấp) | Chặng | Tầng | Tài nguyên | Tuyển | Nhiệm vụ |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 0:14:59 | 6 | 5134 | 4 | 3 | 5, 5, 5 | 18 | Kho3 Gỗ3 Quán1 Mỏ2 Tập1 Chợ1+ Cổng0+ | 0 | 0 | vàng 98, thịt 46, gỗ 492, quặng 263, san hô 0, vé 4 | 4 | q13 Tuyển thêm 2 lượt (1/2) |
+| 0:29:59 | 8 | 8902 | 6 | 4 | 10, 10, 10, 9 | 24 | Kho4 Gỗ4 Quán2 Mỏ3 Tập2 Chợ2+ Cổng1+ | 1 | 5 | vàng 27, thịt 11, gỗ 225, quặng 25, san hô 0, vé 0 | 18 | q25 Nâng Cổng Xoáy lên cấp 2 (0/1) |
+| 0:44:59 | 10 | 10527 | 8 | 4 | 12, 12, 12, 11 | 30 | Kho5 Gỗ4 Quán2 Mỏ3 Tập2+ Chợ3 Cổng2 | 2 | 10 | vàng 50, thịt 11, gỗ 809, quặng 41, san hô 6, vé 31 | 39 | q32 Hạ boss tầng 15: Mắt Đá (0/1) |
+| 0:59:59 | 11 | 13698 | 8 | 5 | 13, 13, 13, 7, 13 | 33 | Kho5 Gỗ5 Quán2 Mỏ4 Tập3 Chợ4 Cổng2 | 2 | 10 | vàng 104, thịt 22, gỗ 1965, quặng 711, san hô 2, vé 33 | 41 | q32 Hạ boss tầng 15: Mắt Đá (0/1) |
+| 1:15:00 | 12 | 15212 | 8 | 5 | 15, 15, 15, 14, 14 | 36 | Kho6 Gỗ5+ Quán2 Mỏ4 Tập3 Chợ4 Cổng2+ | 2 | 10 | vàng 145, thịt 18, gỗ 1828, quặng 320, san hô 5, vé 46 | 53 | q32 Hạ boss tầng 15: Mắt Đá (0/1) |
+| 1:30:00 | 14 | 16851 | 11 | 5 | 17, 17, 17, 4, 17 | 42 | Kho6 Gỗ6 Quán2 Mỏ5+ Tập3 Chợ5 Cổng3 | 3 | 15 | vàng 52, thịt 13, gỗ 2203, quặng 629, san hô 12, vé 37 | 74 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 1:45:00 | 15 | 18800 | 11 | 5 | 18, 18, 17, 17, 17 | 42 | Kho6+ Gỗ6 Quán2 Mỏ6 Tập3+ Chợ5 Cổng3 | 3 | 15 | vàng 78, thịt 63, gỗ 1927, quặng 396, san hô 14, vé 54 | 90 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 2:00:00 | 16 | 23082 | 12 | 6 | 20, 19, 19, 19, 19, 18 | 47 | Kho7 Gỗ6 Quán2 Mỏ6 Tập4 Chợ5 Cổng3+ | 3 | 15 | vàng 126, thịt 28, gỗ 1215, quặng 132, san hô 10, vé 30 | 98 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 2:15:00 | 17 | 24518 | 12 | 6 | 21, 21, 21, 21, 20, 20 | 51 | Kho7 Gỗ7 Quán2 Mỏ6 Tập4 Chợ5 Cổng3+ | 3 | 15 | vàng 212, thịt 16, gỗ 3194, quặng 179, san hô 15, vé 43 | 118 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 2:30:00 | 18 | 25240 | 12 | 6 | 23, 22, 22, 22, 22, 22 | 53 | Kho7+ Gỗ7 Quán2 Mỏ6 Tập4 Chợ6 Cổng4 | 4 | 20 | vàng 59, thịt 60, gỗ 3361, quặng 719, san hô 22, vé 91 | 150 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 2:45:00 | 18 | 25708 | 12 | 6 | 24, 23, 23, 23, 23, 23 | 54 | Kho8 Gỗ7 Quán2+ Mỏ6 Tập4+ Chợ6 Cổng4 | 4 | 20 | vàng 37, thịt 96, gỗ 1258, quặng 4, san hô 24, vé 112 | 170 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:00:00 | 19 | 26567 | 12 | 6 | 25, 24, 24, 24, 24, 24 | 56 | Kho8 Gỗ7 Quán3 Mỏ6 Tập4+ Chợ6 Cổng4 | 4 | 20 | vàng 82, thịt 120, gỗ 4142, quặng 1099, san hô 26, vé 83 | 181 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:14:59 | 20 | 28266 | 12 | 6 | 25, 25, 25, 25, 25, 25 | 60 | Kho8 Gỗ7 Quán3 Mỏ6 Tập4+ Chợ6 Cổng4 | 4 | 20 | vàng 239, thịt 58, gỗ 6051, quặng 1990, san hô 27, vé 94 | 199 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:29:59 | 20 | 33866 | 12 | 7 | 26, 26, 18, 25, 25, 25, 25 | 60 | Kho8 Gỗ7 Quán3 Mỏ6+ Tập5 Chợ6 Cổng4+ | 4 | 20 | vàng 275, thịt 63, gỗ 3355, quặng 366, san hô 22, vé 90 | 211 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:44:59 | 21 | 35251 | 12 | 7 | 26, 26, 26, 25, 25, 25, 25 | 63 | Kho8 Gỗ7 Quán3 Mỏ7 Tập5 Chợ6 Cổng4+ | 4 | 20 | vàng 222, thịt 109, gỗ 6496, quặng 152, san hô 25, vé 92 | 236 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:59:59 | 22 | 35647 | 12 | 7 | 27, 27, 26, 26, 26, 26, 26 | 63 | Kho8 Gỗ7+ Quán3 Mỏ7 Tập5 Chợ6+ Cổng5 | 5 | 25 | vàng 97, thịt 149, gỗ 6974, quặng 108, san hô 40, vé 139 | 275 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:14:59 | 22 | 36255 | 12 | 7 | 27, 27, 27, 27, 27, 27, 26 | 66 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5 Chợ7 Cổng5 | 5 | 25 | vàng 108, thịt 48, gỗ 7937, quặng 1296, san hô 41, vé 162 | 297 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:29:59 | 23 | 36624 | 12 | 7 | 28, 28, 28, 28, 27, 27, 27 | 66 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5+ Chợ7 Cổng5 | 5 | 25 | vàng 275, thịt 114, gỗ 3671, quặng 423, san hô 45, vé 173 | 308 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:44:59 | 23 | 37062 | 12 | 7 | 29, 29, 28, 28, 28, 28, 28 | 67 | Kho8+ Gỗ8 Quán3 Mỏ7 Tập5+ Chợ7 Cổng5 | 5 | 25 | vàng 268, thịt 142, gỗ 4935, quặng 86, san hô 48, vé 204 | 338 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:59:59 | 24 | 37639 | 12 | 7 | 30, 29, 29, 29, 29, 29, 29 | 68 | Kho8+ Gỗ8 Quán3 Mỏ7 Tập5+ Chợ7 Cổng5 | 5 | 25 | vàng 85, thịt 35, gỗ 7807, quặng 546, san hô 50, vé 220 | 354 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:14:59 | 24 | 38495 | 12 | 7 | 30, 30, 30, 30, 29, 29, 29 | 70 | Kho9 Gỗ8 Quán3 Mỏ7+ Tập5+ Chợ7 Cổng5 | 5 | 25 | vàng 51, thịt 106, gỗ 9091, quặng 106, san hô 55, vé 248 | 381 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:29:59 | 25 | 43881 | 12 | 8 | 13, 30, 30, 30, 30, 30, 29, 30 | 71 | Kho9 Gỗ8 Quán3 Mỏ8 Tập6 Chợ7 Cổng5 | 5 | 25 | vàng 271, thịt 11, gỗ 11642, quặng 1609, san hô 43, vé 253 | 386 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:44:59 | 25 | 45637 | 12 | 8 | 24, 30, 30, 30, 30, 30, 29, 30 | 74 | Kho9 Gỗ8 Quán3 Mỏ8 Tập6 Chợ7 Cổng5 | 5 | 25 | vàng 88, thịt 41, gỗ 12000, quặng 1811, san hô 47, vé 284 | 416 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:59:59 | 25 | 46652 | 12 | 8 | 29, 30, 30, 30, 30, 30, 29, 30 | 75 | Kho9 Gỗ8 Quán3 Mỏ8 Tập6 Chợ7 Cổng5 | 5 | 25 | vàng 259, thịt 166, gỗ 12000, quặng 3466, san hô 47, vé 295 | 427 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+
+Lượt dungeon: 16 (thắng 16, thua 0). Cả đội gục ngoài đồng: 5 lần. Chuyến về làng: 149. Quái hạ: 9720 ngoài đồng, 3794 trong dungeon.
+
+Thu nhập theo nguồn trong 6 giờ:
+
+| Nguồn | vàng | thịt | gỗ | quặng | san hô | vé |
+|---|---|---|---|---|---|---|
+| Quái ngoài đồng (vật rơi) | 20223 | 18324 | 0 | 0 | 44 | 0 |
+| Cây và đá | 0 | 0 | 48916 | 32478 | 0 | 0 |
+| Công trình sản xuất | 1021 | 0 | 2010 | 922 | 0 | 0 |
+| Thưởng nhiệm vụ | 1310 | 885 | 720 | 540 | 9 | 23 |
+| Dungeon: nhặt, qua tầng, chuỗi | 13705 | 585 | 0 | 0 | 0 | 0 |
+| Dungeon: thưởng chặng | 6600 | 0 | 0 | 0 | 27 | 37 |
+
+Thời gian chạy thật: 3.4 s cho 648000 bước (5.2 µs mỗi bước).
+
+## Seed 10: ĐẠT
+
+| Mốc | Hạn chót | Bot | Kết quả |
+|---|---|---|---|
+| Vượt tầng 5 | 0:45:00 | 0:16:17 | ĐẠT |
+| Vượt tầng 10 | 1:30:00 | 0:30:42 | ĐẠT |
+| Vượt tầng 15 | 3:00:00 | 1:11:36 | ĐẠT |
+| Vượt tầng 20 | 6:00:00 | 2:04:22 | ĐẠT |
+| Vượt tầng 25 | không bắt buộc | 4:00:22 | — |
+| Đoạn dài nhất không tiến bộ (cả 6 giờ) | dưới 0:30:00 | 0:06:57 (bắt đầu ở 5:18:44) | ĐẠT |
+
+Bảng tiến độ (mỗi 15 phút mô phỏng):
+
+| Thời gian | Cấp NC | CP đội | Hero có | Ô đội | Cấp hero trong đội | Nấc | Công trình (cấp) | Chặng | Tầng | Tài nguyên | Tuyển | Nhiệm vụ |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 0:14:59 | 7 | 5628 | 4 | 3 | 5, 9, 10 | 18 | Kho3 Gỗ3 Quán1 Mỏ2 Tập1 Chợ2 Cổng1 | 0 | 2 | vàng 77, thịt 23, gỗ 81, quặng 245, san hô 0, vé 0 | 8 | q20 Vượt tầng 1 Hang Xoáy (1/1) |
+| 0:29:59 | 9 | 10143 | 6 | 4 | 9, 11, 11, 10 | 24 | Kho4 Gỗ4 Quán1 Mỏ3 Tập2 Chợ2+ Cổng2 | 1 | 8 | vàng 72, thịt 15, gỗ 20, quặng 4, san hô 0, vé 2 | 20 | q26 Hạ boss tầng 10: Cua Càng Thép Chúa (0/1) |
+| 0:44:59 | 11 | 13560 | 11 | 4 | 10, 11, 10, 10 | 33 | Kho5 Gỗ4 Quán2 Mỏ3 Tập2+ Chợ3 Cổng2 | 2 | 10 | vàng 160, thịt 14, gỗ 467, quặng 30, san hô 6, vé 36 | 44 | q32 Hạ boss tầng 15: Mắt Đá (0/1) |
+| 0:59:59 | 12 | 17643 | 11 | 5 | 14, 13, 13, 5, 13 | 36 | Kho5 Gỗ4 Quán2 Mỏ3 Tập3 Chợ3 Cổng2+ | 2 | 10 | vàng 85, thịt 6, gỗ 1059, quặng 90, san hô 2, vé 42 | 50 | q32 Hạ boss tầng 15: Mắt Đá (0/1) |
+| 1:15:00 | 14 | 20320 | 12 | 5 | 16, 16, 15, 15, 15 | 39 | Kho5 Gỗ5 Quán2 Mỏ4 Tập3 Chợ4 Cổng3 | 3 | 15 | vàng 65, thịt 58, gỗ 1598, quặng 255, san hô 16, vé 82 | 79 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 1:30:00 | 15 | 21771 | 12 | 5 | 19, 18, 18, 18, 18 | 45 | Kho5+ Gỗ5 Quán2 Mỏ4 Tập3 Chợ4 Cổng3 | 3 | 15 | vàng 195, thịt 13, gỗ 1967, quặng 1234, san hô 16, vé 92 | 89 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 1:45:00 | 16 | 22425 | 12 | 5 | 20, 19, 19, 19, 19 | 48 | Kho6 Gỗ5 Quán2 Mỏ4 Tập3 Chợ4 Cổng3+ | 3 | 15 | vàng 113, thịt 27, gỗ 1373, quặng 459, san hô 18, vé 107 | 103 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 2:00:00 | 17 | 23716 | 12 | 5 | 21, 21, 21, 21, 21 | 51 | Kho6 Gỗ5 Quán2 Mỏ4 Tập3+ Chợ4 Cổng3+ | 3 | 15 | vàng 52, thịt 72, gỗ 1345, quặng 245, san hô 24, vé 111 | 115 | q36 Nâng Cổng Xoáy lên cấp 4 (0/1) |
+| 2:15:00 | 17 | 27406 | 12 | 6 | 23, 23, 22, 22, 22, 13 | 51 | Kho6 Gỗ6+ Quán2 Mỏ5 Tập4 Chợ4+ Cổng4 | 4 | 20 | vàng 21, thịt 28, gỗ 1339, quặng 438, san hô 26, vé 163 | 150 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 2:30:00 | 18 | 28594 | 12 | 6 | 23, 23, 22, 22, 22, 22 | 54 | Kho7 Gỗ7 Quán2 Mỏ5+ Tập4 Chợ5 Cổng4 | 4 | 20 | vàng 190, thịt 40, gỗ 2594, quặng 695, san hô 32, vé 171 | 158 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 2:45:00 | 19 | 29129 | 12 | 6 | 23, 23, 23, 23, 23, 23 | 57 | Kho7 Gỗ7 Quán2 Mỏ6 Tập4+ Chợ5 Cổng4 | 4 | 20 | vàng 117, thịt 68, gỗ 1142, quặng 72, san hô 35, vé 190 | 176 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:00:00 | 19 | 29556 | 12 | 6 | 24, 24, 24, 24, 24, 24 | 57 | Kho7 Gỗ7 Quán2 Mỏ6 Tập4+ Chợ5 Cổng4 | 4 | 20 | vàng 52, thịt 46, gỗ 3920, quặng 1316, san hô 41, vé 202 | 188 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:14:59 | 20 | 30983 | 12 | 6 | 25, 25, 25, 25, 24, 24 | 60 | Kho7 Gỗ7 Quán2 Mỏ6 Tập4+ Chợ5 Cổng4 | 4 | 20 | vàng 108, thịt 18, gỗ 4958, quặng 2557, san hô 42, vé 221 | 206 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:29:59 | 20 | 35307 | 12 | 7 | 26, 26, 25, 25, 25, 25, 17 | 60 | Kho7 Gỗ7 Quán2 Mỏ6 Tập5 Chợ5+ Cổng4+ | 4 | 20 | vàng 169, thịt 41, gỗ 1593, quặng 935, san hô 33, vé 177 | 218 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:44:59 | 21 | 36335 | 12 | 7 | 26, 26, 25, 25, 25, 25, 25 | 62 | Kho7+ Gỗ7 Quán3 Mỏ6 Tập5 Chợ6 Cổng4+ | 4 | 20 | vàng 277, thịt 110, gỗ 2280, quặng 232, san hô 42, vé 169 | 241 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 3:59:59 | 22 | 36741 | 12 | 7 | 26, 26, 26, 26, 26, 26, 25 | 63 | Kho8 Gỗ7+ Quán3 Mỏ6+ Tập5 Chợ6 Cổng5 | 4 | 24 | vàng 59, thịt 134, gỗ 2994, quặng 236, san hô 42, vé 141 | 253 | q40 Hạ boss tầng 25: Thuyền Trưởng Ma (0/1) |
+| 4:14:59 | 22 | 37268 | 12 | 7 | 27, 27, 27, 26, 26, 26, 26 | 65 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5 Chợ6 Cổng5 | 5 | 25 | vàng 41, thịt 179, gỗ 5139, quặng 1166, san hô 53, vé 202 | 305 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:29:59 | 22 | 37572 | 12 | 7 | 27, 27, 27, 27, 27, 27, 26 | 66 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5+ Chợ6 Cổng5 | 5 | 25 | vàng 66, thịt 171, gỗ 1363, quặng 92, san hô 53, vé 207 | 310 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:44:59 | 23 | 37958 | 12 | 7 | 28, 28, 28, 28, 27, 27, 27 | 66 | Kho8 Gỗ8 Quán3 Mỏ7 Tập5+ Chợ6+ Cổng5 | 5 | 25 | vàng 329, thịt 152, gỗ 2776, quặng 390, san hô 56, vé 234 | 336 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 4:59:59 | 23 | 38321 | 12 | 7 | 29, 28, 28, 28, 28, 28, 28 | 67 | Kho8+ Gỗ8 Quán3 Mỏ7 Tập5+ Chợ7 Cổng5 | 5 | 25 | vàng 124, thịt 188, gỗ 4219, quặng 359, san hô 58, vé 249 | 351 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:14:59 | 24 | 38859 | 12 | 7 | 29, 29, 29, 29, 29, 28, 28 | 69 | Kho8+ Gỗ8 Quán3 Mỏ7 Tập5+ Chợ7 Cổng5 | 5 | 25 | vàng 125, thịt 74, gỗ 7145, quặng 278, san hô 61, vé 276 | 377 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:29:59 | 24 | 43175 | 12 | 8 | 29, 29, 29, 29, 29, 29, 29, 7 | 71 | Kho9 Gỗ8 Quán3 Mỏ7 Tập6 Chợ7 Cổng5 | 5 | 25 | vàng 84, thịt 6, gỗ 9472, quặng 1366, san hô 49, vé 282 | 383 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:44:59 | 25 | 45014 | 12 | 8 | 29, 29, 29, 29, 29, 20, 29, 29 | 73 | Kho9 Gỗ8 Quán3 Mỏ7 Tập6 Chợ7 Cổng5 | 5 | 25 | vàng 191, thịt 38, gỗ 11462, quặng 1679, san hô 50, vé 305 | 405 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+| 5:59:59 | 25 | 46317 | 12 | 8 | 29, 29, 29, 29, 28, 29, 29, 29 | 75 | Kho9 Gỗ8 Quán3 Mỏ7 Tập6 Chợ7 Cổng5 | 5 | 25 | vàng 98, thịt 27, gỗ 11900, quặng 2202, san hô 54, vé 319 | 419 | q41 Hạ boss tầng 30: Vua Nhện Rạn (0/1) |
+
+Lượt dungeon: 16 (thắng 16, thua 0). Cả đội gục ngoài đồng: 3 lần. Chuyến về làng: 135. Quái hạ: 8845 ngoài đồng, 3777 trong dungeon.
+
+Thu nhập theo nguồn trong 6 giờ:
+
+| Nguồn | vàng | thịt | gỗ | quặng | san hô | vé |
+|---|---|---|---|---|---|---|
+| Quái ngoài đồng (vật rơi) | 19135 | 16409 | 0 | 0 | 50 | 0 |
+| Cây và đá | 0 | 0 | 47169 | 30664 | 0 | 0 |
+| Công trình sản xuất | 907 | 0 | 2047 | 802 | 0 | 0 |
+| Thưởng nhiệm vụ | 1310 | 885 | 720 | 540 | 9 | 23 |
+| Dungeon: nhặt, qua tầng, chuỗi | 13896 | 599 | 0 | 0 | 0 | 0 |
+| Dungeon: thưởng chặng | 6650 | 0 | 0 | 0 | 28 | 37 |
+
+Thời gian chạy thật: 3.6 s cho 648000 bước (5.6 µs mỗi bước).

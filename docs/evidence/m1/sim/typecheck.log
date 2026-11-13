@@ -1,0 +1,9 @@
+
+> typecheck
+> node scripts/typecheck.mjs
+
+[tools] $ node tools/node_modules/typescript/bin/tsc -p game/tsconfig.json --noEmit   (in tools)
+[tools] game/: OK
+[tools] $ node tools/node_modules/typescript/bin/tsc -p tools/tsconfig.json --noEmit   (in tools)
+[tools] tools/: OK
+exit code: 0
