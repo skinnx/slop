@@ -1,0 +1,42 @@
+{
+  "scenario": "tools/harness/scenarios/m1-extra.mjs",
+  "ok": true,
+  "failure": null,
+  "viewport": "540x960",
+  "scripts": 49,
+  "seconds": 19.4,
+  "lastFrame": {
+    "drawCalls": 104,
+    "tris": 2802,
+    "instances": 0,
+    "frames": 351
+  },
+  "notes": [
+    "tavern texts before: [\"Quán Mỏ Neo\",\"Tuyển\",\"Đổi Vé\",\"BONUS\",\"9/10\",\"?\",\"Sau 1 lượt nữa: tăng tỉ lệ hero hạng cao!\",\"x5\",\"5\",\"0/3\",\"!!\",\"MỚI\"]",
+    "tavern texts after: [\"Quán Mỏ Neo\",\"Tuyển\",\"Đổi Vé\",\"BONUS\",\"0/10\",\"?\",\"Sau 10 lượt nữa: tăng tỉ lệ hero hạng cao!\",\"x5\",\"5\",\"4/4\",\"x5\",\"9\"]",
+    "detail texts: [\"900\",\"5\",\"Cấp\",\"5/3\",\"Én\",\"CP\",\"2396\",\"ATK\",\"291\",\"+7\",\"HP\",\"909\",\"+23\",\"1\",\"Mở kỹ năng 1 (1 sao)\",\"5\",\"Hero cùng hệ +5% HP (hiệu ứng sở hữu)\",\"10\",\"Mở kỹ năng 2 (1 sao)\",\"15\",\"Hero cùng hệ +5% ATK (hiệu ứng sở hữu)\",\"20\",\"Kỹ năng 1 lên 2 sao\",\"25\",\"Hero cùng hệ +5% HP (hiệu ứng sở hữu)\",\"30\",\"Kỹ năng 2 lên 2 sao\",\"Lao Xuyên\",\"Gió Biển\",\"\",\"22 + 3 mảnh\",\"NÂNG CẤP\"]",
+    "toasts: []"
+  ],
+  "screenshots": [
+    "docs/evidence/m1/extra/01-bonus-9-of-10.png",
+    "docs/evidence/m1/extra/02-reveal-drawn-set.png",
+    "docs/evidence/m1/extra/03-reveal-bonus-set.png",
+    "docs/evidence/m1/extra/04-tavern-new-set.png",
+    "docs/evidence/m1/extra/05-levelup-blocked.png",
+    "docs/evidence/m1/extra/06-levelup-blocked-tap.png"
+  ],
+  "consoleErrors": [],
+  "console": [
+    "[timeEnd] Init Base: 2.162109375 ms",
+    "[timeEnd] Init Infrastructure: 29.7138671875 ms",
+    "[timeEnd] Init SubSystem: 3.218994140625 ms",
+    "[log] Cocos Creator v3.8.8",
+    "[log] Using legacy pipeline",
+    "[timeEnd] Init Project: 5.2470703125 ms",
+    "[timeEnd] InitScene: 0.230224609375 ms",
+    "[timeEnd] AttachPersist: 0.003173828125 ms",
+    "[timeEnd] AutoRelease: 0.121826171875 ms",
+    "[timeEnd] Destroy: 0.172119140625 ms",
+    "[timeEnd] Activate: 26.545166015625 ms"
+  ]
+}

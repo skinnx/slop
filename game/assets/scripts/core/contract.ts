@@ -14,7 +14,7 @@
 
 import { GameData, Rarity, Attribute, HeroRole, SkillType, MonsterKind, ZoneId, ResourceMap } from './data';
 
-export const CONTRACT_VERSION = 2;
+export const CONTRACT_VERSION = 3;
 export const SAVE_VERSION = 1;
 
 /** Đồng hồ thời gian thực do bên ngoài cấp (view: Date.now; bot: đồng hồ giả). Lõi không tự đọc giờ. */
@@ -183,6 +183,13 @@ export interface ResourceNodeView {
   /** Vòng bánh đếm giờ mọc lại: còn respawnT trên respawnSec giây. */
   readonly respawnT: number;
   readonly respawnSec: number;
+  /**
+   * Nút đang nằm trong tầm thu thập của đội: chưa cạn và cách THỦ LĨNH không quá FieldView.gatherRadius.
+   * Khi đội đứng yên, hero tự đi tới các nút như vậy để chặt/đập (01 mục 5.3). Nút có inReach = false sẽ không
+   * được đụng tới dù đội đứng yên bao lâu: view có thể tô sáng nút trong tầm, hoặc nhắc người chơi lại gần hơn.
+   * Cập nhật mỗi bước ở chế độ 'world' / 'build'.
+   */
+  readonly inReach: boolean;
 }
 
 export interface CampView {
@@ -315,6 +322,12 @@ export interface FieldView extends SceneView {
   readonly wipeT: number;
   /** Điểm ra đồng đã nhớ (null nếu chưa có). */
   readonly returnPoint: ReadonlyArray<number> | null;
+  /** Bán kính quanh thủ lĩnh (ô) trong đó đội tự đi tới thu thập nút tài nguyên khi đứng yên. */
+  readonly gatherRadius: number;
+  /** Bán kính quanh thủ lĩnh (ô) trong đó đội tự đi tới đánh quái khi đứng yên. */
+  readonly aggroRadius: number;
+  /** Số nút tài nguyên đang có inReach = true. */
+  readonly nodesInReach: number;
 }
 
 export interface ResultView {

@@ -18,6 +18,7 @@ export class FieldNode implements ResourceNodeView {
   depleted = false;
   respawnT = 0;
   respawnSec = 0;
+  inReach = false;
   yieldPerHit = 1;
 }
 
@@ -55,6 +56,9 @@ export class FieldSim extends Arena implements FieldView {
   returnPoint: number[] | null = null;
   /** Có quái đang đuổi đội (nút Về làng bị khóa). */
   chasing = 0;
+  gatherRadius = 0;
+  aggroRadius = 0;
+  nodesInReach = 0;
 
   private fhost: FieldHost;
   private activeTimer = 0;
@@ -64,6 +68,8 @@ export class FieldSim extends Arena implements FieldView {
     super(host, rng);
     this.fhost = host;
     this.kind = 'field';
+    this.gatherRadius = this.t.squad.gatherRadius;
+    this.aggroRadius = this.t.squad.aggroRadius;
     const w = this.t.world;
     const e = w.mapEdgeBlocked;
     this.setBounds(e, e, w.mapW - e, w.mapH - e);
@@ -130,6 +136,7 @@ export class FieldSim extends Arena implements FieldView {
     }
     this.activeTimer = 0;
     this.updateLeader();
+    this.refreshReach();
   }
 
   /** Hồi sinh và hồi đầy máu cả đội (sau dungeon, sau khi cả đội gục). */
@@ -180,7 +187,28 @@ export class FieldSim extends Arena implements FieldView {
     this.stepCamps();
     if (this.stepHeroTimers()) outcome = 'wipe_respawn';
     this.sinceCombat += dt;
+    this.refreshReach();
     return outcome;
+  }
+
+  /** Đánh dấu nút nằm trong tầm thu thập của thủ lĩnh (cùng điều kiện với pickNodeTarget). */
+  refreshReach(): void {
+    const leader = this.leader;
+    const g2 = this.gatherRadius * this.gatherRadius;
+    const nodes = this.nodes;
+    let count = 0;
+    for (let i = 0; i < nodes.length; i++) {
+      const n = nodes[i];
+      let reach = false;
+      if (leader && !n.depleted) {
+        const dx = n.x - leader.x;
+        const dy = n.y - leader.y;
+        reach = dx * dx + dy * dy <= g2;
+      }
+      n.inReach = reach;
+      if (reach) count++;
+    }
+    this.nodesInReach = count;
   }
 
   private refreshActive(): void {

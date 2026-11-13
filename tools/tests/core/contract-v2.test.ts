@@ -200,7 +200,53 @@ describe('display metadata', () => {
     expect(rows.map((r) => [r.key, r.icon])).toEqual([['perHour', 'icon/hourglass'], ['bufferCap', 'icon/cards_stack'], ['buffer', 'icon/hourglass']]);
   });
 
-  it('the contract version is 2', () => {
-    expect(CONTRACT_VERSION).toBe(2);
+  it('the contract version is 3', () => {
+    expect(CONTRACT_VERSION).toBe(3);
+  });
+});
+
+describe('gather reach (contract v3)', () => {
+  /** Một cây đứng một mình: các nút khác coi như đã cạn, quái bị dẹp ra xa. */
+  function loneTree() {
+    const t = newGame();
+    const g = t.game;
+    const f = cheat(g).field;
+    const tree = g.field.nodes.find((n) => n.id === 'n010')!;
+    for (const n of f.nodes) if (n !== tree) { n.depleted = true; n.respawnT = 1e9; }
+    f.depletedCount = f.nodes.length - 1;
+    for (const m of f.monsters) { m.x = 55; m.y = 55; m.homeX = 55; m.homeY = 55; }
+    for (const c of f.camps) c.respawnSec = 1e9;
+    return { t, g, tree };
+  }
+
+  it('the squad walks up to and chops a node within gatherRadius (3 cells) of the leader, and ignores one outside it', () => {
+    expect(data.tuning.squad.gatherRadius).toBe(3);
+    for (const [dist, expectChop] of [[1.6, true], [2.0, true], [2.9, true], [3.1, false], [4.0, false]] as [number, boolean][]) {
+      const { t, g, tree } = loneTree();
+      teleport(g, tree.x + dist, tree.y);
+      expect(g.field.nodes[tree.index].inReach, 'inReach ở ' + dist + ' ô').toBe(expectChop);
+      expect(g.field.nodesInReach).toBe(expectChop ? 1 : 0);
+      t.stepSec(12);
+      expect(g.resources.wood > 0, 'chặt ở ' + dist + ' ô').toBe(expectChop);
+      if (expectChop) {
+        expect(g.resources.wood).toBe(12); // hero tự bước tới sát cây rồi chặt hết
+        expect(Math.hypot(g.field.leader!.x - tree.x, g.field.leader!.y - tree.y)).toBeLessThan(1.4);
+        expect(g.field.nodes[tree.index].inReach).toBe(false); // cây đã cạn: không còn trong tầm
+      } else {
+        expect(g.field.leader!.x).toBeCloseTo(tree.x + dist, 5); // đội không nhúc nhích
+      }
+    }
+  });
+
+  it('inReach follows the leader as the squad moves, and the field exposes both radii', () => {
+    const { t, g, tree } = loneTree();
+    expect([g.field.gatherRadius, g.field.aggroRadius]).toEqual([3, 5]);
+    teleport(g, tree.x + 6, tree.y);
+    expect(tree.inReach).toBe(false);
+    g.setJoystick(-1, 0);
+    let entered = -1;
+    for (let i = 0; i < 60 && entered < 0; i++) { t.step(); if (tree.inReach) entered = Math.hypot(g.field.leader!.x - tree.x, g.field.leader!.y - tree.y); }
+    expect(entered).toBeGreaterThan(2.85);
+    expect(entered).toBeLessThanOrEqual(3.0);
   });
 });

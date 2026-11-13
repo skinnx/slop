@@ -65,6 +65,10 @@ update(dt: number) {
 - `building.marker` cho biết vẽ gì trên công trình (`'job'`, `'buffer'`, `'alert'` = dấu "!", `'check'` = dấu check,
   `'none'`), đã chọn theo thứ tự ưu tiên của đặc tả UX. View không tự so vàng, quặng hay CP.
 - `game.quest.icon` là icon của thẻ nhiệm vụ (bảng `display.json`).
+- **Tầm thu thập.** Khi đội đứng yên, hero tự đi tới và chặt/đập mọi nút chưa cạn cách **thủ lĩnh** không quá
+  `game.field.gatherRadius` (3 ô); nút xa hơn thì không được đụng tới. Mỗi nút có `inReach` (cập nhật mỗi bước) và
+  `game.field.nodesInReach` đếm số nút trong tầm, để view tô sáng nút trong tầm hoặc nhắc người chơi lại gần.
+  Tương tự, quái trong `game.field.aggroRadius` (5 ô) quanh thủ lĩnh sẽ bị đội tự đánh.
 
 ### 1.3 Lệnh
 
@@ -155,6 +159,7 @@ hình dạng `{ type, x, y, n, id, id2, key, text, data }`; bảng ý nghĩa t�
 | `npm test` | vitest; test của lõi nằm trong `tools/tests/core/` |
 | `npm run sim` | Bot chơi 5 seed × 6 giờ mô phỏng, in bảng tiến độ mỗi 15 phút và kết luận ĐẠT/TRƯỢT |
 | `npm run sim -- --seeds 1,2,3 --hours 10 --out ../docs/evidence/m1/sim --verbose` | Chọn seed, số giờ, thư mục ghi `bot-report.md` + `seed-N.csv`, in nhật ký quyết định của bot |
+| `npm run sim:newplayer` | 300 seed: người chơi mới chỉ làm theo thẻ nhiệm vụ (`tools/sim/cardplayer.ts`) đi tới boss tầng 5; thời gian từng nhiệm vụ và các câu "bị khóa" game đã hiện |
 | `npm run sim:difficulty` | Đo tỉ lệ thắng của từng chặng theo tỉ lệ CP đội / CP đề nghị (đội dựng qua bản lưu, bot điều khiển) |
 
 Test theo chủ đề: `data` (bảng hợp lệ, khớp bản gốc thiết kế, bảng sai báo lỗi rõ), `formulas` (chỉ số, CP, giá),
@@ -205,6 +210,9 @@ Những chỗ tài liệu thiết kế im lặng hoặc tự mâu thuẫn. Mỗi
 30. **Bảng `display.json` chỉ có ở phía game.** Nó chứa icon của nhiệm vụ theo loại, tên tiếng Việt của loại kỹ năng và tham số kỹ năng, icon của các dòng chỉ số công trình. Không có số liệu cân bằng. `docs/design/data` chưa có bảng này; đề nghị thiết kế nhận nó về làm bản gốc.
 31. **Dấu "!" trên Quán** hiện khi đủ vàng cho một lượt tuyển. Đặc tả UX còn ghi "hoặc thanh BONUS đầy", nhưng thanh không bao giờ đứng ở trạng thái đầy (đầy là đổi thẻ rồi về 0), nên điều kiện đó không có hiệu lực.
 
+32. **Sản lượng làng không bao giờ được thu hay báo trong lúc ở dungeon hoặc ở màn kết quả.** Tự thu chỉ chạy ở chế độ `world` / `build`; `collectBuilding` và `collectAll` trả `wrong_mode` / rỗng ngoài hai chế độ đó. Bộ đệm vẫn đầy lên theo đồng hồ. Khi chạm màn kết quả, đội về đứng cạnh Cổng Xoáy; nếu chỗ đó cách một công trình sản xuất không quá 1.5 ô thì lúc ấy mới tự thu.
+33. **Đột phá bắt đầu từ cấp 5 lên 6.** Lên tới cấp 5 chỉ tốn thịt (70 thịt từ cấp 1). Mảnh chỉ cần cho bước 5 → 6, 10 → 11, ... đúng bảng `hero-levels.json`.
+
 ### Hằng số không có trong JSON
 
 Thiết kế ghi các số này bằng chữ nhưng `tuning.json` không có khóa tương ứng. Chúng nằm trong `constants.ts`:
@@ -218,3 +226,4 @@ khoảng cách "quái ở xa" 16 ô. Nếu thiết kế muốn chỉnh, chuyển
 |---|---|
 | 1 | Bản đầu. |
 | 2 | **Chỉ thêm, không bỏ hay đổi kiểu trường nào.** (1) `setJoystick`: ghi rõ vector là tọa độ ô của lõi; thêm hàm `joystickToWorld`. (2) `PlayerView.expToNext`: ghi rõ là tổng EXP của cấp. (3) `TavernInfo.recruitOptions[]` (`times`, `costGold`, `affordable`, `check`). (4) `BuildingView.marker` và `DungeonInfo.readyStage`. (5) Bảng mới `display.json` (đã nằm trong `DATA_FILES`), `GameData.display`, `QuestView.icon`, `SkillInfo.typeName`, `SkillInfo.paramNames`, `StatRow.icon`. (6) **Đổi hành vi:** lần bấm 2x/3x rút hết từ bộ thẻ lúc bấm, bộ thẻ BONUS đổi sau lần bấm; thêm `RecruitResult.cards`, `bonusRefreshed`, `cardsAfter`. View có thể bỏ: phép nhân `costGold × multi`, phép so `squadCp >= recommendedCp` cho dấu check, các bảng `QUEST_ICON`, `SKILL_KIND`, `PARAM_NAME`, `ROW_ICON`. |
+| 3 | **Chỉ thêm.** `ResourceNodeView.inReach`, `FieldView.gatherRadius`, `FieldView.aggroRadius`, `FieldView.nodesInReach` (phản hồi tầm thu thập, QA-08). Không đổi hành vi nào. |

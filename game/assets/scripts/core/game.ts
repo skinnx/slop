@@ -163,6 +163,7 @@ export class GameImpl implements Game, FieldHost, DungeonHost, Bank {
     this.scene = this.field;
     if (save && save.world.returnPoint) this.field.returnPoint = save.world.returnPoint.slice(0, 2);
     this.field.setHeroes(this.squadSpecs(), leaderPos[0], leaderPos[1], false);
+    this.field.refreshReach();
     this.squadCp = this.computeSquadCp(this.squad);
     this.refreshPlayer();
     this.updateLeaderZone();

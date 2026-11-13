@@ -4,12 +4,12 @@
   "failure": null,
   "viewport": "540x960",
   "scripts": 49,
-  "seconds": 22.9,
+  "seconds": 25.5,
   "lastFrame": {
-    "drawCalls": 8,
-    "tris": 1606,
+    "drawCalls": 7,
+    "tris": 1602,
     "instances": 0,
-    "frames": 887
+    "frames": 822
   },
   "notes": [
     "start: level 1, cp 1340, quest \"Chặt cây lấy 10 gỗ\"",
@@ -31,16 +31,16 @@
   ],
   "consoleErrors": [],
   "console": [
-    "[timeEnd] Init Base: 1 ms",
-    "[timeEnd] Init Infrastructure: 23.76708984375 ms",
-    "[timeEnd] Init SubSystem: 3.865234375 ms",
+    "[timeEnd] Init Base: 2.154052734375 ms",
+    "[timeEnd] Init Infrastructure: 29.197021484375 ms",
+    "[timeEnd] Init SubSystem: 1.885009765625 ms",
     "[log] Cocos Creator v3.8.8",
     "[log] Using legacy pipeline",
-    "[timeEnd] Init Project: 4.365966796875 ms",
-    "[timeEnd] InitScene: 0.209228515625 ms",
-    "[timeEnd] AttachPersist: 0.001953125 ms",
-    "[timeEnd] AutoRelease: 0.14208984375 ms",
-    "[timeEnd] Destroy: 0.262939453125 ms",
-    "[timeEnd] Activate: 31.9560546875 ms"
+    "[timeEnd] Init Project: 5.470947265625 ms",
+    "[timeEnd] InitScene: 0.2919921875 ms",
+    "[timeEnd] AttachPersist: 0.0029296875 ms",
+    "[timeEnd] AutoRelease: 0.176025390625 ms",
+    "[timeEnd] Destroy: 0.365966796875 ms",
+    "[timeEnd] Activate: 26.06005859375 ms"
   ]
 }

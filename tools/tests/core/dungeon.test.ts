@@ -511,6 +511,35 @@ describe('results', () => {
     expect(g.leaveDungeon().reason).toBe('wrong_mode');
   });
 
+  it('village production is never collected or announced during a dungeon run or on the result screen', () => {
+    // QA-04: toast "Thu gỗ +140" thấy trong hang. Lõi chỉ thu khi ở chế độ world/build.
+    const t = newGame();
+    const g = t.game;
+    strongSquad(g);
+    const camp = instantBuilding(t, 'lumber_camp', 30, 30, 5);
+    instantBuilding(t, 'dungeon_gate', 29, 33, 6); // cổng sát Trại Gỗ: chỗ đứng "cạnh cổng" nằm trong tầm tự thu
+    cheat(g).village.byUid(camp).bufferRaw = 140; cheat(g).village.byUid(camp).buffer = 140;
+    teleport(g, 22, 36); // xa Trại Gỗ: chưa thu
+    t.step();
+    expect(g.findBuilding('lumber_camp')!.buffer).toBe(140);
+    enterStage(t, 1);
+    g.setAuto(true);
+    const ev = runUntil(t, () => g.mode === 'result', 400);
+    expect(ev.filter((e) => e.type === 'collect').length).toBe(0);
+    expect(ev.filter((e) => e.type === 'toast' && e.key === 'collect').length).toBe(0);
+    expect(g.collectBuilding(camp).reason).toBe('wrong_mode');
+    expect(g.collectAll()).toEqual({});
+    const during = run(t, 60); // đứng ở màn kết quả 2 s
+    expect(during.filter((e) => e.type === 'collect' || (e.type === 'toast' && e.key === 'collect')).length).toBe(0);
+    expect(g.findBuilding('lumber_camp')!.buffer).toBeGreaterThanOrEqual(140); // bộ đệm vẫn đầy lên theo đồng hồ
+    expect(g.resources.wood).toBe(0);
+    // chạm màn kết quả: về làng cạnh cổng, lúc này mới tự thu vì đứng sát Trại Gỗ
+    g.closeResult();
+    const after = run(t, 2);
+    expect(after.filter((e) => e.type === 'collect' && e.key === 'wood').length).toBe(1);
+    expect(g.resources.wood).toBeGreaterThanOrEqual(140);
+  });
+
   it('the field is frozen while in the dungeon, but production keeps running on the clock', () => {
     const t = newGame();
     const g = t.game;

@@ -16,7 +16,8 @@
     "drawcalls": "node harness/run.mjs harness/scenarios/stats.mjs",
     "atlas:view": "node atlas/build-view-atlases.mjs",
     "sim": "node sim/run-ts.mjs sim/main.ts",
-    "sim:difficulty": "node sim/run-ts.mjs sim/difficulty.ts"
+    "sim:difficulty": "node sim/run-ts.mjs sim/difficulty.ts",
+    "sim:newplayer": "node sim/run-ts.mjs sim/newplayer.ts"
   },
   "devDependencies": {
     "@types/node": "22.20.5",
