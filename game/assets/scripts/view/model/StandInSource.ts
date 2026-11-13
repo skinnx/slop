@@ -7,6 +7,7 @@ import {
   TrainingV, GateV, ResultV, BuildModeV, WelcomeV, SettingsV, UnitV, Rarity, Attr, MapV,
 } from './ViewModel';
 import type { RenderCfg } from '../world/WorldRenderer';
+import { screenDirToCell } from '../world/Iso';
 
 const HEROES: [string, string, string, string | undefined, Rarity, Attr][] = [
   ['bang', 'Bàng', 'td:0097', undefined, 'N', 'STR'], ['do_neo', 'Đô Neo', 'td:0087', undefined, 'R', 'STR'],
@@ -151,7 +152,7 @@ export class StandInSource implements Source {
   send(c: Cmd): CmdResult {
     switch (c.t) {
       case 'title': this.m = 'WORLD'; return { ok: true };
-      case 'joystick': this.joy = { x: c.x, y: c.y }; return { ok: true };
+      case 'joystick': this.joy = screenDirToCell(c.x, c.y); return { ok: true };
       case 'enterBuild': this.m = 'BUILD'; return { ok: true };
       case 'exitBuild': this.m = 'WORLD'; return { ok: true };
       case 'enterDungeon':
@@ -170,7 +171,7 @@ export class StandInSource implements Source {
       case 'leaveDungeon': this.m = 'RESULT'; this.resultV = this.makeResult(false); this.paused = false; return { ok: true };
       case 'resultContinue': this.m = 'WORLD'; this.leader = { x: 26, y: 32 }; return { ok: true };
       case 'recruit':
-        this.reveal = { cards: this.tavern().cards, draws: Array.from({ length: c.count }, (_, i) => ({ cardIndex: (i * 2) % 3, isNew: i === 0, frags: i === 0 ? 0 : 5 })) };
+        this.reveal = { cards: this.tavern().cards, draws: Array.from({ length: c.count }, (_, i) => ({ cardIndex: (i * 2) % 3, isNew: i === 0, frags: i === 0 ? 0 : 5 })), cardsAfter: null };
         return { ok: true };
       case 'claimQuest': this.events.push({ t: 'toast', text: 'Nhận thưởng: 50 Vàng' }); return { ok: true };
       case 'setting': if (c.key === 'music') this.music = c.on; else this.sfx = c.on; return { ok: true };

@@ -83,15 +83,20 @@ export class WorldRenderer {
     const w = this.lastWorld;
     switch (e.t) {
       case 'damage':
-        this.text.float(String(e.amount), isoX(e.x, e.y) + (Math.random() - 0.5) * 30, isoY(e.x, e.y) + 70, { color: e.onHero ? '#FF7070' : '#FF3B3B', size: 26 });
+        this.text.float(String(e.amount), isoX(e.x, e.y), isoY(e.x, e.y) + 70, { color: e.onHero ? '#FF7070' : '#FF3B3B', size: 26, droppable: !e.onHero });
         this.motion.hit(e.targetId, this.time);
         break;
       case 'heal':
         this.text.float('+' + e.amount, isoX(e.x, e.y), isoY(e.x, e.y) + 80, { color: '#5BE36B', size: 28 });
         break;
-      case 'exp':
-        this.text.float('EXP ' + e.amount, isoX(e.x, e.y), isoY(e.x, e.y) + 50, { color: '#FFFFFF', size: 22, dur: 0.8 });
+      case 'exp': {
+        // EXP of kills close in time and space is merged into one "EXP N" (several deaths in one swing).
+        const sx = isoX(e.x, e.y), sy = isoY(e.x, e.y) + 50;
+        const a = this.expAcc;
+        if (a && Math.abs(a.x / a.n - sx) < 160 && Math.abs(a.y / a.n - sy) < 100) { a.sum += e.amount; a.x += sx; a.y += sy; a.n++; }
+        else { this.flushExp(); this.expAcc = { sum: e.amount, x: sx, y: sy, n: 1, t0: this.time }; }
         break;
+      }
       case 'gather': {
         this.text.float('+' + e.amount, isoX(e.x, e.y), isoY(e.x, e.y) + 110, { color: '#FFFFFF', size: 24 });
         this.shake.set(e.nodeId, this.time);
@@ -137,8 +142,17 @@ export class WorldRenderer {
     }
   }
 
+  private expAcc: { sum: number; x: number; y: number; n: number; t0: number } | null = null;
+  private flushExp(): void {
+    const a = this.expAcc;
+    if (!a) return;
+    this.expAcc = null;
+    this.text.float('EXP ' + a.sum, a.x / a.n, a.y / a.n, { color: '#FFFFFF', size: 22, dur: 0.8 });
+  }
+
   update(dt: number, w: WorldV): void {
     this.time += dt;
+    if (this.expAcc && this.time - this.expAcc.t0 > 0.25) this.flushExp();
     this.lastWorld = w;
     if (this.lastArea !== w.area) { this.lastArea = w.area; this.groundKey = ''; this.snapCamera(w); this.motion.clear(); }
     if (!this.manualCamera) {
@@ -461,8 +475,8 @@ export class WorldRenderer {
     }
   }
 
-  get stats(): { ground: number; overlay: number; units: number; floaters: number } {
-    return { ground: this.ground.count, overlay: this.overlay.count, units: this.units.count, floaters: this.text.activeFloaters };
+  get stats(): { ground: number; overlay: number; units: number; floaters: number; droppedNumbers: number } {
+    return { ground: this.ground.count, overlay: this.overlay.count, units: this.units.count, floaters: this.text.activeFloaters, droppedNumbers: this.text.dropped };
   }
 }
 

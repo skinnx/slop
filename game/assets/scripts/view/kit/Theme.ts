@@ -39,9 +39,16 @@ export const C = {
   darkText: '#1B2233',
 };
 
-/** Rarity / attribute colours: tuning.hero.rarityColor / attrColor (copied as display colours only). */
+/**
+ * Rarity / attribute colours. Filled from tuning.hero.rarityColor / attrColor when the core data loads
+ * (useDataColors); the values below are only the stand-in source's fallback (same as the data today).
+ */
 export const RARITY: Record<string, string> = { N: '#9AA0A6', R: '#3D8BFF', E: '#B455F5', L: '#FFB020' };
 export const ATTR: Record<string, string> = { STR: '#E5484D', AGI: '#46C35A', INT: '#F2C230' };
+export function useDataColors(rarity: Record<string, string>, attr: Record<string, string>): void {
+  Object.assign(RARITY, rarity);
+  Object.assign(ATTR, attr);
+}
 export const ATTR_ICON: Record<string, string> = { STR: 'icon/shield', AGI: 'icon/bow', INT: 'icon/flask_full' };
 
 export const FS = { title: 40, big: 32, body: 26, small: 22, min: 20 };

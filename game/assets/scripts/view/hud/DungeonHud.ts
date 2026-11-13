@@ -1,7 +1,7 @@
 // Dungeon combat HUD (03-ux-spec.md section 12.1). No village top bar. Kept small on purpose: it is on screen
 // in the draw-call budget scene, so its sprites come from the UI atlas plus hero portraits from the world
 // atlas (grouped in one strip), and all text is CHAR-cached.
-import { Node, Label, Sprite } from 'cc';
+import { Node, Label, Sprite, tween, Tween, Vec3 } from 'cc';
 import { useCharCache, groupAtlases, node, ui, px, label, place, placeB, setBand, setText, setColor, num, rect } from '../kit/Ui';
 import { Layout } from '../kit/Layout';
 import { BAND, C } from '../kit/Theme';
@@ -72,6 +72,14 @@ export class DungeonHud {
     this.floorBanner = label(this.root, '', { size: 64, bold: true, color: '#FFFFFF', outline: '#000000', outlineWidth: 4 });
     this.floorBanner.node.setPosition(0, 120, 0);
     this.floorBanner.node.active = false;
+  }
+
+  /** Short bounce of the run's gold counter when gold is picked up (the dungeon has no pickup strip). */
+  pulseGold(): void {
+    const n = this.gold.node;
+    Tween.stopAllByTarget(n);
+    n.setScale(1.25, 1.25, 1);
+    tween(n).to(0.15, { scale: new Vec3(1, 1, 1) }).start();
   }
 
   /** "Tầng 2" big text in the middle for 0.8 s when a floor starts. */

@@ -12,7 +12,10 @@ export class WorldText {
   private free: Label[] = [];
   private keyed = new Map<string, { l: Label; used: boolean }>();
   private readonly tmp = new Color();
-  static readonly MAX_FLOATERS = 48;
+  /** At most this many floating texts at once (oldest recycled): a crowd stays readable, one batch either way. */
+  static readonly MAX_FLOATERS = 32;
+  /** Number of floaters dropped because there was no free spot (debug/measurement). */
+  dropped = 0;
 
   constructor(parent: Node) {
     this.root = node(parent, 'world-text');
@@ -21,7 +24,16 @@ export class WorldText {
   }
 
   /** Number or short text that rises and fades. size/color per 03-ux-spec.md section 3 "Số nổi". */
-  float(text: string, x: number, y: number, o: { size?: number; color?: string; outline?: string; dur?: number; rise?: number; scale0?: number } = {}): void {
+  float(text: string, x: number, y: number, o: { size?: number; color?: string; outline?: string; dur?: number; rise?: number; scale0?: number; droppable?: boolean } = {}): void {
+    // Readability in a crowd: a new number never starts on top of a young one. Try the spot, then step up
+    // (one line) and sideways a few times; a droppable number (damage on monsters) with no free spot is skipped.
+    const fs = o.size ?? 26;
+    let placed = false;
+    for (let k = 0; k < 5 && !placed; k++) {
+      const cx = x + (k === 0 ? 0 : (k % 2 ? 26 : -26)), cy = y + Math.ceil(k / 2) * (fs + 2);
+      if (!this.crowded(cx, cy, fs)) { x = cx; y = cy; placed = true; }
+    }
+    if (!placed && o.droppable) { this.dropped++; return; }
     let l: Label;
     if (this.floaters.length >= WorldText.MAX_FLOATERS) {
       const old = this.floaters.shift()!;
@@ -39,6 +51,16 @@ export class WorldText {
     (l.node.getComponent(UIOpacity) ?? l.node.addComponent(UIOpacity)).opacity = 255;
     this.floaters.push({ l, t: 0, dur: o.dur ?? 0.6, x, y, rise: o.rise ?? 40, base, scale0: o.scale0 ?? 1 });
     l.node.setPosition(x, y, 0);
+  }
+
+  /** True when a floater younger than 0.35 s currently covers (x, y). */
+  private crowded(x: number, y: number, fs: number): boolean {
+    for (const f of this.floaters) {
+      if (f.t > 0.35) continue;
+      const p = f.l.node.position;
+      if (Math.abs(p.x - x) < 44 && Math.abs(p.y - y) < fs * 0.85) return true;
+    }
+    return false;
   }
 
   /** A label that persists while it is re-requested every frame (removed after a frame without request). */

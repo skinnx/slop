@@ -4,16 +4,16 @@
   "failure": null,
   "viewport": "540x960",
   "scripts": 49,
-  "seconds": 31.4,
+  "seconds": 26,
   "lastFrame": {
     "drawCalls": 11,
     "tris": 82,
     "instances": 0,
-    "frames": 1096
+    "frames": 1179
   },
   "notes": [
-    "run: {\"stage\":1,\"floor\":1,\"streak\":14,\"remaining\":26,\"cleared\":false,\"exitOpen\":false,\"auto\":true}",
-    "dungeon drawCalls=8",
+    "run: {\"stage\":1,\"floor\":1,\"streak\":12,\"remaining\":28,\"cleared\":false,\"exitOpen\":false,\"auto\":true}",
+    "dungeon drawCalls=6",
     "auto after tap: false",
     "result: {\"outcome\":\"victory\"}"
   ],
@@ -33,16 +33,16 @@
   ],
   "consoleErrors": [],
   "console": [
-    "[timeEnd] Init Base: 1.138916015625 ms",
-    "[timeEnd] Init Infrastructure: 22.8740234375 ms",
-    "[timeEnd] Init SubSystem: 1.697998046875 ms",
+    "[timeEnd] Init Base: 2.048828125 ms",
+    "[timeEnd] Init Infrastructure: 26.18017578125 ms",
+    "[timeEnd] Init SubSystem: 1.47998046875 ms",
     "[log] Cocos Creator v3.8.8",
     "[log] Using legacy pipeline",
-    "[timeEnd] Init Project: 5.341064453125 ms",
-    "[timeEnd] InitScene: 0.283935546875 ms",
-    "[timeEnd] AttachPersist: 0.00390625 ms",
-    "[timeEnd] AutoRelease: 0.14306640625 ms",
-    "[timeEnd] Destroy: 0.2041015625 ms",
-    "[timeEnd] Activate: 22.380859375 ms"
+    "[timeEnd] Init Project: 4.220947265625 ms",
+    "[timeEnd] InitScene: 0.218017578125 ms",
+    "[timeEnd] AttachPersist: 0.0029296875 ms",
+    "[timeEnd] AutoRelease: 0.10302734375 ms",
+    "[timeEnd] Destroy: 0.18701171875 ms",
+    "[timeEnd] Activate: 23.44580078125 ms"
   ]
 }

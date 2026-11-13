@@ -85,8 +85,8 @@ draw call theo lớp), `telegraphCount`.
     đội đứng sát tường.
 12. **Bóng công trình (ghost) và viền chọn** vẽ trên mọi thứ (không theo chiều sâu): bóng đặt sau một công trình cao vẫn
     phải thấy được.
-13. **Hướng joystick**: vector màn hình được đổi sang vector ô (`Iso.screenDirToCell`) để đẩy cần lên thì đội đi thẳng
-    lên màn hình. Hợp đồng không nói rõ không gian của `setJoystick`; lõi dùng ô.
+13. **Hướng joystick**: view gửi vector màn hình; `CoreSource` đổi sang vector ô bằng `joystickToWorld` của lõi
+    (hợp đồng v2). `Iso.screenDirToCell` chỉ còn cho nguồn dữ liệu mẫu.
 14. **Nút vẽ bằng hình (nút tròn HUD, ⟳, AUTO) khi khóa** thì mờ 50% thay vì đổi sang nền xám.
 15. **Màn tiêu đề, menu tạm dừng** là việc của view: lõi không có chế độ TITLE và không có tạm dừng; tạm dừng = view
     ngừng gọi `step()`.
@@ -103,20 +103,16 @@ draw call theo lớp), `telegraphCount`.
 21. **Phím back Android / Esc** đóng hộp thoại hoặc panel trên cùng.
 22. **Tạm dừng dungeon vẫn vẽ**: thế giới đứng yên, chữ nổi vẫn chạy hết hiệu ứng.
 
-## 5. Hợp đồng lõi còn thiếu (cho trưởng nhóm chuyển lõi)
+## 5. Hợp đồng lõi
 
-1. `setJoystick(x, y)`: không ghi vector theo không gian nào (ô hay màn hình). View gửi vector ô.
-2. `PlayerView.expToNext`: không ghi là tổng EXP của cấp hay phần còn thiếu. View hiểu là tổng (thanh = exp / expToNext).
-3. Giá của từng lựa chọn 1x/2x/3x: chỉ có `costGold` và `multi`; view nhân `costGold × multi` để in giá. Nên có
-   `recruitCost[i]` trong `TavernInfo`.
-4. Cờ hiển thị cho dấu trên công trình (Quán có thể tuyển, Sân Tập mở được nấc, Cổng Xoáy đủ CP). View đang suy từ
-   các câu hỏi panel; riêng dấu check của Cổng Xoáy so `squadCp >= recommendedCp` trong view (một phép so sánh luật nhỏ).
-   Nên có `BuildingView.badge` hoặc một câu hỏi `getBuildingBadges()`.
-5. Biểu tượng của nhiệm vụ (`QuestView` chỉ có `type`): view tự chọn icon theo loại.
-6. Tên tiếng Việt của loại kỹ năng và tên tham số (`mult`, `radius`...) cho tooltip kỹ năng: view có bảng tên riêng.
-7. Khi BONUS đổi bộ thẻ giữa 2x/3x, `RecruitResult` có bộ thẻ từng lượt nhưng màn Nhận Hero của đặc tả chỉ có một bộ.
-   Cần thiết kế quyết định cách hiện.
-8. Không có sự kiện riêng cho "hero hồi sinh ngoài đồng xong"/"đội gục" ngoài `revive`/`wipe`; đủ dùng, chỉ ghi lại.
+Hợp đồng v2 đã đóng sáu chỗ thiếu của bản v1 (giá 1x/2x/3x `recruitOptions`, `BuildingView.marker`/`readyStage`,
+`QuestView.icon`, `SkillInfo.typeName`/`paramNames`, `StatRow.icon`, quy ước joystick, `expToNext`, BONUS sau lần bấm).
+View đã bỏ các bảng và phép tính tạm tương ứng.
+
+Còn lại trong view, có lý do:
+- `maxStars: 3` của kỹ năng (sao 3 luôn khóa trong M1, `SkillInfo` không có số sao tối đa) — chỉ để vẽ ba ngôi sao.
+- Bảng hình (vũ khí, chân dung NPC, màu phép của Đăng/Triều) theo 04-placeholder-art.md: hình ảnh, không phải luật.
+- Thứ tự sắp thẻ hero (trong đội, rồi CP giảm dần) và thanh tài nguyên đỏ khi ≥ 95%: quy tắc hiển thị của 03-ux-spec.md.
 
 ## 6. Harness khác bản build của editor ở đâu (phần của view)
 

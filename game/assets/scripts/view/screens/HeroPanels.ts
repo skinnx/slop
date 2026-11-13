@@ -23,6 +23,7 @@ export class RevealScreen extends Panel {
   private step = -1;
   private hint: Label | null = null;
   private pops: Node[] = [];
+  private swapped = false;
   private confetti: { n: Node; vx: number; vy: number; vr: number }[] = [];
 
   protected build(): void {
@@ -72,13 +73,24 @@ export class RevealScreen extends Panel {
       if (card) {
         Services.sfx('menu-confirm');
         tween(card.root).by(0.15, { position: new Vec3(0, 30, 0) }).delay(0.3).by(0.15, { position: new Vec3(0, -30, 0) }).start();
+        if (d.fragsAfter !== undefined && !d.isNew) card.set(this.r.cards[d.cardIndex], d.fragsAfter); // fragment bar moves
         const pop = label(card.root, d.isNew ? 'MỚI!' : `+${d.frags} mảnh`, { size: 32, bold: true, color: C.gold, outline: '#000000' });
         pop.node.setPosition(0, 40, 0);
         tween(pop.node).by(0.6, { position: new Vec3(0, 30, 0) }).start();
         this.pops.push(pop.node);
       }
     }
-    if (this.t > this.r.draws.length * 0.6 + 0.2 && this.hint) this.hint.node.active = true;
+    const end = this.r.draws.length * 0.6 + 0.2;
+    // Contract v2: a BONUS refresh happens after the press. Show the drawn set first, then the new set.
+    if (this.r.cardsAfter && !this.swapped && this.t > end + 0.4) {
+      this.swapped = true;
+      Services.sfx('menu-confirm');
+      this.pops.forEach((p) => p.isValid && p.destroy());
+      this.r.cardsAfter.forEach((c, i) => this.cards[i]?.set(c));
+      const b = label(this.top, 'BONUS! Bộ thẻ mới ở Quán', { size: 32, bold: true, color: '#E0C8FF', outline: '#3A1A6A', outlineWidth: 4 });
+      b.node.setPosition(0, -880, 0);
+    }
+    if (this.t > end + (this.r.cardsAfter ? 0.8 : 0) && this.hint) this.hint.node.active = true;
   }
 
   private tap(): void {

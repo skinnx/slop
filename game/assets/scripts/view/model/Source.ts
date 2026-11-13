@@ -9,6 +9,7 @@ import type { RenderCfg } from '../world/WorldRenderer';
 
 export type Cmd =
   | { t: 'title' }
+  /** Stick vector on SCREEN (x right, y up), length 0..1; the source converts it to the core's grid. */
   | { t: 'joystick'; x: number; y: number }
   | { t: 'portal' }
   | { t: 'enterBuild' } | { t: 'exitBuild' }

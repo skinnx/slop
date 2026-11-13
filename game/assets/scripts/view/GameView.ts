@@ -15,7 +15,6 @@ import { Source, Cmd, CmdResult } from './model/Source';
 import { StandInSource } from './model/StandInSource';
 import { Mode, ViewEvent } from './model/ViewModel';
 import { WorldRenderer } from './world/WorldRenderer';
-import { screenDirToCell } from './world/Iso';
 import { Joystick } from './hud/Joystick';
 import { FieldHud } from './hud/FieldHud';
 import { DungeonHud } from './hud/DungeonHud';
@@ -53,7 +52,7 @@ export class GameView implements Ctx {
     this.root = node(this.canvas, 'view', W, Layout.H);
     this.world = new WorldRenderer(this.root, this.src.render());
     this.joystick = new Joystick(this.root);
-    this.joystick.onChange = (x, y) => { const c = screenDirToCell(x, y); this.src.send({ t: 'joystick', x: c.x, y: c.y }); };
+    this.joystick.onChange = (x, y) => { this.src.send({ t: 'joystick', x, y }); };
     this.hudLayer = node(this.root, 'hud');
     this.fieldHud = new FieldHud(this.hudLayer, {
       hero: () => this.screens.openHeroList(), squad: () => this.screens.openSquad(), build: () => this.screens.enterBuild(),
@@ -160,7 +159,13 @@ export class GameView implements Ctx {
     switch (e.t) {
       case 'toast': this.toasts.toast(e.text, !!e.error); if (e.error) this.playSfx('error-01'); break;
       case 'big': this.toasts.big(e.text); break;
-      case 'pickup': this.toasts.pickup(e.res, e.amount); this.playSfx(e.res === 'gold' ? 'pickup-coin' : 'pickup-item', 1, 4); break;
+      case 'pickup':
+        // 03-ux-spec.md puts the pickup strip in the field HUD (section 3) only; in the dungeon (12.1) the run's
+        // gold counter at the top-left is the feedback, as in the reference captures.
+        if (this.src.mode() === 'DUNGEON') { if (e.res === 'gold') this.dungeonHud.pulseGold(); }
+        else this.toasts.pickup(e.res, e.amount);
+        this.playSfx(e.res === 'gold' ? 'pickup-coin' : 'pickup-item', 1, 4);
+        break;
       case 'floor': this.dungeonHud.showFloor(e.floor); break;
       case 'fade': this.flash(0.6); break;
       case 'sound': this.playSfx(e.name); break;

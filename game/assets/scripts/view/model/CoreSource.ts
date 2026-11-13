@@ -5,7 +5,7 @@ import { sys, game as ccGame, Game as CCGame } from 'cc';
 import { getLoader } from '../../AssetLoader';
 import {
   buildGameData, createGame, DATA_FILES, Game, GameData, GameEvent, HeroInfo, Check, RawTables, ResourceMap, UnitAnim,
-  MonsterUnitView, HeroUnitView, SceneView, resourceName,
+  MonsterUnitView, HeroUnitView, SceneView, resourceName, joystickToWorld,
 } from '../../core/index';
 import { Source, Cmd, CmdResult } from './Source';
 import {
@@ -13,23 +13,19 @@ import {
   TrainingV, GateV, ResultV, BuildModeV, WelcomeV, SettingsV, UnitV, NodeV, PickupV, BuildingV, TelegraphV, MapV, Res, StatRowV,
 } from './ViewModel';
 import type { RenderCfg } from '../world/WorldRenderer';
+import { useDataColors } from '../kit/Theme';
 
 // ---- art mapping (04-placeholder-art.md): presentation only ----
 const NPC: Record<string, string> = { storage: 'urban:0320', lumber_camp: 'urban:0023', tavern: 'urban:0104', ore_mine: 'urban:0266', training_yard: 'urban:0131', market: 'urban:0158', dungeon_gate: 'urban:0185' };
 const WEAPON: Record<string, string> = { bang: 'td:0104', rua_sat: 'td:0104', muc: 'td:0103', do_neo: 'td:0118', kinh_vuong: 'td:0118' };
 const MAGIC: Record<string, string> = { dang: '#FFB347', trieu: '#7FD4FF' };
-const ATTR_HEX: Record<string, string> = { STR: '#E5484D', AGI: '#46C35A', INT: '#F2C230' };
-const SKILL_KIND: Record<string, string> = { strike: 'Đánh đơn', cleave: 'Chém vùng', nova: 'Nổ quanh mình', volley: 'Loạt bắn', heal: 'Hồi máu', buff_atk: 'Tăng ATK', taunt: 'Khiêu khích' };
-const ROW_ICON: Record<string, string> = { cap: 'icon/structure_house', perHour: 'icon/hourglass', bufferCap: 'icon/cards_stack', buffer: 'icon/hourglass', oddsE: 'icon/card', oddsL: 'icon/card', maxSlots: 'icon/pawns', maxStage: 'icon/flag_triangle' };
-const QUEST_ICON: Record<string, string> = { gather: 'icon/resource_wood', kill: 'icon/sword', hero_level: 'icon/pawns', build: 'icon/structure_house', recruit: 'icon/card', auto_assign: 'icon/pawns', collect: 'icon/hourglass', upgrade: 'icon/structure_house', training: 'icon/shield', clear_floor: 'icon/flag_triangle', slots: 'icon/pawns' };
 
 const tint = (t: string | undefined) => (!t || t.toUpperCase() === '#FFFFFF' ? undefined : t);
 const fail = (c: Check): CmdResult => ({ ok: c.ok, reason: c.ok ? '' : c.text });
 
-const PARAM_NAME: Record<string, string> = { mult: 'Hệ số', radius: 'Bán kính', count: 'Số mục tiêu', durationSec: 'Thời gian (giây)', pct: 'Tăng' };
-/** "Hệ số 1.8 ▶ 2.2" lines from the core's current/next star parameters (tooltip of 03-ux-spec.md 8.2). */
-function paramText(p: { [k: string]: number }, next: { [k: string]: number } | null): string {
-  return Object.keys(p).map((k) => `${PARAM_NAME[k] ?? k} ${p[k]}${next && next[k] !== undefined ? ' ▶ ' + next[k] : ''}`).join(' · ');
+/** "Hệ số 1.8 ▶ 2.2" lines from the core's current/next star parameters and their names (tooltip of 03-ux-spec.md 8.2). */
+function paramText(p: { [k: string]: number }, next: { [k: string]: number } | null, names: { [k: string]: string }): string {
+  return Object.keys(p).map((k) => `${names[k] ?? k} ${p[k]}${next && next[k] !== undefined ? ' ▶ ' + next[k] : ''}`).join(' · ');
 }
 
 function animToAct(a: UnitAnim, alive: boolean): UnitV['act'] {
@@ -41,7 +37,9 @@ export async function loadCore(): Promise<CoreSource> {
   const loader = getLoader();
   const raw: RawTables = {};
   await Promise.all(DATA_FILES.map(async (f) => { raw[f] = await loader.json('data/' + f); }));
-  return new CoreSource(buildGameData(raw));
+  const data = buildGameData(raw);
+  useDataColors(data.tuning.hero.rarityColor, data.tuning.hero.attrColor);
+  return new CoreSource(data);
 }
 
 export class CoreSource implements Source {
@@ -51,6 +49,7 @@ export class CoreSource implements Source {
   private events: ViewEvent[] = [];
   private acc = 0;
   private clock = { nowMs: () => Date.now() };
+  private joy = { x: 0, y: 0 };
   // reused per-frame objects (no allocation per unit per frame)
   private unitPool: UnitV[] = [];
   private units: UnitV[] = [];
@@ -60,7 +59,7 @@ export class CoreSource implements Source {
   private telPool: TelegraphV[] = [];
   private worldV: WorldV;
   private mapV: MapV;
-  private slow = { t: -1, tavern: false, training: false, gate: false, squadHint: false };
+  private slow = { t: -1, squadHint: false };
   private welcomeTaken = false;
   private lastReport: Game['offlineReport'] = null;
 
@@ -192,8 +191,7 @@ export class CoreSource implements Source {
         v.uid = b.uid; v.type = b.type; v.name = b.name; v.level = b.level; v.x = b.x; v.y = b.y; v.w = b.w; v.h = b.h;
         v.job = b.job ? { kind: b.job.kind, pct: Math.max(0, Math.min(1, (now - b.job.startedAt) / Math.max(1, b.job.endsAt - b.job.startedAt))), remainSec: Math.max(0, (b.job.endsAt - now) / 1000) } : null;
         v.buffer = b.bufferCap > 0 ? { res: b.bufferResource as Res, amount: b.buffer, cap: b.bufferCap } : undefined;
-        v.badge = b.level > 0 && ((b.type === 'tavern' && this.slow.tavern) || (b.type === 'training_yard' && this.slow.training)) ? 'exclaim'
-          : b.level > 0 && b.type === 'dungeon_gate' && this.slow.gate ? 'check' : null;
+        v.badge = b.marker === 'alert' ? 'exclaim' : b.marker === 'check' ? 'check' : null; // core picks the marker
         w.buildings.push(v);
       });
       const zones = this.data.tuning.world.zones;
@@ -215,22 +213,12 @@ export class CoreSource implements Source {
     else if (targetId < 0 && this.g!.scene.kind === 'field') { const nd = this.g!.field.nodes[-targetId - 1]; if (nd) { u.tx = nd.x; u.ty = nd.y; } }
   }
 
-  /** Badges and the squad arrow need panel queries (they allocate): refreshed once per second. */
+  /** The squad arrow needs getSquadInfo() (it allocates): refreshed once per second. */
   private refreshSlow(): void {
     const g = this.g!;
     const now = g.playSec;
     if (now - this.slow.t < 1 && this.slow.t >= 0) return;
     this.slow.t = now;
-    const tav = g.findBuilding('tavern');
-    if (tav && tav.level > 0) { const ti = g.getTavernInfo(); this.slow.tavern = ti.canRecruit[0].ok || ti.bonus >= ti.bonusEvery; } else this.slow.tavern = false;
-    const yard = g.findBuilding('training_yard');
-    if (yard && yard.level > 0) { const tr = g.getTrainingInfo(); this.slow.training = tr.canUnlockNext.ok || tr.slotNodes.some((s) => s.check.ok); } else this.slow.training = false;
-    const gate = g.findBuilding('dungeon_gate');
-    if (gate && gate.level > 0) {
-      const di = g.getDungeonInfo();
-      const st = di.stages[di.defaultStage - 1];
-      this.slow.gate = !!st && st.canEnter.ok && st.squadCp >= st.recommendedCp;
-    } else this.slow.gate = false;
     this.slow.squadHint = g.getSquadInfo().canImprove;
   }
 
@@ -247,7 +235,7 @@ export class CoreSource implements Source {
       level: p.level, expPct: p.expToNext > 0 ? p.exp / p.expToNext : 1, cp: g.squadCp,
       gold: g.resources.gold ?? 0, coral: g.resources.coral ?? 0,
       res: { meat: Math.floor(g.resources.meat ?? 0), wood: Math.floor(g.resources.wood ?? 0), ore: Math.floor(g.resources.ore ?? 0), cap: g.storageCap('wood'), storageLevel: st ? st.level : 0 },
-      quest: { text: q.text, icon: QUEST_ICON[q.type] ?? 'icon/flag_triangle', cur: Math.min(q.progress, q.target), need: q.target, done: q.complete, finished: q.finished },
+      quest: { text: q.text, icon: q.icon || 'icon/flag_triangle', cur: Math.min(q.progress, q.target), need: q.target, done: q.complete, finished: q.finished },
       inVillage,
       portal: inVillage ? (g.field.returnPoint ? 'field' : null) : 'village',
       portalBlocked: inVillage ? false : !g.canReturnToVillage().ok,
@@ -285,7 +273,7 @@ export class CoreSource implements Source {
         const target = this.findUnit(e.id2);
         const heroId = this.heroIdOf(e.id);
         E.push({ t: 'attack', unitId: e.id, ranged: e.n === 1, tx: target ? target.x : e.x, ty: target ? target.y : e.y, // skill name/ring come with the 'skill' event
-          color: heroId && MAGIC[heroId] ? MAGIC[heroId] : sk && heroId ? ATTR_HEX[this.data.heroById[heroId].attribute] : undefined });
+          color: heroId && MAGIC[heroId] ? MAGIC[heroId] : sk && heroId ? this.data.tuning.hero.attrColor[this.data.heroById[heroId].attribute] : undefined });
         break;
       }
       case 'damage': E.push({ t: 'damage', x: e.x, y: e.y, amount: Math.round(e.n), onHero: e.key === 'hero', targetId: e.id }); break;
@@ -293,7 +281,7 @@ export class CoreSource implements Source {
       case 'skill': {
         const heroId = this.heroIdOf(e.id);
         const sk = this.data.skillById[e.key];
-        E.push({ t: 'skill', unitId: e.id, x: e.x, y: e.y, name: sk ? sk.name : '', radius: e.n, color: heroId ? ATTR_HEX[this.data.heroById[heroId].attribute] : '#FFFFFF' });
+        E.push({ t: 'skill', unitId: e.id, x: e.x, y: e.y, name: sk ? sk.name : '', radius: e.n, color: heroId ? this.data.tuning.hero.attrColor[this.data.heroById[heroId].attribute] : '#FFFFFF' });
         break;
       }
       case 'death': E.push({ t: 'death', unitId: e.id }); break;
@@ -337,7 +325,7 @@ export class CoreSource implements Source {
     const g = this.g;
     if (!g) return { ok: false, reason: '' };
     switch (c.t) {
-      case 'joystick': g.setJoystick(c.x, c.y); return { ok: true };
+      case 'joystick': { const w = joystickToWorld(this.data, c.x, c.y, this.joy); g.setJoystick(w.x, w.y); return { ok: true }; }
       case 'portal': return fail(g.leaderZone === 'village' ? g.goToField() : g.returnToVillage());
       case 'enterBuild': return fail(g.enterBuildMode());
       case 'exitBuild': return fail(g.exitBuildMode());
@@ -381,7 +369,7 @@ export class CoreSource implements Source {
     if (!p) return null;
     const fmt = (v: number, pct: boolean) => (pct ? `${Math.round(v * 1000) / 10}%` : String(Math.floor(v)));
     const rows: StatRowV[] = p.rows.map((r) => ({
-      icon: ROW_ICON[r.key] ?? 'icon/hourglass', label: r.label, value: fmt(r.value, r.percent),
+      icon: r.icon, label: r.label, value: fmt(r.value, r.percent),
       delta: r.delta ? '+' + fmt(r.delta, r.percent) : undefined,
       action: r.key === 'buffer' ? { label: 'Thu', enabled: p.canCollect.ok, cmd: 'collect' } : undefined,
     }));
@@ -411,8 +399,8 @@ export class CoreSource implements Source {
       bonus: t.bonus, bonusMax: t.bonusEvery, refreshSec: t.refreshInSec, refreshCost: t.manualRefreshGold, drawCost: t.costGold,
       gold: g.resources.gold ?? 0, tickets: t.tickets,
       exchange: t.exchanges.map((e) => ({ id: e.id, label: e.desc, price: e.tickets, enabled: e.check.ok, reason: e.check.text, eligible: e.eligibleHeroIds.slice() })),
-      recruitBlocked: t.canRecruit.map((c) => (c.ok ? null : c.text)),
-      recruitCost: t.multi.map((m) => m * t.costGold),
+      recruitBlocked: t.recruitOptions.map((o) => (o.check.ok ? null : o.check.text)),
+      recruitCost: t.recruitOptions.map((o) => o.costGold),
       refreshBlocked: t.canRefresh.ok ? null : t.canRefresh.text,
     };
   }
@@ -420,8 +408,13 @@ export class CoreSource implements Source {
     const r = this.g!.lastRecruit;
     if (!r || !r.draws.length) return null;
     const list = this.g!.getHeroList();
-    const cards = r.draws[0].cards.map((id) => this.heroCard(list.find((h) => h.id === id)!));
-    return { cards, draws: r.draws.map((d) => ({ cardIndex: d.pickIndex, isNew: d.isNew, frags: d.fragmentsGained })) };
+    const card = (id: string) => this.heroCard(list.find((h) => h.id === id)!);
+    // v2: every draw of one press comes from r.cards; a BONUS set (cardsAfter) applies after the press.
+    return {
+      cards: r.cards.map(card),
+      draws: r.draws.map((d) => ({ cardIndex: d.pickIndex, isNew: d.isNew, frags: d.fragmentsGained, fragsAfter: d.fragmentsAfter })),
+      cardsAfter: r.bonusRefreshed ? r.cardsAfter.map(card) : null,
+    };
   }
   heroes(): HeroCardV[] { return this.g!.getHeroList().map((h) => this.heroCard(h)); }
   hero(id: string): HeroDetailV | null {
@@ -433,7 +426,7 @@ export class CoreSource implements Source {
     return {
       card: this.heroCard(h), atk: Math.round(h.atk), hp: Math.round(h.hp), atkNext: Math.round(h.atkNext), hpNext: Math.round(h.hpNext), meat: Math.floor(g.resources.meat ?? 0),
       milestones: h.milestones.map((m) => ({ level: m.level, text: m.desc, reached: m.reached })),
-      skills: h.skills.map((s) => ({ name: s.name, stars: s.stars, maxStars: 3, unlocked: s.unlocked, unlockLevel: s.unlockLevel, desc: s.desc, kind: SKILL_KIND[s.type] ?? s.type, cooldownSec: s.cooldownSec, params: paramText(s.params, s.nextParams) })),
+      skills: h.skills.map((s) => ({ name: s.name, stars: s.stars, maxStars: 3, unlocked: s.unlocked, unlockLevel: s.unlockLevel, desc: s.desc, kind: s.typeName, cooldownSec: s.cooldownSec, params: paramText(s.params, s.nextParams, s.paramNames) })),
       cost: h.owned && !maxed ? { meat: h.levelUpMeat, frags: h.levelUpFragments, lackMeat: !c.ok && c.reason === 'missing_resources', lackFrags: !c.ok && c.reason === 'missing_fragments', blocked: c.ok ? null : c.text } : null,
       maxed,
     };

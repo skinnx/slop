@@ -108,7 +108,8 @@ export interface TavernV {
   recruitCost: number[];
   refreshBlocked: string | null;
 }
-export interface RevealV { cards: HeroCardV[]; draws: { cardIndex: number; isNew: boolean; frags: number }[]; }
+/** One press of 1x/2x/3x: every draw is from `cards`; `cardsAfter` = the BONUS set shown afterwards (null if none). */
+export interface RevealV { cards: HeroCardV[]; draws: { cardIndex: number; isNew: boolean; frags: number; fragsAfter?: number }[]; cardsAfter: HeroCardV[] | null; }
 export interface MilestoneV { level: number; text: string; reached: boolean; }
 export interface SkillV { name: string; stars: number; maxStars: number; unlocked: boolean; unlockLevel: number; desc: string; kind: string; cooldownSec: number; params?: string; }
 export interface HeroDetailV {

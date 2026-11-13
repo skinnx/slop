@@ -15,8 +15,8 @@ export function cellFromScreen(sx: number, sy: number): { x: number; y: number }
 }
 
 /**
- * Screen-space direction (joystick: x right, y up) -> cell-space vector of the same length, so that pushing the
- * stick up moves the squad straight up the screen. Inverse of the iso projection without the 2:1 squash.
+ * Screen-space direction -> cell-space vector of the same length. Used ONLY by the stand-in source; the core
+ * source uses the core's joystickToWorld().
  */
 export function screenDirToCell(sx: number, sy: number): { x: number; y: number } {
   const len = Math.hypot(sx, sy);
