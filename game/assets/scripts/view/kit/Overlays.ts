@@ -30,16 +30,34 @@ export class Toasts {
     if (error) { const e = rect(n, 600, 4, C.red); e.node.setPosition(0, -34, 0); const e2 = rect(n, 600, 4, C.red); e2.node.setPosition(0, 34, 0); }
     label(n, text, { size: 24, w: 570 });
     this.items.push({ n, t: 0 });
-    while (this.items.length > 2) this.items.shift()!.n.destroy();
+    const max = this.place() === 'over' ? 1 : 2;
+    while (this.items.length > max) this.items.shift()!.n.destroy();
     this.layoutToasts();
   }
-  private layoutToasts(): void {
-    const baseY = Layout.top - 300 - 36;
-    for (let i = 0; i < this.items.length; i++) this.items[this.items.length - 1 - i].n.setPosition(0, baseY + i * 84, 0);
+
+  /**
+   * Where toasts go (QA-04), set by GameView:
+   *  'hud'     no panel: y 300 from the top (03-ux-spec.md 14.1), the new one pushes the old up;
+   *  'dungeon' below the boss bar and the floor title (y 384 down), the new one on top, older ones below;
+   *  'over'    a panel or full-screen result is open: one toast at a time over the top bar strip (y 24..96),
+   *            which holds HUD numbers only, so no panel control is ever covered.
+   */
+  place: () => 'hud' | 'dungeon' | 'over' = () => 'hud';
+  /** Re-places the visible toasts (GameView calls it when the mode or the panel stack changes). */
+  layoutToasts(): void {
+    const p = this.place();
+    const n = this.items.length;
+    for (let i = 0; i < n; i++) {
+      const it = this.items[n - 1 - i]; // i = 0: newest
+      const y = p === 'over' ? Layout.top - 24 - 36 : p === 'dungeon' ? Layout.top - 384 - 36 - i * 84 : Layout.top - 300 - 36 + i * 84;
+      it.n.setPosition(0, y, 0);
+      it.n.active = p !== 'over' || i === 0; // over a panel: only the newest
+    }
   }
 
   /** Big centre text ("Lên cấp!", "Xây xong"): yellow Bold 44, 1.3 -> 1 scale, 1.5 s, at y 0.4 H. */
   big(text: string): void {
+    if (this.place() === 'over') { this.toast(text); return; } // never over a panel's controls
     this.bigNode?.destroy();
     const n = node(this.root, 'big');
     label(n, text, { size: 44, bold: true, color: C.gold, outline: '#000000', outlineWidth: 4 });
@@ -52,6 +70,7 @@ export class Toasts {
 
   /** Pickup banner: x 110..610 at y 0.62 H, 60 high, black 60%; same kind merges within 1 s; max 2 lines; 1.2 s. */
   pickup(res: Res, amount: number): void {
+    if (this.place() !== 'hud') return; // the strip belongs to the field HUD only (03-ux-spec.md 3, 12.1)
     const same = this.pickups.find((p) => p.res === res && p.t < 1.0);
     if (same) { same.amount += amount; same.t = 0; setText(same.l, '+' + same.amount); return; }
     const n = node(this.root, 'pick', 500, 60);

@@ -52,7 +52,8 @@ Nếu một lượt tải bị chặn, setup dừng và in gợi ý. Trong conta
 | `npm run drawcalls` | Khởi động game, chụp 1 ảnh, in số draw call |
 | `npm run sim -- [--seeds 1,2,3] [--hours 6] [--out <thư-mục>]` | Chạy mô phỏng bot (headless) qua 5 seed × 6 giờ mô phỏng mặc định, in bảng ĐẠT/TRƯỢT cho từng seed. Thoát khác 0 nếu có mốc trượt |
 | `npm run sim:difficulty -- [--out <thư-mục>]` | Chẩn đoán: thử đội hình với từng chặng dungeon, in tỉ lệ thắng theo tỉ lệ CP đội / CP đề nghị |
-| `npm run atlas` | Đóng gói ảnh từ `art-source/` thành atlas trong `game/assets/resources/textures/` |
+| `npm run atlas` | Đóng gói atlas `placeholder` (khung mẫu) từ `art-source/` |
+| `npm run atlas:view` | Đóng gói hai atlas game `world` và `ui` (xem mục 5) |
 | `npm run check` | typecheck + test + kịch bản mẫu |
 
 Mã thoát khác 0 nghĩa là thất bại. Khi kịch bản lỗi, harness vẫn chụp `FAILED.png`.
@@ -112,6 +113,14 @@ Quy trình (đã kiểm chứng trong harness; ảnh `02-drag-held.png` cho th�
 1. Thêm file vào `atlas/atlases.json` (thư mục nguồn, tiền tố tên, danh sách file).
 2. `npm run atlas` → `game/assets/resources/textures/<tên>.png` + `<tên>-frames.json`. Có padding 2 px và kéo dài mép (extrude) 1 px, để lấy mẫu NEAREST không dính ô bên cạnh. Kết quả tất định; commit cả hai file.
 3. Trong game: `const frames = await loadPixelAtlas(getLoader(), 'textures/<tên>')` (trong `game/assets/scripts/AssetLoader.ts`), rồi `sprite.spriteFrame = frames.get('dungeon/tile_0084')`.
+
+**Atlas của lớp hiển thị (`world`, `ui`).** Hai atlas game đang dùng (`game/assets/resources/textures/world.png` + `world-frames.json`, `ui.png` + `ui-frames.json`) KHÔNG do `npm run atlas` tạo, mà do:
+
+```bash
+npm run atlas:view    # = node atlas/build-view-atlases.mjs, cấu hình ở atlas/view-atlases.json
+```
+
+Script này chép ảnh từ `art-source/` (có thể đổi cỡ hoặc tô lại màu khi đóng gói), vẽ sẵn các hình "proc:" (vuông, thoi, tròn, vòng...) vào atlas, và ghi viền 9-slice vào JSON. `world` lọc NEAREST (pixel art), `ui` lọc LINEAR (UI pack, icon 64 px); bộ lọc ghi trong trường `filter` của JSON. Kết quả tất định; commit cả PNG và JSON. Chi tiết: `game/assets/scripts/view/README.md`.
 
 Vì sao làm vậy:
 

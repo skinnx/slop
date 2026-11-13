@@ -6,7 +6,7 @@ import { getLoader } from '../AssetLoader';
 import { Assets } from './kit/Assets';
 import { Layout, W } from './kit/Layout';
 import { BAND } from './kit/Theme';
-import { node, rect, setBand, opacity } from './kit/Ui';
+import { node, rect, setBand, opacity, label } from './kit/Ui';
 import { Services } from './kit/Services';
 import { Toasts, Dialogs } from './kit/Overlays';
 import { Panel } from './kit/Panel';
@@ -20,6 +20,9 @@ import { FieldHud } from './hud/FieldHud';
 import { DungeonHud } from './hud/DungeonHud';
 import { createSource } from './model/createSource';
 import { Screens } from './screens/Screens';
+
+/** Dungeon world zoom: the room fills the view like the reference captures (QA-05). */
+const DUNGEON_ZOOM = 1.4;
 
 export class GameView implements Ctx {
   src!: Source;
@@ -48,8 +51,10 @@ export class GameView implements Ctx {
   async start(): Promise<void> {
     Layout.refresh();
     await Assets.load(getLoader());
-    this.src = await createSource();
+    const made = await createSource();
     this.root = node(this.canvas, 'view', W, Layout.H);
+    if ('error' in made) { this.showLoadError(made.error); return; }
+    this.src = made;
     this.world = new WorldRenderer(this.root, this.src.render());
     this.joystick = new Joystick(this.root);
     this.joystick.onChange = (x, y) => { this.src.send({ t: 'joystick', x, y }); };
@@ -63,6 +68,11 @@ export class GameView implements Ctx {
     this.panelLayer = node(this.root, 'panels');
     this.dialogs = new Dialogs(this.root);
     this.toasts = new Toasts(this.root);
+    this.toasts.place = () => {
+      const m = this.src.mode();
+      if (this.panels.length || m === 'RESULT' || m === 'TITLE') return 'over';
+      return m === 'DUNGEON' ? 'dungeon' : 'hud';
+    };
     this.fade = node(this.root, 'fade');
     setBand(this.fade, BAND.fade);
     rect(this.fade, W, 6000, '#000000');
@@ -94,6 +104,7 @@ export class GameView implements Ctx {
     this.joystick.cancel();
     p.mount(this.panelLayer, BAND.panel0 + this.panels.length, this);
     this.panels.push(p);
+    this.toasts.layoutToasts();
   }
   close(p: Panel): void {
     const i = this.panels.indexOf(p);
@@ -102,6 +113,7 @@ export class GameView implements Ctx {
     p.root.destroy();
     p.onClosed();
     this.top()?.refresh();
+    this.toasts.layoutToasts();
   }
   closeAll(): void { while (this.panels.length) this.close(this.panels[this.panels.length - 1]); }
   top(): Panel | null { return this.panels.length ? this.panels[this.panels.length - 1] : null; }
@@ -145,11 +157,13 @@ export class GameView implements Ctx {
     this.closeAll();
     this.dialogs.close();
     if (mode === 'RESULT' || mode === 'TITLE') this.toasts.clear();
+    this.toasts.layoutToasts();
     this.joystick.cancel();
     this.fieldHud.root.active = mode === 'WORLD';
     this.dungeonHud.root.active = mode === 'DUNGEON';
     this.world.root.active = mode !== 'TITLE' && mode !== 'RESULT';
     this.joystick.setVisible(mode === 'WORLD' || mode === 'DUNGEON');
+    this.world.zoomTarget = mode === 'DUNGEON' ? DUNGEON_ZOOM : 1;
     this.screens.onMode(mode, prev);
     this.refreshMusic();
   }
@@ -163,7 +177,7 @@ export class GameView implements Ctx {
         // 03-ux-spec.md puts the pickup strip in the field HUD (section 3) only; in the dungeon (12.1) the run's
         // gold counter at the top-left is the feedback, as in the reference captures.
         if (this.src.mode() === 'DUNGEON') { if (e.res === 'gold') this.dungeonHud.pulseGold(); }
-        else this.toasts.pickup(e.res, e.amount);
+        else this.toasts.pickup(e.res, e.amount); // ignored unless the field HUD is showing (no panel)
         this.playSfx(e.res === 'gold' ? 'pickup-coin' : 'pickup-item', 1, 4);
         break;
       case 'floor': this.dungeonHud.showFloor(e.floor); break;
@@ -271,6 +285,16 @@ export class GameView implements Ctx {
         }
       },
     };
+  }
+
+  /** Plain error screen when the game data or rules cannot load (no fake game behind it). */
+  private showLoadError(msg: string): void {
+    setBand(this.root, BAND.dialog);
+    rect(this.root, W, 6000, '#14213D');
+    label(this.root, 'Không tải được dữ liệu game', { size: 36, bold: true }).node.setPosition(0, 120, 0);
+    label(this.root, 'Hãy tải lại trang hoặc cài lại game. Nếu lỗi vẫn còn, gửi dòng dưới đây cho nhóm phát triển.', { size: 24, w: 620 }).node.setPosition(0, 20, 0);
+    label(this.root, msg.slice(0, 400), { size: 20, w: 640, color: '#FF9A9A' }).node.setPosition(0, -140, 0);
+    (globalThis as any).__game = { mode: 'ERROR', error: msg };
   }
 
   destroy(): void {}

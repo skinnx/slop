@@ -31,7 +31,7 @@ export class SquadPanel extends Panel {
     rect(T, 480, 3, '#FFFFFF', 0.6).node.setPosition(0, -180, 0);
     this.ctext(T, `${s.members.length}/${s.slots}`, 0, 210, { size: FS.big, bold: true, outline: '#000000' });
     // Campfire ring: fire at (360, 440), heroes on a circle r 170 (squashed 0.55 for the iso look).
-    const ring = node(T, 'ring'); ring.setPosition(0, -440, 0);
+    const ring = node(T, 'ring'); ring.setPosition(0, -410, 0);
     ui(ring, 'proc/circle', { w: 520, h: 330, color: '#2E7D3A', alpha: 0.7 });
     ui(ring, 'icon/campfire', { w: 96, h: 96, color: '#FF9A3C' });
     s.members.forEach((id, i) => {
@@ -48,7 +48,8 @@ export class SquadPanel extends Panel {
       onTap(h, () => this.tapRing(i, s));
     });
     // Lower card: TỰ XẾP + grid.
-    const top = 640;
+    // Card list from y 600 so two full rows of cards fit at H = 1280 (QA-06); spec 640.
+    const top = 600;
     const b = this.body(top, { bottomGap: 150 });
     const bh = b.parent!.getComponent(UITransform)!.height;
     const auto = new Button(b, { w: 220, h: 88, text: 'TỰ XẾP', textSize: 30, color: C.blue, name: 'autoAssign',

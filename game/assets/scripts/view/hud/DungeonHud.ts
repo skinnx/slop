@@ -69,8 +69,10 @@ export class DungeonHud {
     this.autoBg.node.setPosition(0, 12, 0);
     this.autoBtn.icon('icon/arrow_clockwise', 60, 60, 0, 12, '#FFFFFF');
     label(this.autoBtn.visual, 'AUTO', { size: 24, bold: true, outline: '#000000' }).node.setPosition(0, -44, 0);
-    this.floorBanner = label(this.root, '', { size: 64, bold: true, color: '#FFFFFF', outline: '#000000', outlineWidth: 4 });
-    this.floorBanner.node.setPosition(0, 120, 0);
+    // "Tầng N" sits in the HUD's top area under the streak counter and the boss bar (y 360 from the top), not over
+    // the fight in the middle of the screen (QA-05); shown 1 s.
+    this.floorBanner = label(T, '', { size: 48, bold: true, color: '#FFFFFF', outline: '#000000', outlineWidth: 4 });
+    this.floorBanner.node.setPosition(0, -360, 0);
     this.floorBanner.node.active = false;
   }
 
@@ -86,7 +88,7 @@ export class DungeonHud {
   showFloor(n: number): void {
     setText(this.floorBanner, `Tầng ${n}`);
     this.floorBanner.node.active = true;
-    this.bannerT = 0.8;
+    this.bannerT = 1.0;
   }
 
   set(v: DungeonHudV, dt: number): void {

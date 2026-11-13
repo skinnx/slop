@@ -75,7 +75,8 @@ export class RevealScreen extends Panel {
         tween(card.root).by(0.15, { position: new Vec3(0, 30, 0) }).delay(0.3).by(0.15, { position: new Vec3(0, -30, 0) }).start();
         if (d.fragsAfter !== undefined && !d.isNew) card.set(this.r.cards[d.cardIndex], d.fragsAfter); // fragment bar moves
         const pop = label(card.root, d.isNew ? 'MỚI!' : `+${d.frags} mảnh`, { size: 32, bold: true, color: C.gold, outline: '#000000' });
-        pop.node.setPosition(0, 40, 0);
+        pop.node.setPosition(0, 100, 0); // in the card's top strip, where the x5 badge was (QA-06)
+        const dup = card.root.getChildByName('dup'); if (dup) dup.active = false;
         tween(pop.node).by(0.6, { position: new Vec3(0, 30, 0) }).start();
         this.pops.push(pop.node);
       }
@@ -128,9 +129,9 @@ export class HeroListPanel extends Panel {
     const owned = all.filter((h) => h.owned).length;
     this.text(b, `Hero ra trận: ${sq.members.length}/${sq.slots}`, 32, 20, { size: 24 });
     this.text(b, `Sở hữu: ${owned}/${all.length}`, 440, 20, { size: 24 });
-    const tabs: [typeof this.filter, string][] = [['ALL', 'Tất cả'], ['STR', 'Sức Mạnh'], ['AGI', 'Nhanh'], ['INT', 'Trí Tuệ']];
+    const tabs: [typeof this.filter, string][] = [['ALL', 'Tất cả'], ['STR', 'Sức Mạnh'], ['AGI', 'Nhanh Nhẹn'], ['INT', 'Trí Tuệ']];
     tabs.forEach(([k, t], i) => {
-      const btn = new Button(b, { w: 150, h: 64, text: t, textSize: 24, color: this.filter === k ? (k === 'ALL' ? C.blue : ATTR[k]) : '#24477F', name: 'filter-' + k, minHit: 64, sound: 'switch-a',
+      const btn = new Button(b, { w: 150, h: 64, text: t, textSize: 21, color: this.filter === k ? (k === 'ALL' ? C.blue : ATTR[k]) : '#24477F', name: 'filter-' + k, minHit: 64, sound: 'switch-a',
         onTap: () => { this.filter = k; this.refresh(); } });
       btn.root.setPosition(16 + 75 + i * 160, -86, 0);
     });
@@ -149,6 +150,8 @@ export class HeroListPanel extends Panel {
 
 export class HeroDetailPanel extends Panel {
   readonly id = 'heroDetail';
+  /** Darker shade: the list behind must not read through the big portrait (QA-07). */
+  protected shadeAlpha = 0.85;
   private holdT = -1;
   private holdAcc = 0;
   private tipNode: Node | null = null;
@@ -231,7 +234,9 @@ export class HeroDetailPanel extends Panel {
         resIcon(pr, 'meat', 36).node.setPosition(-60, 0, 0);
         const txt = d.cost.frags ? `${d.cost.meat} + ${d.cost.frags} mảnh` : String(d.cost.meat);
         label(pr, txt, { size: 28, bold: true, color: d.cost.lackMeat || d.cost.lackFrags ? C.lack : '#FFFFFF', align: 'left', outline: '#20304A' }).node.setPosition(-36, 0, 0);
-        label(main.visual, 'NÂNG CẤP', { size: FS.big, bold: true, outline: C.greenDark }).node.setPosition(0, -22, 0);
+        // Blocked: the button stays, grey, and says why in the core's words (e.g. "Thiếu 3 mảnh"); the price above
+        // shows what is needed, the lacking part in red.
+        label(main.visual, d.cost.blocked ?? 'NÂNG CẤP', { size: d.cost.blocked ? 26 : FS.big, bold: true, outline: d.cost.blocked ? '#3A3F4A' : C.greenDark }).node.setPosition(0, -22, 0);
         main.setEnabled(!d.cost.blocked, d.cost.blocked ?? '');
         // Hold 0.5 s = repeat 4 levels per second while affordable.
         // The panel rebuilds after each level, destroying this node: the release is then seen by the global input.

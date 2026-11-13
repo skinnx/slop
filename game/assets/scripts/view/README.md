@@ -40,7 +40,7 @@ nên chạm vào nút không bao giờ thành joystick.
   `groupAtlases`, 2 label). Vì vậy mọi sprite của một lớp vẽ trước mọi chữ của lớp đó và gom batch, bất kể cây node.
 - Lớp thế giới: ba `SpriteLayer` (nền, phủ, đơn vị) dùng cùng atlas world → 1 draw call; chữ thế giới → 1.
 - Đo trong harness (`m1-crowd.mjs`, 60 quái, 8 hero, số nổi, vật rơi, HUD dungeon): **tổng 10, lớp thế giới 1**
-  (2 nếu tính chữ nổi). Ngân sách: tổng ≤ 30, thế giới ≤ 10.
+  (2 nếu tính chữ nổi); sau các sửa của QA: tổng 7. Ngân sách: tổng ≤ 30, thế giới ≤ 10.
 
 ## 2. Thêm một màn hình
 
@@ -81,8 +81,8 @@ draw call theo lớp), `telegraphCount`.
 9. **Màn thua**: khung gợi ý cao 380 (thay 420) và dòng "Đã nhặt" ở y 1036 để không chồng "Chạm để về làng." ở H = 1280.
 10. **Cổng Xoáy**: ảnh xem trước 300 (thay 360) để nút VÀO nằm trong thân panel ở H = 1280; tiêu đề ruy-băng dịch phải
     vì bong bóng CP đè lên ruy-băng (giống tham chiếu).
-11. **Tường phòng dungeon**: tường phía sau cao hai khối có gai; tường phía trước (x = −1, y = −1) một khối, để không che
-    đội đứng sát tường.
+11. **Tường phòng dungeon**: tường phía sau cao hai khối có gai; tường phía trước (x = −1, y = −1) một khối và trong
+    suốt 60%, để đội đứng sát tường vẫn thấy được (QA-05). Ngoài phòng là nền đá tối thay vì khoảng đen.
 12. **Bóng công trình (ghost) và viền chọn** vẽ trên mọi thứ (không theo chiều sâu): bóng đặt sau một công trình cao vẫn
     phải thấy được.
 13. **Hướng joystick**: view gửi vector màn hình; `CoreSource` đổi sang vector ô bằng `joystickToWorld` của lõi
@@ -96,12 +96,38 @@ draw call theo lớp), `telegraphCount`.
 17. **Chữ hoa có dấu chồng** (Ắ, Ễ, Ỡ...) bị cắt đầu ở chế độ CHAR (ô ký tự cao 1.26 × cỡ chữ trong `font-utils.ts`
     của engine): label có ký tự như vậy tự dùng cache NONE. Viền ở CHAR làm giãn chữ: bù bằng `spacingX = −2 × độ dày viền`.
 18. **Đổi Vé**: mọi dòng mở lưới chọn hero hợp lệ (`eligibleHeroIds`) rồi hộp xác nhận, theo đặc tả 7.2.
-19. **Màn Nhận Hero** hiện bộ thẻ của lượt đầu; khi thanh BONUS đầy giữa 2x/3x, lõi đổi bộ thẻ cho các lượt sau
-    (`RecruitDraw.cards`), màn này vẫn nhấc thẻ theo `pickIndex` trên bộ đầu.
-20. **Dấu trên công trình** (chấm than ở Quán/Sân Tập, check ở Cổng Xoáy) và mũi tên xanh ở nút Đội đọc từ
-    `getTavernInfo`/`getTrainingInfo`/`getDungeonInfo`/`getSquadInfo`, mỗi giây một lần (các hàm này cấp phát).
+19. **Màn Nhận Hero** (hợp đồng v2): mọi lượt của một lần bấm rút từ `RecruitResult.cards`; thẻ trúng nhô lên, thanh
+    mảnh chạy tới `fragmentsAfter`. Nếu `bonusRefreshed`, sau lượt cuối ba thẻ đổi sang `cardsAfter` kèm chữ
+    "BONUS! Bộ thẻ mới ở Quán"; tab Tuyển sau đó hiện bộ mới.
+20. **Dấu trên công trình** lấy từ `BuildingView.marker` của lõi. Mũi tên xanh ở nút Đội đọc `getSquadInfo().canImprove`
+    mỗi giây một lần (hàm cấp phát).
 21. **Phím back Android / Esc** đóng hộp thoại hoặc panel trên cùng.
 22. **Tạm dừng dungeon vẫn vẽ**: thế giới đứng yên, chữ nổi vẫn chạy hết hiệu ứng.
+23. **Số nổi trong đám đông** (03-ux-spec.md mục 3): tối đa 32 chữ cùng lúc; chữ mới không bắt đầu đè lên chữ còn trẻ
+    (< 0.35 s): thử chỗ gốc, rồi lên một dòng và lệch trái/phải; sát thương lên quái không còn chỗ thì bỏ (lên hero luôn
+    hiện). EXP của các con chết gần nhau trong 0.25 s gộp thành một "EXP N".
+24. **Thanh thông báo nhặt chỉ có ngoài đồng** (đặc tả mục 3; HUD dungeon mục 12.1 và ảnh tham chiếu dungeon không có).
+    Trong dungeon, số vàng của lượt nảy lên khi nhặt vàng.
+25. **Màu độ hiếm và màu hệ** lấy từ `tuning.hero.rarityColor/attrColor` khi nạp dữ liệu lõi.
+26. **Cỡ hình công trình** ×8 (2×2) và ×12 (3×3) thay vì ×12 / ×18 của 04-placeholder-art.md 1.3: hình đứng trên ô
+    chân như làng tham chiếu, không đè công trình bên cạnh (QA-01). Nhãn tên ở chân footprint.
+27. **Thu phóng thế giới (chỉ view)**: ngoài đồng 1; chế độ xây 0.6 để thấy phần lớn lưới làng khi xếp đặt (nhãn tên giữ
+    tối thiểu 20 trên màn); dungeon 1.4 để phòng phủ màn như ảnh tham chiếu. Phòng 16 × 24 ô là hình thoi
+    2400 × 1200 đơn vị, ở thu phóng 1 không phủ được khung 720 × 1280 (cần ≥ 1.37). Camera dungeon bám trong phòng nhưng
+    thủ lĩnh luôn ở phần giữa màn (không xuống dưới joystick).
+28. **Màn hình thấp hơn 9:16** (ví dụ 600 × 800, 3:4): hiện trọn khung 720 × 1280 với hai dải hai bên
+    (`ResolutionPolicy.SHOW_ALL`) thay vì cắt chiều cao (QA-02, quyết định của trưởng nhóm). 9:16 và dài hơn giữ Fit Width.
+    `Layout.applyPolicy()` tự đổi theo hình dạng cửa sổ.
+29. **Chỗ của toast** (QA-04): không panel → y 300 (đặc tả 14.1); dungeon → dưới thanh máu boss và chữ tầng (y 384 trở
+    xuống); có panel hoặc màn kết quả → một toast duy nhất trên dải thanh trên (y 24..96), dải chỉ chứa số HUD nên không
+    che nút nào của panel. Toast lớn khi có panel thành toast thường. Thanh nhặt đồ chỉ hiện khi đang thấy HUD đồng.
+30. **Chữ "Tầng N"** ở vùng HUD trên (y 360, dưới bộ đếm chuỗi và thanh máu boss), cỡ 48, 1 s, thay vì giữa màn 0.8 s
+    (đặc tả 12.1 [QĐ]). Tên kỹ năng không hiện trên đầu hero trong dungeon (ảnh tham chiếu không có).
+31. **Lỗi nạp lõi** → màn báo lỗi; không còn âm thầm dùng dữ liệu mẫu. Dữ liệu mẫu chỉ qua cờ `?standin=1` (QA-10).
+32. **Nút lên cấp bị khóa** vẫn hiện (xám); chữ trên nút là câu lý do của lõi (ví dụ "Thiếu 3 mảnh"); giá ở trên tô đỏ
+    phần thiếu.
+33. **Màn xếp đội**: danh sách từ y 600 (đặc tả 640) để hai hàng thẻ trọn ở H = 1280. Tab lọc "Nhanh Nhẹn" đầy đủ. Chữ
+    "+5 mảnh"/"MỚI!" ở Nhận Hero nằm ở dải trên của thẻ, thay chỗ nhãn x5. Chi tiết hero phủ tối 85% panel phía sau.
 
 ## 5. Hợp đồng lõi
 
@@ -122,12 +148,13 @@ Còn lại trong view, có lý do:
    headless không phát ra loa: chỉ kiểm chứng được là không lỗi. Trên web, nhạc chỉ phát sau lần chạm đầu (màn tiêu đề).
 3. **Sorting2D** cần bật "2D Rendering Sorting" trong Feature Cropping (checklist owner bước 6). Nếu quên, hình vẫn đúng
    (thứ tự theo cây node) nhưng nhiều draw call hơn.
-4. **Vùng an toàn** (`sys.getSafeAreaRect`): harness không có tai thỏ nên `safeTop = 0`. Bố cục đã chạy ở H = 1280,
+4. **Màn hình thấp hơn 9:16** dùng SHOW_ALL lúc chạy (mục 4, quyết định 28); Project Settings vẫn là Fit Width.
+5. **Vùng an toàn** (`sys.getSafeAreaRect`): harness không có tai thỏ nên `safeTop = 0`. Bố cục đã chạy ở H = 1280,
    1599 (412 × 915) và 1600 (360 × 800); vùng an toàn thật chưa kiểm chứng.
-5. **localStorage**: harness mỗi lần chạy là một trình duyệt mới (save rỗng). Kịch bản cài save mẫu bằng
+6. **localStorage**: harness mỗi lần chạy là một trình duyệt mới (save rỗng). Kịch bản cài save mẫu bằng
    `lib/saves.mjs` trước khi chạm màn tiêu đề.
-6. **FPS** trong harness thấp (SwiftShader): hiệu ứng trượt panel 0.2 s có thể kéo dài; kịch bản chờ `__game.settled`.
-7. **Dynamic atlas**: mọi SpriteFrame của view có `packable = false`; trên Android dynamic atlas tắt nên kết quả draw call giống nhau.
+7. **FPS** trong harness thấp (SwiftShader): hiệu ứng trượt panel 0.2 s có thể kéo dài; kịch bản chờ `__game.settled`.
+8. **Dynamic atlas**: mọi SpriteFrame của view có `packable = false`; trên Android dynamic atlas tắt nên kết quả draw call giống nhau.
 
 ## 7. Kịch bản và bằng chứng
 
@@ -140,6 +167,8 @@ Còn lại trong view, có lý do:
 | `m1-dungeon.mjs` | Cổng Xoáy, HUD dungeon, AUTO, tạm dừng, tầng boss + báo đòn, thắng, Rời hang → màn thua | `docs/evidence/m1/dungeon/` |
 | `m1-crowd.mjs` | 60 quái + 8 hero + số nổi + HUD: đo draw call | `docs/evidence/m1/crowd/` |
 | `m1-quest.mjs` | nhận thưởng thẻ nhiệm vụ, màn tiêu đề | `docs/evidence/m1/quest/` |
+| `m1-extra.mjs` | BONUS đầy: Nhận Hero hiện bộ đã rút rồi bộ BONUS; nút lên cấp bị khóa ở cấp đột phá | `docs/evidence/m1/extra/` |
+| `m1-extra.mjs` | BONUS đầy: Nhận Hero hiện bộ đã rút rồi bộ BONUS; nút lên cấp bị khóa ở cấp đột phá | `docs/evidence/m1/extra/` |
 | `dev-standin-tour.mjs` | mọi màn trên dữ liệu mẫu (không cần lõi) | (không lưu) |
 
 Màn hình cao: `docs/evidence/m1/tall-412x915/`, `docs/evidence/m1/tall-360x800/`, `docs/evidence/m1/crowd/tall-412x915/`.

@@ -58,8 +58,9 @@ export class Screens {
     if (this.guideT > 0 && this.guideTarget && mode === 'WORLD') {
       this.guideT -= _dt;
       const w = this.gv.src.world();
-      const lx = isoX(w.focusX, w.focusY) - this.gv.world.camX, ly = isoY(w.focusX, w.focusY) - this.gv.world.camY + 40;
-      const tx = isoX(this.guideTarget.x, this.guideTarget.y) - this.gv.world.camX, ty = isoY(this.guideTarget.x, this.guideTarget.y) - this.gv.world.camY;
+      const z = this.gv.world.zoom;
+      const lx = (isoX(w.focusX, w.focusY) - this.gv.world.camX) * z, ly = (isoY(w.focusX, w.focusY) - this.gv.world.camY) * z + 40;
+      const tx = (isoX(this.guideTarget.x, this.guideTarget.y) - this.gv.world.camX) * z, ty = (isoY(this.guideTarget.x, this.guideTarget.y) - this.gv.world.camY) * z;
       const a = Math.atan2(ty - ly, tx - lx);
       this.guideNode.active = this.guideT > 0;
       this.guideNode.setPosition(lx + Math.cos(a) * 90, ly + Math.sin(a) * 90, 0);

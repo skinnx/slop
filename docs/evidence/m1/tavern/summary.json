@@ -4,10 +4,10 @@
   "failure": null,
   "viewport": "540x960",
   "scripts": 49,
-  "seconds": 24.3,
+  "seconds": 28.6,
   "lastFrame": {
-    "drawCalls": 6,
-    "tris": 1564,
+    "drawCalls": 7,
+    "tris": 1596,
     "instances": 0,
     "frames": 508
   },
@@ -30,16 +30,16 @@
   ],
   "consoleErrors": [],
   "console": [
-    "[timeEnd] Init Base: 0.969970703125 ms",
-    "[timeEnd] Init Infrastructure: 24.43505859375 ms",
-    "[timeEnd] Init SubSystem: 1.615966796875 ms",
+    "[timeEnd] Init Base: 1.6669921875 ms",
+    "[timeEnd] Init Infrastructure: 28.7529296875 ms",
+    "[timeEnd] Init SubSystem: 1.909912109375 ms",
     "[log] Cocos Creator v3.8.8",
     "[log] Using legacy pipeline",
-    "[timeEnd] Init Project: 4.64013671875 ms",
-    "[timeEnd] InitScene: 0.2119140625 ms",
-    "[timeEnd] AttachPersist: 0.003173828125 ms",
-    "[timeEnd] AutoRelease: 0.116943359375 ms",
-    "[timeEnd] Destroy: 0.180908203125 ms",
-    "[timeEnd] Activate: 20.619873046875 ms"
+    "[timeEnd] Init Project: 4.799072265625 ms",
+    "[timeEnd] InitScene: 0.213134765625 ms",
+    "[timeEnd] AttachPersist: 0.001953125 ms",
+    "[timeEnd] AutoRelease: 0.115966796875 ms",
+    "[timeEnd] Destroy: 0.202880859375 ms",
+    "[timeEnd] Activate: 23.56005859375 ms"
   ]
 }

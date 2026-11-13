@@ -9,9 +9,12 @@ import { Button, onTap } from '../kit/Button';
 import { ScrollList } from '../kit/ScrollList';
 import { priceRow } from '../kit/Widgets';
 import { Services } from '../kit/Services';
-import { buildingArt } from '../world/WorldRenderer';
+import { buildingArt, buildingScale } from '../world/WorldRenderer';
 import type { GameView } from '../GameView';
 import { BuildModeV } from '../model/ViewModel';
+
+/** Build mode zooms out so a good part of the 20 x 20 village grid is visible while planning (QA-01). */
+const BUILD_ZOOM = 0.6;
 
 interface Ghost { type: string; x: number; y: number; w: number; h: number; uid: number | null; ox: number; oy: number; }
 
@@ -44,6 +47,7 @@ export class BuildMode {
     this.gv.fieldHud.setBuildMode(true);
     this.gv.world.showGrid = true;
     this.gv.world.manualCamera = true;
+    this.gv.world.zoomTarget = BUILD_ZOOM;
     this.gv.joystick.cancel();
     this.gv.joystick.dragHandler = { start: (x, y) => this.dragStart(x, y), move: (x, y) => this.dragMove(x, y), end: (x, y) => this.dragEnd(x, y) };
     this.build();
@@ -55,6 +59,7 @@ export class BuildMode {
     this.gv.fieldHud.setBuildMode(false);
     this.gv.world.showGrid = false;
     this.gv.world.manualCamera = false;
+    this.gv.world.zoomTarget = 1;
     this.gv.world.ghost = null;
     this.gv.world.selectedUid = null;
     this.gv.joystick.dragHandler = null;
@@ -175,7 +180,7 @@ export class BuildMode {
     }
     if (d.kind === 'camera') {
       const w = this.gv.world;
-      w.camX = d.camX - (x - d.sx); w.camY = d.camY - (y - d.sy);
+      w.camX = d.camX - (x - d.sx) / w.zoom; w.camY = d.camY - (y - d.sy) / w.zoom;
       this.clampCamera();
     } else if (d.kind === 'ghost' && this.ghost) {
       const c = this.gv.world.cellAtUi(x, y);
@@ -222,7 +227,9 @@ export class BuildMode {
     const top = w.uiOfCell(g.x + g.w, g.y + g.h);  // far (top) corner of the footprint
     const bot = w.uiOfCell(g.x, g.y);                // near (bottom) corner
     const cx = w.uiOfCell(g.x + g.w / 2, g.y + g.h / 2).x - W / 2;
-    let y = top.y + 24 + 48 + g.h * 60;
+    // Above the picture standing on the footprint (art height 16 x buildingScale), else below the footprint.
+    let y = w.uiOfCell(g.x + g.w / 2, g.y + g.h / 2).y + (16 * buildingScale(g.w) - 10) * w.zoom + 24 + 48;
+    void top;
     if (y > Layout.H - 196 - Layout.safeTop - 60) y = bot.y - 24 - 48;
     this.ok.root.setPosition(cx + 60, y - Layout.H / 2, 0);
     this.no.root.setPosition(cx - 60, y - Layout.H / 2, 0);

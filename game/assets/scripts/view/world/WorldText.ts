@@ -14,6 +14,7 @@ export class WorldText {
   private readonly tmp = new Color();
   /** At most this many floating texts at once (oldest recycled): a crowd stays readable, one batch either way. */
   static readonly MAX_FLOATERS = 32;
+  private zoom = 1;
   /** Number of floaters dropped because there was no free spot (debug/measurement). */
   dropped = 0;
 
@@ -30,7 +31,8 @@ export class WorldText {
     const fs = o.size ?? 26;
     let placed = false;
     for (let k = 0; k < 5 && !placed; k++) {
-      const cx = x + (k === 0 ? 0 : (k % 2 ? 26 : -26)), cy = y + Math.ceil(k / 2) * (fs + 2);
+      const z = this.zoom;
+      const cx = x + (k === 0 ? 0 : (k % 2 ? 26 : -26)) / z, cy = y + (Math.ceil(k / 2) * (fs + 2)) / z;
       if (!this.crowded(cx, cy, fs)) { x = cx; y = cy; placed = true; }
     }
     if (!placed && o.droppable) { this.dropped++; return; }
@@ -58,7 +60,7 @@ export class WorldText {
     for (const f of this.floaters) {
       if (f.t > 0.35) continue;
       const p = f.l.node.position;
-      if (Math.abs(p.x - x) < 44 && Math.abs(p.y - y) < fs * 0.85) return true;
+      if (Math.abs(p.x - x) < 44 / this.zoom && Math.abs(p.y - y) < (fs * 0.85) / this.zoom) return true;
     }
     return false;
   }
@@ -72,10 +74,23 @@ export class WorldText {
     }
     e.used = true;
     if (!e.l.node.active) e.l.node.active = true;
+    const ks = this.keyedScale();
+    if (e.l.node.scale.x !== ks) e.l.node.setScale(ks, ks, 1);
     setText(e.l, text);
     if (o.color) { const c = hex(o.color); if (!e.l.color.equals(c)) e.l.color = c; }
     e.l.node.setPosition(x, y, 0);
     return e.l;
+  }
+
+  /** Building names and signs: 24 on screen at zoom >= 1, 20 (the minimum size) when zoomed out to plan. */
+  private keyedScale(): number { return (this.zoom < 1 ? 20 / 24 : 1) / this.zoom; }
+
+  /** Text keeps its on-screen size when the world zooms (labels are scaled by 1 / zoom). */
+  setZoom(z: number): void {
+    if (z === this.zoom) return;
+    this.zoom = z;
+    const k = this.keyedScale();
+    for (const e of this.keyed.values()) e.l.node.setScale(k, k, 1);
   }
 
   update(dt: number): void {
@@ -89,8 +104,8 @@ export class WorldText {
         this.floaters.splice(i, 1);
         continue;
       }
-      f.l.node.setPosition(f.x, f.y + f.rise * Math.min(1, k * 1.5), 0);
-      const s = f.scale0 + (1 - f.scale0) * Math.min(1, k * 4);
+      f.l.node.setPosition(f.x, f.y + (f.rise / this.zoom) * Math.min(1, k * 1.5), 0);
+      const s = (f.scale0 + (1 - f.scale0) * Math.min(1, k * 4)) / this.zoom;
       f.l.node.setScale(s, s, 1);
       f.l.node.getComponent(UIOpacity)!.opacity = Math.round(255 * (k < 0.6 ? 1 : 1 - (k - 0.6) / 0.4));
     }

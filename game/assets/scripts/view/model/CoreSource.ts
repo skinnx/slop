@@ -508,7 +508,9 @@ export class CoreSource implements Source {
     const n = Math.round(sec / g.stepSec);
     for (let i = 0; i < n; i++) {
       g.step();
-      if (g.eventCount > 500) { for (let k = 0; k < g.eventCount; k++) this.mapEvent(g.events[k]); g.clearEvents(); this.events.length = Math.min(this.events.length, 200); }
+      for (let k = 0; k < g.eventCount; k++) this.mapEvent(g.events[k]);
+      g.clearEvents();
+      if (this.events.length > 300) this.events = this.events.slice(-300);
     }
   }
 

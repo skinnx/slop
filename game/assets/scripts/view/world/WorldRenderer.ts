@@ -23,6 +23,12 @@ const BUILDING_ART: Record<string, string> = {
   training_yard: 'tb/0067', market: 'tb/0080', dungeon_gate: 'tb/0025',
 };
 export function buildingArt(type: string): string { return BUILDING_ART[type] ?? 'tb/0081'; }
+/**
+ * Pixel scale of a building picture: x8 for 2x2, x12 for 3x3 (128 / 192 units), so the art stands on its footprint
+ * (diamond 240 / 360 wide) like the reference village, instead of x12 / x18 of 04-placeholder-art.md 1.3 which
+ * covered the neighbours (QA-01).
+ */
+export function buildingScale(footW: number): number { return footW >= 3 ? 12 : 8; }
 const RES_ICON_WORLD: Record<string, string> = { wood: 'icon/resource_wood', ore: 'pp/0067', gold: 'pp/0151', meat: 'food/0008' };
 
 /** Small deterministic hash for decoration placement (presentation only). */
@@ -42,6 +48,13 @@ export class WorldRenderer {
   readonly units: SpriteLayer;
   readonly text: WorldText;
   camX = 0; camY = 0;
+  /**
+   * World zoom (view only). Field 1; dungeon 1.4 so the room fills the screen as in the reference captures
+   * (a 16 x 24 room is 2400 x 1200 units in iso, a diamond that cannot cover a 720 x 1280 view at zoom 1);
+   * build mode 0.6 so a good part of the village grid is visible while planning.
+   */
+  zoom = 1;
+  zoomTarget = 1;
   /** When set, the camera stays where build mode put it instead of following the leader. */
   manualCamera = false;
   private time = 0;
@@ -69,12 +82,12 @@ export class WorldRenderer {
 
   /** Cell under a screen point given in UI coordinates (origin bottom-left). */
   cellAtUi(uiX: number, uiY: number): { x: number; y: number } {
-    const sx = uiX - W / 2 + this.camX, sy = uiY - Layout.H / 2 + this.camY;
+    const sx = (uiX - W / 2) / this.zoom + this.camX, sy = (uiY - Layout.H / 2) / this.zoom + this.camY;
     return cellFromScreen(sx, sy);
   }
   /** UI coordinate (origin bottom-left) of a cell. */
   uiOfCell(x: number, y: number): { x: number; y: number } {
-    return { x: isoX(x, y) - this.camX + W / 2, y: isoY(x, y) - this.camY + Layout.H / 2 };
+    return { x: (isoX(x, y) - this.camX) * this.zoom + W / 2, y: (isoY(x, y) - this.camY) * this.zoom + Layout.H / 2 };
   }
 
   snapCamera(w: WorldV): void { this.camX = isoX(w.focusX, w.focusY); this.camY = isoY(w.focusX, w.focusY); }
@@ -129,7 +142,8 @@ export class WorldRenderer {
         const sx = isoX(e.x, e.y), sy = isoY(e.x, e.y);
         this.fx.push({ kind: 'ring', x: sx, y: sy, t: 0, dur: 0.3, color: rgba(e.color, 0.9), size: 1, angle: 0 });
         if (e.radius > 0) this.fx.push({ kind: 'area', x: sx, y: sy, t: 0, dur: 0.2, color: rgba(e.color, 0.3), size: e.radius, angle: 0 });
-        if (e.name) this.text.float(e.name, sx, sy + 90, { color: '#FFFFFF', size: 22, dur: 0.8, rise: 20 });
+        // Skill names over heroes only outside the dungeon: the reference fight shows no labels over heroes (QA-05).
+        if (e.name && this.lastArea !== 'dungeon') this.text.float(e.name, sx, sy + 90, { color: '#FFFFFF', size: 22, dur: 0.8, rise: 20 });
         break;
       }
       case 'teleport':
@@ -155,16 +169,22 @@ export class WorldRenderer {
     if (this.expAcc && this.time - this.expAcc.t0 > 0.25) this.flushExp();
     this.lastWorld = w;
     if (this.lastArea !== w.area) { this.lastArea = w.area; this.groundKey = ''; this.snapCamera(w); this.motion.clear(); }
+    if (Math.abs(this.zoom - this.zoomTarget) > 1e-3) this.zoom += (this.zoomTarget - this.zoom) * Math.min(1, dt * 10);
+    else this.zoom = this.zoomTarget;
     if (!this.manualCamera) {
       const k = 1 - Math.pow(1 - this.cfg.cameraFollowLerp, dt * 60);
       this.camX += (isoX(w.focusX, w.focusY) - this.camX) * k;
       this.camY += (isoY(w.focusX, w.focusY) - this.camY) * k;
+      if (w.area === 'dungeon' && w.room) this.clampToRoom(w.room.w, w.room.h, isoX(w.focusX, w.focusY), isoY(w.focusX, w.focusY));
     }
-    this.root.setPosition(Math.round(-this.camX), Math.round(-this.camY), 0);
-    const H = Layout.H;
+    const z = this.zoom;
+    this.root.setScale(z, z, 1);
+    this.root.setPosition(Math.round(-this.camX * z), Math.round(-this.camY * z), 0);
+    this.text.setZoom(z);
+    const hw = W / 2 / z, hh = Layout.H / 2 / z;
     for (const L of [this.ground, this.overlay, this.units]) {
-      L.cullL = this.camX - W / 2 - 60; L.cullR = this.camX + W / 2 + 60;
-      L.cullB = this.camY - H / 2 - 200; L.cullT = this.camY + H / 2 + 60;
+      L.cullL = this.camX - hw - 60; L.cullR = this.camX + hw + 60;
+      L.cullB = this.camY - hh - 200; L.cullT = this.camY + hh + 60;
     }
     this.drawGround(w);
     this.overlay.begin();
@@ -184,12 +204,24 @@ export class WorldRenderer {
     this.text.sweep();
   }
 
+  /** Keeps the dungeon view inside the room as far as the room allows (the squad stays on screen anyway). */
+  private clampToRoom(rw: number, rh: number, fx: number, fy: number): void {
+    const hw = W / 2 / this.zoom, hh = Layout.H / 2 / this.zoom;
+    const minX = -rh * CELL_W / 2, maxX = rw * CELL_W / 2, minY = 0, maxY = (rw + rh) * CELL_H / 2 + 120; // + back-wall height
+    const cl = (v: number, a: number, b: number) => (a > b ? (a + b) / 2 : Math.max(a, Math.min(b, v)));
+    this.camX = cl(this.camX, minX + hw, maxX - hw);
+    this.camY = cl(this.camY, minY + hh * 0.55, maxY - hh * 0.55);
+    // ...but the leader always stays in the middle part of the view (never under the joystick or the HUD).
+    this.camX = Math.max(fx - hw * 0.6, Math.min(fx + hw * 0.6, this.camX));
+    this.camY = Math.max(fy - hh * 0.3, Math.min(fy + hh * 0.15, this.camY));
+  }
+
   // ---------------- ground ----------------
   private drawGround(w: WorldV): void {
-    const H = Layout.H;
+    const H = Layout.H / this.zoom, VW = W / this.zoom;
     // Visible cell range (bounding box of the four screen corners), +2 cells margin.
-    const cs = [cellFromScreen(this.camX - W / 2, this.camY - H / 2), cellFromScreen(this.camX + W / 2, this.camY - H / 2),
-      cellFromScreen(this.camX - W / 2, this.camY + H / 2), cellFromScreen(this.camX + W / 2, this.camY + H / 2)];
+    const cs = [cellFromScreen(this.camX - VW / 2, this.camY - H / 2), cellFromScreen(this.camX + VW / 2, this.camY - H / 2),
+      cellFromScreen(this.camX - VW / 2, this.camY + H / 2), cellFromScreen(this.camX + VW / 2, this.camY + H / 2)];
     const x0 = Math.floor(Math.min(...cs.map((c) => c.x))) - 3, x1 = Math.ceil(Math.max(...cs.map((c) => c.x))) + 3;
     const y0 = Math.floor(Math.min(...cs.map((c) => c.y))) - 3, y1 = Math.ceil(Math.max(...cs.map((c) => c.y))) + 3;
     const key = `${w.area}:${x0 >> 1}:${y0 >> 1}:${x1 >> 1}:${y1 >> 1}`;
@@ -198,14 +230,16 @@ export class WorldRenderer {
     const g = this.ground;
     g.begin();
     const saved = [g.cullL, g.cullR, g.cullB, g.cullT];
-    g.cullL = this.camX - W / 2 - 400; g.cullR = this.camX + W / 2 + 400; g.cullB = this.camY - H / 2 - 300; g.cullT = this.camY + H / 2 + 300;
+    g.cullL = this.camX - VW / 2 - 400; g.cullR = this.camX + VW / 2 + 400; g.cullB = this.camY - H / 2 - 300; g.cullT = this.camY + H / 2 + 300;
     const dia2 = Assets.w('proc/diamond2'), dia = Assets.w('proc/diamond');
     if (w.area === 'dungeon') {
       const room = w.room!;
       const [c0, c1] = this.cfg.groundColorsDungeon;
-      for (let by = Math.max(0, y0 >> 1); by <= Math.min((room.h >> 1) - 1, y1 >> 1); by++) {
-        for (let bx = Math.max(0, x0 >> 1); bx <= Math.min((room.w >> 1) - 1, x1 >> 1); bx++) {
-          g.push(dia2, isoX(bx * 2 + 1, by * 2 + 1), isoY(bx * 2 + 1, by * 2 + 1), 0, 1, 1, rgba((bx + by) % 2 ? c1 : c0));
+      const rock = rgba('#1E2033');
+      for (let by = (y0 >> 1) - 1; by <= (y1 >> 1) + 1; by++) {
+        for (let bx = (x0 >> 1) - 1; bx <= (x1 >> 1) + 1; bx++) {
+          const inside = bx >= 0 && by >= 0 && bx < room.w >> 1 && by < room.h >> 1;
+          g.push(dia2, isoX(bx * 2 + 1, by * 2 + 1), isoY(bx * 2 + 1, by * 2 + 1), 0, 1, 1, inside ? rgba((bx + by) % 2 ? c1 : c0) : rock);
         }
       }
       // Traps: decoration only (M1), 3 per room at deterministic cells.
@@ -270,7 +304,8 @@ export class WorldRenderer {
       const sx = isoX(x + 0.5, y + 0.5), sy = isoY(x + 0.5, y + 0.5) - 30;
       const d = depth(x + 0.5, y + 0.5);
       const isBanner = !front && i % 4 === 2;
-      this.units.push(isBanner ? banner : wall, sx, sy, d, 6, 6, WHITE, 0, 0);
+      // Front walls are one block and see-through (60%) so units next to them stay visible.
+      this.units.push(isBanner ? banner : wall, sx, sy, d, 6, 6, front ? 0xffffff99 : WHITE, 0, 0);
       if (front) return;
       this.units.push(wall, sx, sy + 48, d + 0.001, 6, 6, WHITE, 0, 0);
       for (let k = -1; k <= 1; k++) this.units.push(spike, sx + k * 24, sy + 144, d + 0.002, 6 / 8, 18 / 8, spikeCol, 0, 0);
@@ -306,7 +341,7 @@ export class WorldRenderer {
       const cx = g.x + g.w / 2, cy = g.y + g.h / 2;
       // Drawn in the unit layer on top of everything: a ghost behind a tall building must stay visible.
       this.units.push(dia, isoX(cx, cy), isoY(cx, cy), 1e6, g.w, g.h, rgba(g.valid ? '#4CD137' : '#E5484D', 0.45));
-      const sc = g.w >= 3 ? 18 : 12;
+      const sc = buildingScale(g.w);
       this.units.push(Assets.w(buildingArt(g.type)), isoX(cx, cy), isoY(cx, cy) - 10, 1e6 + 1, sc, sc, 0xffffffb3, 0, 0);
     }
   }
@@ -322,7 +357,7 @@ export class WorldRenderer {
       const a = 0.5 + 0.5 * Math.abs(Math.sin(this.time * 4));
       this.units.push(Assets.w('proc/ring'), sx, sy, 1e6, b.w * 1.9, b.h * 0.95, rgba('#FFD34D', a));
     }
-    const sc = b.w >= 3 ? 18 : 12;
+    const sc = buildingScale(b.w);
     const topY = sy - 10 + 16 * sc;
     if (scaffold) {
       const crate = Assets.w('td/0063');

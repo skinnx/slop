@@ -4,18 +4,18 @@
   "failure": null,
   "viewport": "540x960",
   "scripts": 49,
-  "seconds": 33.3,
+  "seconds": 30.2,
   "lastFrame": {
-    "drawCalls": 6,
-    "tris": 1544,
+    "drawCalls": 12,
+    "tris": 1616,
     "instances": 0,
-    "frames": 786
+    "frames": 789
   },
   "notes": [
     "welcome lines: [\"Chào mừng trở lại!\",\"Bạn đã đi 3 giờ 12 phút (tính tối đa 8 giờ)\",\"Trại Gỗ: 556 gỗ chờ thu\",\"Mỏ Quặng: 174 quặng chờ thu\",\"THU HẾT\"]",
     "wood 2000 -> 1931 after upgrade",
     "ghost on storage: valid=false reason=\"Chồng lên Nhà Kho\"",
-    "village drawCalls=6"
+    "village drawCalls=12"
   ],
   "screenshots": [
     "docs/evidence/m1/village/01-welcome-back.png",
@@ -35,16 +35,16 @@
   ],
   "consoleErrors": [],
   "console": [
-    "[timeEnd] Init Base: 2.068115234375 ms",
-    "[timeEnd] Init Infrastructure: 28.762939453125 ms",
-    "[timeEnd] Init SubSystem: 1.9228515625 ms",
+    "[timeEnd] Init Base: 1.011962890625 ms",
+    "[timeEnd] Init Infrastructure: 32.9970703125 ms",
+    "[timeEnd] Init SubSystem: 1.6689453125 ms",
     "[log] Cocos Creator v3.8.8",
     "[log] Using legacy pipeline",
-    "[timeEnd] Init Project: 5.366943359375 ms",
-    "[timeEnd] InitScene: 0.2109375 ms",
-    "[timeEnd] AttachPersist: 0.02294921875 ms",
-    "[timeEnd] AutoRelease: 0.10107421875 ms",
-    "[timeEnd] Destroy: 0.159912109375 ms",
+    "[timeEnd] Init Project: 4.284912109375 ms",
+    "[timeEnd] InitScene: 0.282958984375 ms",
+    "[timeEnd] AttachPersist: 0.0029296875 ms",
+    "[timeEnd] AutoRelease: 0.108154296875 ms",
+    "[timeEnd] Destroy: 0.156982421875 ms",
     "[timeEnd] Activate: 22.81591796875 ms"
   ]
 }
