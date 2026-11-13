@@ -138,6 +138,12 @@ Panel (Quán, Hero, Xếp đội...) là lớp phủ trên `WORLD`; mô phỏng 
 - Vị trí từng cây, đá, ổ quái, biển gỗ nằm trong `field-layout.json`. Không sinh ngẫu nhiên lúc chạy. Bốn con đường đất trang trí đi từ làng ra bốn hướng (`paths`).
 - Đội bắt đầu ở `startPos` (30, 30), giữa làng.
 
+### 4.3 Về làng và ra đồng [TC: nút Return/Portal]
+
+- Ngoài làng, nút **Về làng** (dưới phải) đưa cả đội tới giữa làng (30, 30) sau 1 s gồng (vòng xoáy xanh quanh đội). Không bấm được khi có quái đang đuổi đội (nút xám, chạm hiện toast "Có quái ở gần!") [TC: TA, không dịch chuyển khi có quái gần]. Kéo joystick trong lúc gồng = hủy.
+- Lúc bấm, lõi nhớ vị trí thủ lĩnh làm **điểm ra đồng**. Trong làng, nút đổi thành **Ra đồng**: đưa đội về điểm đó (cũng gồng 1 s). Chưa có điểm (mới chơi) thì nút ẩn.
+- Đi bộ giữa làng và đồng luôn được; nút chỉ để tiết kiệm thời gian.
+
 ### 4.2 Trình bày (chỉ view)
 
 - Nhìn từ trên xuống theo hình thoi (iso 2:1) như game gốc [TC]. Lõi dùng tọa độ ô vuông; view đổi sang màn hình:
@@ -583,7 +589,7 @@ Màn xếp đội hiện "CP cũ ▶ CP mới" (đỏ nếu giảm, xanh nếu t
   "tavern": {"cards": ["lan", "se", "dang"], "nextRefreshAt": 0, "bonus": 0, "totalDraws": 0},
   "dungeon": {"bestStageCleared": 0, "repeatClears": {"1": 0}},
   "quest": {"index": 0, "baseValue": 0},
-  "world": {"leaderPos": [30, 30]},
+  "world": {"leaderPos": [30, 30], "returnPoint": null},
   "settings": {"music": true, "sfx": true},
   "stats": {"playSec": 0, "kills": 0},
   "inventory": {}
