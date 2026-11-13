@@ -12,7 +12,8 @@
     "test": "vitest run",
     "harness": "node harness/run.mjs",
     "atlas": "node scripts/pack-atlas.mjs",
-    "check": "npm run typecheck && npm test && node harness/run.mjs harness/scenarios/example.mjs"
+    "check": "npm run typecheck && npm test && node harness/run.mjs harness/scenarios/example.mjs",
+    "drawcalls": "node harness/run.mjs harness/scenarios/stats.mjs"
   },
   "devDependencies": {
     "@types/node": "22.20.5",
