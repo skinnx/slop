@@ -1,6 +1,6 @@
 // Runs one harness scenario against the real game code on the real Cocos 3.8.8 engine (Chromium + WebGL/SwiftShader).
 // Usage (from tools/):
-//   npm run harness -- harness/scenarios/example.mjs [--out <dir>] [--viewport 540x960] [--headed-log]
+//   npm run harness -- harness/scenarios/example.mjs [--out <dir>] [--viewport 540x960] [--query standin=1] [--verbose]
 // Output: screenshots in --out (default tools/.out/<scenario-name>/), summary.json there, summary on stdout.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -11,11 +11,12 @@ import { bundleHarness } from './lib/bundle.mjs';
 import { createApi } from './lib/api.mjs';
 
 function parseArgs(argv) {
-  const a = { scenario: null, out: null, viewport: '540x960', verbose: false };
+  const a = { scenario: null, out: null, viewport: '540x960', verbose: false, query: null };
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--out') a.out = argv[++i];
     else if (argv[i] === '--viewport') a.viewport = argv[++i];
     else if (argv[i] === '--verbose') a.verbose = true;
+    else if (argv[i] === '--query') a.query = argv[++i];
     else if (!a.scenario) a.scenario = argv[i];
   }
   return a;
@@ -63,11 +64,13 @@ let ok = false;
 let failure = null;
 const { h, notes, shots } = createApi(page, await ctx.newCDPSession(page), outDir);
 try {
-  await page.goto(`${server.url}/index.html`);
+  // A scenario may export `options = { query: 'standin=1' }` (page URL query, read by the game before boot).
+  const mod = await import(pathToFileURL(scenarioPath).href);
+  const query = args.query ?? mod.options?.query ?? '';
+  await page.goto(`${server.url}/index.html${query ? '?' + query : ''}`);
   await page.waitForFunction(() => window.__harness && (window.__harness.ready || window.__harness.error), null, { timeout: 30000 });
   const bootErr = await page.evaluate(() => window.__harness.error);
   if (bootErr) throw new Error('Harness boot failed:\n' + bootErr);
-  const mod = await import(pathToFileURL(scenarioPath).href);
   await mod.default(h);
   ok = true;
 } catch (e) {

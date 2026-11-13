@@ -7,6 +7,20 @@ import { hex, FS } from './Theme';
 import { W } from './Layout';
 
 const bands = new WeakMap<Node, number>();
+const charRoots = new WeakSet<Node>();
+const charLabels = new WeakSet<Label>();
+
+/**
+ * Labels created below this node use CHAR cache mode (shared glyph atlas, all labels of a band in one batch).
+ * Only for HUD and world text: the shared atlas is 1024 x 1024 for the whole game and every glyph is stored once
+ * per size + colour + outline, so many text styles fill it and later glyphs go missing (engine warning 12100).
+ * Panels keep the default NONE mode (one texture per label: more draw calls, never missing glyphs).
+ */
+export function useCharCache(n: Node): void { charRoots.add(n); }
+function wantsChar(n: Node | null): boolean {
+  for (let p = n; p; p = p.parent) if (charRoots.has(p)) return true;
+  return false;
+}
 
 /** Gives a subtree its draw-order band (see Theme.BAND). */
 export function setBand(n: Node, band: number): void {
@@ -151,6 +165,8 @@ export function label(parent: Node, text: string, o: LabelOpts = {}): Label {
     l.outlineWidth = o.outlineWidth ?? 3;
   }
   l.color = hex(o.color ?? '#FFFFFF');
+  if (wantsChar(n)) charLabels.add(l);
+  l.cacheMode = Label.CacheMode.NONE;
   setText(l, text);
   sortRenderer(n, true);
   return l;
@@ -174,8 +190,8 @@ function hasTallCapital(s: string): boolean {
 /** Sets text only when it changed (labels re-layout on every assignment) and picks the cache mode (see above). */
 export function setText(l: Label, s: string | number): void {
   const v = String(s);
-  if (l.string === v) return;
-  const mode = hasTallCapital(v) ? Label.CacheMode.NONE : Label.CacheMode.CHAR;
+  if (l.string === v && v !== '') return;
+  const mode = charLabels.has(l) && !hasTallCapital(v) ? Label.CacheMode.CHAR : Label.CacheMode.NONE;
   if (l.cacheMode !== mode) l.cacheMode = mode;
   l.spacingX = mode === Label.CacheMode.CHAR && l.enableOutline ? -2 * l.outlineWidth : 0;
   l.string = v;
@@ -187,9 +203,10 @@ export function opacity(n: Node, a: number): UIOpacity {
   return o;
 }
 
-/** Thousands separator with a dot (Vietnamese style): 12500 -> "12.500". */
+/** Thousands separator with a dot (Vietnamese style) from 10 000 up: 5873 -> "5873", 12500 -> "12.500". */
 export function num(v: number): string {
   const s = String(Math.floor(Math.abs(v)));
+  if (Math.abs(v) < 10000) return v < 0 ? '-' + s : s;
   const out = s.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   return v < 0 ? '-' + out : out;
 }

@@ -19,6 +19,7 @@
           "items": ["0260", "0291", "0346", "0320", "0023", "0104", "0266", "0131", "0158", "0185"] },
         { "prefix": "pp/", "dir": "art-source/kenney-pixel-platformer/Tiles/tile_{}",
           "items": ["0067", "0007", "0086", "0151", "0152"] },
+        { "prefix": "pp/", "dir": "art-source/kenney-pixel-platformer/Tiles/tile_{}", "recolor": "#FF4A4A", "items": [["0067_red", "0067"]] },
         { "prefix": "food/", "dir": "art-source/kenney-pixel-platformer-food/Tiles/tile_{}", "items": ["0008"] },
         { "prefix": "fol/", "dir": "art-source/kenney-foliage-sprites/PNG/Flat/sprite_{}", "size": [36, 36],
           "items": ["0001", "0002", "0003", "0004", "0005", "0006"] },
@@ -29,7 +30,7 @@
           "items": [["bubble", "Grey/Default/button_round_flat"], ["check", "Green/Default/check_round_color"],
                     ["arrow_s", "Yellow/Default/arrow_basic_s"], ["arrow_e", "Yellow/Default/arrow_decorative_e"]] },
         { "prefix": "proc/", "proc": true,
-          "items": [["pixel", ["pixel", 8]], ["diamond", ["diamond", 120]], ["diamond2", ["diamond", 240]],
+          "items": [["pixel", ["pixel", 8]], ["diamond", ["diamond", 120]], ["diamond2", ["diamond", 240]], ["dline", ["dline", 120, 2]],
                     ["circle", ["circle", 64]], ["ring", ["ring", 64, 6]], ["arc", ["arc", 64]],
                     ["circle256", ["circle", 256]], ["ring256", ["ring", 256, 10]]] }
       ]

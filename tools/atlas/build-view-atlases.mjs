@@ -60,6 +60,8 @@ const PROC = {
   arc: (s) => shape(s, s, (u, v) => (u - s / 2) ** 2 + (v - s / 2) ** 2 <= (s / 2) ** 2 && (u - s * 0.3) ** 2 + (v - s / 2) ** 2 > (s * 0.42) ** 2),
   // Soft spotlight cone (top narrow, bottom wide), white, alpha fades downward.
   cone: (w, h) => { const p = shape(w, h, (u, v) => Math.abs(u - w / 2) <= (w * 0.15) + (w * 0.35) * (v / h)); for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const o = (y * w + x) * 4; p.data[o + 3] = Math.round(p.data[o + 3] * (0.9 - 0.6 * y / h)); } return p; },
+  // Diamond outline (grid of build mode), line t px.
+  dline: (w, t) => shape(w, w / 2, (u, v) => { const k = Math.abs(u - w / 2) / (w / 2) + Math.abs(v - w / 4) / (w / 4); return k <= 1 && k >= 1 - (t * 2.2) / w; }),
   // Rounded rectangle with radius r (for 9-slice panels drawn in code).
   rrect: (s, r) => shape(s, s, (u, v) => { const cx = Math.min(Math.max(u, r), s - r), cy = Math.min(Math.max(v, r), s - r); return (u - cx) ** 2 + (v - cy) ** 2 <= r * r; }),
 };
@@ -74,6 +76,15 @@ function loadItem(src, atlasDir) {
   let png = PNG.sync.read(fs.readFileSync(file));
   if (src.scale) png = resize(png, png.width * src.scale, png.height * src.scale);
   if (src.size) png = resize(png, src.size[0], src.size[1]);
+  if (src.recolor) {
+    // Luminance -> target colour (a red version of a blue gem: tinting would only darken it).
+    const t = [1, 3, 5].map((i) => parseInt(src.recolor.slice(i, i + 2), 16));
+    for (let i = 0; i < png.data.length; i += 4) {
+      const l = (0.3 * png.data[i] + 0.59 * png.data[i + 1] + 0.11 * png.data[i + 2]) / 255;
+      const k = Math.min(1.6, l * 1.5);
+      png.data[i] = Math.min(255, t[0] * k); png.data[i + 1] = Math.min(255, t[1] * k); png.data[i + 2] = Math.min(255, t[2] * k);
+    }
+  }
   return png;
 }
 
@@ -83,7 +94,7 @@ function expand(atlas) {
     for (const entry of g.items) {
       const [name, rel] = Array.isArray(entry) ? entry : [entry, entry];
       if (g.proc) out.push({ name: g.prefix + name, proc: rel, border: g.border?.[name] });
-      else out.push({ name: g.prefix + name, file: g.dir.replace('{}', rel) + (rel.endsWith('.png') ? '' : '.png'), scale: g.scale, size: g.size, border: g.border?.[name] ?? g.borderAll });
+      else out.push({ name: g.prefix + name, file: g.dir.replace('{}', rel) + (rel.endsWith('.png') ? '' : '.png'), scale: g.scale, size: g.size, recolor: g.recolor, border: g.border?.[name] ?? g.borderAll });
     }
   }
   return out;
