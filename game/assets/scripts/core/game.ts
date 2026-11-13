@@ -1066,6 +1066,10 @@ export class GameImpl implements Game, FieldHost, DungeonHost, Bank {
     const node = this.data.training.nodes[this.nodesUnlocked];
     if (!node) return fail('max_level');
     if (this.player.level < node.reqPlayerLevel) return fail('need_player_level', node.reqPlayerLevel);
+    if (node.ore > this.cap('ore')) {
+      const need = this.village.storageLevelNeeded({ ore: node.ore });
+      return fail('need_storage_level', need > 0 ? need : 0);
+    }
     const ore = this.resources.ore || 0;
     if (ore < node.ore) return fail('missing_resources', node.ore - ore, 'ore');
     return OK;
@@ -1179,7 +1183,8 @@ export class GameImpl implements Game, FieldHost, DungeonHost, Bank {
     const c = this.checkEnter(def);
     if (!c.ok) return c;
     // save giữ trạng thái trước khi vào hang; thoát app giữa lượt thì lượt bị hủy
-    this.preDungeonSave = this.buildSave();
+    this.field.returnChannelT = 0;
+    this.preDungeonSave = this.save();
     this.dungeonRuns++;
     const rng = new Rng(hashSeed(this.seed, this.dungeonRuns));
     this.dungeonScene.start(def, this.squadSpecs(), rng, this.auto);
@@ -1202,7 +1207,12 @@ export class GameImpl implements Game, FieldHost, DungeonHost, Bank {
     const d = this.dungeonScene;
     const stage = this.data.dungeon.stages[d.stage - 1];
     const loot: ResourceMap = {};
-    for (const k of Object.keys(d.loot)) loot[k] = d.loot[k];
+    // thua hoặc rời hang: giữ defeatKeepsLootPct phần vật đã nhặt (M1: 100%)
+    const keep = outcome === 'victory' ? 1 : this.data.tuning.dungeon.defeatKeepsLootPct;
+    for (const k of Object.keys(d.loot)) {
+      const n = Math.floor(d.loot[k] * keep + 1e-9);
+      if (n > 0) loot[k] = n;
+    }
     const reward: ResourceMap = {};
     let first = false;
     if (outcome === 'victory') {
