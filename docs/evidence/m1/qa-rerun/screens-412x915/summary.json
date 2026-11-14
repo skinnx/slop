@@ -1,0 +1,42 @@
+{
+  "scenario": "docs/qa/m1/scenarios/qa-05-screens.mjs",
+  "ok": true,
+  "failure": null,
+  "viewport": "412x915",
+  "scripts": 49,
+  "seconds": 15.8,
+  "lastFrame": {
+    "drawCalls": 6,
+    "tris": 842,
+    "instances": 0,
+    "frames": 570
+  },
+  "notes": [
+    "H=1599"
+  ],
+  "screenshots": [
+    "docs/evidence/m1/qa-rerun/screens-412x915/00-title.png",
+    "docs/evidence/m1/qa-rerun/screens-412x915/01-village.png",
+    "docs/evidence/m1/qa-rerun/screens-412x915/02-hero-list.png",
+    "docs/evidence/m1/qa-rerun/screens-412x915/03-hero-detail.png",
+    "docs/evidence/m1/qa-rerun/screens-412x915/04-squad.png",
+    "docs/evidence/m1/qa-rerun/screens-412x915/05-tavern.png",
+    "docs/evidence/m1/qa-rerun/screens-412x915/06-training.png",
+    "docs/evidence/m1/qa-rerun/screens-412x915/07-gate.png",
+    "docs/evidence/m1/qa-rerun/screens-412x915/08-dungeon.png"
+  ],
+  "consoleErrors": [],
+  "console": [
+    "[timeEnd] Init Base: 0.882080078125 ms",
+    "[timeEnd] Init Infrastructure: 20.926025390625 ms",
+    "[timeEnd] Init SubSystem: 1.505859375 ms",
+    "[log] Cocos Creator v3.8.8",
+    "[log] Using legacy pipeline",
+    "[timeEnd] Init Project: 4.2919921875 ms",
+    "[timeEnd] InitScene: 0.23486328125 ms",
+    "[timeEnd] AttachPersist: 0.002197265625 ms",
+    "[timeEnd] AutoRelease: 0.099853515625 ms",
+    "[timeEnd] Destroy: 0.160888671875 ms",
+    "[timeEnd] Activate: 16.56005859375 ms"
+  ]
+}
