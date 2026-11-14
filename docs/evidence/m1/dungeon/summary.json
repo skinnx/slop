@@ -4,12 +4,12 @@
   "failure": null,
   "viewport": "540x960",
   "scripts": 49,
-  "seconds": 31.3,
+  "seconds": 29.2,
   "lastFrame": {
     "drawCalls": 11,
     "tris": 82,
     "instances": 0,
-    "frames": 983
+    "frames": 1125
   },
   "notes": [
     "run: {\"stage\":1,\"floor\":1,\"streak\":12,\"remaining\":28,\"cleared\":false,\"exitOpen\":false,\"auto\":true}",
@@ -33,16 +33,18 @@
   ],
   "consoleErrors": [],
   "console": [
-    "[timeEnd] Init Base: 1.18310546875 ms",
-    "[timeEnd] Init Infrastructure: 31.053955078125 ms",
-    "[timeEnd] Init SubSystem: 1.39306640625 ms",
+    "[timeEnd] Init Base: 2.48681640625 ms",
+    "[timeEnd] Init Infrastructure: 34.539794921875 ms",
+    "[timeEnd] Init SubSystem: 2.208984375 ms",
     "[log] Cocos Creator v3.8.8",
     "[log] Using legacy pipeline",
-    "[timeEnd] Init Project: 3.711181640625 ms",
-    "[timeEnd] InitScene: 0.235107421875 ms",
-    "[timeEnd] AttachPersist: 0.0029296875 ms",
-    "[timeEnd] AutoRelease: 0.094970703125 ms",
-    "[timeEnd] Destroy: 0.16015625 ms",
-    "[timeEnd] Activate: 22.35400390625 ms"
+    "[timeEnd] Init Project: 6.5068359375 ms",
+    "[timeEnd] InitScene: 0.35595703125 ms",
+    "[timeEnd] AttachPersist: 0.003173828125 ms",
+    "[timeEnd] AutoRelease: 0.18798828125 ms",
+    "[timeEnd] Destroy: 0.27294921875 ms",
+    "[timeEnd] Activate: 29.83203125 ms",
+    "[warning] Audio buffer /game/resources/audio/hit-01.ogg has been cached.",
+    "[warning] Audio buffer cache /game/resources/audio/hit-01.ogg has not been added."
   ]
 }
