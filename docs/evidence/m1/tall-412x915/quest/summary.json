@@ -4,12 +4,12 @@
   "failure": null,
   "viewport": "412x915",
   "scripts": 49,
-  "seconds": 5.2,
+  "seconds": 2.8,
   "lastFrame": {
     "drawCalls": 7,
-    "tris": 1752,
+    "tris": 1792,
     "instances": 0,
-    "frames": 154
+    "frames": 126
   },
   "notes": [
     "quest before: {\"index\":10,\"id\":\"q11\",\"text\":\"Thu gỗ ở Trại Gỗ\",\"progress\":1,\"target\":1,\"complete\":true}",
@@ -22,16 +22,16 @@
   ],
   "consoleErrors": [],
   "console": [
-    "[timeEnd] Init Base: 14.5048828125 ms",
-    "[timeEnd] Init Infrastructure: 25.865966796875 ms",
-    "[timeEnd] Init SubSystem: 3.763916015625 ms",
+    "[timeEnd] Init Base: 0.8759765625 ms",
+    "[timeEnd] Init Infrastructure: 22.164794921875 ms",
+    "[timeEnd] Init SubSystem: 1.510986328125 ms",
     "[log] Cocos Creator v3.8.8",
     "[log] Using legacy pipeline",
-    "[timeEnd] Init Project: 7.51806640625 ms",
-    "[timeEnd] InitScene: 0.200927734375 ms",
-    "[timeEnd] AttachPersist: 0.005126953125 ms",
-    "[timeEnd] AutoRelease: 0.1259765625 ms",
-    "[timeEnd] Destroy: 0.18603515625 ms",
-    "[timeEnd] Activate: 24.476806640625 ms"
+    "[timeEnd] Init Project: 4.406005859375 ms",
+    "[timeEnd] InitScene: 0.205078125 ms",
+    "[timeEnd] AttachPersist: 0.003173828125 ms",
+    "[timeEnd] AutoRelease: 0.133056640625 ms",
+    "[timeEnd] Destroy: 0.208984375 ms",
+    "[timeEnd] Activate: 15.363037109375 ms"
   ]
 }
