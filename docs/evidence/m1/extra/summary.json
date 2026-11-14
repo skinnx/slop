@@ -4,39 +4,39 @@
   "failure": null,
   "viewport": "540x960",
   "scripts": 49,
-  "seconds": 19.4,
+  "seconds": 15.9,
   "lastFrame": {
-    "drawCalls": 104,
-    "tris": 2802,
+    "drawCalls": 44,
+    "tris": 2040,
     "instances": 0,
-    "frames": 351
+    "frames": 367
   },
   "notes": [
+    "detail texts: [\"900\",\"5\",\"Cấp\",\"0/3\",\"Én\",\"CP\",\"2396\",\"ATK\",\"291\",\"+7\",\"HP\",\"909\",\"+23\",\"1\",\"Mở kỹ năng 1 (1 sao)\",\"5\",\"Hero cùng hệ +5% HP (hiệu ứng sở hữu)\",\"10\",\"Mở kỹ năng 2 (1 sao)\",\"15\",\"Hero cùng hệ +5% ATK (hiệu ứng sở hữu)\",\"20\",\"Kỹ năng 1 lên 2 sao\",\"25\",\"Hero cùng hệ +5% HP (hiệu ứng sở hữu)\",\"30\",\"Kỹ năng 2 lên 2 sao\",\"Lao Xuyên\",\"Gió Biển\",\"\",\"22 + 3 mảnh\",\"Thiếu 3 mảnh\"]",
+    "toasts: [\"Thiếu 3 mảnh\"]",
     "tavern texts before: [\"Quán Mỏ Neo\",\"Tuyển\",\"Đổi Vé\",\"BONUS\",\"9/10\",\"?\",\"Sau 1 lượt nữa: tăng tỉ lệ hero hạng cao!\",\"x5\",\"5\",\"0/3\",\"!!\",\"MỚI\"]",
-    "tavern texts after: [\"Quán Mỏ Neo\",\"Tuyển\",\"Đổi Vé\",\"BONUS\",\"0/10\",\"?\",\"Sau 10 lượt nữa: tăng tỉ lệ hero hạng cao!\",\"x5\",\"5\",\"4/4\",\"x5\",\"9\"]",
-    "detail texts: [\"900\",\"5\",\"Cấp\",\"5/3\",\"Én\",\"CP\",\"2396\",\"ATK\",\"291\",\"+7\",\"HP\",\"909\",\"+23\",\"1\",\"Mở kỹ năng 1 (1 sao)\",\"5\",\"Hero cùng hệ +5% HP (hiệu ứng sở hữu)\",\"10\",\"Mở kỹ năng 2 (1 sao)\",\"15\",\"Hero cùng hệ +5% ATK (hiệu ứng sở hữu)\",\"20\",\"Kỹ năng 1 lên 2 sao\",\"25\",\"Hero cùng hệ +5% HP (hiệu ứng sở hữu)\",\"30\",\"Kỹ năng 2 lên 2 sao\",\"Lao Xuyên\",\"Gió Biển\",\"\",\"22 + 3 mảnh\",\"NÂNG CẤP\"]",
-    "toasts: []"
+    "tavern texts after: [\"Quán Mỏ Neo\",\"Tuyển\",\"Đổi Vé\",\"BONUS\",\"0/10\",\"?\",\"Sau 10 lượt nữa: tăng tỉ lệ hero hạng cao!\",\"x5\",\"1\",\"0/3\",\"!!\",\"MỚI\"]"
   ],
   "screenshots": [
-    "docs/evidence/m1/extra/01-bonus-9-of-10.png",
-    "docs/evidence/m1/extra/02-reveal-drawn-set.png",
-    "docs/evidence/m1/extra/03-reveal-bonus-set.png",
-    "docs/evidence/m1/extra/04-tavern-new-set.png",
-    "docs/evidence/m1/extra/05-levelup-blocked.png",
-    "docs/evidence/m1/extra/06-levelup-blocked-tap.png"
+    "docs/evidence/m1/extra/01-levelup-blocked.png",
+    "docs/evidence/m1/extra/02-levelup-blocked-tap.png",
+    "docs/evidence/m1/extra/03-bonus-9-of-10.png",
+    "docs/evidence/m1/extra/04-reveal-drawn-set.png",
+    "docs/evidence/m1/extra/05-reveal-bonus-set.png",
+    "docs/evidence/m1/extra/06-tavern-new-set.png"
   ],
   "consoleErrors": [],
   "console": [
-    "[timeEnd] Init Base: 2.162109375 ms",
-    "[timeEnd] Init Infrastructure: 29.7138671875 ms",
-    "[timeEnd] Init SubSystem: 3.218994140625 ms",
+    "[timeEnd] Init Base: 1.177978515625 ms",
+    "[timeEnd] Init Infrastructure: 27.929931640625 ms",
+    "[timeEnd] Init SubSystem: 1.610107421875 ms",
     "[log] Cocos Creator v3.8.8",
     "[log] Using legacy pipeline",
-    "[timeEnd] Init Project: 5.2470703125 ms",
-    "[timeEnd] InitScene: 0.230224609375 ms",
-    "[timeEnd] AttachPersist: 0.003173828125 ms",
-    "[timeEnd] AutoRelease: 0.121826171875 ms",
-    "[timeEnd] Destroy: 0.172119140625 ms",
-    "[timeEnd] Activate: 26.545166015625 ms"
+    "[timeEnd] Init Project: 4.6240234375 ms",
+    "[timeEnd] InitScene: 0.21484375 ms",
+    "[timeEnd] AttachPersist: 0.002197265625 ms",
+    "[timeEnd] AutoRelease: 0.16015625 ms",
+    "[timeEnd] Destroy: 0.23095703125 ms",
+    "[timeEnd] Activate: 21.052001953125 ms"
   ]
 }
