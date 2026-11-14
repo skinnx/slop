@@ -94,6 +94,11 @@ export default async function (h) {
 }
 ```
 
+Game có sẵn đối tượng debug `globalThis.__game` (mô tả đầy đủ trong `game/assets/scripts/view/README.md` mục 3). Hai hàm hay dùng:
+
+- `__game.fastForward(giây)`: chạy lõi nhanh thêm từng ấy giây ngay lập tức (từng bước cố định, sự kiện vẫn được xử lý), **và dời đồng hồ được cấp cho lõi tiến đúng từng ấy thời gian**. Vì vậy sản xuất, giờ xây/nâng và đồng hồ đổi thẻ của Quán cũng chạy theo; trước đây chúng đứng yên khi tua nhanh.
+- `__game.where(tên)`: tọa độ UI của node để chạm bằng `h.tap`.
+
 Muốn kịch bản đọc trạng thái game: cho game ghi một đối tượng chỉ để debug lên `globalThis` (ví dụ `globalThis.__game = { floor, enemies }`) rồi đọc bằng `h.eval(() => globalThis.__game)`. Đừng để kịch bản phụ thuộc vào cấu trúc node.
 
 Lưu ảnh làm bằng chứng cột mốc: `npm run harness -- harness/scenarios/<x>.mjs --out ../docs/evidence/m1/<x>`.

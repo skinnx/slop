@@ -81,8 +81,8 @@ draw call theo lớp), `telegraphCount`.
 9. **Màn thua**: khung gợi ý cao 380 (thay 420) và dòng "Đã nhặt" ở y 1036 để không chồng "Chạm để về làng." ở H = 1280.
 10. **Cổng Xoáy**: ảnh xem trước 300 (thay 360) để nút VÀO nằm trong thân panel ở H = 1280; tiêu đề ruy-băng dịch phải
     vì bong bóng CP đè lên ruy-băng (giống tham chiếu).
-11. **Tường phòng dungeon**: tường phía sau cao hai khối có gai; tường phía trước (x = −1, y = −1) một khối và trong
-    suốt 60%, để đội đứng sát tường vẫn thấy được (QA-05). Ngoài phòng là nền đá tối thay vì khoảng đen.
+11. **Tường phòng dungeon**: tường phía sau cao hai khối có gai; tường phía trước (x = −1, y = −1) treo xuống dưới mép
+    phòng (quyết định 36). Ngoài phòng là nền đá tối thay vì khoảng đen.
 12. **Bóng công trình (ghost) và viền chọn** vẽ trên mọi thứ (không theo chiều sâu): bóng đặt sau một công trình cao vẫn
     phải thấy được.
 13. **Hướng joystick**: view gửi vector màn hình; `CoreSource` đổi sang vector ô bằng `joystickToWorld` của lõi
@@ -118,14 +118,24 @@ draw call theo lớp), `telegraphCount`.
 28. **Màn hình thấp hơn 9:16** (ví dụ 600 × 800, 3:4): hiện trọn khung 720 × 1280 với hai dải hai bên
     (`ResolutionPolicy.SHOW_ALL`) thay vì cắt chiều cao (QA-02, quyết định của trưởng nhóm). 9:16 và dài hơn giữ Fit Width.
     `Layout.applyPolicy()` tự đổi theo hình dạng cửa sổ.
-29. **Chỗ của toast** (QA-04): không panel → y 300 (đặc tả 14.1); dungeon → dưới thanh máu boss và chữ tầng (y 384 trở
-    xuống); có panel hoặc màn kết quả → một toast duy nhất trên dải thanh trên (y 24..96), dải chỉ chứa số HUD nên không
+29. **Chỗ của toast** (QA-04, sửa lần hai ở quyết định 37): không panel và dungeon → xem 37; có panel hoặc màn kết quả → một toast duy nhất trên dải thanh trên (y 24..96), dải chỉ chứa số HUD nên không
     che nút nào của panel. Toast lớn khi có panel thành toast thường. Thanh nhặt đồ chỉ hiện khi đang thấy HUD đồng.
 30. **Chữ "Tầng N"** ở vùng HUD trên (y 360, dưới bộ đếm chuỗi và thanh máu boss), cỡ 48, 1 s, thay vì giữa màn 0.8 s
     (đặc tả 12.1 [QĐ]). Tên kỹ năng không hiện trên đầu hero trong dungeon (ảnh tham chiếu không có).
 31. **Lỗi nạp lõi** → màn báo lỗi; không còn âm thầm dùng dữ liệu mẫu. Dữ liệu mẫu chỉ qua cờ `?standin=1` (QA-10).
 32. **Nút lên cấp bị khóa** vẫn hiện (xám); chữ trên nút là câu lý do của lõi (ví dụ "Thiếu 3 mảnh"); giá ở trên tô đỏ
     phần thiếu.
+34. **Tầm thu thập** (hợp đồng v3, QA-08): nút tài nguyên có `inReach` (đội sẽ chặt/đập khi đứng yên) có một vòng trắng mờ
+    nhấp nháy dưới chân. Cùng atlas, lớp phủ: không thêm draw call.
+35. **Toast theo ngữ cảnh**: sự kiện của bước được xử lý trước khi đổi chế độ, rồi mọi lần đổi chế độ (vào/ra dungeon,
+    màn kết quả, tiêu đề) xóa toast, thanh nhặt đồ và chữ lớn; chỉ làng ↔ chế độ xây giữ lại (cùng bản đồ, cùng HUD).
+36. **Tường trước phòng dungeon treo xuống dưới mép phòng** (thay vì dựng lên từ ô mép): khối tường cao 96 dựng lên sẽ
+    phủ khoảng ba hàng ô đi được phía sau nó, đó là nguyên nhân che đội (không phải dữ liệu phòng của lõi). Giờ hình tường
+    chỉ nằm trên ô không đi được và vẽ dưới mọi đơn vị.
+37. **Chỗ toast lần hai**: đặc tả 14.1 (y 300) nằm trên ô tài nguyên thứ ba và, khi xếp chồng, trên thẻ nhiệm vụ. Dải mới:
+    HUD đồng y 324..396 (toast thứ hai nằm dưới, y 408..480); dungeon một toast y 380..440 dưới bộ đếm chuỗi, thanh máu
+    boss (y 260 như đặc tả, tên boss nằm trên thanh) và chữ tầng (y 330); camera dungeon giữ thủ lĩnh ở giữa hoặc dưới
+    giữa màn nên trận đánh ở dưới dải này.
 33. **Màn xếp đội**: danh sách từ y 600 (đặc tả 640) để hai hàng thẻ trọn ở H = 1280. Tab lọc "Nhanh Nhẹn" đầy đủ. Chữ
     "+5 mảnh"/"MỚI!" ở Nhận Hero nằm ở dải trên của thẻ, thay chỗ nhãn x5. Chi tiết hero phủ tối 85% panel phía sau.
 
