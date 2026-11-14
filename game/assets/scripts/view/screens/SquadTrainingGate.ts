@@ -37,7 +37,7 @@ export class SquadPanel extends Panel {
     s.members.forEach((id, i) => {
       const c = s.cards.find((q) => q.id === id)!;
       const a = Math.PI / 2 + (i / Math.max(1, s.members.length)) * Math.PI * 2;
-      const h = node(ring, 'slot' + i, 96, 96); h.setPosition(Math.cos(a) * 170, Math.sin(a) * 110, 0);
+      const h = node(ring, 'slot' + i, 96, 96); h.setPosition(Math.cos(a) * 170, Math.sin(a) * 92, 0);
       if (this.ringPick === i) ui(h, 'proc/ring', { w: 100, h: 60, color: C.gold }).node.setPosition(0, -40, 0);
       px(h, c.art.replace(':', '/'), { w: 88, h: 88, color: c.tint ?? '#FFFFFF' });
       if (i === 0) {
@@ -70,7 +70,7 @@ export class SquadPanel extends Panel {
     // "CP old ▶ new" band, 2 s after a change.
     if (s.cp !== this.lastCp) {
       const up = s.cp > this.lastCp;
-      const band = node(T, 'cpBand', 480, 64); place(band, 120, top - 80, 480, 64);
+      const band = node(T, 'cpBand', 480, 64); place(band, 120, top - 44, 480, 64); // under the ring, on the card's top edge
       slice(band, 'proc/rrect', 480, 64, '#000000', 0.7);
       cpIcon(band, 40).setPosition(-190, 0, 0);
       label(band, `CP  ${num(this.lastCp)}  ▶  ${num(s.cp)}`, { size: 30, bold: true, color: up ? '#5BE36B' : '#FF5A5A' });
