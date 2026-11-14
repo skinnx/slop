@@ -1,0 +1,48 @@
+{
+  "scenario": "tools/harness/scenarios/m1-dungeon.mjs",
+  "ok": true,
+  "failure": null,
+  "viewport": "360x800",
+  "scripts": 49,
+  "seconds": 21,
+  "lastFrame": {
+    "drawCalls": 11,
+    "tris": 82,
+    "instances": 0,
+    "frames": 1194
+  },
+  "notes": [
+    "run: {\"stage\":1,\"floor\":1,\"streak\":12,\"remaining\":28,\"cleared\":false,\"exitOpen\":false,\"auto\":true}",
+    "dungeon drawCalls=6",
+    "auto after tap: false",
+    "result: {\"outcome\":\"victory\"}"
+  ],
+  "screenshots": [
+    "docs/evidence/m1/tall-360x800/dungeon/01-gate-stage1.png",
+    "docs/evidence/m1/tall-360x800/dungeon/02-gate-stage2.png",
+    "docs/evidence/m1/tall-360x800/dungeon/03-gate-stage3-locked.png",
+    "docs/evidence/m1/tall-360x800/dungeon/05-floor1-start.png",
+    "docs/evidence/m1/tall-360x800/dungeon/06-floor1-combat.png",
+    "docs/evidence/m1/tall-360x800/dungeon/07-pause.png",
+    "docs/evidence/m1/tall-360x800/dungeon/08-boss-floor.png",
+    "docs/evidence/m1/tall-360x800/dungeon/09-boss-telegraph.png",
+    "docs/evidence/m1/tall-360x800/dungeon/10-result.png",
+    "docs/evidence/m1/tall-360x800/dungeon/11-back-at-gate.png",
+    "docs/evidence/m1/tall-360x800/dungeon/12-leave-confirm.png",
+    "docs/evidence/m1/tall-360x800/dungeon/13-defeat.png"
+  ],
+  "consoleErrors": [],
+  "console": [
+    "[timeEnd] Init Base: 0.969970703125 ms",
+    "[timeEnd] Init Infrastructure: 21.341064453125 ms",
+    "[timeEnd] Init SubSystem: 1.591064453125 ms",
+    "[log] Cocos Creator v3.8.8",
+    "[log] Using legacy pipeline",
+    "[timeEnd] Init Project: 4.024169921875 ms",
+    "[timeEnd] InitScene: 0.199951171875 ms",
+    "[timeEnd] AttachPersist: 0.001953125 ms",
+    "[timeEnd] AutoRelease: 0.093994140625 ms",
+    "[timeEnd] Destroy: 0.14990234375 ms",
+    "[timeEnd] Activate: 15.370849609375 ms"
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "scenario": "tools/harness/scenarios/m1-village.mjs",
+  "ok": true,
+  "failure": null,
+  "viewport": "360x800",
+  "scripts": 49,
+  "seconds": 13,
+  "lastFrame": {
+    "drawCalls": 11,
+    "tris": 1724,
+    "instances": 0,
+    "frames": 714
+  },
+  "notes": [
+    "welcome lines: [\"Chào mừng trở lại!\",\"Bạn đã đi 3 giờ 12 phút (tính tối đa 8 giờ)\",\"Trại Gỗ: 556 gỗ chờ thu\",\"Mỏ Quặng: 174 quặng chờ thu\",\"THU HẾT\"]",
+    "wood 2000 -> 1931 after upgrade",
+    "ghost on storage: valid=false reason=\"Chồng lên Nhà Kho\"",
+    "village drawCalls=11"
+  ],
+  "screenshots": [
+    "docs/evidence/m1/tall-360x800/village/01-welcome-back.png",
+    "docs/evidence/m1/tall-360x800/village/02-village.png",
+    "docs/evidence/m1/tall-360x800/village/03-building-panel.png",
+    "docs/evidence/m1/tall-360x800/village/04-upgrade-started.png",
+    "docs/evidence/m1/tall-360x800/village/05-building-job.png",
+    "docs/evidence/m1/tall-360x800/village/06-cancel-confirm.png",
+    "docs/evidence/m1/tall-360x800/village/07-build-mode.png",
+    "docs/evidence/m1/tall-360x800/village/08-ghost-valid.png",
+    "docs/evidence/m1/tall-360x800/village/09-ghost-invalid.png",
+    "docs/evidence/m1/tall-360x800/village/10-scaffold.png",
+    "docs/evidence/m1/tall-360x800/village/11-selected.png",
+    "docs/evidence/m1/tall-360x800/village/12-upgrade-from-build.png",
+    "docs/evidence/m1/tall-360x800/village/13-settings.png",
+    "docs/evidence/m1/tall-360x800/village/14-reset-confirm.png"
+  ],
+  "consoleErrors": [],
+  "console": [
+    "[timeEnd] Init Base: 0.72900390625 ms",
+    "[timeEnd] Init Infrastructure: 22.8369140625 ms",
+    "[timeEnd] Init SubSystem: 1.847900390625 ms",
+    "[log] Cocos Creator v3.8.8",
+    "[log] Using legacy pipeline",
+    "[timeEnd] Init Project: 4.782958984375 ms",
+    "[timeEnd] InitScene: 0.213134765625 ms",
+    "[timeEnd] AttachPersist: 0.0068359375 ms",
+    "[timeEnd] AutoRelease: 0.14013671875 ms",
+    "[timeEnd] Destroy: 0.218994140625 ms",
+    "[timeEnd] Activate: 13.31005859375 ms"
+  ]
+}

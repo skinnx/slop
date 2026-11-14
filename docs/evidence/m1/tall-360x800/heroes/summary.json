@@ -1,0 +1,50 @@
+{
+  "scenario": "tools/harness/scenarios/m1-heroes.mjs",
+  "ok": true,
+  "failure": null,
+  "viewport": "360x800",
+  "scripts": 49,
+  "seconds": 17.7,
+  "lastFrame": {
+    "drawCalls": 9,
+    "tris": 1708,
+    "instances": 0,
+    "frames": 686
+  },
+  "notes": [
+    "meat after one level: 855",
+    "swiped to lan",
+    "squad after auto: [\"bang\",\"se\",\"do_neo\",\"lan\"]",
+    "ore 900 -> 888 after unlocking node 10"
+  ],
+  "screenshots": [
+    "docs/evidence/m1/tall-360x800/heroes/01-hero-list.png",
+    "docs/evidence/m1/tall-360x800/heroes/02-filter-agi.png",
+    "docs/evidence/m1/tall-360x800/heroes/03-hero-detail.png",
+    "docs/evidence/m1/tall-360x800/heroes/04-after-level-up.png",
+    "docs/evidence/m1/tall-360x800/heroes/05-skill-tooltip.png",
+    "docs/evidence/m1/tall-360x800/heroes/06-swiped.png",
+    "docs/evidence/m1/tall-360x800/heroes/07-squad.png",
+    "docs/evidence/m1/tall-360x800/heroes/08-squad-changed.png",
+    "docs/evidence/m1/tall-360x800/heroes/09-swap.png",
+    "docs/evidence/m1/tall-360x800/heroes/10-auto-assign-cp-band.png",
+    "docs/evidence/m1/tall-360x800/heroes/11-training.png",
+    "docs/evidence/m1/tall-360x800/heroes/12-training-tooltip.png",
+    "docs/evidence/m1/tall-360x800/heroes/13-training-unlocked.png",
+    "docs/evidence/m1/tall-360x800/heroes/14-slot-tooltip.png"
+  ],
+  "consoleErrors": [],
+  "console": [
+    "[timeEnd] Init Base: 1.7060546875 ms",
+    "[timeEnd] Init Infrastructure: 25.72412109375 ms",
+    "[timeEnd] Init SubSystem: 1.6640625 ms",
+    "[log] Cocos Creator v3.8.8",
+    "[log] Using legacy pipeline",
+    "[timeEnd] Init Project: 4.64794921875 ms",
+    "[timeEnd] InitScene: 0.243896484375 ms",
+    "[timeEnd] AttachPersist: 0.001953125 ms",
+    "[timeEnd] AutoRelease: 0.112060546875 ms",
+    "[timeEnd] Destroy: 0.156982421875 ms",
+    "[timeEnd] Activate: 15.644775390625 ms"
+  ]
+}
