@@ -510,7 +510,12 @@ export class CoreSource implements Source {
       g.step();
       for (let k = 0; k < g.eventCount; k++) this.mapEvent(g.events[k]);
       g.clearEvents();
-      if (this.events.length > 300) this.events = this.events.slice(-300);
+      if (this.events.length > 300) {
+        // Keep every state event (floor, toast, big...); drop only old cosmetic ones (numbers, swings, sounds).
+        const cosmetic = (e: ViewEvent) => e.t === 'damage' || e.t === 'exp' || e.t === 'attack' || e.t === 'heal' || e.t === 'skill' || e.t === 'sound' || e.t === 'gather' || e.t === 'death';
+        const old = this.events.slice(0, -150).filter((e) => !cosmetic(e));
+        this.events = old.concat(this.events.slice(-150));
+      }
     }
   }
 

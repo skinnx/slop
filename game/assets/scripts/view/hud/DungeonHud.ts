@@ -57,9 +57,9 @@ export class DungeonHud {
     this.pauseBtn = new Button(T, { w: 88, h: 88, frame: '', name: 'pause', onTap: () => this.onPause() });
     place(this.pauseBtn.root, 616, 40, 88, 88);
     for (const dx of [-12, 12]) { const p = ui(this.pauseBtn.visual, 'proc/pixel', { w: 14, h: 44, color: '#FFFFFF' }); p.node.setPosition(dx, 0, 0); }
-    this.bossN = node(T, 'boss'); place(this.bossN, 110, 300, 500, 28);
+    this.bossN = node(T, 'boss'); place(this.bossN, 110, 260, 500, 28); // spec 12.1: y 260
     this.bossBar = new Bar(this.bossN, 500, 28, '#E5484D', '#000000', 0.85, 3);
-    this.bossName = label(this.bossN, '', { size: 24, bold: true, outline: '#000000' }); this.bossName.node.setPosition(0, 32, 0);
+    this.bossName = label(this.bossN, '', { size: 22, bold: true, outline: '#000000' }); this.bossName.node.setPosition(0, 1, 0); // on the bar: the kill labels end at y 240
     // Squad health strip: one 64 x 80 cell per hero (portrait + bar), bottom-left.
     this.squadN = node(B, 'squad');
     placeB(this.squadN, 16, 150, 0, 0);
@@ -69,10 +69,10 @@ export class DungeonHud {
     this.autoBg.node.setPosition(0, 12, 0);
     this.autoBtn.icon('icon/arrow_clockwise', 60, 60, 0, 12, '#FFFFFF');
     label(this.autoBtn.visual, 'AUTO', { size: 24, bold: true, outline: '#000000' }).node.setPosition(0, -44, 0);
-    // "Tầng N" sits in the HUD's top area under the streak counter and the boss bar (y 360 from the top), not over
+    // "Tầng N" sits in the HUD's top area under the streak counter and the boss bar (y 330 from the top), not over
     // the fight in the middle of the screen (QA-05); shown 1 s.
     this.floorBanner = label(T, '', { size: 48, bold: true, color: '#FFFFFF', outline: '#000000', outlineWidth: 4 });
-    this.floorBanner.node.setPosition(0, -360, 0);
+    this.floorBanner.node.setPosition(0, -330, 0);
     this.floorBanner.node.active = false;
   }
 

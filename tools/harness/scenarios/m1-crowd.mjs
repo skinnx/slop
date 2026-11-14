@@ -57,6 +57,7 @@ export default async function (h) {
   await h.wait(350); // real time: the squad fights (damage numbers, EXP, drops)
   const st = await read(h, (g) => g.state);
   h.note(`floor ${st.run.floor}, alive ${st.monsters}, squad ${st.heroes}, pickups ${st.pickups}`);
+  h.note('dungeon HUD texts: ' + JSON.stringify(await read(h, (g) => g.texts('dungeon-hud'))));
   const a = await measure(h, 'core floor 4');
   await h.eval(() => globalThis.__game.send({ t: 'pause', on: false }));
   await h.wait(1500);

@@ -30,17 +30,19 @@ export class Toasts {
     if (error) { const e = rect(n, 600, 4, C.red); e.node.setPosition(0, -34, 0); const e2 = rect(n, 600, 4, C.red); e2.node.setPosition(0, 34, 0); }
     label(n, text, { size: 24, w: 570 });
     this.items.push({ n, t: 0 });
-    const max = this.place() === 'over' ? 1 : 2;
+    const max = this.place() === 'hud' ? 2 : 1;
     while (this.items.length > max) this.items.shift()!.n.destroy();
     this.layoutToasts();
   }
 
   /**
-   * Where toasts go (QA-04), set by GameView:
-   *  'hud'     no panel: y 300 from the top (03-ux-spec.md 14.1), the new one pushes the old up;
-   *  'dungeon' below the boss bar and the floor title (y 384 down), the new one on top, older ones below;
-   *  'over'    a panel or full-screen result is open: one toast at a time over the top bar strip (y 24..96),
-   *            which holds HUD numbers only, so no panel control is ever covered.
+   * Where toasts go (QA-04, second pass). 03-ux-spec.md 14.1 puts them at y 300, which is on the third resource slot
+   * (y 256..308) and, stacked upward, on the quest card. Bands chosen to be free on every screen:
+   *  'hud'     y 324..396 under the resource column and the quest card; a second toast goes UNDER the first
+   *            (y 408..480), still far above the leader at mid-screen and the bottom buttons;
+   *  'dungeon' one toast, y 380..440, in the HUD band under the kill counter, the boss bar and the floor title; the
+   *            dungeon camera keeps the leader at or below mid-screen, so the fight stays under it;
+   *  'over'    a panel or a full-screen result is open: one toast over the top bar strip (y 24..96).
    */
   place: () => 'hud' | 'dungeon' | 'over' = () => 'hud';
   /** Re-places the visible toasts (GameView calls it when the mode or the panel stack changes). */
@@ -49,9 +51,9 @@ export class Toasts {
     const n = this.items.length;
     for (let i = 0; i < n; i++) {
       const it = this.items[n - 1 - i]; // i = 0: newest
-      const y = p === 'over' ? Layout.top - 24 - 36 : p === 'dungeon' ? Layout.top - 384 - 36 - i * 84 : Layout.top - 300 - 36 + i * 84;
+      const y = p === 'over' ? Layout.top - 24 - 36 : p === 'dungeon' ? Layout.top - 410 : Layout.top - 324 - 36 - i * 84;
       it.n.setPosition(0, y, 0);
-      it.n.active = p !== 'over' || i === 0; // over a panel: only the newest
+      it.n.active = p === 'hud' || i === 0; // over a panel or in the dungeon: only the newest
     }
   }
 

@@ -4,20 +4,21 @@
   "failure": null,
   "viewport": "540x960",
   "scripts": 49,
-  "seconds": 8.4,
+  "seconds": 6.4,
   "lastFrame": {
-    "drawCalls": 5,
-    "tris": 626,
+    "drawCalls": 6,
+    "tris": 952,
     "instances": 0,
-    "frames": 196
+    "frames": 187
   },
   "notes": [
     "alive after holding the stick 17 s: 58",
     "floor 4, alive 58, squad 8, pickups 0",
-    "core floor 4: draw calls by layer (total minus total-without-layer): {\"hud\":4,\"toasts\":1,\"world-text\":2,\"joystick\":2}",
-    "core floor 4: total=7 worldWithText=2 worldSprites=1 monstersAlive=40 heroes=8 pickups=1 floaters=4 spritesInLayers=168+50+79",
+    "dungeon HUD texts: [\"1F\",\"5\",\"13 KILL\",\"Thưởng chuỗi\",\"Tầng 1\",\"AUTO\"]",
+    "core floor 4: draw calls by layer (total minus total-without-layer): {\"hud\":3,\"toasts\":1,\"world-text\":1,\"joystick\":0}",
+    "core floor 4: total=7 worldWithText=2 worldSprites=1 monstersAlive=42 heroes=8 pickups=0 floaters=18 spritesInLayers=167+66+124",
     "core floor 4 later: draw calls by layer (total minus total-without-layer): {\"hud\":3,\"toasts\":0,\"world-text\":1,\"joystick\":1}",
-    "core floor 4 later: total=6 worldWithText=2 worldSprites=1 monstersAlive=1 heroes=8 pickups=0 floaters=2 spritesInLayers=171+12+41",
+    "core floor 4 later: total=6 worldWithText=2 worldSprites=1 monstersAlive=6 heroes=8 pickups=0 floaters=21 spritesInLayers=167+47+92",
     "BUDGET total<=30: OK (7); world<=10: OK (1)"
   ],
   "screenshots": [
@@ -26,16 +27,16 @@
   ],
   "consoleErrors": [],
   "console": [
-    "[timeEnd] Init Base: 1.230224609375 ms",
-    "[timeEnd] Init Infrastructure: 35.238037109375 ms",
-    "[timeEnd] Init SubSystem: 1.558837890625 ms",
+    "[timeEnd] Init Base: 0.965087890625 ms",
+    "[timeEnd] Init Infrastructure: 36.416015625 ms",
+    "[timeEnd] Init SubSystem: 2.263916015625 ms",
     "[log] Cocos Creator v3.8.8",
     "[log] Using legacy pipeline",
-    "[timeEnd] Init Project: 4.324951171875 ms",
-    "[timeEnd] InitScene: 0.192138671875 ms",
-    "[timeEnd] AttachPersist: 0.0029296875 ms",
-    "[timeEnd] AutoRelease: 0.088134765625 ms",
-    "[timeEnd] Destroy: 0.14306640625 ms",
-    "[timeEnd] Activate: 37.826904296875 ms"
+    "[timeEnd] Init Project: 6.14599609375 ms",
+    "[timeEnd] InitScene: 0.23095703125 ms",
+    "[timeEnd] AttachPersist: 0.010009765625 ms",
+    "[timeEnd] AutoRelease: 0.14501953125 ms",
+    "[timeEnd] Destroy: 0.34716796875 ms",
+    "[timeEnd] Activate: 32.205078125 ms"
   ]
 }

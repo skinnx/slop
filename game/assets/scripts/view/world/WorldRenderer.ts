@@ -213,7 +213,8 @@ export class WorldRenderer {
     this.camY = cl(this.camY, minY + hh * 0.55, maxY - hh * 0.55);
     // ...but the leader always stays in the middle part of the view (never under the joystick or the HUD).
     this.camX = Math.max(fx - hw * 0.6, Math.min(fx + hw * 0.6, this.camX));
-    this.camY = Math.max(fy - hh * 0.3, Math.min(fy + hh * 0.15, this.camY));
+    // leader between 0.2 below and 0.05 above the centre: the fight stays under the HUD band (toasts, floor title)
+    this.camY = Math.max(fy - hh * 0.05, Math.min(fy + hh * 0.2, this.camY));
   }
 
   // ---------------- ground ----------------
@@ -298,18 +299,26 @@ export class WorldRenderer {
     const room = w.room!;
     const wall = Assets.w('td/0040'), banner = Assets.w('td/0029'), spike = Assets.w('proc/pixel'), glow = Assets.w('proc/circle');
     const spikeCol = rgba('#C9CED6');
-    // Back walls are two blocks high with spikes; front walls (x = -1, y = -1) one block, so they do not hide the
-    // squad standing next to them (decision, see view/README.md).
+    // Back walls (y = h, x = w) stand up from cells behind the room: two blocks with spikes; units in front draw over
+    // them by depth. Front walls (y = -1, x = -1) are the cause of QA-05: drawn standing up from the front-edge cells,
+    // a 96-unit block reaches about three cell rows INTO the room and covers the units there. They now hang DOWN from
+    // the centre of their (non-walkable) cell, like a cliff face, so wall art only ever covers non-walkable cells and
+    // the whole walkable floor stays visible (see view/README.md, decision 11).
     const wallCell = (x: number, y: number, i: number, front = false) => {
-      const sx = isoX(x + 0.5, y + 0.5), sy = isoY(x + 0.5, y + 0.5) - 30;
+      const sx = isoX(x + 0.5, y + 0.5), sy = isoY(x + 0.5, y + 0.5);
       const d = depth(x + 0.5, y + 0.5);
-      const isBanner = !front && i % 4 === 2;
-      // Front walls are one block and see-through (60%) so units next to them stay visible.
-      this.units.push(isBanner ? banner : wall, sx, sy, d, 6, 6, front ? 0xffffff99 : WHITE, 0, 0);
-      if (front) return;
-      this.units.push(wall, sx, sy + 48, d + 0.001, 6, 6, WHITE, 0, 0);
-      for (let k = -1; k <= 1; k++) this.units.push(spike, sx + k * 24, sy + 144, d + 0.002, 6 / 8, 18 / 8, spikeCol, 0, 0);
-      if (isBanner) this.units.push(glow, sx, sy + 80, d + 0.003, 80 / 64, 80 / 64, rgba('#FFB347', 0.18 + 0.07 * Math.sin(this.time * 9 + i)), 0, 0.5);
+      if (front) {
+        // drawn first (lowest depth): units standing on the edge cells always draw over the cliff's top edge
+        this.units.push(wall, sx, sy, -1e9, 6, 6, WHITE, 0, 1);
+        this.units.push(wall, sx, sy - 96, -1e9, 6, 6, rgba('#B0B4C8'), 0, 1);
+        return;
+      }
+      const by = sy - 30;
+      const isBanner = i % 4 === 2;
+      this.units.push(isBanner ? banner : wall, sx, by, d, 6, 6, WHITE, 0, 0);
+      this.units.push(wall, sx, by + 48, d + 0.001, 6, 6, WHITE, 0, 0);
+      for (let k = -1; k <= 1; k++) this.units.push(spike, sx + k * 24, by + 144, d + 0.002, 6 / 8, 18 / 8, spikeCol, 0, 0);
+      if (isBanner) this.units.push(glow, sx, by + 80, d + 0.003, 80 / 64, 80 / 64, rgba('#FFB347', 0.18 + 0.07 * Math.sin(this.time * 9 + i)), 0, 0.5);
     };
     // Walls ring the room: row y = -1 and column x = -1 (front edges) and y = h, x = w (back edges).
     let i = 0;
