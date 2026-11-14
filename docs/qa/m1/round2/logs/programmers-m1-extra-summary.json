@@ -1,0 +1,42 @@
+{
+  "scenario": "tools/harness/scenarios/m1-extra.mjs",
+  "ok": true,
+  "failure": null,
+  "viewport": "540x960",
+  "scripts": 49,
+  "seconds": 15.7,
+  "lastFrame": {
+    "drawCalls": 43,
+    "tris": 2038,
+    "instances": 0,
+    "frames": 366
+  },
+  "notes": [
+    "detail texts: [\"900\",\"5\",\"Cấp\",\"0/3\",\"Én\",\"CP\",\"2396\",\"ATK\",\"291\",\"+7\",\"HP\",\"909\",\"+23\",\"1\",\"Mở kỹ năng 1 (1 sao)\",\"5\",\"Hero cùng hệ +5% HP (hiệu ứng sở hữu)\",\"10\",\"Mở kỹ năng 2 (1 sao)\",\"15\",\"Hero cùng hệ +5% ATK (hiệu ứng sở hữu)\",\"20\",\"Kỹ năng 1 lên 2 sao\",\"25\",\"Hero cùng hệ +5% HP (hiệu ứng sở hữu)\",\"30\",\"Kỹ năng 2 lên 2 sao\",\"Lao Xuyên\",\"Gió Biển\",\"\",\"22 + 3 mảnh\",\"Thiếu 3 mảnh\"]",
+    "toasts: [\"Thiếu 3 mảnh\"]",
+    "tavern texts before: [\"Quán Mỏ Neo\",\"Tuyển\",\"Đổi Vé\",\"BONUS\",\"9/10\",\"?\",\"Sau 1 lượt nữa: tăng tỉ lệ hero hạng cao!\",\"x5\",\"5\",\"0/3\",\"!!\",\"MỚI\"]",
+    "tavern texts after: [\"Quán Mỏ Neo\",\"Tuyển\",\"Đổi Vé\",\"BONUS\",\"0/10\",\"?\",\"Sau 10 lượt nữa: tăng tỉ lệ hero hạng cao!\",\"MỚI\",\"0\",\"0/3\",\"!!\",\"x5\"]"
+  ],
+  "screenshots": [
+    "../prog/m1-extra/01-levelup-blocked.png",
+    "../prog/m1-extra/02-levelup-blocked-tap.png",
+    "../prog/m1-extra/03-bonus-9-of-10.png",
+    "../prog/m1-extra/04-reveal-drawn-set.png",
+    "../prog/m1-extra/05-reveal-bonus-set.png",
+    "../prog/m1-extra/06-tavern-new-set.png"
+  ],
+  "consoleErrors": [],
+  "console": [
+    "[timeEnd] Init Base: 1.89306640625 ms",
+    "[timeEnd] Init Infrastructure: 20.136962890625 ms",
+    "[timeEnd] Init SubSystem: 1.527099609375 ms",
+    "[log] Cocos Creator v3.8.8",
+    "[log] Using legacy pipeline",
+    "[timeEnd] Init Project: 4.079833984375 ms",
+    "[timeEnd] InitScene: 0.196044921875 ms",
+    "[timeEnd] AttachPersist: 0.001953125 ms",
+    "[timeEnd] AutoRelease: 0.119873046875 ms",
+    "[timeEnd] Destroy: 0.177978515625 ms",
+    "[timeEnd] Activate: 21.739990234375 ms"
+  ]
+}

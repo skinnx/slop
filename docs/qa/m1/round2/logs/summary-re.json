@@ -1,0 +1,68 @@
+{
+  "scenario": "docs/qa/m1/round2/scenarios/r2-03-reach-and-error.mjs",
+  "ok": true,
+  "failure": null,
+  "viewport": "540x960",
+  "scripts": 49,
+  "seconds": 21.3,
+  "lastFrame": {
+    "drawCalls": 4,
+    "tris": 22,
+    "instances": 0,
+    "frames": 116
+  },
+  "notes": [
+    "stood at distance 3.57 from the tree centre: wood 0 -> 0 after 20 game seconds (nothing)",
+    "stood at distance 3.03 from the tree centre: wood 0 -> 0 after 20 game seconds (nothing)",
+    "stood at distance 2.48 from the tree centre: wood 0 -> 2 after 20 game seconds (gathered)",
+    "after blocking tuning.json: __bootstrapReady=true game=source=undefined mode=ERROR",
+    "standin flag: source=stand-in"
+  ],
+  "screenshots": [
+    "../r2/re/reach-stop4.png",
+    "../r2/re/reach-stop3.4.png",
+    "../r2/re/reach-stop2.6.png",
+    "../r2/re/error-screen.png"
+  ],
+  "consoleErrors": [
+    "[error] Failed to load resource: net::ERR_FAILED",
+    "[error] [view] core failed to load TypeError: Failed to fetch\n    at Object.json (http://127.0.0.1:43425/bundle/main.js:11368:23)\n    at http://127.0.0.1:43425/bundle/main.js:8285:27\n    at Array.map (<anonymous>)\n    at loadCore (http://127.0.0.1:43425/bundle/main.js:8284:32)\n    at createSource (http://127.0.0.1:43425/bundle/main.js:9028:18)\n    at GameView.start (http://127.0.0.1:43425/bundle/main.js:10990:24)\n    at async Bootstrap.start (http://127.0.0.1:43425/bundle/main.js:11337:5)"
+  ],
+  "console": [
+    "[timeEnd] Init Base: 0.77392578125 ms",
+    "[timeEnd] Init Infrastructure: 22.4619140625 ms",
+    "[timeEnd] Init SubSystem: 1.662841796875 ms",
+    "[log] Cocos Creator v3.8.8",
+    "[log] Using legacy pipeline",
+    "[timeEnd] Init Project: 9.31689453125 ms",
+    "[timeEnd] InitScene: 0.244873046875 ms",
+    "[timeEnd] AttachPersist: 0.001953125 ms",
+    "[timeEnd] AutoRelease: 0.098876953125 ms",
+    "[timeEnd] Destroy: 0.139892578125 ms",
+    "[timeEnd] Activate: 40.69287109375 ms",
+    "[timeEnd] Init Base: 0.18603515625 ms",
+    "[timeEnd] Init Infrastructure: 20.1669921875 ms",
+    "[timeEnd] Init SubSystem: 0.468017578125 ms",
+    "[log] Cocos Creator v3.8.8",
+    "[log] Using legacy pipeline",
+    "[timeEnd] Init Project: 2.39013671875 ms",
+    "[timeEnd] InitScene: 0.026123046875 ms",
+    "[timeEnd] AttachPersist: 0.002197265625 ms",
+    "[timeEnd] AutoRelease: 0.007080078125 ms",
+    "[timeEnd] Destroy: 0.02392578125 ms",
+    "[timeEnd] Activate: 18.0830078125 ms",
+    "[error] Failed to load resource: net::ERR_FAILED",
+    "[error] [view] core failed to load TypeError: Failed to fetch\n    at Object.json (http://127.0.0.1:43425/bundle/main.js:11368:23)\n    at http://127.0.0.1:43425/bundle/main.js:8285:27\n    at Array.map (<anonymous>)\n    at loadCore (http://127.0.0.1:43425/bundle/main.js:8284:32)\n    at createSource (http://127.0.0.1:43425/bundle/main.js:9028:18)\n    at GameView.start (http://127.0.0.1:43425/bundle/main.js:10990:24)\n    at async Bootstrap.start (http://127.0.0.1:43425/bundle/main.js:11337:5)",
+    "[timeEnd] Init Base: 0.123046875 ms",
+    "[timeEnd] Init Infrastructure: 28.84716796875 ms",
+    "[timeEnd] Init SubSystem: 0.47802734375 ms",
+    "[log] Cocos Creator v3.8.8",
+    "[log] Using legacy pipeline",
+    "[timeEnd] Init Project: 2.448974609375 ms",
+    "[timeEnd] InitScene: 0.04296875 ms",
+    "[timeEnd] AttachPersist: 0.0029296875 ms",
+    "[timeEnd] AutoRelease: 0.012939453125 ms",
+    "[timeEnd] Destroy: 0.0439453125 ms",
+    "[timeEnd] Activate: 19.84521484375 ms"
+  ]
+}

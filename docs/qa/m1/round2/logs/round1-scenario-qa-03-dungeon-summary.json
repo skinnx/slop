@@ -1,0 +1,55 @@
+{
+  "scenario": "docs/qa/m1/scenarios/qa-03-dungeon.mjs",
+  "ok": true,
+  "failure": null,
+  "viewport": "540x960",
+  "scripts": 49,
+  "seconds": 12.2,
+  "lastFrame": {
+    "drawCalls": 6,
+    "tris": 696,
+    "instances": 0,
+    "frames": 407
+  },
+  "notes": [
+    "gate texts [\"Cổng Xoáy\",\"Dễ\",\"Chặng 1: Hang Rương Cũ\",\"Tầng 1–5\",\"Phần thưởng có thể nhận\",\"Lần đầu: 300 vàng, 2 San Hô, 3 vé\",\"Vào hang để nhận thưởng!\",\"VÀO\",\"Đề nghị\",\"4550\",\"Đội bạn\",\"13.900\",\"Nâng cấp\"]",
+    "sample 0: monsters=60 heroes=8 pickups=0 drawCalls=6",
+    "sample 1: monsters=49 heroes=8 pickups=0 drawCalls=6",
+    "sample 2: monsters=47 heroes=8 pickups=0 drawCalls=6",
+    "sample 3: monsters=28 heroes=8 pickups=1 drawCalls=6",
+    "sample 4: monsters=27 heroes=8 pickups=1 drawCalls=6",
+    "sample 5: monsters=17 heroes=8 pickups=0 drawCalls=6",
+    "sample 6: monsters=14 heroes=8 pickups=0 drawCalls=6",
+    "sample 7: monsters=11 heroes=8 pickups=0 drawCalls=6",
+    "sample 8: monsters=10 heroes=8 pickups=0 drawCalls=6",
+    "sample 9: monsters=8 heroes=8 pickups=0 drawCalls=6",
+    "MAX monsters seen 60, draw calls then 6",
+    "world sprites only (HUD, texts, joystick hidden): drawCalls=1",
+    "FAIL  could not tap \"ok\": Scenario assertion failed: node \"ok\" is on screen",
+    "after leave: mode=DUNGEON panels=[\"pause\"]",
+    "FAIL  could not tap \"ok\": Scenario assertion failed: node \"ok\" is on screen",
+    "after result tap: mode=DUNGEON"
+  ],
+  "screenshots": [
+    "../r2/qa-03-dungeon/01-gate-panel.png",
+    "../r2/qa-03-dungeon/02-floor1-start.png",
+    "../r2/qa-03-dungeon/03-crowd.png",
+    "../r2/qa-03-dungeon/04-pause.png",
+    "../r2/qa-03-dungeon/05-leave-confirm.png",
+    "../r2/qa-03-dungeon/06-after-leave.png"
+  ],
+  "consoleErrors": [],
+  "console": [
+    "[timeEnd] Init Base: 0.843994140625 ms",
+    "[timeEnd] Init Infrastructure: 24.009033203125 ms",
+    "[timeEnd] Init SubSystem: 1.677001953125 ms",
+    "[log] Cocos Creator v3.8.8",
+    "[log] Using legacy pipeline",
+    "[timeEnd] Init Project: 4.90087890625 ms",
+    "[timeEnd] InitScene: 0.25 ms",
+    "[timeEnd] AttachPersist: 0.010986328125 ms",
+    "[timeEnd] AutoRelease: 0.20703125 ms",
+    "[timeEnd] Destroy: 0.494873046875 ms",
+    "[timeEnd] Activate: 27.35205078125 ms"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "scenario": "tools/harness/scenarios/m1-crowd.mjs",
+  "ok": true,
+  "failure": null,
+  "viewport": "540x960",
+  "scripts": 49,
+  "seconds": 5.4,
+  "lastFrame": {
+    "drawCalls": 5,
+    "tris": 756,
+    "instances": 0,
+    "frames": 239
+  },
+  "notes": [
+    "alive after holding the stick 17 s: 58",
+    "floor 4, alive 43, squad 8, pickups 2",
+    "dungeon HUD texts: [\"4F\",\"221\",\"15 KILL\",\"Thưởng chuỗi\",\"Tầng 4\",\"AUTO\"]",
+    "core floor 4: draw calls by layer (total minus total-without-layer): {\"hud\":3,\"toasts\":0,\"world-text\":1,\"joystick\":1}",
+    "core floor 4: total=6 worldWithText=2 worldSprites=1 monstersAlive=42 heroes=8 pickups=0 floaters=10 spritesInLayers=171+66+105",
+    "core floor 4 later: draw calls by layer (total minus total-without-layer): {\"hud\":3,\"toasts\":0,\"world-text\":1,\"joystick\":1}",
+    "core floor 4 later: total=6 worldWithText=2 worldSprites=1 monstersAlive=4 heroes=8 pickups=0 floaters=18 spritesInLayers=171+26+70",
+    "BUDGET total<=30: OK (6); world<=10: OK (1)"
+  ],
+  "screenshots": [
+    "../prog/m1-crowd/core-floor-4.png",
+    "../prog/m1-crowd/core-floor-4-later.png"
+  ],
+  "consoleErrors": [],
+  "console": [
+    "[timeEnd] Init Base: 0.740966796875 ms",
+    "[timeEnd] Init Infrastructure: 19.974853515625 ms",
+    "[timeEnd] Init SubSystem: 2.08984375 ms",
+    "[log] Cocos Creator v3.8.8",
+    "[log] Using legacy pipeline",
+    "[timeEnd] Init Project: 4.652099609375 ms",
+    "[timeEnd] InitScene: 0.2099609375 ms",
+    "[timeEnd] AttachPersist: 0.001953125 ms",
+    "[timeEnd] AutoRelease: 0.097900390625 ms",
+    "[timeEnd] Destroy: 0.182861328125 ms",
+    "[timeEnd] Activate: 21.075927734375 ms"
+  ]
+}

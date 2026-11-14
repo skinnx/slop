@@ -1,0 +1,58 @@
+{
+  "scenario": "docs/qa/m1/scenarios/qa-06-boss-result.mjs",
+  "ok": true,
+  "failure": null,
+  "viewport": "540x960",
+  "scripts": 49,
+  "seconds": 14.2,
+  "lastFrame": {
+    "drawCalls": 6,
+    "tris": 1446,
+    "instances": 0,
+    "frames": 288
+  },
+  "notes": [
+    "PASS  boss telegraph (red zone) appeared",
+    "mode after boss=RESULT",
+    "result texts [\"CHIẾN THẮNG!\",\"PHẦN THƯỞNG\",\"410\",\"1\",\"1\",\"38\",\"Chạm để về làng.\"]",
+    "after tap mode=WORLD",
+    "dialog on enter: Đội còn yếu",
+    "weak squad mode=RESULT result={\"outcome\":\"defeat\"}",
+    "after defeat mode=WORLD"
+  ],
+  "screenshots": [
+    "../r2/qa-06-boss-result/01-boss-floor.png",
+    "../r2/qa-06-boss-result/02-boss-telegraph.png",
+    "../r2/qa-06-boss-result/03-victory.png",
+    "../r2/qa-06-boss-result/04-after-result.png",
+    "../r2/qa-06-boss-result/gate-63630.png",
+    "../r2/qa-06-boss-result/enter-dialog-65264.png",
+    "../r2/qa-06-boss-result/05-defeat.png",
+    "../r2/qa-06-boss-result/06-after-defeat.png"
+  ],
+  "consoleErrors": [],
+  "console": [
+    "[timeEnd] Init Base: 0.830078125 ms",
+    "[timeEnd] Init Infrastructure: 24.93310546875 ms",
+    "[timeEnd] Init SubSystem: 1.44384765625 ms",
+    "[log] Cocos Creator v3.8.8",
+    "[log] Using legacy pipeline",
+    "[timeEnd] Init Project: 4.06591796875 ms",
+    "[timeEnd] InitScene: 0.237060546875 ms",
+    "[timeEnd] AttachPersist: 0.001953125 ms",
+    "[timeEnd] AutoRelease: 0.093994140625 ms",
+    "[timeEnd] Destroy: 0.14599609375 ms",
+    "[timeEnd] Activate: 25.512939453125 ms",
+    "[timeEnd] Init Base: 0.1650390625 ms",
+    "[timeEnd] Init Infrastructure: 15.156982421875 ms",
+    "[timeEnd] Init SubSystem: 0.619873046875 ms",
+    "[log] Cocos Creator v3.8.8",
+    "[log] Using legacy pipeline",
+    "[timeEnd] Init Project: 1.35595703125 ms",
+    "[timeEnd] InitScene: 0.02587890625 ms",
+    "[timeEnd] AttachPersist: 0.001953125 ms",
+    "[timeEnd] AutoRelease: 0.0078125 ms",
+    "[timeEnd] Destroy: 0.026123046875 ms",
+    "[timeEnd] Activate: 12.2470703125 ms"
+  ]
+}

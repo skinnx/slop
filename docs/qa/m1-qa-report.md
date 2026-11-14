@@ -1,5 +1,144 @@
 # Báo cáo QA cột mốc 1
 
+# Kiểm lại lần 2
+
+Commit đã kiểm: `29cdedf28d60d63e12f003f035f2069e8ef5faef` (nhánh `ccr-b3a4a578-w77en0`), clone sạch mới, ngày 2026-11-14. Báo cáo lần 1 (commit `ef54cb0`) giữ nguyên bên dưới, từ mục "Lần 1".
+Bằng chứng lần 2: `docs/qa/m1/round2/` (`scenarios/`, `shots/`, `logs/`).
+
+## L2.1 Kết luận lần 2
+
+**SẴN SÀNG (ready).** Không còn lỗi chặn hay lỗi lớn. Còn vài lỗi nhỏ và hai câu hỏi cho thiết kế (mục L2.5). Việc mở trong editor vẫn **chờ owner**.
+
+Các điều quyết định:
+
+1. Dựng lại từ đầu vẫn chạy bằng lệnh trong tài liệu: setup 81 s, type-check sạch, **230** test xanh (lần 1: 225), bot đạt ở 11 seed (kết quả giống lần 1), 9 kịch bản của lập trình viên đều thoát mã 0 và không có lỗi console, 4 kịch bản lần 1 của tôi (qa-03, 04, 06, 07) vẫn đạt.
+2. **Bằng chứng còn thiếu lần 1 đã có:** một người chơi mới, bằng chạm trên engine thật, từ save mới, theo thẻ nhiệm vụ, **đã hạ boss tầng 5 (Rương Nhai)** ở hai trong ba lần chạy (lần thứ ba không đạt vì lỗi kịch bản của tôi, xem L2.3). Thẻ nhiệm vụ chuyển sang q22 sau khi nhận thưởng q21.
+3. Cả ba lỗi lớn lần 1 đã sửa hoặc đã hạ mức: QA-02 và QA-03 sửa xong; QA-05 sửa xong; QA-01 sửa phần lớn (còn chen chúc nhẹ khi có 6–7 công trình, hạ xuống nhỏ).
+4. Ba điều tôi ghi là "được giải thích, chưa sửa" đều kiểm lại và đúng với lời giải thích (L2.4).
+5. Draw call tôi đo lại: 60 quái, 8 hero, HUD: tổng 6, thế giới 1 (ngân sách 30 và 10).
+
+Số lỗi mới: 0 lớn, 1 nhỏ (N-1). Thêm 2 câu hỏi (N-2, N-3).
+
+## L2.2 Tái lập (commit 29cdedf)
+
+| Việc | Kết quả |
+|---|---|
+| `npm run setup` | Thành công, 81.4 s |
+| `npm run typecheck` | `game/: OK`, `tools/: OK` |
+| `npm test` | 16 file, 230 test xanh |
+| `npm run sim` (5 seed mặc định) | ĐẠT 5/5, tầng 20 lúc 2:11–2:18, đoạn dài nhất không tiến bộ ≤ 9:30 |
+| `npm run sim -- --seeds 101,202,31337,7,424242,9999` | ĐẠT 6/6, tầng 20 lúc 2:05–2:16 |
+| `npm run sim:newplayer` (mới) | Chạy được; tệp ghi 300/300 seed tới q21, q14 đủ thịt ở 300/300. Tôi chạy lệnh mặc định, không đổi tham số |
+| 9 kịch bản `harness/scenarios/*.mjs` (kể cả `m1-extra`) | Cả 9 thoát mã 0, 0 lỗi console. `m1-crowd`: tổng 6, thế giới 1 |
+| `npm run atlas:view` | Dựng `world.png` và `ui.png`, không đổi file nào (kết quả tất định) |
+| Kịch bản lần 1 của tôi: qa-03, 04, 06, 07 | Đạt như cũ (xem L2.6 về một nút qa-03 tôi gọi sai tên từ lần 1) |
+| Viewport 540×960, 412×915, 600×800, 360×640 | Đạt, ảnh trong `round2/shots/view-*` |
+
+## L2.3 Người chơi mới tới boss tầng 5 (kịch bản `r2-01-newplayer-to-boss5.mjs`)
+
+Cách làm: save mới, joystick bằng kéo tay chạm, mọi nút bằng chạm theo tên. Chỉ phần chờ (chặt cây, đánh khi đứng yên, công trình) tua bằng `__game.fastForward`; nay nó đẩy cả đồng hồ lõi nên công trình chạy theo. Vào dungeon bằng chạm nút VÀO và bật AUTO bằng chạm. Nhật ký từng nhiệm vụ: `round2/logs/newplayer-run-notes.txt`. Ảnh: `round2/shots/newplayer-*`.
+
+Ba lần chạy:
+
+| Lần | Kết quả | Ghi chú |
+|---|---|---|
+| A (`summary-np-run1.json`) | Hạ boss tầng 5, tới q22 (310 s thật, 2479 s game) | Thua q20 một lần, tăng sức rồi thắng q21 |
+| B (`summary-np-run2.json`) | Kẹt ở q21 | **Lỗi của kịch bản tôi**, không phải game: nút AUTO giữ trạng thái giữa các lượt vào hang, kịch bản bấm AUTO nên tắt nó, đội đứng yên ở tầng 1 và không tới cửa. Đã sửa kịch bản: chỉ bấm khi AUTO đang tắt |
+| C, bản chính (`summary-np.json`) | Hạ boss tầng 5, tới q22 (324 s thật, 1737 s game), cấp người chơi 7, CP 5284 | Thua q20 một lần và q21 một lần, rồi thắng |
+
+Đường đi của lần C, từng nhiệm vụ (bằng chạm): q01 chặt 10 gỗ, q02 hạ 3 cua, q03 hero lên cấp 2, q04 xây Trại Gỗ, q05 đập quặng, q06 xây Quán, q07 tuyển, q08 TỰ XẾP, q09 chuột, q10 Mỏ Quặng, q11 thu gỗ, q12 nâng Nhà Kho, q13 tuyển thêm 2 lượt, q14 hero lên cấp 5, q15 Sân Tập, q16 mở nấc, q17 Chợ Bến, q18 hạ 20 quái, q19 Cổng Xoáy, q20 vượt tầng 1, q21 boss tầng 5.
+
+Điều tôi học khi chạy, cần cho người đọc:
+
+- Các thẻ xây Sân Tập, Chợ, Cổng bị khóa theo cấp người chơi (4, 5, 6). Thẻ báo lý do; muốn mở phải đánh quái ở Bãi Vỏ Sò để lên cấp. Tôi thêm bước này vào kịch bản, làm đúng như sim card player. Khay công trình phải cuộn ngang để thấy thẻ xa (đã làm bằng kéo tay).
+- Lần 1 tôi dừng ở q15 vì kịch bản không cuộn khay và không lên cấp. Đó là lỗi kịch bản, không phải lỗi game.
+- **Thua dungeon là bình thường ở CP "Vừa".** CP đội 4119–4573, đề nghị 4550: ở cả ba lần chạy, đội thua ít nhất một lần ở q20 và/hoặc q21. Màn thua đưa ba gợi ý (tuyển hero, Sân Tập, nâng cấp bằng thịt). Làm theo: tuyển bằng vàng, đổi Vé lấy mảnh, đưa hero mạnh hơn vào đội, rồi thắng. Khớp với `newplayer.md` (trung vị 1 lần thua).
+- Mọi hero trong đội dừng ở cấp 5 và hiện "Thiếu 4 mảnh" khi muốn lên 6. Thịt dồn lại (400+) không tiêu được cho tới khi có mảnh. Xem câu hỏi N-3.
+- q22 ("Mở ô đội thứ 4 ở Sân Tập"): nút mở ô báo "Cần Sân Tập cấp 2". Tức là phải nâng Sân Tập trước. Tôi dừng ở đây trong lần chạy từ save mới (xem mục L2.5 về ô đội).
+
+## L2.4 Từng phát hiện lần 1
+
+| Id | Lần 1 | Lần 2 | Ảnh của tôi (`round2/shots/`) |
+|---|---|---|---|
+| QA-01 | Lớn: công trình quá to, đè nhau | **Sửa phần lớn.** Công trình nhỏ hơn rõ rệt, nhãn tên dưới chân, Cổng Xoáy/Chợ/Sân Tập đọc được. Còn chen sát và vài hình che nhau khi có 6–7 công trình, nên hạ xuống nhỏ | `newplayer-q19-built.png`, `view-540x960-01-village.png` |
+| QA-02 | Lớn: màn ngắn mất nút VÀO | **Đã sửa.** 600×800 giờ hiển thị cả khung 720×1280, hai dải bên; nút VÀO, TỰ XẾP, hàng thẻ đều thấy | `view-600x800-07-gate.png`, `…-04-squad.png`, `…-03-hero-detail.png` |
+| QA-03 | Lớn: màn thắng/thua chữ đè | **Đã sửa**, còn một chi tiết nhỏ (N-1) | `result-victory.png`, `result-defeat.png`, `newplayer-q21-result.png` |
+| QA-04 | Nhỏ: toast đè panel và thanh máu boss | **Đã sửa.** Trên panel toast nằm ở dải thanh trên, trong dungeon không che tên và máu boss | `newplayer-q20-gate.png`, `boss-floor5.png` |
+| QA-05 | Nhỏ (lead nâng lên lớn): dungeon khó đọc, phòng nhỏ | **Đã sửa.** Phòng phủ kín màn, tường trước không che quân, "Tầng N" ở dưới thanh KILL. Đám đông 60 quái vẫn dày (đúng tinh thần ảnh tham chiếu) | `dungeon-60-monsters.png`, `newplayer-q21-floor5.png` |
+| QA-06 | Nhỏ: nhiều lỗi bố cục nhỏ | **Sửa một phần.** Nhãn "Nhanh Nhẹn" đủ chữ; hàng thẻ xếp đội không bị cắt; bong bóng "20/320" không còn đè bánh răng. Còn: hộp "Đề nghị / Đội bạn" của Cổng Xoáy vẫn chồng lên chân dung NPC ở mép trái ruy-băng (chữ vẫn đọc được) | `view-540x960-07-gate.png`, `view-412x915-07-gate.png` |
+| QA-07 | Nhỏ: hình hero đè tab ở màn cao | **Rút lại / không phải lỗi.** Xem lại: chi tiết hero là panel chồng lên danh sách đã làm tối, nên thấy tab mờ phía sau. Tôi đã mô tả sai lần 1 | `view-412x915-03-hero-detail.png` |
+| QA-08 | Nhỏ: không phản hồi tầm thu thập | **Đã sửa và lời giải thích đúng.** Cây trong tầm có vòng trắng. Tôi đo: đứng cách tâm cây 3.03 ô không chặt, 2.48 ô thì chặt (đúng "3 ô") | `reach-2.6-cells-gather-with-ring.png`, `reach-3.4-cells-no-gather.png` |
+| QA-09 | Nhỏ: README thiếu atlas giao diện | **Đã sửa.** `tools/README.md` nêu `npm run atlas:view`; tôi chạy, không đổi file nào | (log) |
+| QA-10 | Nhỏ: lỗi nạp lõi dùng dữ liệu giả âm thầm | **Đã sửa.** Chặn `tuning.json` rồi tải lại: màn lỗi "Không tải được dữ liệu game" kèm dòng lỗi; `?standin=1` mới ra dữ liệu giả | `error-screen.png` |
+
+Ba điều "được giải thích":
+
+- **q14 (lên cấp 5):** đúng. Trong cả ba lần chạy, q14 xong bằng vài lần bấm NÂNG CẤP (thịt 72 → 57 ở lần C, hero cấp 2 → 5, vài giây); mảnh chỉ cần từ 5 → 6. Lần 1 tôi chờ 200 thịt là do kịch bản của tôi. Lỗi "không thấy nút levelUp" lần 1 tôi không tái hiện được lần này; nhiều khả năng do cách điều hướng panel trong kịch bản cũ. Không tìm thấy lỗi game.
+- **"Thu gỗ +140":** hợp lý. Lần 2 tôi thấy đúng thông báo này trong làng ngay sau khi đội hồi sinh cạnh Trại Gỗ (`untested-13-after-wipe.png`), tức là thu khi đi gần công trình. Trong các ảnh dungeon lần 2 không còn toast này. Tôi không có test riêng chứng minh "không thu trong lúc chạy dungeon"; test của lập trình viên nằm trong 230 test xanh, tôi chưa đọc.
+- **QA-08 tầm thu thập:** đúng, xem hàng QA-08.
+
+## L2.5 Các mục lần 1 ghi "chưa kiểm"
+
+Kịch bản `r2-02-untested.mjs` (từ save giữa game, bằng chạm):
+
+| Mục | Kết quả | Ảnh |
+|---|---|---|
+| Xây Sân Tập, Chợ, Cổng bằng chạm từ save mới, cuộn khay | **Đạt** (lần C). Cần lên cấp người chơi theo thẻ | `newplayer-q17-built.png`, `…q19-built.png` |
+| Di chuyển công trình | **Đạt**: Quán 27,31 → 29,31 bằng kéo tay; kéo lên Nhà Kho báo "Chồng lên Nhà Kho"; hủy trả về chỗ cũ | `untested-02-…`, `untested-03-…` |
+| Hủy việc xây | **Đạt**: đặt Chợ rồi hủy, gỗ 940 → 860 → 940 (hoàn 100% đúng spec) | `untested-07-cancel-confirm.png` |
+| Cả đội gục ngoài đồng, hồi sinh | **Đạt**: đội 1 hero yếu ở Rừng Dừa Rậm gục, hồi sinh giữa làng (30,30), không màn hình lạ | `untested-13-after-wipe.png`, `untested-14-revived.png` |
+| Mở ô đội bằng San Hô Đỏ | **Đạt ở ô 5** (Sân Tập cấp 3): ô 4 → 5, San Hô 12 → 8. **Ô 4 từ save mới chưa làm xong:** game báo "Cần Sân Tập cấp 2"; tôi chưa nâng Sân Tập rồi mở ô trong lần chạy từ save mới | `untested-09-slot5-tooltip.png`, `newplayer-q22-slot4-tooltip.png` |
+
+Chưa kiểm được: chạy q22 trở đi từ save mới (tới q41), quái tinh anh, ô đội 6–8.
+
+## L2.6 Có gì mới bị hỏng bởi các sửa lỗi?
+
+Không thấy gì hỏng. 9 kịch bản của lập trình viên và qa-03/04/06/07 của tôi đều đạt. Lưu/tải, ngoại tuyến (3 giờ → 390 gỗ, 8 giờ → 1040, 100 giờ cắt ở 8 giờ), save hỏng, đặt đè, ra ngoài lưới, thiếu gỗ: kết quả không đổi. Ghi chú: qa-03 vẫn in hai dòng FAIL vì tôi gọi sai tên nút xác nhận ("ok") ở bước rời hang; việc rời hang đạt ở qa-07.
+
+Phát hiện mới:
+
+- **N-1 (nhỏ)** Màn thắng: hàng phần thưởng có một ô thứ ba/thứ tư thu nhỏ còn bằng một chấm cam khoảng 20 px, cạnh các ô vàng, san hô, vé. Tái hiện: `r2/newplayer-q21-result.png`, `result-victory.png` (kịch bản qa-06).
+- **N-2 (câu hỏi cho thiết kế)** Cổng Xoáy hiện "Vừa" ở CP 4119 so với 4550 đề nghị, nhưng người chơi mới thua gần như mỗi lần thử đầu (3/3 lần chạy). Có muốn nhãn "Vừa" khó hơn ("Khó" khi CP thấp hơn đề nghị)? Nhãn hiện đã đổi thành "Dễ" khi CP ≥ đề nghị (thấy trong `qa-03`: "Dễ" ở 13900 so với 4550).
+- **N-3 (câu hỏi cho thiết kế)** Hero cấp 5 cần mảnh để lên 6; thịt chỉ dùng để lên cấp nên thịt dư (400+) không tiêu được cho tới khi có mảnh (từ tuyển trùng hoặc Đổi Vé). Thẻ nhiệm vụ không nói điều này. Màn thua có gợi ý "Nâng cấp hero bằng thịt" nhưng khi mọi hero ở cấp 5 gợi ý đó không làm được gì.
+
+## L2.7 Bảng tiêu chí điều lệ mục 7 (cập nhật)
+
+### Phải chơi được
+
+| # | Tiêu chí | Kết quả | Bằng chứng |
+|---|---|---|---|
+| 1 | Ngoài đồng | **Đạt** | Chạy lần C và `r2-03`; thu gỗ, quặng, thịt, vàng; mọc lại (suy ra: gỗ tiếp tục tăng ở cùng cụm cây sau khi cây đầu cạn) |
+| 2 | Làng | **Đạt** | Đặt, đè, ngoài lưới, thiếu gỗ, di chuyển, nâng, hủy (hoàn 100%), cả 6 công trình dựng bằng chạm từ save mới. Lỗi nhỏ QA-01 còn lại |
+| 3 | Tuyển hero | **Đạt** | Tuyển nhiều lượt, thẻ, làm mới, Đổi Vé |
+| 4 | Luyện hero | **Đạt** | Lên cấp bằng thịt tới 5, TỰ XẾP tăng CP, Sân Tập mở nấc, mở ô đội ở save giữa game (ô 5). Ô 4 từ save mới: chưa làm |
+| 5 | Dungeon | **Đạt** | 60 quái, chuỗi, boss báo đòn, so CP, thắng, thua, rời hang |
+| 6 | Dẫn dắt | **Đạt** cho q01–q21 | Chạy tới q22 từ save mới bằng chạm. q22–q41 chưa kiểm |
+| 7 | Lưu/tải, ngoại tuyến | **Đạt** | qa-04 chạy lại |
+| 8 | Giao diện khớp tham chiếu | **Đạt, còn lỗi nhỏ** | Hai viewport ngắn và cao đều dùng được; QA-01, QA-06 còn dấu vết |
+
+### Phải có bằng chứng
+
+| # | Tiêu chí | Kết quả |
+|---|---|---|
+| 1 | `tsc` | **Đạt** |
+| 2 | Test lõi | **Đạt** (230) |
+| 3 | Bot | **Đạt** (11 seed) + `sim:newplayer` |
+| 4 | Kịch bản chạm trên engine thật | **Đạt**, và người chơi mới tới boss tầng 5 (mục L2.3) |
+| 5 | Draw call | **Đạt**: 6 và 1 |
+| 6 | QA độc lập cài lại | **Đạt**, lần 2 |
+| 7 | Việc owner kiểm trong editor | **Chờ owner** |
+
+## L2.8 Chưa kiểm được ở lần 2
+
+- Editor Cocos Creator 3.8.8, bản build Android, thiết bị thật, âm thanh và font hệ thống: chờ owner. FPS: không đo.
+- Nhiệm vụ q22 trở đi từ save mới; ô đội 4 từ save mới (cần nâng Sân Tập cấp 2 trước); quái tinh anh; ô đội 6–8.
+- Test "không thu sản lượng trong lúc chạy dungeon": tôi không đọc test đó.
+- Kịch bản người chơi mới của tôi là một chiến lược cụ thể. Nó thắng ở hai trong ba lần, lần còn lại kẹt do lỗi kịch bản của chính tôi. Không phải bằng chứng rằng mọi người chơi đều qua được; `sim:newplayer` (300 seed) mới nói được điều đó, và tôi chỉ chạy lại nó, không đọc mã.
+
+---
+
+# Lần 1 (commit ef54cb0)
+
 Người kiểm: QA độc lập. Commit đã kiểm: `ef54cb0159a479aee9d4635c400a1fa72f22de77` (nhánh `ccr-b3a4a578-w77en0`), clone sạch trong thư mục tạm, ngày 2026-11-13.
 
 ## 1. Kết luận

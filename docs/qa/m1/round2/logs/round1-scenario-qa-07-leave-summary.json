@@ -1,0 +1,40 @@
+{
+  "scenario": "docs/qa/m1/scenarios/qa-07-leave.mjs",
+  "ok": true,
+  "failure": null,
+  "viewport": "540x960",
+  "scripts": 49,
+  "seconds": 10.6,
+  "lastFrame": {
+    "drawCalls": 6,
+    "tris": 1466,
+    "instances": 0,
+    "frames": 419
+  },
+  "notes": [
+    "dialog=Rời hang?",
+    "mode after confirm=RESULT",
+    "back: mode=world zone=village gold 2000 -> 2017",
+    "tap on dim area above panel (y=1150): panels [\"building\"] -> []",
+    "tap left strip x=40: -> []"
+  ],
+  "screenshots": [
+    "../r2/qa-07-leave/01-pause.png",
+    "../r2/qa-07-leave/02-leave-dialog.png",
+    "../r2/qa-07-leave/03-after-confirm.png"
+  ],
+  "consoleErrors": [],
+  "console": [
+    "[timeEnd] Init Base: 0.927001953125 ms",
+    "[timeEnd] Init Infrastructure: 19.928955078125 ms",
+    "[timeEnd] Init SubSystem: 1.451904296875 ms",
+    "[log] Cocos Creator v3.8.8",
+    "[log] Using legacy pipeline",
+    "[timeEnd] Init Project: 4.04296875 ms",
+    "[timeEnd] InitScene: 0.21484375 ms",
+    "[timeEnd] AttachPersist: 0.001953125 ms",
+    "[timeEnd] AutoRelease: 0.09912109375 ms",
+    "[timeEnd] Destroy: 0.219970703125 ms",
+    "[timeEnd] Activate: 16.94189453125 ms"
+  ]
+}

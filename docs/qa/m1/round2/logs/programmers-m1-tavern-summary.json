@@ -1,0 +1,45 @@
+{
+  "scenario": "tools/harness/scenarios/m1-tavern.mjs",
+  "ok": true,
+  "failure": null,
+  "viewport": "540x960",
+  "scripts": 49,
+  "seconds": 20.1,
+  "lastFrame": {
+    "drawCalls": 6,
+    "tris": 1564,
+    "instances": 0,
+    "frames": 488
+  },
+  "notes": [
+    "gold 2000 -> 1700 after 3x recruit",
+    "tickets 43 -> 35 after exchange"
+  ],
+  "screenshots": [
+    "../prog/m1-tavern/01-recruit-tab.png",
+    "../prog/m1-tavern/02-card-detail-view-only.png",
+    "../prog/m1-tavern/03-times-3x.png",
+    "../prog/m1-tavern/04-reveal-drawing.png",
+    "../prog/m1-tavern/05-reveal-done.png",
+    "../prog/m1-tavern/06-after-recruit.png",
+    "../prog/m1-tavern/07-refresh-confirm.png",
+    "../prog/m1-tavern/08-exchange-tab.png",
+    "../prog/m1-tavern/09-hero-picker.png",
+    "../prog/m1-tavern/10-exchange-confirm.png",
+    "../prog/m1-tavern/11-after-exchange.png"
+  ],
+  "consoleErrors": [],
+  "console": [
+    "[timeEnd] Init Base: 0.838134765625 ms",
+    "[timeEnd] Init Infrastructure: 20.093994140625 ms",
+    "[timeEnd] Init SubSystem: 1.481201171875 ms",
+    "[log] Cocos Creator v3.8.8",
+    "[log] Using legacy pipeline",
+    "[timeEnd] Init Project: 4.627197265625 ms",
+    "[timeEnd] InitScene: 0.2177734375 ms",
+    "[timeEnd] AttachPersist: 0.002197265625 ms",
+    "[timeEnd] AutoRelease: 0.178955078125 ms",
+    "[timeEnd] Destroy: 0.236083984375 ms",
+    "[timeEnd] Activate: 19.468994140625 ms"
+  ]
+}

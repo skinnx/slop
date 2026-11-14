@@ -1,0 +1,270 @@
+
+> setup
+> node scripts/setup.mjs
+
+[tools] start tools-npm-ci
+[tools] $ npm ci --no-audit --no-fund   (in tools)
+
+added 66 packages in 3s
+[tools] done  tools-npm-ci in 3.2 s
+[tools] start engine-clone
+[tools] $ git clone --depth 1 --branch 3.8.8 -c advice.detachedHead=false https://github.com/cocos/cocos-engine.git /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine   (in tools)
+Cloning into '/tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine'...
+Updating files:  76% (4834/6341)Updating files:  77% (4883/6341)Updating files:  78% (4946/6341)Updating files:  79% (5010/6341)Updating files:  80% (5073/6341)Updating files:  81% (5137/6341)Updating files:  82% (5200/6341)Updating files:  83% (5264/6341)Updating files:  84% (5327/6341)Updating files:  85% (5390/6341)Updating files:  86% (5454/6341)Updating files:  87% (5517/6341)Updating files:  88% (5581/6341)Updating files:  89% (5644/6341)Updating files:  90% (5707/6341)Updating files:  91% (5771/6341)Updating files:  92% (5834/6341)Updating files:  93% (5898/6341)Updating files:  94% (5961/6341)Updating files:  95% (6024/6341)Updating files:  96% (6088/6341)Updating files:  97% (6151/6341)Updating files:  98% (6215/6341)Updating files:  99% (6278/6341)Updating files: 100% (6341/6341)Updating files: 100% (6341/6341), done.
+[tools] done  engine-clone in 6.9 s
+[tools] start engine-npm-ci
+[tools] $ npm ci --ignore-scripts --no-audit --no-fund   (in tools/.cache/cocos-engine)
+npm warn deprecated source-map-url@0.4.1: See https://github.com/lydell/source-map-url#deprecated
+npm warn deprecated @babel/plugin-proposal-class-properties@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-properties instead.
+npm warn deprecated urix@0.1.0: Please see https://github.com/lydell/urix#deprecated
+npm warn deprecated resolve-url@0.2.1: https://github.com/lydell/resolve-url#deprecated
+npm warn deprecated source-map-resolve@0.5.3: See https://github.com/lydell/source-map-resolve#deprecated
+npm warn deprecated chokidar@2.1.8: Chokidar 2 does not receive security updates since 2019. Upgrade to chokidar 3 with 15x fewer dependencies
+npm warn deprecated w3c-hr-time@1.0.2: Use your platform's native performance.now() and performance.timeOrigin.
+npm warn deprecated debug@4.1.1: Debug versions >=3.2.0 <3.2.7 || >=4 <4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)
+npm warn deprecated querystring@0.2.0: The querystring API is considered Legacy. new code should use the URLSearchParams API instead.
+
+added 1523 packages in 7s
+[tools] done  engine-npm-ci in 7.3 s
+[tools] start engine-external
+[tools] $ git clone --depth 1 --branch v3.8.8-2 -c advice.detachedHead=false --filter=blob:none --sparse https://github.com/cocos/cocos-engine-external.git /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/native/external   (in tools)
+Cloning into '/tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/native/external'...
+[tools] $ git sparse-checkout set emscripten   (in tools/.cache/cocos-engine/native/external)
+[tools] done  engine-external in 2.8 s
+[tools] start engine-declarations
+[tools] $ npm run build:debug-infos   (in tools/.cache/cocos-engine)
+
+> cocos-creator@3.8.8 build:debug-infos
+> node ./scripts/build-debug-infos
+
+==================== Build debug infos ====================
+==================== DONE! ====================
+[tools] $ npm run build:declaration   (in tools/.cache/cocos-engine)
+
+> cocos-creator@3.8.8 build:declaration
+> npm run build:const && node ./scripts/build-declarations
+
+
+> cocos-creator@3.8.8 build:const
+> node ./scripts/build-const.js
+
+==================== Build const ====================
+
+Generate consts.d.ts: /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/@types/consts.d.ts
+
+==================== Build declarations ====================
+Typescript version: 4.9.5
+With index: true
+With exports: false
+With editor exports: true
+Unbundled will write to: /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/__dts_before_bundle
+Generating...
+It's 11/14/2026, 1:05:57 AM, we're still doing the hack for spine-core.d.ts
+Bundling...
+DeprecationWarning: '' has been deprecated since v4.0.0. Use the appropriate method on 'ts.factory' or the 'factory' supplied by your transformation context instead.
+Failed to resolve type import("../foundation/node-shell").NodeInputPath, There is no symbol info.
+DeprecationWarning: 'createIndexSignature' has been deprecated since v4.8.0. Decorators are no longer supported for this function. Callers should switch to an overload that does not accept a 'decorators' parameter.
+Don't know how to handle type `#${string}`(Syntax Kind: TemplateLiteralType)
+Failed to resolve type import('pal/audio/type').AudioLoadOptions, There is no symbol info.
+Failed to resolve type import('pal/audio/type').AudioLoadOptions, There is no symbol info.
+Failed to resolve type import('pal/audio/type').AudioLoadOptions, There is no symbol info.
+Failed to resolve type import('pal/audio/type').AudioType, There is no symbol info.
+Failed to resolve type import('pal/audio/type').AudioState, There is no symbol info.
+Failed to resolve type import('pal/audio/type').AudioPCMDataView, There is no symbol info.
+Don't know how to handle type `${x}`(Syntax Kind: TemplateLiteralType)
+Don't know how to handle type `${x}`(Syntax Kind: TemplateLiteralType)
+Failed to resolve type import('pal/input/input-source').InputSourceButton, There is no symbol info.
+Failed to resolve type import('pal/input/input-source').InputSourceDpad, There is no symbol info.
+Failed to resolve type import('pal/input/input-source').InputSourceStick, There is no symbol info.
+Failed to resolve type import('pal/input/input-source').InputSourcePosition, There is no symbol info.
+Failed to resolve type import('pal/input/input-source').InputSourceOrientation, There is no symbol info.
+Don't know how to handle element enable of interface
+Don't know how to handle element enable of interface
+[tools] done  engine-declarations in 19.2 s
+[tools] start engine-web
+[tools] $ node /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/scripts/build-engine-web.cjs /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/engine-web /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/pins.json   (in tools)
+Module source "internal-constants":
+function tryDefineGlobal (name, value) {
+    const _global = typeof window === 'undefined' ? global : window;
+    if (typeof _global[name] === 'undefined') {
+        return (_global[name] = value);
+    } else {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        return _global[name];
+    }
+}
+export const HTML5 = true;
+
+export const NATIVE = false;
+
+export const ANDROID = false;
+
+export const IOS = false;
+
+export const MAC = false;
+
+export const WINDOWS = false;
+
+export const LINUX = false;
+
+export const OHOS = false;
+
+export const OPEN_HARMONY = false;
+
+export const WECHAT = false;
+tryDefineGlobal('CC_WECHAT', false);
+
+export const WECHAT_MINI_PROGRAM = false;
+
+export const XIAOMI = false;
+tryDefineGlobal('CC_XIAOMI', false);
+
+export const ALIPAY = false;
+tryDefineGlobal('CC_ALIPAY', false);
+
+export const TAOBAO = false;
+
+export const TAOBAO_MINIGAME = false;
+
+export const BYTEDANCE = false;
+tryDefineGlobal('CC_BYTEDANCE', false);
+
+export const OPPO = false;
+tryDefineGlobal('CC_OPPO', false);
+
+export const VIVO = false;
+tryDefineGlobal('CC_VIVO', false);
+
+export const HUAWEI = false;
+tryDefineGlobal('CC_HUAWEI', false);
+
+export const MIGU = false;
+tryDefineGlobal('CC_MIGU', false);
+
+export const HONOR = false;
+tryDefineGlobal('CC_HONOR', false);
+
+export const COCOS_RUNTIME = false;
+tryDefineGlobal('CC_COCOS_RUNTIME', false);
+
+export const EDITOR = false;
+tryDefineGlobal('CC_EDITOR', false);
+
+export const EDITOR_NOT_IN_PREVIEW = false;
+
+export const PREVIEW = false;
+tryDefineGlobal('CC_PREVIEW', false);
+
+export const BUILD = true;
+tryDefineGlobal('CC_BUILD', true);
+
+export const TEST = false;
+tryDefineGlobal('CC_TEST', false);
+
+export const DEBUG = true;
+tryDefineGlobal('CC_DEBUG', true);
+
+export const SERVER_MODE = false;
+
+export const DEV = false;
+tryDefineGlobal('CC_DEV', false);
+
+export const MINIGAME = false;
+tryDefineGlobal('CC_MINIGAME', false);
+
+export const RUNTIME_BASED = false;
+tryDefineGlobal('CC_RUNTIME_BASED', false);
+
+export const SUPPORT_JIT = true;
+tryDefineGlobal('CC_SUPPORT_JIT', true);
+
+export const JSB = false;
+tryDefineGlobal('CC_JSB', false);
+
+export const NOT_PACK_PHYSX_LIBS = false;
+
+export const NET_MODE = 0;
+
+export const WEBGPU = false;
+
+export const NATIVE_CODE_BUNDLE_MODE = 1;
+
+export const WASM_SUBPACKAGE = false;
+
+export const CULL_MESHOPT = true;
+
+export const LOAD_SPINE_MANUALLY = false;
+
+export const LOAD_BOX2D_MANUALLY = false;
+
+export const LOAD_BULLET_MANUALLY = false;
+
+export const LOAD_PHYSX_MANUALLY = false;
+
+export const USE_3D = false;
+
+export const USE_UI_SKEW = false;
+
+export const USE_XR = false;
+
+export const USE_SORTING_2D = true;
+
+
+Module source "cc":
+export * from '/tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/exports/base.ts';
+export * from '/tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/exports/gfx-webgl.ts';
+export * from '/tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/exports/gfx-webgl2.ts';
+export * from '/tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/exports/2d.ts';
+export * from '/tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/exports/sorting.ts';
+export * from '/tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/exports/ui.ts';
+export * from '/tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/exports/graphics.ts';
+export * from '/tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/exports/mask.ts';
+export * from '/tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/exports/rich-text.ts';
+export * from '/tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/exports/animation.ts';
+export * from '/tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/exports/tween.ts';
+export * from '/tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/exports/audio.ts';
+export * from '/tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/exports/tiled-map.ts';
+export * from '/tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/exports/intersection-2d.ts';
+export * from '/tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/exports/profiler.ts';
+export * from '/tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/exports/particle-2d.ts';
+export * from '/tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/exports/legacy-pipeline.ts';
+export * from '/tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/exports/sorting-2d.ts';
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Redirect module internal:native to /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/cocos/native-binding/impl.ts
+Redirect module pal/system-info to /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/pal/system-info/web/system-info.ts
+Redirect module /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/cocos/2d/renderer/native-2d.ts to /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/cocos/2d/renderer/native-2d-empty.ts
+Redirect module pal/screen-adapter to /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/pal/screen-adapter/web/screen-adapter.ts
+Redirect module pal/env to /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/pal/env/web/env.ts
+Redirect module pal/pacer to /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/pal/pacer/pacer-web.ts
+Redirect module pal/input to /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/pal/input/web/index.ts
+Redirect module pal/minigame to /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/pal/minigame/non-minigame.ts
+Redirect module /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/cocos/animation/marionette/runtime-exports.ts to /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/cocos/animation/marionette/index-empty.ts
+Redirect module pal/audio to /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/pal/audio/web/player.ts
+Redirect module pal/wasm to /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine/pal/wasm/wasm-web.ts
+==== Performance ====
+{"# BUILD":[35545.140606,1096512200,1263225848],"## initialize":[23367.423191,693236856,859960296],"- plugin 6 (node-resolve) - buildStart":[0.4543489999996382,7432,166741776],"- plugin 8 (commonjs) - buildStart":[0.46812800000043353,12104,166755256],"- plugin 9 (@cocos/typescript) - buildStart":[23365.997355,693201048,859956776],"## generate module graph":[9887.154776,312276976,1172239064],"- plugin 0 (commonjs--resolver) - resolveId":[37.90970699989339,-4457208,1533836920],"- plugin 1 (@cocos/ccbuild|external-loader) - resolveId":[15.567081999935908,1433576,1533843632],"- plugin 2 (@cocos/ccbuild|module-overrides) - resolveId":[19.24808599967946,778240,1533846584],"- plugin 3 (virtual) - resolveId":[28.481142000233376,6155432,1533852200],"- plugin 1 (@cocos/ccbuild|external-loader) - load":[3.5558760000967595,371544,1534114992],"- plugin 2 (@cocos/ccbuild|module-overrides) - load":[6.136160999943968,574088,1534117824],"- plugin 3 (virtual) - load":[3.324672000067949,134112,1534118696],"- plugin 7 (json) - transform":[5.574342999949295,1119984,1534257712],"- plugin 8 (commonjs) - transform":[3.9925959999854967,176160,1534260184],"- plugin 10 (babel) - transform":[78.06484700005603,14755440,1534309184],"generate ast":[883.4030570000941,200745104,1533821752],"- plugin 4 (@cocos/ccbuild|module-query-plugin) - resolveId":[18.287129999731405,3501304,1533856248],"- plugin 5 (ts-paths) - resolveId":[15.581541999992623,572040,1533858984],"- plugin 9 (@cocos/typescript) - resolveId":[969.1362840001457,161521808,1534093312],"- plugin 10 (babel) - resolveId":[1.9074819999477768,80088,1533790864],"- plugin 6 (node-resolve) - resolveId":[2.3294930000629392,249888,1485098760],"- plugin 6 (node-resolve) - load":[2.7204360000250745,126000,1534119568],"- plugin 8 (commonjs) - load":[3.155081000062637,138112,1534120440],"- plugin 9 (@cocos/typescript) - load":[25.975609999961307,15344160,1534144064],"- plugin 10 (babel) - load":[291.44268999999986,26161608,1170419720],"## sort and bind modules":[256.42096400000446,22836248,1195075360],"## mark included statements":[2008.903065999999,65400552,1260475960],"treeshaking pass 1":[442.6113489999989,38175248,1233671832],"treeshaking pass 2":[609.8428310000018,14240016,1247911896],"treeshaking pass 3":[229.63612799999828,9432544,1257344488],"treeshaking pass 4":[173.55791999999929,4128848,1261473384],"treeshaking pass 5":[113.60840699999972,2892728,1264366160],"treeshaking pass 6":[94.20327399999951,5173296,1269539504],"treeshaking pass 7":[86.92470099999628,-467456,1269072096],"treeshaking pass 8":[83.89178600000014,-2416424,1266655720],"treeshaking pass 9":[88.57624100000248,-3042480,1263613288],"treeshaking pass 10":[84.57226100000116,-3137824,1260475512],"- plugin 8 (commonjs) - buildEnd":[0.1949800000002142,1488,1260482032],"- plugin 9 (@cocos/typescript) - buildEnd":[24.51185599999735,2742888,1263224968]}
+====             ====
+[tools] engine built in 38.2 s -> /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/engine-web/cc.js
+[tools] done  engine-web in 39.2 s
+[tools] start shdc-download
+[tools] $ curl -fsSL --retry 2 -o /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/shdc/shdc-lib.js.part https://raw.githubusercontent.com/cocos/cocos-cli/387dc4f0be2674f0b66517e35b968c720d3040f7/src/core/assets/effect-compiler/shdc-lib.js   (in tools)
+[tools] done  shdc-download in 0.7 s
+[tools] start effects
+[tools] $ node /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/scripts/effects/build-compiler.mjs /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/shdc/shdc-lib.js /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/engine-web/effect-compiler.js   (in tools)
+[tools] effect compiler bundled -> /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/engine-web/effect-compiler.js
+[tools] $ node /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/scripts/effects/compile-effects.mjs /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/engine-web /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/engine-web/builtin-2d-effects.json for2d/builtin-sprite.effect internal/builtin-graphics.effect internal/builtin-clear-stencil.effect builtin-unlit.effect   (in tools)
+[tools] effect for2d/builtin-sprite: 1 technique(s), 1 shader(s)
+[tools] effect internal/builtin-graphics: 1 technique(s), 1 shader(s)
+[tools] effect internal/builtin-clear-stencil: 1 technique(s), 1 shader(s)
+[tools] effect builtin-unlit: 4 technique(s), 2 shader(s)
+[tools] done  effects in 1.0 s
+[tools] $ node /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/scripts/gen-declarations.cjs /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache/cocos-engine /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/game   (in tools)
+[tools] declarations written to /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/game/temp/declarations
+[tools] SETUP OK in 81 s. Disk: 724M /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/.cache, 77M /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/node_modules
+[tools] Next: npm run typecheck && npm test && npm run harness -- harness/scenarios/example.mjs
+
+real	1m21.412s
+user	1m42.816s
+sys	0m9.091s

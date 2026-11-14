@@ -1,0 +1,37 @@
+
+> test
+> vitest run
+
+
+ RUN  v2.1.8 /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools
+
+ ✓ tests/core/save.test.ts (18 tests) 302ms
+ ✓ tests/core/combat.test.ts (25 tests) 549ms
+ ✓ tests/core/dungeon.test.ts (23 tests) 696ms
+ ✓ tests/core/contract-v2.test.ts (15 tests) 155ms
+ ✓ tests/core/village.test.ts (16 tests) 578ms
+ ✓ tests/core/quests.test.ts (11 tests) 247ms
+ ✓ tests/core/skills.test.ts (11 tests) 133ms
+ ✓ tests/core/recruit.test.ts (16 tests) 1965ms
+   ✓ card generation > rarity of a card follows the odds table of the tavern level 1081ms
+   ✓ card generation > a hero the player does not own is twice as likely as an owned one of the same rarity 626ms
+ ✓ tests/core/squad.test.ts (11 tests) 46ms
+ ✓ tests/core/formulas.test.ts (13 tests) 23ms
+ ✓ tests/core/data.test.ts (13 tests) 85ms
+ ✓ tests/scene-wiring.test.ts (4 tests) 3ms
+ ✓ tests/core/determinism.test.ts (13 tests) 1828ms
+   ✓ determinism > same seed and same inputs give exactly the same game, 10 simulated minutes of bot play 756ms
+   ✓ bot > a new player who only follows the quest card is not stuck at q14 and beats the floor-5 boss (QA: quest chain) 466ms
+ ✓ tests/core/smoke.test.ts (3 tests) 128ms
+ ✓ tests/resources.test.ts (22 tests) 83ms
+ ✓ tests/core-purity.test.ts (16 tests) 7ms
+
+ Test Files  16 passed (16)
+      Tests  230 passed (230)
+   Start at  01:06:52
+   Duration  4.15s (transform 630ms, setup 0ms, collect 1.98s, tests 6.83s, environment 3ms, prepare 943ms)
+
+
+real	0m4.567s
+user	0m12.725s
+sys	0m1.034s

@@ -1,0 +1,67 @@
+[0s real | 1s game] q01 "Chặt cây lấy 10 gỗ" lvl=1 cp=1340 squad=1/3 res={"gold":100,"meat":0,"wood":0,"ore":0,"coral":0,"tickets":0}
+[6s real | 12s game] q02 "Hạ 3 Cua Cát" lvl=1 cp=1340 squad=1/3 res={"gold":150,"meat":0,"wood":14,"ore":0,"coral":0,"tickets":0}
+[15s real | 27s game] q03 "Nâng một hero lên cấp 2" lvl=2 cp=1340 squad=1/3 res={"gold":150,"meat":21,"wood":16,"ore":0,"coral":0,"tickets":0}
+[27s real | 33s game] q04 "Xây: Trại Gỗ" lvl=2 cp=1379 squad=1/3 res={"gold":151,"meat":29,"wood":16,"ore":0,"coral":0,"tickets":0}
+ghost lumber_camp at 28,27 valid=true reason=""
+placed lumber_camp: {"uid":2,"type":"lumber_camp","level":0,"x":28,"y":27,"w":2,"h":2,"job":true,"buffer":0} (buildings 1->2) wood=4
+[40s real | 61s game] q05 "Đập đá lấy 10 quặng" lvl=2 cp=1379 squad=1/3 res={"gold":151,"meat":31,"wood":44,"ore":0,"coral":0,"tickets":0}
+[47s real | 88s game] q06 "Xây: Quán Mỏ Neo" lvl=2 cp=1379 squad=1/3 res={"gold":202,"meat":35,"wood":44,"ore":11,"coral":0,"tickets":0}
+ghost tavern at 25,26 valid=true reason=""
+placed tavern: {"uid":3,"type":"tavern","level":0,"x":25,"y":26,"w":3,"h":3,"job":true,"buffer":0} (buildings 2->3) wood=6
+[60s real | 130s game] q07 "Tuyển 1 hero ở Quán Mỏ Neo" lvl=2 cp=1379 squad=1/3 res={"gold":302,"meat":35,"wood":7,"ore":12,"coral":0,"tickets":0}
+[67s real | 136s game] q08 "Mở Xếp đội và bấm TỰ XẾP" lvl=2 cp=2698 squad=2/3 res={"gold":202,"meat":35,"wood":57,"ore":12,"coral":0,"tickets":1}
+[71s real | 139s game] q09 "Hạ 5 Chuột Bến" lvl=2 cp=2698 squad=2/3 res={"gold":202,"meat":65,"wood":57,"ore":12,"coral":0,"tickets":1}
+[77s real | 167s game] q10 "Xây: Mỏ Quặng" lvl=3 cp=2698 squad=2/3 res={"gold":270,"meat":73,"wood":57,"ore":12,"coral":0,"tickets":1}
+ghost ore_mine at 28,25 valid=true reason=""
+placed ore_mine: {"uid":4,"type":"ore_mine","level":0,"x":28,"y":25,"w":2,"h":2,"job":true,"buffer":0} (buildings 3->4) wood=12
+[89s real | 191s game] q11 "Thu gỗ ở Trại Gỗ" lvl=3 cp=2698 squad=2/3 res={"gold":272,"meat":73,"wood":12,"ore":42,"coral":0,"tickets":1}
+[94s real | 595s game] q12 "Nâng Nhà Kho lên cấp 2" lvl=3 cp=2698 squad=2/3 res={"gold":272,"meat":73,"wood":49,"ore":42,"coral":0,"tickets":1}
+[103s real | 646s game] q13 "Tuyển thêm 2 lượt" lvl=3 cp=2698 squad=2/3 res={"gold":272,"meat":73,"wood":9,"ore":75,"coral":0,"tickets":1}
+[115s real | 656s game] q14 "Nâng một hero lên cấp 5" lvl=3 cp=3718 squad=3/3 res={"gold":172,"meat":73,"wood":10,"ore":75,"coral":0,"tickets":3}
+[125s real | 661s game] q15 "Xây: Sân Tập" lvl=3 cp=3889 squad=3/3 res={"gold":172,"meat":58,"wood":10,"ore":75,"coral":0,"tickets":3}
+training_yard needs player level 4, have 3: the card says so; fighting in Bãi Vỏ Sò for EXP
+ghost training_yard at 26,29 valid=true reason=""
+placed training_yard: {"uid":5,"type":"training_yard","level":0,"x":26,"y":29,"w":3,"h":3,"job":true,"buffer":0} (buildings 4->5) wood=9
+[146s real | 796s game] q16 "Mở 2 nấc ở Sân Tập" lvl=4 cp=3889 squad=3/3 res={"gold":182,"meat":95,"wood":10,"ore":116,"coral":0,"tickets":3}
+[160s real | 803s game] q17 "Xây: Chợ Bến" lvl=4 cp=4119 squad=3/3 res={"gold":182,"meat":95,"wood":10,"ore":114,"coral":0,"tickets":3}
+market needs player level 5, have 4: the card says so; fighting in Bãi Vỏ Sò for EXP
+ghost market at 30,27 valid=true reason=""
+placed market: {"uid":6,"type":"market","level":0,"x":30,"y":27,"w":2,"h":2,"job":true,"buffer":0} (buildings 5->6) wood=20
+[181s real | 1021s game] q18 "Hạ 20 quái ở Bãi Vỏ Sò" lvl=5 cp=4119 squad=3/3 res={"gold":297,"meat":190,"wood":20,"ore":137,"coral":0,"tickets":3}
+[188s real | 1073s game] q19 "Xây: Cổng Xoáy" lvl=5 cp=4119 squad=3/3 res={"gold":303,"meat":273,"wood":20,"ore":137,"coral":0,"tickets":3}
+dungeon_gate needs player level 6, have 5: the card says so; fighting in Bãi Vỏ Sò for EXP
+ghost dungeon_gate at 29,29 valid=true reason=""
+placed dungeon_gate: {"uid":7,"type":"dungeon_gate","level":0,"x":29,"y":29,"w":3,"h":3,"job":true,"buffer":0} (buildings 6->7) wood=18
+[206s real | 1393s game] q20 "Vượt tầng 1 Hang Xoáy" lvl=6 cp=4119 squad=3/3 res={"gold":427,"meat":393,"wood":18,"ore":209,"coral":0,"tickets":3}
+gate texts: ["Cổng Xoáy","Vừa","Chặng 1: Hang Rương Cũ","Tầng 1–5","Phần thưởng có thể nhận","Lần đầu: 300 vàng, 2 San Hô, 3 vé","Vào hang để nhận thưởng!","VÀO","Đề nghị","4550","Đội bạn","4119","Nâng cấp"]
+AUTO was off, tapped it on
+q20 result={"outcome":"defeat"}
+q20 outcome defeat
+strengthen after defeat: {"gold":574,"meat":409,"wood":19,"ore":216,"coral":0,"tickets":3} cp=4119
+FAIL  could not tap "pick-bang": Scenario assertion failed: node "pick-bang" is on screen
+FAIL  could not tap "ok": Scenario assertion failed: node "ok" is on screen
+FAIL  could not tap "levelUp": Scenario assertion failed: node "levelUp" is on screen
+FAIL  could not tap "back": Scenario assertion failed: node "back" is on screen
+FAIL  could not tap "hero-se": Scenario assertion failed: node "hero-se" is on screen
+FAIL  could not tap "levelUp": Scenario assertion failed: node "levelUp" is on screen
+FAIL  could not tap "back": Scenario assertion failed: node "back" is on screen
+FAIL  could not tap "hero-lan": Scenario assertion failed: node "hero-lan" is on screen
+FAIL  could not tap "levelUp": Scenario assertion failed: node "levelUp" is on screen
+FAIL  could not tap "back": Scenario assertion failed: node "back" is on screen
+FAIL  could not tap "unlock": Scenario assertion failed: node "unlock" is on screen
+after strengthening: cp=4119 squad=bang,se,lan res={"gold":174,"meat":409,"wood":20,"ore":217,"coral":0,"tickets":7}
+[252s real | 1492s game] q21 "Hạ boss tầng 5: Rương Nhai" lvl=6 cp=4119 squad=3/3 res={"gold":274,"meat":409,"wood":20,"ore":217,"coral":0,"tickets":7}
+gate texts: ["Cổng Xoáy","Vừa","Chặng 1: Hang Rương Cũ","Tầng 1–5","Phần thưởng có thể nhận","Lần đầu: 300 vàng, 2 San Hô, 3 vé","Vào hang để nhận thưởng!","VÀO","Đề nghị","4550","Đội bạn","4119","Nâng cấp"]
+q21 result={"outcome":"defeat"}
+q21 outcome defeat
+strengthen after defeat: {"gold":421,"meat":422,"wood":21,"ore":217,"coral":0,"tickets":7} cp=4119
+FAIL  could not tap "ok": Scenario assertion failed: node "ok" is on screen
+FAIL  could not tap "unlock": Scenario assertion failed: node "unlock" is on screen
+after strengthening: cp=5284 squad=bang,se,san res={"gold":21,"meat":21,"wood":22,"ore":218,"coral":0,"tickets":11}
+gate texts: ["Cổng Xoáy","Vừa","Chặng 1: Hang Rương Cũ","Tầng 1–5","Phần thưởng có thể nhận","Lần đầu: 300 vàng, 2 San Hô, 3 vé","Vào hang để nhận thưởng!","VÀO","Đề nghị","4550","Đội bạn","5284","Nâng cấp"]
+q21 result={"outcome":"victory"}
+q21 outcome victory
+[324s real | 1737s game] q22 "Mở ô đội thứ 4 ở Sân Tập" lvl=7 cp=5284 squad=3/3 res={"gold":758,"meat":60,"wood":24,"ore":219,"coral":2,"tickets":17}
+q22 slot unlock: slots 3 -> 3, coral 2 -> 2
+quest after slot: q22 Mở ô đội thứ 4 ở Sân Tập
+END quest=q22 lvl=7 cp=5284 squad=bang,se,san playSec=1744 bestFloor? buildings=storage2,lumber_camp1,tavern1,ore_mine1,training_yard1,market1,dungeon_gate1 res={"gold":758,"meat":60,"wood":25,"ore":219,"coral":2,"tickets":17}

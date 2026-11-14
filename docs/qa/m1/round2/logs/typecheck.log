@@ -1,0 +1,12 @@
+
+> typecheck
+> node scripts/typecheck.mjs
+
+[tools] $ node /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/node_modules/typescript/bin/tsc -p /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/game/tsconfig.json --noEmit   (in tools)
+[tools] game/: OK
+[tools] $ node /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/node_modules/typescript/bin/tsc -p /tmp/claude-0/-home-user-slop/58b8dc59-e543-58a3-b5a2-f1ae221258e1/scratchpad/qa2/repo/tools/tsconfig.json --noEmit   (in tools)
+[tools] tools/: OK
+
+real	0m4.287s
+user	0m8.931s
+sys	0m0.457s
