@@ -48,7 +48,9 @@ export class CoreSource implements Source {
   private paused = false;
   private events: ViewEvent[] = [];
   private acc = 0;
-  private clock = { nowMs: () => Date.now() };
+  /** Real clock + the time skipped by fastForward, so clock-driven rules (production, build timers, tavern) move too. */
+  private skippedMs = 0;
+  private clock = { nowMs: () => Date.now() + this.skippedMs };
   private joy = { x: 0, y: 0 };
   // reused per-frame objects (no allocation per unit per frame)
   private unitPool: UnitV[] = [];
@@ -182,6 +184,7 @@ export class CoreSource implements Source {
         const def = this.data.field.nodeTypes[nd.type];
         v.id = nd.index; v.kind = nd.kind; v.art = def.sprite; v.tint = tint((def as any).tint); v.x = nd.x; v.y = nd.y; v.depleted = nd.depleted;
         v.respawnPct = nd.respawnSec > 0 ? 1 - nd.respawnT / nd.respawnSec : 1;
+        v.inReach = nd.inReach;
         w.nodes.push(v);
       });
       this.refreshSlow();
@@ -501,12 +504,16 @@ export class CoreSource implements Source {
     const s = this.g ? this.g.settings : { music: true, sfx: true };
     return { music: s.music, sfx: s.sfx, version: 'M1 · hợp đồng lõi v1' };
   }
-  /** Harness only (via globalThis.__game.fastForward): runs the core `sec` seconds at once, events included. */
+  /**
+   * Harness only (via globalThis.__game.fastForward): runs the core `sec` seconds at once, events included, and
+   * moves the clock injected into the core forward by the same time (production, build timers, tavern refresh).
+   */
   fastForward(sec: number): void {
     const g = this.g;
     if (!g) return;
     const n = Math.round(sec / g.stepSec);
     for (let i = 0; i < n; i++) {
+      this.skippedMs += g.stepSec * 1000; // the injected clock advances with every step run
       g.step();
       for (let k = 0; k < g.eventCount; k++) this.mapEvent(g.events[k]);
       g.clearEvents();

@@ -26,7 +26,8 @@ export interface UnitV {
   weapon?: string;
   leader?: boolean;
 }
-export interface NodeV { id: number; kind: 'tree' | 'rock'; art: string; tint?: string; x: number; y: number; depleted: boolean; respawnPct: number; }
+/** inReach (contract v3): the squad will work this node when it stops (within the core's gatherRadius of the leader). */
+export interface NodeV { id: number; kind: 'tree' | 'rock'; art: string; tint?: string; x: number; y: number; depleted: boolean; respawnPct: number; inReach?: boolean; }
 export interface PickupV { id: number; kind: 'gold' | 'meat' | 'coral'; x: number; y: number; }
 export interface SignV { x: number; y: number; name: string; cp: number; weak: boolean; }
 export interface JobV { kind: 'build' | 'upgrade'; pct: number; remainSec: number; }

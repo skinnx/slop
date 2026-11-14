@@ -412,6 +412,12 @@ export class WorldRenderer {
     const jx = st !== undefined && this.time - st < 0.1 ? Math.sin((this.time - st) * 120) * 3 : 0;
     const sc = this.cfg.spriteScale.node;
     const circ = Assets.w('proc/circle');
+    // Gather reach (contract v3, QA-08): a soft white ring on the ground under every node the squad will work on
+    // when it stops. Same atlas, overlay layer: no extra draw call.
+    if (n.inReach && !n.depleted) {
+      const a = 0.35 + 0.15 * Math.sin(this.time * 4);
+      this.overlay.push(Assets.w('proc/ring'), sx, sy, 0, 1.6, 0.8, rgba('#FFFFFF', a));
+    }
     if (!n.depleted) {
       if (n.kind === 'tree') {
         this.units.push(Assets.w('tb/0197'), sx, sy, d + 0.5, 3, 1.5, 0xffffff80, 0, 0.5);

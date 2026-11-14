@@ -130,8 +130,10 @@ export class GameView implements Ctx {
     const d = Math.min(dt, 0.1);
     this.src.tick(d);
     const mode = this.src.mode();
-    if (mode !== this.lastMode) this.applyMode(mode);
+    // Events first, then the mode switch: a toast emitted in the village in the same step as "enter dungeon"
+    // is created and then cleared by applyMode, instead of showing up inside the dungeon.
     for (const e of this.src.drainEvents()) this.onEvent(e);
+    if (mode !== this.lastMode) this.applyMode(mode);
     if (mode === 'WORLD' || mode === 'BUILD' || mode === 'DUNGEON') {
       this.world.update(d, this.src.world());
     }
@@ -156,7 +158,10 @@ export class GameView implements Ctx {
     if (prev && (prev === 'DUNGEON' || mode === 'DUNGEON' || mode === 'RESULT')) this.flash();
     this.closeAll();
     this.dialogs.close();
-    if (mode === 'RESULT' || mode === 'TITLE') this.toasts.clear();
+    // A toast belongs to the context it was raised in: any mode change other than village <-> build mode (same
+    // map, same HUD) drops visible toasts, the pickup strip and the big text (dungeon, result, back to the village).
+    const sameContext = (prev === 'WORLD' && mode === 'BUILD') || (prev === 'BUILD' && mode === 'WORLD');
+    if (!sameContext) this.toasts.clear();
     this.toasts.layoutToasts();
     this.joystick.cancel();
     this.fieldHud.root.active = mode === 'WORLD';
